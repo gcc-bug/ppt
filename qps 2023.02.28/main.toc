@@ -1,0 +1,13 @@
+\beamer@sectionintoc {1}{Induction}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{definition of induction invariants}{2}{0}{1}
+\beamer@subsectionintoc {1}{2}{importance of induction invariants}{3}{0}{1}
+\beamer@sectionintoc {2}{Problem and Related Work}{3}{0}{2}
+\beamer@subsectionintoc {2}{1}{problem}{3}{0}{2}
+\beamer@subsectionintoc {2}{2}{relate works}{3}{0}{2}
+\beamer@sectionintoc {3}{Results of This Paper}{3}{0}{3}
+\beamer@subsectionintoc {3}{1}{languages of program}{3}{0}{3}
+\beamer@sectionintoc {4}{Algorithmic Approaches}{3}{0}{4}
+\beamer@subsectionintoc {4}{1}{algorithm}{3}{0}{4}
+\beamer@sectionintoc {5}{Protocol Example}{3}{0}{5}
+\beamer@subsectionintoc {5}{1}{a protocol of leader in network}{3}{0}{5}
+\beamer@subsectionintoc {5}{2}{loop}{3}{0}{5}
