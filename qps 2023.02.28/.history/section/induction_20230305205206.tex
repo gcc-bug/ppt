@@ -1,5 +1,5 @@
 \section{Induction}
-\subsection{background}
+\subsection{problem}
 \begin{frame}
     \frametitle{backgroud}
     \begin{itemize}
@@ -8,6 +8,8 @@
         \item verification: Is there a behavior of $S$ that violated the property?
     \end{itemize}
 \end{frame}
+
+\subsection{induction invariants}
 \begin{frame}
     \frametitle{transition system}
     \begin{itemize}
@@ -23,10 +25,10 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{why EPR?}
+    \frametitle{poor logic VS. rich logic}
     \begin{itemize}
-        \item Z3, CVC4, MathSAT,...
-        \item Horn,EPR,...
+        \item compare logic:
+        \item why poor logic:
 
 % 需要二阶逻辑的一个原因是一阶逻辑不能表达一些重要的数学概念和性质，比如实数的完备性、集合论的公理等²⁴。二阶逻辑可以量化谓词，而不仅仅是个体，从而可以描述更多的集合和关系¹³⁵。二阶逻辑也可以定义自然数和算术运算，从而证明一些基本的数学定理⁶。
 
@@ -42,8 +44,6 @@
 % - Horn类的一个例子是：∀x(T(x)→(U(x)∨V(x)))。这个公式只有全称量词和每个合取项至多一个正文字。
     \end{itemize}
 \end{frame}
-
-\subsection{EPR logic}
 \begin{frame}
     \frametitle{effectively-proposiional fragment of first-prder logic}
     \begin{itemize}
@@ -58,24 +58,9 @@
     \end{itemize}
 \end{frame}
 \begin{frame}
-    \frametitle{automatic checking invariants}
+    \frametitle{checking invariants}
     \begin{itemize}
-        \item input:
-        \begin{itemize}
-            \item program P: Init, TR
-            \item alternation-Free Inductive Invariant Inv
-            \item Safety Property $\varphi$
-        \end{itemize}
-        \item verification conditions generator
-        %  Init /\ not INV 
-        %  Inv(V) /\ TR(V,V') /\ Inv(v')
-        %  Inv(V) \ not \varphi(V)
-        \item: EPR SMT Solver
-        \item output:
-        \begin{itemize}
-            \item Counterexample To inductiveness
-            \item Proof
-        \end{itemize}
+        \item steps here
     \end{itemize}
 \end{frame}
 \begin{frame}

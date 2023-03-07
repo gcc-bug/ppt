@@ -19,8 +19,6 @@
         \item undecidability: $INV[\mathcal{C}_{n^{\star}},\mathcal{L}_{A-F}]$,$INV[\mathcal{C},\mathcal{L}]$
     \end{itemize}
 \end{frame}
-
-\subsection{some proof of results}
 \begin{frame}
     \frametitle{basis denfintion}
     for any language $L\subset 2^{S}$
@@ -30,7 +28,7 @@
         \item L-relaxed transition:$(s,s^{\prime})\in R$ iff.$(s,s^{\prime})\in R$ or $s^{\prime}\sqsubseteq_{L}s$
     \end{itemize}
 \end{frame}
-
+\subsection{some proof of results}
 \begin{frame}
     \frametitle{outline of $INV[\mathcal{C}_{n^{\star}},\mathcal{L}_{n^{\star}}]$}
     \begin{itemize}
@@ -42,11 +40,7 @@
     \frametitle{well quasi order}
     \begin{itemize}
         \item possible case:
-        \begin{itemize}
-            \item no universal inductive Invariant
-            \item no relaxed trace reaches bad
-        \end{itemize}
-        \item solution: well quasi order
+        \item solution
     \end{itemize}
 \end{frame}
 \begin{frame}
@@ -59,37 +53,16 @@
 \begin{frame}
     \frametitle{extend decidability result}
     \begin{corollary}
-        Extending the vocabulary $\varSigma $ by adding an arbitrary relation (i.e., with any arity) and extending L by adding to the bodies of L any number $\leqslant $ k of occurrences of the new relation symbol, for some fixed k $\geqslant $ 0, maintains the wqo and computability of AvoidL.
+        Extending the vocabulary $\varSigma $ by adding an arbitrary relation (i.e., with any arity) and extending L by adding to the bodies of L any number $\le$ k of occurrences of the new relation symbol, for some fixed k $\geqslant $ 0, maintains the wqo and computability of AvoidL.
     \end{corollary}
 \end{frame}
 \begin{frame}
     \frametitle{outline of undecidability results}
     \begin{itemize}
-        \item Minsky machine: $M=(Q,c_{1},c_{2})$
-        \item Safe problem: $c_3$
-        \item basic idea:
-        \begin{itemize}
-            \item reduction constructs $(TS,P,L)\in (\mathcal{C},\mathcal{L})$
-            \item halts of M and decidability
-        \end{itemize}
+        \item Minsky machine:
+        \item basic idea
     \end{itemize}
 \end{frame}
 \begin{frame}
     \frametitle{reduction from counter Machines to $INV[\mathcal{C},\mathcal{L}]$}
-    \begin{itemize}
-        \item $inc_i, dec_i, id_i, zero_i, init$
-        \item $\varphi_{I}=\bigvee_{\left(q_{i}, \ell_{1}, \ell_{2}, \ell_{3}\right) \in \text { Reach }} q_{i} \wedge \varphi_{\mathcal{E}}\left(\ell_{1}, \ell_{2}, \ell_{3}\right) $
-    \end{itemize}
-\end{frame}
-\begin{frame}
-    \frametitle{$INV\left[\mathcal{C}_{n^{*}}, \mathcal{L}_{A F}\right]$}
-    \begin{itemize}
-        \item encoding
-        \item witness formula:
-        \begin{itemize}
-            \item $\forall x . n^{*}\left(h_{i}, x\right) \wedge n^{*}\left(h_{j}, x\right) \rightarrow i=j$
-            \item $\exists x_{1} \ldots x_{\ell_{i}} . \text {. distinct }\left(h_{i}, x_{1}, \ldots, x_{\ell_{i}}\right) \wedge \bigwedge_{j=1}^{\ell_{i}} n^{*}\left(h_{i}, x_{j}\right)$
-            \item $\forall x_{0} \ldots x_{\ell_{i}} \cdot \neg\left(\operatorname{distinct}\left(h_{i}, x_{0}, \ldots, x_{\ell_{i}}\right) \wedge \bigwedge_{j=0}^{\ell_{i}} n^{*}\left(h_{i}, x_{j}\right)\right)$
-        \end{itemize}
-    \end{itemize}
 \end{frame}

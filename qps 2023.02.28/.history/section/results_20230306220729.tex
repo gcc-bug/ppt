@@ -65,8 +65,7 @@
 \begin{frame}
     \frametitle{outline of undecidability results}
     \begin{itemize}
-        \item Minsky machine: $M=(Q,c_{1},c_{2})$
-        \item Safe problem: $c_3$
+        \item Minsky machine: $M=(Q,c_{1},c_{2},c_{3})$
         \item basic idea:
         \begin{itemize}
             \item reduction constructs $(TS,P,L)\in (\mathcal{C},\mathcal{L})$
@@ -77,19 +76,6 @@
 \begin{frame}
     \frametitle{reduction from counter Machines to $INV[\mathcal{C},\mathcal{L}]$}
     \begin{itemize}
-        \item $inc_i, dec_i, id_i, zero_i, init$
-        \item $\varphi_{I}=\bigvee_{\left(q_{i}, \ell_{1}, \ell_{2}, \ell_{3}\right) \in \text { Reach }} q_{i} \wedge \varphi_{\mathcal{E}}\left(\ell_{1}, \ell_{2}, \ell_{3}\right) $
-    \end{itemize}
-\end{frame}
-\begin{frame}
-    \frametitle{$INV\left[\mathcal{C}_{n^{*}}, \mathcal{L}_{A F}\right]$}
-    \begin{itemize}
-        \item encoding
-        \item witness formula:
-        \begin{itemize}
-            \item $\forall x . n^{*}\left(h_{i}, x\right) \wedge n^{*}\left(h_{j}, x\right) \rightarrow i=j$
-            \item $\exists x_{1} \ldots x_{\ell_{i}} . \text {. distinct }\left(h_{i}, x_{1}, \ldots, x_{\ell_{i}}\right) \wedge \bigwedge_{j=1}^{\ell_{i}} n^{*}\left(h_{i}, x_{j}\right)$
-            \item $\forall x_{0} \ldots x_{\ell_{i}} \cdot \neg\left(\operatorname{distinct}\left(h_{i}, x_{0}, \ldots, x_{\ell_{i}}\right) \wedge \bigwedge_{j=0}^{\ell_{i}} n^{*}\left(h_{i}, x_{j}\right)\right)$
-        \end{itemize}
+        \item 
     \end{itemize}
 \end{frame}
