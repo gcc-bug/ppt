@@ -44,11 +44,11 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>main.aux</file>
-      <file>main-blx.bib</file>
+      <file>compiler.aux</file>
+      <file>compiler-blx.bib</file>
     </provides>
     <requires type="dynamic">
-      <file>main.bbl</file>
+      <file>compiler.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -67,20 +67,20 @@
     <cmdline>
       <binary>bibtex</binary>
       <option>-min-crossrefs 2</option>
-      <infile>main</infile>
+      <infile>compiler</infile>
     </cmdline>
     <input>
-      <file>main.aux</file>
+      <file>compiler.aux</file>
     </input>
     <output>
-      <file>main.bbl</file>
+      <file>compiler.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>main.bbl</file>
+      <file>compiler.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>main.aux</file>
-      <file>main-blx.bib</file>
+      <file>compiler.aux</file>
+      <file>compiler-blx.bib</file>
     </requires>
     <requires type="editable">
       <file>reference.bib</file>
