@@ -1,0 +1,49 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+% \setbeamerfont{subtitle}{size=\large}
+% \setbeamerfont{author}{size=\large}
+% \setbeamerfont{date}{size=\large}
+% \setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% \setbeamerfont{framesubtitle}{size=\large}
+% \setbeamerfont{normal text}{size=\huge}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label={}, leftmargin=*,itemsep=15pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\input{styles.tex}
+
+\title[short]{long and long}
+\author[Gcc]{Dingchao Gao}
+\institute[ISCAS]{Institute of Software Chinese Academy of Sciences}
+
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  %  Title page
+\end{frame}
+
+
+\begin{frame}
+  \begin{enumerate}
+    \item \LARGE a
+    \item \LARGE b
+    \item \LARGE c
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \begin{LARGE}
+    \begin{enumerate}
+      \item  a
+      \item  b
+      \item  c
+    \end{enumerate}
+  \end{LARGE}
+\end{frame}
+\end{document}

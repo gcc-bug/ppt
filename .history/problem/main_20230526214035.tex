@@ -1,0 +1,70 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+% \setbeamerfont{subtitle}{size=\large}
+% \setbeamerfont{author}{size=\large}
+% \setbeamerfont{date}{size=\large}
+% \setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% \setbeamerfont{framesubtitle}{size=\large}
+% \setbeamerfont{normal text}{size=\huge}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label={}, leftmargin=*,itemsep=15pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\input{styles.tex}
+\usepackage{tikz}
+\title{Copyright in QDA }
+\author[Gcc]{Dingchao Gao}
+\institute[ISCAS]{Institute of Software Chinese Academy of Sciences}
+
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\section{References}
+\begin{frame}[noframenumbering,allowframebreaks,t]
+	\frametitle{references}
+  \nocite{*}
+  \printbibliography
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width =\textwidth]{IBM.jpg}
+  \end{figure}
+\end{frame}
+
+% 问题
+% 重要性
+% 前人工作
+% methodology + innovation
+% 预期结果
+% \begin{frame}
+%   \begin{figure}
+%   \end{figure}
+% \end{frame}
+\begin{frame}
+    \begin{center}
+    \begin{tikzpicture}[node distance=2cm]
+    \node (start) [circle, draw] {Start};
+    \node (process1) [rectangle, draw, below of=start] {Process 1};
+    \node (decision) [diamond, draw, below of=process1] {Decision};
+    \node (process2a) [rectangle, draw, below left of=decision] {Process 2a};
+    \node (process2b) [rectangle, draw, below right of=decision] {Process 2b};
+    \node (end) [circle, draw, below of=decision] {End};
+    \draw [->] (start) -- (process1);
+    \draw [->] (process1) -- (decision);
+    \draw [->] (decision) -- node[anchor=east] {Yes} (process2a);
+    \draw [->] (decision) -- node[anchor=west] {No} (process2b);
+    \draw [->] (process2a) -- (end);
+    \draw [->] (process2b) -- (end);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+\end{document}
