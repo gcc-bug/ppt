@@ -1,0 +1,92 @@
+\documentclass[aspectratio=1610,18pt]{ctexbeamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamertemplate{footline}[frame number]
+
+
+\input{styles.tex}
+
+\title[TDD in quantum]{Image Computation for Quantum Transition Systems}
+\author{高丁超\\ 应圣钢，洪鑫，李三江，应明生}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\indent\qquad\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  \begin{figure}
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=3cm]{iscas.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=3cm]{uts.jpg}
+    \end{minipage}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item transition system
+    \item our method
+  \end{enumerate}
+\end{frame}
+% image computation  and quantum basic idea
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item  transition system: $(S, I, \Sigma, T)$
+    \begin{equation}
+      where
+      \begin{cases}
+        x = x_1, \cdots, x_n\\
+        y = y_1, \cdots, y_n\\
+        \sigma = \sigma_1, \cdots, \sigma_m
+      \end{cases}
+      \notag
+    \end{equation}
+    \item Quantum transition system: $(S, S_0, \Sigma, R)$
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \scalebox{0.8}{
+    \begin{quantikz}[column sep=0.28cm,row sep=0.15cm]%
+                  &\ctrl{3}&\qw     &\ctrl{5}&\qw     &\qw     &\qw     &\qw     &\gate{X}&\qw&\qw&\qw \\
+                  &\qw     &\ctrl{2}&\qw     &\ctrl{3}&\qw     &\qw     &\qw     &\qw&\gate{X}&\qw&\qw \\
+                  &\qw     &\qw     &\qw     &\qw     &\ctrl{2}&\ctrl{3}&\qw     &\qw&\qw&\gate{X}&\qw \\
+\lstick{$\ket{0}$}&\gate{X}&\gate{X}&\qw     &\qw     &\qw     &\qw     &\meter{}&\cwbend{-3}&\cwbend{-2} \\
+\lstick{$\ket{0}$}&\qw     &\qw     &\qw     &\gate{X}&\gate{X}&\qw     &\meter{}&\cw&\cwbend{-1}&\cwbend{-2} \\
+\lstick{$\ket{0}$}&\qw     &\qw     &\gate{X}&\qw     &\qw     &\gate{X}&\meter{}&\cwbend{-2}&\cw&\cwbend{-1}
+    \end{quantikz}
+    }
+    \end{minipage}
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    $\text { CNOT }=\left[\begin{array}{llll}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0
+      \end{array}\right]$
+    \end{minipage}
+  \end{figure}
+\end{frame}
+% TDD
+% results
+\begin{frame}
+
+\end{frame}
+\end{document}
