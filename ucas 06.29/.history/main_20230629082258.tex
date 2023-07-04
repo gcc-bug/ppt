@@ -1,0 +1,175 @@
+\documentclass[aspectratio=1610,18pt]{ctexbeamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamertemplate{footline}[frame number]
+
+
+\input{styles.tex}
+
+\title[TDD in quantum]{Reachability Analysis for Quantum Model Checking using TDD}
+\subtitle{毕业设计开题报告}
+\author{高丁超\\导师：应圣钢}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\indent\qquad\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  \begin{figure}
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=3cm]{iscas.png}
+    \end{minipage}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item \textbf{Background and significance}
+    \item Research of related work
+    \item Future work plan
+  \end{enumerate}
+\end{frame}
+% image computation  and quantum basic idea\begin{frame}
+\begin{frame}
+  \begin{figure}[h]
+    \centering
+    \scalebox{1.1}{
+    \begin{tikzpicture}
+    \node at (0,0) [anchor=north]{
+    \begin{quantikz}[column sep=0.28cm,row sep=0.6cm]
+    &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\qw&\qw     &\ctrl{1}&\qw&\qw&\qw     &\gate{X}&\qw&\gate{H}&\qw \\
+    &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw \\
+    &\gate{X}&\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw&\qw&\qw&\qw&\qw&\qw&\qw&\qw 
+    \end{quantikz}};
+    \end{tikzpicture}
+    }
+    \caption{\Large Quantum circuit of Grover algorithm}
+    \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{align}
+    H=\frac{1}{\sqrt{2}}\left[\begin{array}{rr}
+    1 & 1 \\
+    1 & -1
+    \end{array}\right],&
+    X=\left[\begin{array}{rr}
+      1 & 1 \\
+      1 & -1
+      \end{array}\right]
+    \\\notag
+    CX=\left[\begin{array}{llll}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0
+    \end{array}\right],&CCX=\left[\begin{array}{llllllll}
+      1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+      \end{array}\right]\notag
+  \end{align}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item  transition system: $(S, I, Act, T)$
+    \item Quantum transition system: $(\mathcal{H}, \mathcal{H}_0, Act, \{U_\alpha,\alpha\in Act\})$
+    \item Reachability problem: $\diamondsuit,\diamondsuit\Box,\Box\diamondsuit $
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+   \includegraphics[width=.6\textwidth]{eventually.png}
+    \end{figure}
+    \begin{figure}
+      \includegraphics[width=.6\textwidth]{eventuallyalways.png}
+       \end{figure}
+       \begin{figure}
+        \includegraphics[width=.6\textwidth]{alwayseventually.png}
+         \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \centering
+    \begin{minipage}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{rus1.png}
+    \end{minipage}
+    \quad
+    \begin{minipage}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{rus2.png}
+    \end{minipage}
+    \caption{\Large Circuit Equivalence Checking}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width = .8\textwidth]{TDD_H_gate2.png}
+    \caption{\Large a TDD example}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}[tbh]
+      \centering
+      \scalebox{0.8}{
+      \begin{minipage}{0.3\textwidth}
+      \small
+    \[P=\frac{1}{6}\begin{bmatrix}
+    1&-1  &1&-1  & 1&-1 &0&0\\
+    -1&1  &-1&1  & -1&1 &0&0\\
+    1&-1  &1&-1  & 1&-1 &0&0\\
+    -1&1  &-1&1  & -1&1 &0&0\\
+    1&-1  &1&-1  & 1&-1 &0&0\\
+    -1&1  &-1&1  & -1&1 &0&0\\
+    0&0   &0&0   &0&0   &3&-3\\
+    0&0   &0&0   &0&0   &-3&3\\
+    \end{bmatrix}
+    \]
+      \end{minipage}
+     }
+     \quad
+     \hfil
+      \begin{minipage}{0.5\textwidth}  \includegraphics[width=\textwidth]{Projector.pdf}
+      \end{minipage}
+    \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item \textbf{Background and significance}
+    \item \textbf{Research of related work}
+    \item Future work plan
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item \textbf{Background and significance}
+    \item \textbf{Research of related work}
+    \item \textbf{Future work plan}
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item efficient quantum image computation algorithms
+    \item contraction partition-based algorithm
+  \end{enumerate}
+\end{frame}
+\end{document}

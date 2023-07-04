@@ -1,0 +1,213 @@
+\documentclass[aspectratio=1610,18pt]{ctexbeamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamertemplate{footline}[frame number]
+
+
+\input{styles.tex}
+
+\title[TDD in quantum]{Reachability Analysis for Quantum Model Checking using TDD}
+\subtitle{毕业设计开题报告}
+\author{高丁超\\导师：应明生}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\indent\qquad\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  \begin{figure}
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=3cm]{iscas.png}
+    \end{minipage}
+  \end{figure}
+\end{frame}
+\section{Background}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item \textbf{Background}
+    \item Related work
+    \item Work plan
+  \end{enumerate}
+\end{frame}
+% image computation  and quantum basic idea\begin{frame}
+\begin{frame}
+  \begin{figure}[h]
+    \centering
+    \scalebox{1.1}{
+    \begin{tikzpicture}
+    \node at (0,0) [anchor=north]{
+    \begin{quantikz}[column sep=0.28cm,row sep=0.6cm]
+    &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\qw&\qw     &\ctrl{1}&\qw&\qw&\qw     &\gate{X}&\qw&\gate{H}&\qw \\
+    &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw \\
+    &\gate{X}&\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw&\qw&\qw&\qw&\qw&\qw&\qw&\qw 
+    \end{quantikz}};
+    \end{tikzpicture}
+    }
+    \caption{\Large Quantum circuit of Grover algorithm}
+    \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{align}
+    H=\frac{1}{\sqrt{2}}\left[\begin{array}{rr}
+    1 & 1 \\
+    1 & -1
+    \end{array}\right],&
+    X=\left[\begin{array}{rr}
+      1 & 1 \\
+      1 & -1
+      \end{array}\right]
+    \\\notag
+    CX=\left[\begin{array}{llll}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0
+    \end{array}\right],&CCX=\left[\begin{array}{llllllll}
+      1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+      \end{array}\right]\notag
+  \end{align}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item  transition system: $(S, I, Act, T)$
+    \item Quantum transition system: $(\mathcal{H}, \mathcal{H}_0, Act, \{U_\alpha,\alpha\in Act\})$
+    \item Reachability problem: $\diamondsuit,\diamondsuit\Box,\Box\diamondsuit $
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+   \includegraphics[width=.6\textwidth]{eventually.png}
+    \end{figure}
+    \begin{figure}
+      \includegraphics[width=.6\textwidth]{eventuallyalways.png}
+       \end{figure}
+       \begin{figure}
+        \includegraphics[width=.6\textwidth]{alwayseventually.png}
+         \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \centering
+    \begin{minipage}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{rus1.png}
+    \end{minipage}
+    \quad
+    \begin{minipage}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{rus2.png}
+    \end{minipage}
+    \caption{\Large Circuit Equivalence Checking}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width = .8\textwidth]{TDD_H_gate2.png}
+    \caption{\Large a TDD example}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}[tbh]
+      \centering
+      \scalebox{0.8}{
+      \begin{minipage}{0.3\textwidth}
+      \small
+    \[P=\frac{1}{6}\begin{bmatrix}
+    1&-1  &1&-1  & 1&-1 &0&0\\
+    -1&1  &-1&1  & -1&1 &0&0\\
+    1&-1  &1&-1  & 1&-1 &0&0\\
+    -1&1  &-1&1  & -1&1 &0&0\\
+    1&-1  &1&-1  & 1&-1 &0&0\\
+    -1&1  &-1&1  & -1&1 &0&0\\
+    0&0   &0&0   &0&0   &3&-3\\
+    0&0   &0&0   &0&0   &-3&3\\
+    \end{bmatrix}
+    \]
+      \end{minipage}
+     }
+     \quad
+     \hfil
+      \begin{minipage}{0.5\textwidth}  \includegraphics[width=\textwidth]{Projector.pdf}
+      \end{minipage}
+    \end{figure}
+\end{frame}
+\section{Related work}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item Background
+    \item \textbf{Related work}
+    \item Work plan
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  QMC,early study on quantum model checking:
+  \begin{figure}
+    \includegraphics[width=.9\textwidth]{first.png}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=.8\textwidth]{QMDD.png}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{result.png}
+  \end{figure}
+\end{frame}
+\section{Work plain}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item \textbf{Background}
+    \item \textbf{Related work}
+    \item \textbf{Work plan}
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item Reachability space
+    \item Reachability problem
+    \item Actual problems
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{table}[]
+    \Large
+    \rule{0pt}{30pt}
+    \begin{tabular}{l|ccc}
+    benchmark & basic & addition& contraction \\\hline
+    Grover 20       & $\sim$5min  & $\sim$4min & $\sim$4sec  \\
+    Quantum Fourier Transform 20           & $\sim$20min & $\sim$11min & $<$1sec \\
+    Quantum Random walk 20           & $\sim$6min & $\sim$4min & $\sim$15sec\\
+    Bernstein-Vazirani 50           & $\sim$4min & $\sim$4min & $\sim$16sec \\
+    GHZ 500         & $\sim$3sec & $\sim$1.5sec & $\sim$1.7sec\\
+    \end{tabular}
+    \end{table}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item Hardware supports
+    \item Supports from professor Ying, Phd Hong et al.
+  \end{enumerate}
+\end{frame}
+\end{document}

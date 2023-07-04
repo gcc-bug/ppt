@@ -1,0 +1,31 @@
+\frametitle{boolean function}
+  \begin{columns}
+    \begin{column}{0.45\linewidth}
+      \begin{block}{python implementation of f }
+        \begin{lstlisting}[language=Python]
+def f(v0, ..., v6 : BitVec(2)) -> BitVec(1):
+  c0 = (v0 != ’00’)
+  c1 = (v1 != ’01’) and (v1 != v0)
+  c2 = (v2 != ’00’) and (v2 != ’10’) and (v2 != v0)
+  c3 = (v3 != ’00’) and (v3 != v0) and (v3 != v1) and (v3 != v2)
+  c4 = (v4 != ’01’) and (v4 != v1) and (v4 != v3)
+  c5 = (v5 != ’11’) and (v5 != v2) and (v5 != v3)
+  c6 = (v6 != ’11’) and (v6 != v2) and (v6 != v3) and (v6 != v4) and (v6 != v5)
+  return c0 and c1 and c2 and c3 and c4 and c5 and c6
+          \end{lstlisting}
+      \end{block}
+    \end{column}
+    \begin{column}{0.45\linewidth}
+      \begin{block}{hand-optimized python implementation of f }
+        \begin{lstlisting}[language=Python]
+def f(v0, ..., v6 : BitVec(2)) -> BitVec(1):
+  c1 = (v1[0] == v1[1]) and (v3 != v1)
+  c023 = ((v0 ˆ v2 ˆ v3) == ’00’)
+  c4 = (v4 != v1) and (v4 != v3)
+  c5 = (v5 != v2) and (v5 != v3)
+  c6 = ((v2 ˆ v3 ˆ v5 ˆ v6) == ’00’) and (v6 != v4)
+  return c1 and c023 and c4 and c5 and c6
+          \end{lstlisting}
+      \end{block}
+    \end{column}
+  \end{columns}
