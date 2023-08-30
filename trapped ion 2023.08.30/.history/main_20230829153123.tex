@@ -1,0 +1,106 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+% \setbeamerfont{subtitle}{size=\large}
+% \setbeamerfont{author}{size=\large}
+% \setbeamerfont{date}{size=\large}
+% \setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% \setbeamerfont{framesubtitle}{size=\large}
+% \setbeamerfont{normal text}{size=\huge}
+\usepackage{enumitem}
+\setlist[enumerate]{label=\indent\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\input{styles.tex}
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
+\setbeamertemplate{subsection in toc}[ball unnumbered]
+\setbeamertemplate{subsubsection in toc}[square unnumbered]
+
+
+\title{Trapped-ion Quantum Computation introduction}
+\author[Gcc]{Dingchao Gao}
+\institute[ISCAS]{Institute of Software Chinese Academy of Sciences}
+
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+\section{Background}
+\subsection{Quantum numbers}
+\begin{frame}
+  \frametitle{Quantum numbers}
+  \begin{enumerate}
+    \item Principal Quantum Number \(n=1,2,3,\dots\)
+    \item Azimuthal Quantum Number \(l=0,\dots,(n-1)\)
+    \item Magnetic Quantum Number \(m_l=-l,\dots,l\)
+    \item Electron Spin Quantum Number \(m_s=-\frac{1}{2},+\frac{1}{2}\)
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Quantum numbers}
+  \begin{figure}
+    \includegraphics[width=.8\linewidth]{QuantumNumbers.png}
+    \caption{copy from \footcite{https://www.geeksforgeeks.org/quantum-numbers/bibid}}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \item 
+    \item Aufbau principle
+    \begin{figure}
+      \includegraphics[width=.4\linewidth]{Aufbau_Principle.png}
+      \caption{copy from \footcite{https://en.wikipedia.org/wiki/Aufbau_principle}}
+    \end{figure}
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Examples on Quantum numbers}
+  For Rubidium has the atomic number, Z = 37.\\
+  Electronic Configuration of Rubidium,\(1s^22s^22p^63s^23p^63d^{10}4s^24p^65s^1\)
+  \begin{enumerate}
+    \item Principal Quantum Number \(n = 5\)
+    \item Azimuthal Quantum Number \(l = 0\)
+    \item Magnetic Quantum Number \(m_l = 0\)
+    \item Spin Quantum Number \(m_s = +1/2\)
+  \end{enumerate}
+\end{frame}
+
+\subsection{Cooling techniques}
+\subsection{Ion trapping methods}
+
+\section{Qubit types}
+\begin{frame}{}
+  \frametitle{Qubit Type Comparison}
+  Table comparing different qubit types 
+\end{frame}
+\begin{frame}{}
+  \frametitle{Zeeman Qubits}
+  Energy level structure
+  Pros and cons \end{frame}
+  \begin{frame}{}
+  \frametitle{Hyperfine Qubits}
+  Energy level structure
+  Pros and cons
+\end{frame}
+\begin{frame}{}
+  \frametitle{Optical Qubits}
+  Energy level structure
+  Pros and cons
+\end{frame}
+\section{Qubit control}
+\subsection{signal qubit gates}
+\subsection{multi qubit gates}
+\subsection{measurement}
+\section{Scaling}
+
+\end{document}

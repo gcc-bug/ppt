@@ -1,0 +1,75 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+% \setbeamerfont{subtitle}{size=\large}
+% \setbeamerfont{author}{size=\large}
+% \setbeamerfont{date}{size=\large}
+% \setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% \setbeamerfont{framesubtitle}{size=\large}
+% \setbeamerfont{normal text}{size=\huge}
+\usepackage{enumitem}
+\usepackage{footnote}
+\setlist[enumerate]{label=\indent\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\input{styles.tex}
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
+\setbeamertemplate{subsection in toc}[ball unnumbered]
+\setbeamertemplate{subsubsection in toc}[square unnumbered]
+
+
+\title{Trapped-ion Quantum Computation introduction}
+\author[Gcc]{Dingchao Gao}
+\institute[ISCAS]{Institute of Software Chinese Academy of Sciences}
+
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+\section{Background}
+\subsection{Quantum numbers}
+\begin{frame}
+  \frametitle{Quantum numbers}
+  \begin{figure}
+    \includegraphics{QuantumNumbers.png}
+  \end{figure}
+\end{frame}
+\subsection{Cooling techniques}
+\subsection{Ion trapping methods}
+
+\section{Qubit types}
+\begin{frame}{}
+  \frametitle{Qubit Type Comparison}
+  Table comparing different qubit types 
+\end{frame}
+\begin{frame}{}
+  \frametitle{Zeeman Qubits}
+  Energy level structure
+  Pros and cons \end{frame}
+  \begin{frame}{}
+  \frametitle{Hyperfine Qubits}
+  Energy level structure
+  Pros and cons
+\end{frame}
+\begin{frame}{}
+  \frametitle{Optical Qubits}
+  Energy level structure
+  Pros and cons
+\end{frame}
+\section{Qubit control}
+\subsection{signal qubit gates}
+\subsection{multi qubit gates}
+\subsection{measurement}
+\section{Scaling}
+
+\end{document}
