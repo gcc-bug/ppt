@@ -1,0 +1,69 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+% \setbeamerfont{subtitle}{size=\large}
+% \setbeamerfont{author}{size=\large}
+% \setbeamerfont{date}{size=\large}
+% \setbeamerfont{frametitle}{size=\Large, series=\bfseries}
+% \setbeamerfont{framesubtitle}{size=\large}
+% \setbeamerfont{normal text}{size=\huge}
+\usepackage{enumitem}
+\usepackage{animate}
+\usepackage{subfigure}
+\setlist[enumerate]{label=\indent\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\input{styles.tex}
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
+\setbeamertemplate{subsection in toc}[ball unnumbered]
+\setbeamertemplate{subsubsection in toc}[square unnumbered]
+
+
+\title{Welcome to SKLCS}
+\author[Gcc]{Dingchao Gao}
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+\section{Search}
+\begin{frame}
+  \begin{enumerate}
+    \item TDD:
+    \begin{figure}
+      \includegraphics[width = .8\textwidth]{TDD_H_gate2.png}
+    \end{figure}
+  \end{enumerate}
+\end{frame}
+\section{Life}
+\begin{frame}
+  \begin{figure}
+    \centering
+  \animategraphics[width=.6\linewidth,autoplay, loop]{12}{figure/pingpang-}{0}{9}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+  \subfigure{\animategraphics[width=.4\textwidth,autoplay, loop]{12}{figure/swim_red-}{0}{9}}
+  \end{figure}
+\end{frame}
+\begin{frame}
+  \begin{enumerate}
+    \item Library
+    \item Sports
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \centering
+  \Huge{Thanks}
+\end{frame}
+\end{document}

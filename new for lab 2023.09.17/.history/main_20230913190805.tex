@@ -1,0 +1,40 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\indent\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
+\setbeamertemplate{subsection in toc}[ball unnumbered]
+\setbeamertemplate{subsubsection in toc}[square unnumbered]
+
+\usepackage[slantfont,boldfont]{xeCJK}
+\title{迎新}
+\author[Gcc]{Dingchao Gao}
+\institute[ISCAS]{Institute of Software Chinese Academy of Sciences}
+
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}[noframenumbering,allowframebreaks,t]
+	\frametitle{references}
+  \nocite{*}
+  \printbibliography
+\end{frame}
+
+
+\end{document}
