@@ -1,0 +1,91 @@
+\documentclass[aspectratio=1610,18pt]{ctexbeamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamertemplate{footline}[frame number]
+\usepackage{subfigure}
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+\input{styles.tex}
+
+\title{}
+\author{高丁超}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\indent\qquad\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  \begin{figure}
+    \centering
+    \includegraphics[width=3cm]{iscas.png}
+  \end{figure}
+\end{frame}
+\section{work}
+\begin{frame}
+  \begin{enumerate}
+    \item 2023国重实验室学生学术论坛
+    \item “可信人工智能”系列研讨会-北京站
+  \end{enumerate}
+\end{frame}
+\section{search}
+\subsection{Quantum image computation based on TDD}
+% image computation  and quantum basic idea
+\begin{frame}
+  \begin{enumerate}
+    \Large
+    \item  transition system: $(S, I, \Sigma, T)$
+    \begin{equation}
+      where
+      \begin{cases}
+        x = x_1, \cdots, x_n\\
+        y = y_1, \cdots, y_n\\
+        \sigma = \sigma_1, \cdots, \sigma_m
+      \end{cases}
+      \notag
+    \end{equation}
+    \item Quantum transition system: $(S, S_0, \Sigma, R)$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \begin{table}[]
+    \Large
+    \rule{0pt}{30pt}
+    \begin{tabular}{l|ccc}
+    benchmark & basic & addition& contraction \\\hline
+    Grover 20       & $\sim$5min  & $\sim$4min & $\sim$4sec  \\
+    Quantum Fourier Transform 20           & $\sim$20min & $\sim$11min & $<$1sec \\
+    Quantum Random walk 20           & $\sim$6min & $\sim$4min & $\sim$15sec\\
+    Bernstein-Vazirani 50           & $\sim$4min & $\sim$4min & $\sim$16sec \\
+    GHZ 500         & $\sim$3sec & $\sim$1.5sec & $\sim$1.7sec\\
+    \end{tabular}
+    \end{table}
+\end{frame}
+\section{activity}
+\begin{frame}
+  \begin{enumerate}
+    \item 党组织活动
+    \item 所内登山运动
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \begin{figure}
+    \subfigure{\includegraphics[width=.4\linewidth]{m1.jpg}}
+    \subfigure{\includegraphics[width=.4\linewidth]{m2.jpg}}
+    \\
+    \subfigure{\includegraphics[width=.4\linewidth]{m3.jpg}}
+    \subfigure{\includegraphics[width=.4\linewidth]{m4.jpg}}
+  \end{figure}
+\end{frame}
+\end{document}
