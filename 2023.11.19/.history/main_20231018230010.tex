@@ -1,0 +1,96 @@
+\documentclass[18 pt]{beamer}
+\usetheme{Madrid}
+% \usefonttheme{professionalfonts}
+\usefonttheme{structurebold}
+\usecolortheme{rose}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\indent\indent, leftmargin=*,itemsep=30pt}
+\setbeamerfont{enumerate item}{size=\LARGE}
+\input{styles.tex}
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
+\setbeamertemplate{subsection in toc}[ball unnumbered]
+\setbeamertemplate{subsubsection in toc}[square unnumbered]
+
+
+\title{Modular Software for Real-Time Quantum Control Systems}
+\author[Gcc]{Dingchao Gao}
+\institute[ISCAS]{Institute of Software Chinese Academy of Sciences}
+
+\setbeamertemplate{footline}[frame number]
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Overview}
+  \begin{figure}
+    \includegraphics[width=.8\textwidth]{real-time.png}
+  \end{figure}
+\end{frame}
+\begin{frame}{Overview}
+\begin{itemize}
+\item Presents modular software architecture for quantum control systems
+\item Goals: Flexibility, portability, performance
+\item Introduces Duke ARTIQ Extensions (DAX) framework
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Background}
+\begin{itemize}
+\item Quantum software stack: programs, control software, hardware
+\item Current control software is hardware-specific, not reusable
+\item Rapidly evolving hardware\(\rightarrow\) need flexible software
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modular Software Architecture}
+\begin{itemize}
+\item Modules - group devices with tight control needs
+\item Services - system-wide functions using modules
+\item Registry - central catalog of modules and services
+\item Interfaces - standard functionality descriptions
+\item Clients - portable code using interfaces
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Performance Evaluation}
+\begin{itemize}
+\item 63% lower execution overhead vs non-modular code
+\item Similar binary size
+\item Fine-grained timing management and data offloading
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Code Reuse Analysis}
+\begin{itemize}
+\item 49-91% code reuse across two different systems
+\item Portable modules/services, interfaces, clients key enablers
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Experiments}
+\begin{itemize}
+\item Ran randomized benchmarking on two ion trap systems
+\item Portable client + system-specific interfaces
+\item Demonstrates portability in action
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+\begin{itemize}
+\item Modular architecture enables portable quantum control software
+\item Reduces development overhead as hardware evolves
+\item Important step towards scalable quantum systems
+\end{itemize}
+
+\end{frame}
+
+\end{document}
