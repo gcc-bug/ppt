@@ -3,3 +3,13 @@
 .vscode/
 **/.vscode/
 test.pptx
+**/*.aux
+**/*.log
+**/*.out
+**/*.bbl
+**/*.blg
+**/*.synctex.gz
+**/*.snm
+**/*.nav
+**/main.run.xml
+**/main-blx.bib
