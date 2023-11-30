@@ -11,5 +11,8 @@ test.pptx
 **/*.synctex.gz
 **/*.snm
 **/*.nav
+**/*.lof
+**/*.lot
+**/*.toc
 **/main.run.xml
 **/main-blx.bib
