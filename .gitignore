@@ -16,3 +16,5 @@ test.pptx
 **/*.toc
 **/main.run.xml
 **/main-blx.bib
+**/*:Zone.Identifier
+**/Tmp/
