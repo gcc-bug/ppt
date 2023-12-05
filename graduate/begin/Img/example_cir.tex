@@ -1,0 +1,15 @@
+\documentclass[tikz,border = 10 pt]{standalone}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{yquant}
+\begin{document}
+\begin{tikzpicture}
+    \begin{yquant*}
+        box {$T$} q[0] ;
+        h q[1]; 
+        cnot q[1] | q[0];
+        box {$T$} q[0] ;
+        h q[1];
+    \end{yquant*}
+  \end{tikzpicture}
+\end{document}
