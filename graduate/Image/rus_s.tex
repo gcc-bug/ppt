@@ -1,0 +1,18 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{yquant}
+\usetikzlibrary{quotes}
+\begin{document}
+\begin{tikzpicture}
+    \begin{yquant}
+        qubit {$\ket{+}$} c[2];
+        qubit {$\ket{\psi}$} t[1];
+        cnot t[0]| c;
+        box {$S$} t[0] ;
+        cnot t[0]| c;
+        z t[0];
+        dmeter {$X$} c;
+    \end{yquant}
+  \end{tikzpicture}
+\end{document}

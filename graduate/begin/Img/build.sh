@@ -1,28 +1,25 @@
-
 #!/bin/bash
 
-for file in ../../Image/*.tex
-do
-  pdflatex "$file"
-done
-echo "Compilation of all LaTeX files complete."
+image_path="../../Image/"
 
-for file in ../../Image/*.png
-do
-  convert "$file" "${file%.png}.pdf"
-  cp "${file%.png}.pdf" .
-done
-echo "Convert of all png"
+cd "$image_path"
+pwd
+if [ -f "build.sh" ]; then
+    bash ./build.sh
+else
+    echo "build.sh not found or not executable"
+    exit 1
+fi
+cd -
 
-for file in ../../Image/*.pdf
-do
-  cp "$file" .
+for file_type in pdf; do
+    for file in "${image_path}"*.$file_type; do
+        # Check if file exists to avoid trying to copy non-existing files
+        if [ -f "$file" ]; then
+            cp "$file" .
+            echo "Copied $file"
+        fi
+    done
 done
-echo "copy all pdf"
 
-for file in ../../Image/*.svg
-do
-  echo "${file}"
-  cp "$file" .
-done
-echo "copy all svg"
+echo "Copy complete"

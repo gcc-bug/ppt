@@ -14,20 +14,46 @@
 \subsection{技术路线}
 在应用TDD计算模型检测中，存在两个关键步骤。第一步是获取量子线路的TDD表示。第二步是逐步收缩表示当前状态的TDD与表示量子线路的TDD，最终得到下一步状态的TDD。在这两个步骤中加入好的优化方法是能够减少运行时间的关键。在不同的分割量子线路方案中，有两类主要技术路线，下文将简要介绍。除了拆分方案以外，优化TDD结构也是一种思路。
 \subsubsection{addition的拆分方案}
-第一种被称为addition[ ]。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
-	是对角线量子门的输入和输出索引；
-	是受控门的控制比特位的输入和输出索引。
-该图描述了量子电路的连通性，通过选择图中连通度最大的索引可以对电路进行分割。图表 17展示了Grover\_3电路图的索引链接图。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对电路进行较好的划分。
+第一种被称为addition\citep{chen2018classical}。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
+\begin{itemize}
+	\item 是对角线量子门的输入和输出索引；
+	\item 是受控门的控制比特位的输入和输出索引。
+\end{itemize}
+	
+该图描述了量子电路的连通性，通过选择图中连通度最大的索引可以对电路进行分割。图\ref{fig:addition}展示了Grover\_3电路图的索引链接图。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对电路进行较好的划分。
  
-图表 17 Grover\_3的索引连接图
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[height=5cm]{Img/cir_index_graph.pdf}
+	\caption{Grover\_3的索引连接图}
+	\label{fig:addition}
+\end{figure} 
 \subsubsection{contraction的拆分方案}
-另一种方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连[17]。图表 18展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
- 
-图表 18 对量子电路进行contraction的拆分
+另一种方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连。图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[height=5cm]{Img/cir_contraction.pdf}
+	\caption{对量子电路进行contraction的拆分}
+	\label{fig:contraction}
+\end{figure} 
 \subsubsection{优化TDD结构}
-在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图表 19的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但右图的结构更简单。其中左图的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，右图的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题，在具体使用中，只能避免最差的情况，并尽量使用使结构最简的索引顺序。
- 	 
-图表 19 同一布尔函数在不同索引顺序下的结构图
+
+在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但右图的结构更简单。其中左图的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，右图的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题，在具体使用中，只能避免最差的情况，并尽量使用使结构最简的索引顺序。
+
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=3cm]{Img/BDD_Variable_Ordering_Bad.pdf}
+		\caption{布尔\citep{bdd_wiki}}
+	\end{subfigure}
+	\begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=3cm]{Img/BDD_Variable_Ordering_Good.pdf}
+	\end{subfigure}
+	\caption{同一布尔函数在不同索引顺序下的结构图}
+	\label{fig:bdd-compare}
+\end{figure}
 
 TDD与BDD类似，也有索引顺序问题。在工程实现中，尽量使用能简化TDD结构的索引顺序也是能降低计算时间的一种技术路线。
 \subsection{实验评估方案}

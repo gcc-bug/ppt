@@ -3,9 +3,21 @@
 \subsection{主要研究内容}
 在模型检测中，有三类比较重要的可达性问题，分别是可达性、持续可达性以及重复可达性。本研究主要应用基于TDD的量子模型检测，探究可达性问题，从而解决实际量子线路问题。
 
-比如RUS电路等价性问题。图表 16展示了两个RUS量子电路。当电路中测量门结果为$00$时，第三个比特的输出态均为$\left(I+2iZ\right)/ \sqrt 5 |\psi\rangle$。这样的等价性检验任务，可以转换为模型检测中的可达空间是否一致。
- 	 
-图表 16 两个等价的RUS电路
+比如RUS电路等价性问题。图\ref{fig:rus-equal}展示了两个RUS量子电路。当电路中测量门结果为$00$时，第三个比特的输出态均为$\left(I+2iZ\right)/ \sqrt 5 |\psi\rangle$。这样的等价性检验任务，可以转换为模型检测中的可达空间是否一致。
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=3cm]{Img/rus_s.pdf}
+	\end{subfigure}
+	\qquad
+	\begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[height=3cm]{Img/rus_T.pdf}
+	\end{subfigure}
+	\caption{两个等价的RUS电路\citep{Bocharov_2015}}
+	\label{fig:rus-equal}
+\end{figure}
 
 \subsection{预期目标}
 本研究旨在通过优化计算算法、改进数据结构等方法，显著降低计算时间，使量子模型检测方法更加实用和高效。具体有以下小目标：
