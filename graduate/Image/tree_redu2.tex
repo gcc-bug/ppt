@@ -7,28 +7,22 @@
   \tikzstyle{every state}=[fill=white,draw=black,text=black]
 
   \node[state] (A) {$x_0$};
-  \node[state] (B) at ([shift = ({230:2cm})]A) {$y_0$};
-  \node[state] (C) at ([shift = ({-50:2cm})]A) {$y_0$};
+  \node[state] (B) at ([shift = ({240:2cm})]A) {$y_0$};
+  \node[state] (C) at ([shift = ({-60:2cm})]A) {$y_0$};
   \node[state] (D) at ([shift = ({240:2cm})]B) {$y_3$};
-  \node[state] (E) at ([shift = ({-60:1.5cm})]B) {$y_3$};
-  \node[state] (F) at ([shift = ({240:1.5cm})]C) {$y_3$};
   \node[state] (G) at ([shift = ({-60:2cm})]C) {$y_3$};
-  \node[state,shape = rectangle] (H) at ([shift = ({-90:5cm})]A) {\large$1$};
+  \node[state,shape = rectangle] (H) at ([shift = ({-90:6cm})]A) {\large$1$};
   \node[state,draw=none] (I) [above of= A]       {};
 
   \path[-]
   (A) edge[bend right=10,dashed]  node {} (B)
   (A) edge[bend left=10]  node {$i$} (C)
   (B) edge[bend right=10,dashed]  node {} (D)
-  (B) edge[bend left=10]  node {} (E)
-  (C) edge[bend right=10,dashed]  node {} (F)
+  (B) edge[bend left=10]  node {} (G)
+  (C) edge[bend right=10,dashed]  node {} (D)
   (C) edge[bend left=10]  node {$-1$} (G)
   (H) edge[bend left=15,dashed]  node {} (D.south)
   (H) edge[bend right=10]  node [at end,right] {$0$} (D.south east)
-  (H) edge[bend left=15,dashed] node [at end,left] {$0$} (E.south west)
-  (H) edge[bend right=10]  node {} (E.south)
-  (H) edge[bend left=15,dashed]  node {} (F.south)
-  (H) edge[bend right=10]  node [at end,right] {$0$} (F.south east)
   (H) edge[bend left=10,dashed]  node [at end,left] {$0$} (G.south west)
   (H) edge[bend right=15]  node {} (G.south)
   (I) edge node{} (A);

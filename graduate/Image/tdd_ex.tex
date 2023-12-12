@@ -1,0 +1,48 @@
+\documentclass{standalone}
+\usepackage[x11names, svgnames, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{tikzpicture}[auto,every node/.style={shape=circle , align=center,solid,minimum size =0.01cm}]
+  \node[state] (63)  {$x_0$};
+  \node[state] (62) at ([shift = ({-45:2cm})]63) {$y_0$};
+  \node[state] (45) at ([shift = ({-90:2cm})]62)  {$x_1$};
+  \node[state] (59) [left = 2cm of 45] {$y_0$};
+  \node[state] (60) at ([shift = ({-60:4cm})]62)  {$x_1$};
+  \node[state] (58) at ([shift = ({-75:2cm})]45) {$y_1$};
+  \node [state] (47) [left = 1cm of 58] {$y_1$};
+  \node[state] (61) at ([shift = ({-115:2cm})]58) {$x_2$};
+  \node[state] (4) [below = 1cm of 61] {$y_2$};
+  \node[state] (0) [below = 1cm of 4] {1};
+  \node[state,draw=none,above =1cm of 63] (-0) {};
+
+  \path[->]
+  (63) edge[bend left=10]  node {} (62)
+  (63) edge[bend right=10,dashed]  node {$\frac{1}{3}$} (59)
+
+  (62) edge[bend right=5]  node {} (45)
+  (62) edge[bend left=10,dashed]  node {$\frac{1}{3}$} (60)
+  
+  (59) edge[bend right=20,dashed]  node {} (61)
+  (59) edge[bend left=10]  node {} (47)
+  
+  (45) edge[bend left=10]  node {} (58)
+  (45) edge[bend right=15,dashed]  node {} (47)
+  
+  (60) edge[bend left=10,dashed]  node {} (61)
+
+  (58) edge[bend left=10]  node {} (61)
+  (47) edge[bend right=10,dashed]  node {} (61)
+  
+  (61) edge[bend right=15,dashed]  node {} (4)
+  (61) edge[bend left=15]  node {$-1$} (4)
+
+  (4) edge[bend right=15,dashed]  node {} (0)
+  (4) edge[bend left=15]  node {$-1$} (0)
+
+  (-0) edge node{$\frac{1}{2}$} (63);
+\end{tikzpicture}
+\end{document}
