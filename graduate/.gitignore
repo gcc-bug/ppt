@@ -1,4 +1,5 @@
 Image/**.pdf
 !Image/ucas_logo.pdf
-**/Img
+**/Img/
+**/Tmp/
 !**/Img/*.sh
