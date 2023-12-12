@@ -3,15 +3,22 @@
 \subsection{研究基础}
 在模型检测中，image computation指的是在给定当前状态$s_i\in S$和行为$\alpha\in Act$的情况下计算接下来的状态。
 
-目前，关于使用TDD对量子的image computation的计算已经完成。表格 2给出了在不同电路拆分技术下Grover算法的计算时间，单位为秒。其中basic表示没有使用优化技术，addition表示使用错误!未找到引用源。中的addition优化技术，contraction表示使用错误!未找到引用源。中的contraction优化技术。“-”表示超过一小时的运行上限。
+目前，关于使用TDD对量子的image computation的计算已经完成。表\ref{table:time}给出了在不同电路拆分技术下Grover算法的计算时间，单位为秒。其中basic表示没有使用优化技术，addition表示使用\ref{addition}中的addition优化技术，contraction表示使用\ref{contraction}中的contraction优化技术。“-”表示超过一小时的运行上限。
 
-表格 2 不同电路拆分技术下的Grover算法运行时间
-% Benchmark	basic	addition	contraction
-% Grover_15	19.33	17.35	1.61
-% Grover_18	76.47	66.02	2.41
-% Grover_20	294.65	259.87	4.39
-% Grover_30	-	-	96.02
-% Grover_40	-	-	2953.57
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{@{}llll@{}}
+        \toprule
+        Benchmark  & basic  & addition & contraction \\ \midrule
+        Grover\_15 & 19.33  & 17.35    & 1.61        \\
+        Grover\_18 & 76.47  & 66.02    & 2.41        \\
+        Grover\_20 & 294.65 & 259.87   & 4.39        \\
+        Grover\_30 & -      & -        & 96.02       \\
+        Grover\_40 & -      & -        & 2953.57     \\ \bottomrule
+    \end{tabular}
+    \caption{不同电路拆分技术下的Grover算法运行时间}
+    \label{table:time}
+\end{table}
 
 通过对比不同优化技术下的计算时间，可以看到使用优化技术能够显著降低计算时间。例如，在Grover-20的例子中，使用"contraction"优化技术的情况下，计算时间从294秒降低到了4秒。这表明优化技术在提高计算效率方面起到了积极的作用。
 

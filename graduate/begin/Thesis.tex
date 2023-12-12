@@ -53,6 +53,7 @@
 %-
 \input{Tex/Frontinfo}%
 \usepackage{enumitem}
+\usepackage{booktabs}
 \newlist{myen}{enumerate}{1} % Defines a new list style named mystyle
 \setlist[myen,1]{label=\alph*), leftmargin=*}
 
@@ -69,6 +70,7 @@
 \clearpage
 \pagenumbering{arabic}% restart page numbers with arabic style
 \input{Tex/Mainmatter}% main content
+\newpage
 %-
 %-> Backmatter: bibliography, glossary, index
 %-

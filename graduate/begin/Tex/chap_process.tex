@@ -14,6 +14,7 @@
 \subsection{技术路线}
 在应用TDD计算模型检测中，存在两个关键步骤。第一步是获取量子线路的TDD表示。第二步是逐步收缩表示当前状态的TDD与表示量子线路的TDD，最终得到下一步状态的TDD。在这两个步骤中加入好的优化方法是能够减少运行时间的关键。在不同的分割量子线路方案中，有两类主要技术路线，下文将简要介绍。除了拆分方案以外，优化TDD结构也是一种思路。
 \subsubsection{addition的拆分方案}
+\label{addition}
 第一种被称为addition\citep{chen2018classical}。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
 \begin{itemize}
 	\item 是对角线量子门的输入和输出索引；
@@ -28,7 +29,7 @@
 	\caption{Grover\_3的索引连接图}
 	\label{fig:addition}
 \end{figure} 
-\subsubsection{contraction的拆分方案}
+\subsubsection{contraction的拆分方案}\label{contraction}
 另一种方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连。图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
 \begin{figure}[!htbp]
 	\centering
@@ -38,20 +39,23 @@
 \end{figure} 
 \subsubsection{优化TDD结构}
 
-在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但右图的结构更简单。其中左图的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，右图的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题，在具体使用中，只能避免最差的情况，并尽量使用使结构最简的索引顺序。
+在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题，在具体使用中，只能避免最差的情况，并尽量使用使结构最简的索引顺序。
 
 \begin{figure}[!htbp]
 	\centering
 	\begin{subfigure}[b]{.4\textwidth}
         \centering
-        \includegraphics[height=3cm]{Img/BDD_Variable_Ordering_Bad.pdf}
-		\caption{布尔\citep{bdd_wiki}}
+        \includegraphics[height=5cm]{Img/BDD_Variable_Ordering_Bad.svg.pdf}
+		\caption{索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}}
+		\label{fig:bdd-bad}
 	\end{subfigure}
 	\begin{subfigure}[b]{.4\textwidth}
         \centering
-        \includegraphics[height=3cm]{Img/BDD_Variable_Ordering_Good.pdf}
+        \includegraphics[height=5cm]{Img/BDD_Variable_Ordering_Good.svg.pdf}
+		\caption{索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}}
+		\label{fig:bdd-good}
 	\end{subfigure}
-	\caption{同一布尔函数在不同索引顺序下的结构图}
+	\caption{同一布尔函数在不同索引顺序下的结构图\citep{wiki:bdd}}
 	\label{fig:bdd-compare}
 \end{figure}
 
@@ -62,5 +66,19 @@ TDD与BDD类似，也有索引顺序问题。在工程实现中，尽量使用�
 这样的评估和对比分析将，可以为研究工作提供更多的参考和支持。通过与其他方法的对比，可以更好地理解我们的方法在量子模型检测中的优势和局限性，并为进一步的研究和实际应用提供指导。
 \subsection{可行性分析}
 首先，本项目在前期已进行了较为充分的文献资料搜集和调研工作，对目前量子模型检测技术现状、相关工作、现有项目的优缺点、验证需求有较为充分的认识，为后期的研究和实验工作打下了坚实的基础。
-其次电路拆分方案是最直接降低运行时间的一类方案。而前期已经小范围尝试该方案的时间效率。表格 1展示了计算不同测试image computation，应用不同拆分方案的用时。其中basic表示没有使用优化技术，addition表示使用addition优化技术，contraction表示使用contraction优化技术，时间单位为秒。
-表格 1 不同拆分方案在不同类型测试中用时
+其次电路拆分方案是最直接降低运行时间的一类方案。而前期已经小范围尝试该方案的时间效率。表\ref{table:split}展示了计算不同测试image computation，应用不同拆分方案的用时。其中basic表示没有使用优化技术，addition表示使用addition优化技术，contraction表示使用contraction优化技术，时间单位为秒。
+
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{@{}llll@{}}
+	\toprule
+	Benchmark  & basic   & addition & contraction \\ \midrule
+	Grover\_20 & 294.65  & 259.87   & 4.39        \\
+	QFT\_20    & 1199.21 & 655.19   & 0.12        \\
+	QRW\_20    & 341.05  & 218.29   & 14.31       \\
+	BV\_100    & 7.36    & 7.43     & 0.41        \\ \bottomrule
+	\end{tabular}
+	\caption{不同拆分方案在不同类型测试中用时}
+	\label{table:split}
+\end{table}
+
