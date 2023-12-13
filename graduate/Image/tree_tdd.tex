@@ -3,7 +3,7 @@
 \usetikzlibrary{automata, positioning, arrows}
 
 \begin{document}
-\begin{tikzpicture}[auto,node distance=1.5cm,every node/.style={shape=circle , align=center,solid,minimum size =0.01cm}]
+\begin{tikzpicture}[auto,node distance=1.5cm,every node/.style={shape=circle , align=center,solid,minimum size =0.01cm},line width =1pt]
   \tikzstyle{every state}=[fill=white,draw=black,text=black]
 
   \node[state] (A) {$x_0$};
@@ -23,7 +23,7 @@
   \node[state,shape = rectangle] (G1) at ([shift = ({-75:2cm})]G) {\large$-i$};
   \node[state,draw=none] (I) [above of= A]       {};
 
-  \path[-]
+  \path[->]
   (A) edge[dashed]  node {} (B)
   (A) edge  node {} (C)
   (B) edge[dashed]  node {} (D)

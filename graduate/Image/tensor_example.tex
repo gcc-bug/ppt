@@ -3,7 +3,7 @@
 \usetikzlibrary{automata, positioning, arrows}
 
 \begin{document}
-\begin{tikzpicture}[shorten >=1pt,node distance=3cm,on grid,auto,line width=1pt, every edge/.style={draw, -},every node/.style={font=\large}]
+\begin{tikzpicture}[shorten >=1pt,node distance=3cm,on grid,auto,line width=1pt, every edge/.style={draw, -},every node/.style={font=\large},line width =1pt]
 
   \node[state] (c0) {CX};
   \node[state] (s1) [above left=of c0] {T};
@@ -19,7 +19,7 @@
   \node[state, draw=none] (n4) [right=2cm of s4] {};
 
 
-  \path[-] 
+  \path[->] 
         (n1) edge node {$x_0$} (s1)
         (s2) edge node {$x_3$} (n2)
         (n3) edge node {$y_0$} (s3)
