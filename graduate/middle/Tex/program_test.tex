@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\title{软件测试}
+\usepackage{multirow}
+\usepackage{graphicx}
+\begin{document}
+\maketitle
+\section{python for image computation:}
+\begin{itemize}
+    \item {软件的工作目标:} 
+    \begin{itemize}
+        \item   输入电路与系统初始状态，输出下一步的系统状态。
+    \end{itemize}
+    \item {运行环境：} 
+    \begin{itemize}
+        \item python >= 3.9.0
+        \item Numpy >= 1.20.0
+        \item qiskit >= 0.25.0
+        \item graphiz >= 0.20.0
+    \end{itemize} 
+    \item {适应的工作对象:}
+    \begin{itemize}
+        \item 复杂线路如grover，qrw不超过二十比特。
+        \item 简单线路如ghz，不超过二百比特。
+    \end{itemize}
+    \item {测试样例:}
+    \begin{itemize}
+        \item Grover
+        \item QFT
+        \item BV
+        \item GHZ
+        \item QRW
+    \end{itemize}
+    \item {自我测试实验报告:}
+    \begin{table}[!htbp]
+        \centering
+        \scalebox{0.5}{
+            \begin{tabular}{llllllllll}
+                \hline
+                \multirow{2}{*}{Benchmark} &  & \multicolumn{2}{c}{basic} &  & \multicolumn{2}{c}{addition} &  & \multicolumn{2}{c}{contraction} \\ \cline{3-4} \cline{6-7} \cline{9-10} 
+                                           &  & time        & max \#node       &  & time          & max \#node        &  & time           & max \#node          \\ \hline
+                Grover\_15 &   & 19.33  & 15785     &   & 17.35      & 15099  & & 1.61 & 597  \\
+                Grover\_18 &   & 76.47  & 61694     &   & 66.02      & 60332  & & 2.41 & 516  \\
+                Grover\_20 &   & 294.65 & 243946    &   & 259.87     & 241240 & & 4.39  & 1036 \\ 
+                Grover\_40 &   & -      &           &   & -          &        & & 2953.57 & 851973 \\
+                \hline
+                QFT\_15     &  & 34.64   & 65536   &  & 18.88  & 32770   &  & 0.08 & 63  \\
+                QFT\_18     &  & 282.12  & 524288  &  & 148.13 & 262146 &   & 0.10  & 31  \\
+                QFT\_20     &  & 1199.21 & 2097152 &  & 655.19 & 1048578 &  & 0.12 & 63  \\
+                QFT\_30     &  & -       &         &  & -      &        &  & 0.29 & 31  \\
+                QFT\_50     &  & -       &         &  & -      &        &  & 1.02 & 51  \\
+                QFT\_100    &  & -       &         &  & -      &        &  & 7.14 & 101 \\
+                \hline
+                BV\_100     &  & 7.36    & 596     &  & 7.43      & 596     &  & 0.41           & 102 \\
+                BV\_200     &  & 31.57   & 1196    &  & 30.03     & 1196    &  & 1.70           & 202 \\
+                BV\_300     &  & 75.66   & 1796    &  & 75.56     & 1796    &  & 4.28           & 302 \\
+                BV\_400     &  & 146.47  & 2396    &  & 145.40    & 2396    &  & 9.18           & 402 \\
+                BV\_500     &  & 244.15  & 2996    &  & 223.90    & 2996    &  & 16.31          & 502 \\
+                \hline
+                GHZ\_100    &  & 0.38    & 595     &  & 0.13      & 301    &  & 0.18           & 200 \\%& 0.03    
+                GHZ\_200    &  & 0.72    & 1195    &  & 0.37      & 601    &  & 0.48           & 400 \\%& 0.12     
+                GHZ\_300    &  & 1.29    & 1795    &  & 0.62      & 901    &  & 0.80           & 600 \\%& 0.24     
+                GHZ\_400    &  & 2.03    & 2395    &  & 1.00      & 1201    &  & 1.26           & 800 \\%& 0.42     
+                GHZ\_500    &  & 2.96    & 2995    &  & 1.45      & 1501    &  & 1.72           & 1000\\%& 0.62     
+                \hline
+                QRW\_15     &  & 36.86   & 13122     &  & 24.59     & 10882     & & 7.16  & 222 \\
+                QRW\_18     &  & 139.76  & 90538     &  & 84.69     & 37064     & & 11.23 & 226 \\
+                QRW\_20     &  & 341.05  & 265614    &  & 218.29    & 107714    & & 14.31 & 404 \\
+                QRW\_30     &   &-       &          &  &-          &          & & 36.82 & 404 \\
+                QRW\_50     &   &-       &          &  &-          &          & & 118.08 & 404 \\
+                QRW\_100    &   &-       &          &  &-          &          & & 692.08 & 436 \\
+                \hline
+            \end{tabular}
+        }
+        \caption{对不同测试实验应用image computation}
+        \label{table:time}
+    \end{table}
+\end{itemize}
+
+\section{C++ for TDD:}
+\begin{itemize}
+    \item {软件的工作目标:} 
+    \begin{itemize}
+        \item 输入电路，输出电路的TDD表示。
+    \end{itemize}
+    \item {运行环境：} 
+    \begin{itemize}
+        \item c++ standard 17
+        \item cmake >= 3.20.0
+        \item xtl >= 0.7.5
+        \item xtensor >= 0.24.0
+        \item graphiz >= 2.43.0
+        \item xtensor-python >= 0.26.0
+        \item pybind11 >= 2.12.0
+        \item Numpy >= 1.20.0
+    \end{itemize} 
+    \item {适应的工作对象:}
+    \begin{itemize}
+        \item 小型电路
+    \end{itemize}
+    \item {测试样例:}
+    \begin{itemize}
+        \item 基础门，如CNOT,H,S,swap
+        \item 随机生成的小规模电路
+    \end{itemize}
+    \item {自我测试实验报告:}
+    \begin{itemize}
+        \item 所有基础门正确转化为TDD表示
+        \item 大部分小规模电路正确转换，部分出现了内存占用过大的问题。
+    \end{itemize}
+\end{itemize}
+\end{document}
