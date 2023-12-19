@@ -1,30 +1,48 @@
 \documentclass{article}
 \usepackage{xeCJK}
 \setCJKmainfont{SimSun}
-\title{软件测试}
 \usepackage{multirow}
 \usepackage{graphicx}
+\usepackage{booktabs} % for better table formatting
+\usepackage{geometry} % for adjusting page layout
+\usepackage{enumitem} % for customizing lists
+\usepackage{hyperref} % for clickable links and references
+
+% Set the margins
+\geometry{
+ a4paper,
+ left=20mm,
+ right=20mm,
+ top=25mm,
+ bottom=25mm
+}
+
+\title{软件测试}
+\author{高丁超} % add author name if needed
+\date{} % remove date or add specific date
+
 \begin{document}
 \maketitle
-\section{python for image computation:}
-\begin{itemize}
-    \item {软件的工作目标:} 
+
+\section{Python for Image Computation}
+\begin{itemize}[leftmargin=*]
+    \item 软件的工作目标: 
     \begin{itemize}
-        \item   输入电路与系统初始状态，输出下一步的系统状态。
+        \item 输入电路与系统初始状态，输出下一步的系统状态。
     \end{itemize}
-    \item {运行环境：} 
+    \item 运行环境：
     \begin{itemize}
-        \item python >= 3.9.0
+        \item Python >= 3.9.0
         \item Numpy >= 1.20.0
-        \item qiskit >= 0.25.0
-        \item graphiz >= 0.20.0
+        \item Qiskit >= 0.25.0
+        \item Graphviz >= 0.20.0
     \end{itemize} 
-    \item {适应的工作对象:}
+    \item 适应的工作对象:
     \begin{itemize}
-        \item 复杂线路如grover，qrw不超过二十比特。
-        \item 简单线路如ghz，不超过二百比特。
+        \item 复杂线路如Grover，QRW不超过二十比特。
+        \item 简单线路如GHZ，不超过二百比特。
     \end{itemize}
-    \item {测试样例:}
+    \item 测试样例:
     \begin{itemize}
         \item Grover
         \item QFT
@@ -32,7 +50,9 @@
         \item GHZ
         \item QRW
     \end{itemize}
-    \item {自我测试实验报告:}
+    \item 自我测试实验报告:
+    \begin{itemize}
+        \item 实验结果如下。其中addition 和contraction表示不同的电路拆分技术，时间单位为秒，- 表示超时
     \begin{table}[!htbp]
         \centering
         \scalebox{0.5}{
@@ -76,35 +96,37 @@
         \caption{对不同测试实验应用image computation}
         \label{table:time}
     \end{table}
+    \end{itemize}
+    % Table goes here, with proper formatting
 \end{itemize}
 
-\section{C++ for TDD:}
-\begin{itemize}
-    \item {软件的工作目标:} 
+\section{C++ for TDD}
+\begin{itemize}[leftmargin=*]
+    \item 软件的工作目标: 
     \begin{itemize}
         \item 输入电路，输出电路的TDD表示。
     \end{itemize}
-    \item {运行环境：} 
+    \item 运行环境： 
     \begin{itemize}
-        \item c++ standard 17
-        \item cmake >= 3.20.0
-        \item xtl >= 0.7.5
-        \item xtensor >= 0.24.0
-        \item graphiz >= 2.43.0
-        \item xtensor-python >= 0.26.0
-        \item pybind11 >= 2.12.0
+        \item C++ Standard 17
+        \item CMake >= 3.20.0
+        \item XTL >= 0.7.5
+        \item XTENSOR >= 0.24.0
+        \item Graphviz >= 2.43.0
+        \item XTENSOR-Python >= 0.26.0
+        \item Pybind11 >= 2.12.0
         \item Numpy >= 1.20.0
     \end{itemize} 
-    \item {适应的工作对象:}
+    \item 适应的工作对象:
     \begin{itemize}
         \item 小型电路
     \end{itemize}
-    \item {测试样例:}
+    \item 测试样例:
     \begin{itemize}
-        \item 基础门，如CNOT,H,S,swap
+        \item 基础门，如CNOT, H, S, Swap
         \item 随机生成的小规模电路
     \end{itemize}
-    \item {自我测试实验报告:}
+    \item 自我测试实验报告:
     \begin{itemize}
         \item 所有基础门正确转化为TDD表示
         \item 大部分小规模电路正确转换，部分出现了内存占用过大的问题。
