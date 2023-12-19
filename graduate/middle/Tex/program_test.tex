@@ -7,6 +7,7 @@
 \usepackage{geometry} % for adjusting page layout
 \usepackage{enumitem} % for customizing lists
 \usepackage{hyperref} % for clickable links and references
+\usepackage{subcaption}
 
 % Set the margins
 \geometry{
@@ -23,7 +24,7 @@
 
 \begin{document}
 \maketitle
-
+\linespread{1.5}
 \section{Python for Image Computation}
 \begin{itemize}[leftmargin=*]
     \item 软件的工作目标: 
@@ -52,7 +53,99 @@
     \end{itemize}
     \item 自我测试实验报告:
     \begin{itemize}
-        \item 实验结果如下。其中addition 和contraction表示不同的电路拆分技术，时间单位为秒，- 表示超时
+        \item  \linespread{1.5}图\ref{fig:grover-compare}表示了对Grover搜索算法运行不同image computation算法的资源对比。图\ref{fig:QFT-compare}表示了对quantum Fourier transform（QFT）算法运行不同image computation算法的资源对比。图\ref{fig:BV-compare}表示了对Bernstein–Vazirani（BV）算法运行不同image computation算法的资源对比。图\ref{fig:GHZ-compare}表示了对Greenberger–Horne–Zeilinger （GHZ）状态制备电路运行不同image computation算法的资源对比。图\ref{fig:QRW-compare}表示了对在$2^n$ 环上的quantum random walk （QRW）算法运行不同image computation算法的资源对比。
+        \begin{figure}[!htbp]
+            \centering
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_Grover_time.pdf}
+                \caption{对Grover 算法应用不同电路拆分技术的时间对比}
+                \label{fig:grover-time}
+            \end{subfigure}
+            \qquad
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_Grover_node.pdf}
+                \caption{对Grover 算法应用不同电路拆分技术的最大节点对比}
+                \label{fig:grover-node}
+            \end{subfigure}
+            
+            \caption{对Grover算法运行image computation时不同电路拆分技术的资源对比}
+            \label{fig:grover-compare}
+        \end{figure}
+        \begin{figure}[!htbp]
+            \centering
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_QFT_time.pdf}
+                \caption{对QFT 算法应用不同电路拆分技术的时间对比}
+                \label{fig:QFT-time}
+            \end{subfigure}
+            \qquad
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_QFT_node.pdf}
+                \caption{对QFT 算法应用不同电路拆分技术的最大节点对比}
+                \label{fig:QFT-node}
+            \end{subfigure}
+            \caption{对QFT算法运行image computation时不同电路拆分技术的资源对比}
+            \label{fig:QFT-compare}
+        \end{figure}
+        \begin{figure}[!htbp]
+            \centering
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_BV_time.pdf}
+                \caption{对BV 算法应用不同电路拆分技术的时间对比}
+                \label{fig:BV-time}
+            \end{subfigure}
+            \qquad
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_BV_node.pdf}
+                \caption{对BV 算法应用不同电路拆分技术的最大节点对比}
+                \label{fig:BV-node}
+            \end{subfigure}
+            \caption{对BV算法运行image computation时不同电路拆分技术的资源对比}
+            \label{fig:BV-compare}
+        \end{figure}
+        \begin{figure}[!htbp]
+            \centering
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_GHZ_time.pdf}
+                \caption{对GHZ 算法应用不同电路拆分技术的时间对比}
+                \label{fig:GHZ-time}
+            \end{subfigure}
+            \qquad
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_GHZ_node.pdf}
+                \caption{对GHZ 算法应用不同电路拆分技术的最大节点对比}
+                \label{fig:GHZ-node}
+            \end{subfigure}
+            \caption{对GHZ算法运行image computation时不同电路拆分技术的资源对比}
+            \label{fig:GHZ-compare}
+        \end{figure}
+        \begin{figure}[!htbp]
+            \centering
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_QRW_time.pdf}
+                \caption{对QRW 算法应用不同电路拆分技术的时间对比}
+                \label{fig:QRW-time}
+            \end{subfigure}
+            \qquad
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=4cm]{Img/alg_QRW_node.pdf}
+                \caption{对QRW 算法应用不同电路拆分技术的最大节点对比}
+                \label{fig:QRW-node}
+            \end{subfigure}
+            \caption{对QRW算法运行image computation时不同电路拆分技术的资源对比}
+            \label{fig:QRW-compare}
+        \end{figure}
+        \item 表\ref{table:time}给出了在不同电路拆分技术下具体的各类算法的计算时间，单位为秒，max node表示计算过程中TDD的节点最大个数，- 表示超时。其中addition 和contraction表示不同的电路拆分技术。
     \begin{table}[!htbp]
         \centering
         \scalebox{0.5}{
@@ -97,9 +190,9 @@
         \label{table:time}
     \end{table}
     \end{itemize}
-    % Table goes here, with proper formatting
+    
 \end{itemize}
-
+\newpage
 \section{C++ for TDD}
 \begin{itemize}[leftmargin=*]
     \item 软件的工作目标: 
@@ -128,8 +221,27 @@
     \end{itemize}
     \item 自我测试实验报告:
     \begin{itemize}
-        \item 所有基础门正确转化为TDD表示
-        \item 大部分小规模电路正确转换，部分出现了内存占用过大的问题。
+        \item 所有基础门正确转化为TDD表示。
+        \item 支持任意维度张量，例如对双比特CNOT门，既可以按图\ref{fig:cnot-4}中的张量维度为4，
+        即按照索引为$q_1,q_0$进行表示。也可以按图\ref{fig:cnot-2}中的张量维度为4，
+        即按照索引为$q_3,q_2,q_1,q_0$进行表示。这样的设计大大提高了TDD的表示能力，为更复杂系统的验证提供了基础。
+        \begin{figure}[!htbp]
+            \centering
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height = 6cm]{Img/cnot.eps}
+                \caption{张量维度为4的CNOT门的TDD表示}
+                \label{fig:cnot-4}
+            \end{subfigure}
+            \begin{subfigure}[b]{.4\textwidth}
+                \centering
+                \includegraphics[height=6cm]{Img/cx.eps}
+                \caption{张量维度为2的CNOT门的TDD表示}
+                \label{fig:cnot-2}
+            \end{subfigure}
+            \caption{C语言版的TDD支持任意维度的例子}
+            \label{fig-cnot}
+        \end{figure}
     \end{itemize}
 \end{itemize}
 \end{document}

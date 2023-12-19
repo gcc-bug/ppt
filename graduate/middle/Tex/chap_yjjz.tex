@@ -201,10 +201,25 @@
 \end{table}
   
 在技术实现上，构建了两个版本的量子线路转化为TDD的工具，分别基于C语言和Python语言。这些工具的开发对于实现我们的研究方法至关重要，提高了实验的灵活性和效率。
-其中的C语言的TDD
+其中的C语言的TDD支持任意维度张量，例如对双比特CNOT门，既可以按图\ref{fig:cnot-4}中的张量维度为4，
+即按照索引为$q_1,q_0$进行表示。也可以按图\ref{fig:cnot-2}中的张量维度为4，
+即按照索引为$q_3,q_2,q_1,q_0$进行表示。这样的设计大大提高了TDD的表示能力，为更复杂系统的验证提供了基础。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{Img/cnot.pdf}
+    \begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height = 6cm]{Img/cnot.eps}
+        \caption{张量维度为4的CNOT门的TDD表示}
+        \label{fig:cnot-4}
+    \end{subfigure}
+    \begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/cx.eps}
+        \caption{张量维度为2的CNOT门的TDD表示}
+        \label{fig:cnot-2}
+    \end{subfigure}
+    \caption{C语言版的TDD支持任意维度的例子}
+    \label{fig-cnot}
 \end{figure}
 
 \subsection{学术论文进展}
