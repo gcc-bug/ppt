@@ -1,117 +1,92 @@
-\section{研究进展以及存在的问题}
-\subsection{已取得研究成果}
-以下是目前的研究成果：
+\section{系统设计与实现}
+\subsection{预期目标}
+image computation指的是通过当前系统状态与转移关系，计算下一步系统状态。
+在模型检测中，image computation是关键的一步。
+过去传统模型检测已发展出多种高效的计算算法，特别是利用二叉决策图（BDDs）符号性表示初始状态和转移关系，以及利用状态空间划分和电路划分加速图像计算过程。然而，量子系统的模型检测尚处于起步阶段。
+本次研究的重要目标就是利用TDD，构建量子系统的image computation，从而为未来的工作奠定基础。
+
+考虑到量子计算的特殊性，可以利用一系列的优化策略，主要包括基于张量网络的结构特性和TDD的有效性能。通过这些优化，可以提升量子图像计算的效率，尤其是在处理复杂量子系统时的性能表现。
+
+\subsection{研究方法}
+本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。
+下面简单介绍以下具体研究方法。
+
+\begin{myen}
+
+\item \label{addition}关于常用的量子线路划分方法，
+第一种被称为addition\citep{chen2018classical}。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
 \begin{itemize}
-    \item 论文题目：Image Computation for Quantum Transition Systems
-    \begin{itemize}
-        \item ICCAD 2023 投稿情况：
-        \begin{itemize}
-            \item 论文编号：568
-            \item 审稿结果：投稿被拒
-            \item 审稿人评分：2，4，4
-        \end{itemize}
-        \item DAC2024 投稿情况：
-        \begin{itemize}
-            \item 当前状态：在投
-            \item 预期反馈日期：2024年2月26日前
-        \end{itemize}
-    \end{itemize}
+	\item 是对角线量子门的输入和输出索引；
+	\item 是受控门的控制比特位的输入和输出索引。
 \end{itemize}
-\subsubsection{研究内容进展}
-在模型检测中，image computation指的是在给定当前状态$s_i\in S$和行为$\alpha\in Act$的情况下计算接下来的状态。
-目前，关于使用TDD对量子的image computation的计算已经完成。表\ref{table:time}给出了在不同电路拆分技术下Grover算法的计算时间，单位为秒。其中basic表示没有使用优化技术，addition表示使用研究方法\ref{addition}的addition优化技术，contraction表示使用研究方法\ref{contraction}中的contraction优化技术。“-”表示超过一小时的运行上限。
-\begin{table}[!htbp]
-    \centering
-    \begin{tabular}{llllllllll}
-        \hline
-        \multirow{2}{*}{Benchmark} &  & \multicolumn{2}{c}{basic} &  & \multicolumn{2}{c}{addition} &  & \multicolumn{2}{c}{contraction} \\ \cline{3-4} \cline{6-7} \cline{9-10} 
-                                   &  & time        & max \#node       &  & time          & max \#node        &  & time           & max \#node          \\ \hline
-        Grover\_15 &   & 19.33  & 15785     &   & 17.35      & 15099  & & 1.61 & 597  \\
-        Grover\_18 &   & 76.47  & 61694     &   & 66.02      & 60332  & & 2.41 & 516  \\
-        Grover\_20 &   & 294.65 & 243946    &   & 259.87     & 241240 & & 4.39  & 1036 \\ 
-        Grover\_40 &   & -      &           &   & -          &        & & 2953.57 & 851973 \\
-        \hline
-        QFT\_15     &  & 34.64   & 65536   &  & 18.88  & 32770   &  & 0.08 & 63  \\
-        QFT\_18     &  & 282.12  & 524288  &  & 148.13 & 262146 &   & 0.10  & 31  \\
-        QFT\_20     &  & 1199.21 & 2097152 &  & 655.19 & 1048578 &  & 0.12 & 63  \\
-        QFT\_30     &  & -       &         &  & -      &        &  & 0.29 & 31  \\
-        QFT\_50     &  & -       &         &  & -      &        &  & 1.02 & 51  \\
-        QFT\_100    &  & -       &         &  & -      &        &  & 7.14 & 101 \\
-        \hline
-        BV\_100     &  & 7.36    & 596     &  & 7.43      & 596     &  & 0.41           & 102 \\
-        BV\_200     &  & 31.57   & 1196    &  & 30.03     & 1196    &  & 1.70           & 202 \\
-        BV\_300     &  & 75.66   & 1796    &  & 75.56     & 1796    &  & 4.28           & 302 \\
-        BV\_400     &  & 146.47  & 2396    &  & 145.40    & 2396    &  & 9.18           & 402 \\
-        BV\_500     &  & 244.15  & 2996    &  & 223.90    & 2996    &  & 16.31          & 502 \\
-        \hline
-        GHZ\_100    &  & 0.38    & 595     &  & 0.13      & 301    &  & 0.18           & 200 \\%& 0.03    
-        GHZ\_200    &  & 0.72    & 1195    &  & 0.37      & 601    &  & 0.48           & 400 \\%& 0.12     
-        GHZ\_300    &  & 1.29    & 1795    &  & 0.62      & 901    &  & 0.80           & 600 \\%& 0.24     
-        GHZ\_400    &  & 2.03    & 2395    &  & 1.00      & 1201    &  & 1.26           & 800 \\%& 0.42     
-        GHZ\_500    &  & 2.96    & 2995    &  & 1.45      & 1501    &  & 1.72           & 1000\\%& 0.62     
-        \hline
-        QRW\_15     &  & 36.86   & 13122     &  & 24.59     & 10882     & & 7.16  & 222 \\
-        QRW\_18     &  & 139.76  & 90538     &  & 84.69     & 37064     & & 11.23 & 226 \\
-        QRW\_20     &  & 341.05  & 265614    &  & 218.29    & 107714    & & 14.31 & 404 \\
-        QRW\_30     &   &-       &          &  &-          &          & & 36.82 & 404 \\
-        QRW\_50     &   &-       &          &  &-          &          & & 118.08 & 404 \\
-        QRW\_100    &   &-       &          &  &-          &          & & 692.08 & 436 \\
-        \hline
-    \end{tabular}
-    \caption{对不同测试实验应用image computation}
-    \label{table:time}
-\end{table}
+	
+图\ref{fig:addition}展示了Grover\_3电路图的索引链接图。该图描述了量子电路的连通性，通过选择图中连通度最大的索引可以对电路进行分割。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对电路进行较好的划分。
+ 
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[height=6cm]{Img/cir_index_graph.pdf}
+	\caption{Grover\_3的索引连接图}
+	\label{fig:addition}
+\end{figure} 
 
-通过对比不同优化技术下的计算时间，可以看到使用优化技术能够显著降低计算时间。例如，在Grover-20的例子中，使用"contraction"优化技术的情况下，计算时间从294秒降低到了4秒。这表明优化技术在提高计算效率方面起到了积极的作用。同时，表\ref{table:addition}展示了对同一线路，即Grover\_15应用不同的addition参数的时间，可以看到合适的参数
-选择也是非常重要的。
-\begin{table}[!htbp]
-    \centering
-    \begin{tabular}{c|ccccccccccccccc}
-        \rowcolor[HTML]{FFFFFF} 
-        \diagbox{k1}{k2}                         & 1                           & 2                           & 3                           & 4                           & 5                           & 6                           & 7                          & 8                           & 9                           & 10                          & 11                          & 12                          & 13                          & 14                          & 15                          \\\hline
-            \rowcolor[HTML]{FFFFFF} 
-    1                          & 2.8                                              & 2.2                         & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}2.0                      & 2.1                        & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & 2.2                         & 2.1                         & 2.1                         \\ \cline{3-7}
-    \rowcolor[HTML]{CCC0DA} 
-    
-    \rowcolor[HTML]{FFFFFF} 
-    3                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.1                        & 2.1                         & 2.5                         & 2.3                         & 2.7                         & 2.3                         & 3.1                         & 2.8                         & 3.3                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    4                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.3} & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & 2.2                        & 2.1                         & 2.6                         & 2.3                         & 2.8                         & 2.7                         & 3.3                         & 3.0                         & 3.3                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    5                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}1.9 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.3                        & \cellcolor[HTML]{CCC0DA}1.9 & 2.5                         & 2.3                         & 2.8                         & 2.7                         & 3.4                         & 3.0                         & 3.6                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    6                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.9                         & 2.8                         & 3.1                         & 2.9                         & 3.7                         & 3.7                         & 4.2                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    7                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{CCC0DA}1.5 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.8                         & 3.0                         & 3.6                         & 3.3                       & 4.2                         & 5.7                         & 5.0                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    8                          & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.1                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.4                        & 2.2                         & 2.8                         & 2.8                         & 3.7                         & 3.4                         & 4.3                         & 4.8                         & 5.2                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    9                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{B1A0C7}1.4 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.5                        & \cellcolor[HTML]{CCC0DA}2.0 & 3.3                         & 2.9                         & 3.7                         & 3.5                         & 4.9                         & 4.7                         & 5.8                         \\ \cline{3-7}
-    \rowcolor[HTML]{FFFFFF} 
-    10                         & 2.3                                              & \cellcolor[HTML]{CCC0DA}1.9 & 2.3                         & \cellcolor[HTML]{CCC0DA}1.6 & 2.6                         & 2.7                                              & 3.1                        & 2.2                         & 4.0                         & 3.6                         & 4.6                         & 3.9                         & 5.6                         & 5.2                         & 7.5                         \\
-    \rowcolor[HTML]{FFFFFF} 
-    11                         & 3.2                                              & 3.2                         & 3.5                         & 3.1                         & 4.7                         & 4.2                                              & 5.6                        & 4.2                         & 6.8                         & 7.2                         & 7.6                         & 6.3                         & 9.0                         & 8.1                         & \cellcolor[HTML]{8DB4E2}11  \\
-    \rowcolor[HTML]{FFFFFF} 
-    12                         & 5.6                                              & 6.0                         & 7.2                         & 6.0                         & 8.3                         & 9.0                                              & 8.9                        & 7.8                         & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}15  & \cellcolor[HTML]{8DB4E2}16  \\
-    \rowcolor[HTML]{8DB4E2} 
-    \cellcolor[HTML]{FFFFFF}13 & 11                                               & 12                          & 14                          & 12                          & 15                          & 18                                               & 18                         & 15                          & 18                          & 20                          & 18                          & 32                          & 32                          & 30                          & 25                          \\
-    \rowcolor[HTML]{8DB4E2} 
-    \cellcolor[HTML]{FFFFFF}14 & 20                                               & 21                          & 24                          & 32                          & 31                          & 44                                               & 77                         & 50                          & 86                          & \cellcolor[HTML]{538DD5}109 & 68                          & \cellcolor[HTML]{538DD5}133 & 70                          & \cellcolor[HTML]{538DD5}119 & \cellcolor[HTML]{538DD5}142 \\
-    \rowcolor[HTML]{538DD5} 
-    \cellcolor[HTML]{FFFFFF}15 & \cellcolor[HTML]{8DB4E2}28                       & \cellcolor[HTML]{8DB4E2}30  & \cellcolor[HTML]{8DB4E2}31  & \cellcolor[HTML]{8DB4E2}53  & \cellcolor[HTML]{8DB4E2}69  & 111                                              & \cellcolor[HTML]{8DB4E2}85 & \cellcolor[HTML]{8DB4E2}81  & 102                         & 153                         & 114                         & 130                         & 166                         & 162                         & 235                        
-                     
-    \end{tabular}
-    \caption{对grover\_15应用不同的addition 参数}%calculating the 
-    \label{table:addition}
-\end{table}
-  
-在技术实现上，构建了两个版本的量子线路转化为TDD的工具，分别基于C语言和Python语言。这些工具的开发对于实现我们的研究方法至关重要，提高了实验的灵活性和效率。
+\item 另一种常用的电路划分方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连。图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[height=7cm]{Img/cir_contraction.pdf}
+	\caption{对Bit flip电路进行contraction的拆分}
+	\label{fig:contraction}
+\end{figure} 
 
-\subsection{学术论文进展：}
-在学术论文撰写方面的进展包括：
+
+\item \label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
+
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/BDD_Variable_Ordering_Bad.svg.pdf}
+		\caption{索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}}
+		\label{fig:bdd-bad}
+	\end{subfigure}
+    \qquad
+	\begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/BDD_Variable_Ordering_Good.svg.pdf}
+		\caption{索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}}
+		\label{fig:bdd-good}
+	\end{subfigure}
+	\caption{同一布尔函数在不同索引顺序下的结构图\citep{wiki:bdd}}
+	\label{fig:bdd-compare}
+\end{figure}
+
+
+\item 由于量子状态都在同一希尔伯特空间中。因此作用某些算子后，不同的量子状态可能等价。
+当存储算子的资源少于存储状态的资源时，就有可能存储算子表示不同的状态\citep{vinkhuijzen2023limdd}。图\ref{fig:qmdd-example}表示了一个QMDD的例子，应用等价性，可以化简为图\ref{fig:limdd-example}。
+TDD也可以应用类似技术，进行进一步化简，从而降低资源要求。
+\begin{figure}[!htbp]
+    \centering
+    \begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=8cm]{Img/limdd.pdf}
+        \caption{一个QMDD示例}
+        \label{fig:qmdd-example}
+    \end{subfigure}
+    \begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=8cm]{Img/limdd_reduce.pdf}
+        \caption{应用等价性化简图\ref{fig:qmdd-example}}
+        \label{fig:limdd-example}
+    \end{subfigure}
+\end{figure}
+\end{myen}
+\subsection{软件系统实现}
+为了实现软件的高效运行，模块化设计至关重要。
+每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
+
 \begin{itemize}
-    \item 完成了学术论文中关于研究背景的详细调查和综述，这部分内容主要包括了量子模型检测的背景知识与重要性。
-    \item 撰写了研究内容的方法论部分，详细描述了主要的研究方法和实验设计。阐述了我们的研究方法，并详细介绍了方法的实施步骤和预期目标。
+    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
+    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
+    \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
+    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中。
 \end{itemize}
 
-\subsection{目前存在的问题}
