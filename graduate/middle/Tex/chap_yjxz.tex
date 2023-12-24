@@ -3,7 +3,17 @@
 
 量子系统模型检测的早期工作旨在验证量子通信协议\citep{Gay,BALTAZAR_2008,davidson2012model}。后来还有针对分析和验证量子程序的应用\citep{ying2016foundations}，比如量子自动机\citep{ying2014model}、量子马尔可夫链\citep{Ying_2013}和超算符值马尔可夫链\citep{feng2013model}的模型检测技术。然而，在这些量子模型检测技术与它们在验证量子电路方面实际应用之间存在巨大差距仍需填补。TDD作为新的数据结构，极大加快了计算过程，有可能深化二者的联系，加快实际应用的出现。
 \subsection{类似技术}
-TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。在张量网络领域，目前除了TDD外目前还有直接使用张量网络，以及ZX-calculus\citep{van2020zx}。
+TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。在张量网络领域，目前除了TDD外目前还有直接使用张量网络，QMDD\citep{1623982}，以及ZX-calculus\citep{van2020zx}。
+
+QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和验证任务
+\citep{burgholzer2020verifying,burgholzer2020advanced}。
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=12cm]{Img/QMDD-intro.png}
+    \caption{一个QMDD的示例}
+    \label{fig:qmdd-basic}
+\end{figure}
+
 图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
 
 \begin{figure}[!htbp]
@@ -19,9 +29,9 @@ TDD是一种相对较新的数据结构，用于表示和操作张量网络。�
     \label{fig:zx-rule}
 \end{figure}
  
-目前ZX-calculus发展还比较早期。图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中
-TDD No Part指的是不对电路进行拆分优化的方法；TDD part I 和 TDD part II 指的是两种不同的电路拆分优化方法；
-QMDD指的是QuantumMultiple-valued Decision Diagrams\citep{1623982}；
+目前ZX-calculus发展还比较早期。
+图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法；TDD part I 和 TDD part II 指的是两种不同的电路拆分优化方法；
+QMDD指的是QuantumMultiple-valued Decision Diagrams；
 TN是指google的tensor network。可以看到TDD相比其他有一定优势。因此本次研究选择TDD作为主要技术。
 
 \begin{figure}[!htbp]
