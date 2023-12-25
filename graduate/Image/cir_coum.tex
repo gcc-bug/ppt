@@ -1,0 +1,24 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{yquant}
+\usetikzlibrary{calc}
+\useyquantlanguage{qasm}
+\begin{document}
+\begin{tikzpicture}
+    \begin{yquant*}
+    qubit {$|\psi\rangle$} q;
+    init {$\ket\Psi$} (s[-1]);
+    cnot s[0] | q;
+    h q;
+    measure q;
+    measure s[0];
+    box {$Z$} s[1]s[0];
+    box {$X$} s[1]|q;
+    discard q;
+    discard s[0];
+    output {$\ket\psi$} s[1];
+    \end{yquant*}
+\end{tikzpicture}
+    
+\end{document}
