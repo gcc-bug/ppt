@@ -106,13 +106,22 @@
     \begin{itemize}[itemsep=18pt]
         % //TODO: add figure 
         \item \textbf{量子比特（Qubits）：} the quantum version of the classic binary
-        \item \textbf{叠加态（Superposition）：} $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle$
+        \item \textbf{叠加态（Superposition）：} $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle=\left[\begin{array}{r}\alpha \\\beta\end{array}\right]$
         \item \textbf{纠缠（Entanglement）:}$|\Psi\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
         \item \textbf{量子门（Quantum Gates）} 
     \end{itemize}
 \end{frame}
-\begin{frame}{量子门}
-    $X=\left[\begin{array}{rr}0 & 1 \\1 & 0 \end{array}\right],Y=\left[\begin{array}{rr}0 & -i \\i & 0 \end{array}\right],Z=\left[\begin{array}{rr}1 & 0 \\0 & -1 \end{array}\right]$ 
+\begin{frame}{量子门操作例子}
+    \begin{itemize}
+        \item \textbf{单量子门例子：}$X=\left[\begin{array}{rr}0 & 1 \\1 & 0 \end{array}\right],Y=\left[\begin{array}{rr}0 & -i \\i & 0 \end{array}\right],Z=\left[\begin{array}{rr}1 & 0 \\0 & -1 \end{array}\right],H=\frac{1}{\sqrt{2}}\left[\begin{array}{rr}1 & 1 \\1 & -1 \end{array}\right]$ 
+        \item \textbf{多量子门例子：} $\text { CNOT }=\left[\begin{array}{llll}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 1 \\
+            0 & 0 & 1 & 0
+            \end{array}\right]$
+        \item \textbf{测量，比如$Z$基测量：}状态为$|0\rangle$输出$1$，状态为$|1\rangle$输出$-1$。
+    \end{itemize}
 \end{frame}
 \begin{frame}{量子计算例子}
     \begin{figure}[h]
@@ -133,20 +142,35 @@
 \end{frame}
 
 \begin{frame}{量子迁移系统}
+    \begin{columns}[T] % The "T" option aligns the columns content at the top
+
+        % Column for itemized list
+        \begin{column}{.6\textwidth}
+            \begin{itemize}
+                \item  \textbf{迁移系统(transition system)：} $(S, I, \Sigma, T)$
+                \begin{equation}
+                  where
+                  \begin{cases}
+                    x = x_1, \cdots, x_n\\
+                    y = y_1, \cdots, y_n\\
+                    \sigma = \sigma_1, \cdots, \sigma_m
+                  \end{cases}
+                  \notag
+                \end{equation}
+                \item \textbf{量子迁移系统：} $(\mathcal{H}, \mathcal{H}_0, Act, \{U_\alpha,\alpha\in Act\})$
+            \end{itemize}
+        \end{column}
+    
+        % Column for figure
+        \begin{column}{.3\textwidth}
+          \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{Img/transition.png}
+          \end{figure}
+        \end{column}
+    
+      \end{columns}
     % //TODO： add figure
-    \begin{itemize}
-        \item  \textbf{迁移系统(transition system)：} $(S, I, \Sigma, T)$
-        \begin{equation}
-          where
-          \begin{cases}
-            x = x_1, \cdots, x_n\\
-            y = y_1, \cdots, y_n\\
-            \sigma = \sigma_1, \cdots, \sigma_m
-          \end{cases}
-          \notag
-        \end{equation}
-        \item \textbf{量子迁移系统：} $(\mathcal{H}, \mathcal{H}_0, Act, \{U_\alpha,\alpha\in Act\})$
-    \end{itemize}
 \end{frame}
 \begin{frame}{可达性问题}
     \begin{figure}
@@ -182,9 +206,10 @@
         \end{tikzpicture}
         }
         \label{fig:cir}
-        \caption{Grover\_3算法的电路。\\其中oracle为ccx，即$O|x\rangle|y\rangle = |x\rangle|f(x)\oplus y\rangle $,$f(x)=x_1\wedge x_2$}
+        \caption{Grover\_3算法的电路。}
     \end{figure}
     \begin{itemize}
+        \item oracle为ccx，即$O|x\rangle|y\rangle = |x\rangle|f(x)\oplus y\rangle $,$f(x)=x_1\wedge x_2$。
         \item \textbf{model:} $(\mathcal{H}_8, S = span\{|++-\rangle,|11-\rangle\}, \{1\}, {\mathcal{T}_1})$, $\mathcal{T}_1 =(2|\Psi\rangle\langle \Psi| - I)O$ 
         \item \textbf{property:} $\mathcal{T}_1(S)=S$
     \end{itemize}
@@ -254,10 +279,23 @@
     \end{center}
 \end{frame}
 \begin{frame}{相关工作-QMDD}
-    \begin{figure}
-      \includegraphics[height=4.5cm]{Img/QMDD.png}
-      \caption{一个QMDD的示例。\\ TDD只有高边和低边，表示更简洁。}
-    \end{figure}
+    \begin{columns}[C] % The "T" option aligns the columns content at the top
+
+        % Column for itemized list
+        \begin{column}{.6\textwidth}
+            \begin{figure}
+                \includegraphics[height=4cm]{Img/QMDD_b.png}
+                \caption{一个QMDD的示例。}
+            \end{figure}
+        \end{column}
+        \begin{column}{.4\textwidth}
+            \hspace{80pt}
+            \begin{itemize}
+                \item TDD只有高边和低边，表示更简洁。
+            \end{itemize}
+        \end{column}
+        
+    \end{columns}
   \end{frame}
 \section{解决方案}
 \begin{frame}{解决方案简介：}
@@ -333,16 +371,22 @@
         \item 结合优化算法与C++的优势，进一步提高执行效率。
     \end{itemize}
     \begin{figure}
-        \begin{subfigure}{0.4\textwidth}
-            \centering
-            \includegraphics[height=5cm]{Img/limdd.pdf}
-        \end{subfigure}
-        \begin{subfigure}{0.4\textwidth}
-            \centering
-            \includegraphics[height=5cm]{Img/limdd_reduce.pdf}
-        \end{subfigure}
-        \caption{Local Invertible Map-DD}
-    \end{figure}
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{Img/limdd.pdf}
+    \end{subfigure}
+    % Add an equal sign in the middle
+    \hspace{1em} % Adjust space as needed
+    \Large$=$
+    \hspace{1em} % Adjust space as needed
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[height=5cm]{Img/limdd_reduce.pdf}
+    \end{subfigure}
+    \caption{Local Invertible Map-DD}
+\end{figure}
+
 \end{frame}
 
 \section*{}
