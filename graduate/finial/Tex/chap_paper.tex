@@ -1,4 +1,4 @@
-\section{研究背景}
+\chapter{研究背景}
 
 模型检测（Model Checking）是一种自动化形式方法，用于验证有限状态系统的性质。模型检测最初由 E. M. Clarke 和 E. A. Emerson 提出\citep{Emerson_1980,Clarke,Clarke_1986}，如今已广泛应用于软件和硬件设计。例如，在嵌入式系统中，可以使用 UML 活动图来验证硬件是否符合规范\citep{Grobelna_2015}。
 
@@ -6,7 +6,7 @@
 
 最近，随着量子计算的发展，关于量子线路的验证技术也在不断发展\citep{viamontes2007checking,burgholzer2020advanced}。其中，利用模型检测方法对线路进行自动化验证也有了一些应用。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。因此本次研究希望应用基于张量网络(tensor network)的张量决策图(tensor decision diagrams)进行量子模型检测。 
 
-\subsection{量子计算简介}
+\section{量子计算简介}
 
 量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。在量子计算中，量子比特的特殊性质允许其同时处于多种状态，这与经典比特的二进制状态不同。量子计算机的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。比特状态可以用\(\mathcal{H}\)的向量表示，量子门由\(\mathcal{H}\)上的酉算子(unitary operator)表示。
 
@@ -22,7 +22,7 @@
 
 在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
 
-\subsection{跃迁系统}
+\section{跃迁系统}
 跃迁系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
 \begin{equation}
 \mathcal{M}=\{S,Act,\rightarrow,I\}
@@ -47,7 +47,7 @@
 \end{align}
 下面介绍模型检测中的使用的时序逻辑。
 
-\subsection{时序逻辑的验证}
+\section{时序逻辑的验证}
 在量子模型检测中，与经典模型检测一样使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类\citep{goranko_2023}。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
 \begin{itemize}
     \item \(s\models a,iff \L\left(s\right)\models a\)
@@ -112,7 +112,7 @@
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
 
-\subsection{量子模型检测}
+\section{量子模型检测}
 目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。
 
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间（Hilbert space）来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，我们可以说这个命题是真的。
