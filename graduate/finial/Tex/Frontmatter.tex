@@ -1,0 +1,49 @@
+%---------------------------------------------------------------------------%
+%->> Frontmatter
+%---------------------------------------------------------------------------%
+%-
+%-> 生成封面
+%-
+
+\maketitle% 生成中文封面
+\MAKETITLE% 生成英文封面
+%-
+%-> 作者声明
+%-
+\makedeclaration% 生成声明页
+%-
+%-> 中文摘要
+%-
+\intobmk\chapter*{摘\quad 要}% 显示在书签但不显示在目录
+\setcounter{page}{1}% 开始页码
+\pagenumbering{Roman}% 页码符号
+
+随着量子计算领域的快速发展，模型检测作为一种验证技术，在确保量子系统可靠性方面显得尤为关键。本次研究着重于解决量子模型检测中的一个主要挑战：当面对大规模和复杂的量子线路时，计算复杂性会随着系统规模的增长而指数级增加。为应对这一挑战，本研究提出利用张量决策图（Tensor Decision Diagram，简称TDD）来设计一种更高效的量子模型检测方法。
+
+研究的核心在于开发能够有效利用TDD进行操作和收缩张量网络的算法，以此降低计算的复杂性和提高处理效率。在具体实现上，包括了开发新技术以分割张量网络、优化TDD结构，以及改进现有算法以适应复杂的量子系统。此外，研究还涉及设计实现一种基于TDD的量子线路状态转移方法，通过逐步收缩表示量子线路的TDD和当前系统状态的TDD，推导出系统下一状态的TDD。这种方法能够有效地验证系统所处的子空间，从而评估量子系统是否达到了需要验证的属性。
+
+在本次中期报告前，本研究已在Python和C++两种编程语言环境下，开发出不同版本的TDD，并成功实现了系统的一步状态计算，即image computation。此外，对这些实现进行了一系列的实验测试，以验证其有效性和性能。
+
+本研究的最终目标是通过详细的分析和实验，撰写一篇硕士学位论文。该论文将总结本研究的主要成果，为量子系统的设计、验证和优化提供有力的理论和实践支持。通过这项工作，希望为量子计算技术的进一步发展奠定坚实的理论和应用基础。
+%//TODO:修改摘要
+
+\keywords{模型检测，量子计算，张量决策图}% 中文关键词
+% //TODO:中文关键词
+%-
+%-> 英文摘要
+%-
+\intobmk\chapter*{Abstract}% 显示在书签但不显示在目录
+
+With the rapid development of the quantum computing field, model checking, as a verification technology, becomes particularly critical in ensuring the reliability of quantum systems. This research focuses on addressing a major challenge in quantum model checking: the computational complexity exponentially increases with the system size when facing large-scale and complex quantum circuits. To tackle this challenge, the study proposes using Tensor Decision Diagrams (TDD) to design a more efficient quantum model checking method.
+
+The core of the research lies in developing algorithms that can effectively utilize TDD for operations and contraction of tensor networks, thereby reducing computational complexity and improving processing efficiency. Specifically, it includes developing new techniques for partitioning tensor networks, optimizing TDD structures, and improving existing algorithms to adapt to complex quantum systems. Moreover, the study involves designing and implementing a TDD-based quantum circuit state transition method. This method deduces the TDD of the system's next state by progressively contracting the TDD representing the quantum circuit and the TDD of the current system state. This method can effectively verify the subspaces in which the system resides, thereby assessing whether the quantum system has achieved the properties that need to be verified.
+
+By the mid-term report, this research had developed different versions of TDD in both Python and C++ programming environments and successfully implemented the system's one-step state computation, i.e., image computation. In addition, a series of experimental tests were conducted to verify their effectiveness and performance.
+
+The ultimate goal of this research is to write a master's thesis through detailed analysis and experiments. This thesis will summarize the main findings of the research, providing strong theoretical and practical support for the design, verification, and optimization of quantum systems. Through this work, it aims to lay a solid theoretical and application foundation for the further development of quantum computing technology.
+\KEYWORDS{Model Checking, Quantum Computation, Tensor Decision Diagrams}% 英文关键词
+
+\pagestyle{enfrontmatterstyle}%
+\cleardoublepage\pagestyle{frontmatterstyle}%
+
+%---------------------------------------------------------------------------%
