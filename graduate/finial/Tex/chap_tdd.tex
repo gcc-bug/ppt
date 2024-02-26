@@ -1,13 +1,15 @@
 \chapter{TDD}
 
 \section{Tensor Decision Diagrams（TDD）介绍}
-\begin{itemize}
-  \item 张量网络表示量子线路
-  \item 张量决策图
-  \item TDD的规范与化简
-\end{itemize}
+% //TODO：
+\textcolor{red}{用一段简单介绍TDD}
+% \begin{itemize}
+%   \item 张量网络表示量子线路
+%   \item 张量决策图
+%   \item TDD的规范与化简
+% \end{itemize}
 % //TODO: add some
-\subsubsection{张量网络表示量子线路}
+\subsection{张量网络表示量子线路}
 张量是与一组与索引\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为：
 \begin{align}
     \phi :{\{0,1\}}^I\rightarrow\mathbb{C}
@@ -27,7 +29,7 @@
     \label{fig:example_cir_map}
 \end{figure}
 
-\subsubsection{张量决策图}
+\subsection{张量决策图}
 张量决策图（Tensor Decision Diagrams，或TDD）是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD（Boolean Decision Diagrams）类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义如下：
 \begin{align}
     \mathcal{F}=\left(V,E,index,value,low,high,w\right)
@@ -56,7 +58,7 @@
 \begin{align}
     \phi\left(\mathcal{F}\right)=w_{\mathcal{F}}\cdot\phi\left(r_{\mathcal{F}}\right)
 \end{align}
-\subsubsection{TDD的规范与化简}
+\subsection{TDD的规范与化简}
 对于图表 6中的TDD，在结构上显然比较冗余。因此可以先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
 规范化的目的是使得TDD的终端节点只包含0和1，同时将终端节点的张量值沿路径逐步上移。具体规范步骤如下：
 \begin{myen}
@@ -119,7 +121,7 @@
 
 下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
 
-\subsection{在模型检验中应用TDD}
+\section{在模型检验中应用TDD}
 借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。TDD给出了量子电路的紧凑表示，提供了一种方便的实现张量网络各种操作的方式，这些操作对于模拟量子物理系统非常重要。图表 12展示了一个矩阵和TDD形式，其中TDD中的蓝边表示高边，红边表示低边。可以明显看到TDD的结构更紧凑。
  	 
 \begin{figure}[!htbp]
@@ -139,7 +141,17 @@
 
 TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
 
-\section{技术实施方案}
+\section{软件系统实现}
+为了实现软件的高效运行，模块化设计至关重要。
+每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
+
+\begin{itemize}
+    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
+    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
+    \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
+    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中。
+\end{itemize}
+\section{进一步改进技术}
 \begin{itemize}
   \item 索引顺序
   \item limdd
@@ -179,7 +191,8 @@ TDD特别适用于实现可达性分析和模型检查算法。这是因为基�
 
 
 \item \label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
-
+% //TODO: add new paper here
+\textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
 \begin{figure}[!htbp]
 	\centering
 	\begin{subfigure}[b]{.4\textwidth}
@@ -219,13 +232,3 @@ TDD也可以应用类似技术，进行进一步化简，从而降低资源要�
     \end{subfigure}
 \end{figure}
 \end{myen}
-\subsection{软件系统实现}
-为了实现软件的高效运行，模块化设计至关重要。
-每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
-
-\begin{itemize}
-    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
-    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
-    \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
-    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中。
-\end{itemize}
