@@ -103,7 +103,7 @@ fi
 #-
 #-> Open the compiled file
 #-
-$PDFviewer ./$Tmp/"$FileName".pdf || exit
+# $PDFviewer ./$Tmp/"$FileName".pdf || exit
 echo "---------------------------------------------------------------------------"
 echo "$TexCompiler $BibCompiler "$FileName".tex finished..."
 echo "---------------------------------------------------------------------------"
