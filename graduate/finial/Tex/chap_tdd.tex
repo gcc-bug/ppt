@@ -1,6 +1,8 @@
-\chapter{TDD}
-
-\section{Tensor Decision Diagrams（TDD）介绍}
+\chapter{研究方法介绍}
+张量决策图(TDD)是一种基于张量网络，结合了二元决策图的表示优势的数据结构。
+TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
+本章将主要介绍在本次研究中使用的方法，因此将主要介绍TDD和进一步的改进方案，并与类似技术进行对比，然后介绍如何应用TDD进行模型检测，最后介绍本次研究中的软件实现。
+\section{TDD介绍}
 % //TODO：
 \textcolor{red}{用一段简单介绍TDD}
 % \begin{itemize}
@@ -120,78 +122,6 @@
 对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
 
 下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
-
-\section{类似技术}
-TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。在张量网络领域，目前除了TDD外目前还有直接使用张量网络，QMDD\citep{1623982}，以及ZX-calculus\citep{van2020zx}。
-
-QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和验证任务
-\citep{burgholzer2020verifying,burgholzer2020advanced}。
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=12cm]{Img/QMDD-intro}
-    \caption{一个QMDD的示例}
-    \label{fig:qmdd-basic}
-\end{figure}
-
-图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=4cm]{Img/zx-basic.pdf}
-    \caption{量子计算基本门在ZX-calculus的表示}
-    \label{fig:zx-basic}
-\end{figure}
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=4cm]{Img/zx-rule.pdf}
-    \caption{ZX-calculus的基本化简规则}
-    \label{fig:zx-rule}
-\end{figure}
- 
-目前ZX-calculus发展还比较早期。
-图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法；TDD part I 和 TDD part II 指的是两种不同的电路拆分优化方法；
-QMDD指的是QuantumMultiple-valued Decision Diagrams；
-TN是指google的tensor network。可以看到TDD相比其他有一定优势。因此本次研究选择TDD作为主要技术。
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=8cm]{Img/tdd-compare.pdf}
-    \caption{TDD与其他实验方法的比较\citep{Hong_2022}}
-    \label{fig:tdd-compare}
-\end{figure}
-
-目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
-
-\section{在模型检验中应用TDD}
-借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。TDD给出了量子电路的紧凑表示，提供了一种方便的实现张量网络各种操作的方式，这些操作对于模拟量子物理系统非常重要。图表 12展示了一个矩阵和TDD形式，其中TDD中的蓝边表示高边，红边表示低边。可以明显看到TDD的结构更紧凑。
- 	 
-\begin{figure}[!htbp]
-    \begin{subfigure}[c]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Img/matrix_of_tdd.pdf}
-        \caption{矩阵$P$的矩阵形式}
-        \label{fig:mat_P}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.4\textwidth}
-        \centering
-        \includegraphics[height=6cm]{Img/tdd_ex.pdf}
-        \caption{矩阵$P$的TDD形式}
-        \label{fig:tdd_P}
-    \end{subfigure}
-\end{figure}
-
-TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
-
-\section{软件系统实现}
-为了实现软件的高效运行，模块化设计至关重要。
-每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
-
-\begin{itemize}
-    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
-    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
-    \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
-    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中。
-\end{itemize}
 \section{进一步改进技术}
 \begin{itemize}
   \item 索引顺序
@@ -273,3 +203,75 @@ TDD也可以应用类似技术，进行进一步化简，从而降低资源要�
     \end{subfigure}
 \end{figure}
 \end{myen}
+
+\section{对比类似技术}
+TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。在张量网络领域，目前除了TDD外目前还有直接使用张量网络，QMDD\citep{1623982}，以及ZX-calculus\citep{van2020zx}。
+
+QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和验证任务
+\citep{burgholzer2020verifying,burgholzer2020advanced}。
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=12cm]{Img/QMDD-intro}
+    \caption{一个QMDD的示例}
+    \label{fig:qmdd-basic}
+\end{figure}
+
+图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=4cm]{Img/zx-basic.pdf}
+    \caption{量子计算基本门在ZX-calculus的表示}
+    \label{fig:zx-basic}
+\end{figure}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=4cm]{Img/zx-rule.pdf}
+    \caption{ZX-calculus的基本化简规则}
+    \label{fig:zx-rule}
+\end{figure}
+ 
+目前ZX-calculus发展还比较早期。
+图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法；TDD part I 和 TDD part II 指的是两种不同的电路拆分优化方法；
+QMDD指的是QuantumMultiple-valued Decision Diagrams；
+TN是指google的tensor network。可以看到TDD相比其他有一定优势。因此本次研究选择TDD作为主要技术。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=8cm]{Img/tdd-compare.pdf}
+    \caption{TDD与其他实验方法的比较\citep{Hong_2022}}
+    \label{fig:tdd-compare}
+\end{figure}
+
+目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
+
+\section{在模型检验中应用TDD}
+借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。TDD给出了量子电路的紧凑表示，提供了一种方便的实现张量网络各种操作的方式，这些操作对于模拟量子物理系统非常重要。图表 12展示了一个矩阵和TDD形式，其中TDD中的蓝边表示高边，红边表示低边。可以明显看到TDD的结构更紧凑。
+ 	 
+\begin{figure}[!htbp]
+    \begin{subfigure}[c]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Img/matrix_of_tdd.pdf}
+        \caption{矩阵$P$的矩阵形式}
+        \label{fig:mat_P}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.4\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/tdd_ex.pdf}
+        \caption{矩阵$P$的TDD形式}
+        \label{fig:tdd_P}
+    \end{subfigure}
+\end{figure}
+
+TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
+
+\section{软件系统实现}
+为了实现软件的高效运行，模块化设计至关重要。
+每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
+
+\begin{itemize}
+    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
+    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
+    \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
+    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中。
+\end{itemize}

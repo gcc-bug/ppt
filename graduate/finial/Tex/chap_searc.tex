@@ -3,7 +3,9 @@
 
 模型检测将待检测的系统建模为一个跃迁系统(transition system)，在时序逻辑(temporal logic)中指定待验证的属性。给定模型\(M\) 和属性\(\varphi\)，模型检测将验证是否\(M\)满足\(\varphi\)。在不同的模型检测方法中，高级符号模型检查（Advanced Symbolic Model Checking）\citep{Grobelna_2015}使用简化的有序二叉决策图（Reduced Ordered Binary Decision Diagrams，ROBDDs 或 BDDs）\citep{Bryant_1986}来表示状态集合和转移关系。通过迭代调用图像计算算法来计算所有可达状态，判断一个模型是否满足时间属性，直到达到不动点为止。
 
-最近，随着量子计算的发展，关于量子线路的验证技术也在不断发展\citep{viamontes2007checking,burgholzer2020advanced}。其中，利用模型检测方法对线路进行自动化验证也有了一些应用。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。因此本次研究希望应用基于张量网络(tensor network)的张量决策图(tensor decision diagrams)进行量子模型检测。下面简单介绍一下本次研究相关的量子计算和量子模型检测。
+最近，随着量子计算的发展，关于量子线路的验证技术也在不断发展\citep{viamontes2007checking,burgholzer2020advanced}。其中，利用模型检测方法对线路进行自动化验证也有了一些应用。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。因此本次研究希望应用基于张量网络(tensor network)的张量决策图(tensor decision diagrams)进行量子模型检测。
+
+而在本章中将简要介绍本次研究中的一些重要的基础知识。因此本章分为两节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。
 \section{量子计算简介}
 % //TODO:add more intro
 量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。在量子计算中，量子比特的特殊性质允许其同时处于多种状态，这与经典比特的二进制状态不同。量子计算机的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。比特状态可以用\(\mathcal{H}\)的向量表示，量子门由\(\mathcal{H}\)上的酉算子(unitary operator)表示。
@@ -20,7 +22,9 @@
 
 在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
 
-\section{模型检测}
+\subsection{量子力学}
+\subsection{量子线路}
+\section{模型检测简介}
 \subsection{跃迁系统}
 跃迁系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
 \begin{equation}
@@ -110,7 +114,7 @@
     \item 持续可达性：\( Pr^{\mathcal{M}}(s \models \lozenge \square G) = Pr^M(\pi \models \lozenge \square G : \pi \in \text{Paths}(s))\)
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
-\section{量子模型检测简介}
+\subsection{量子模型检测}
 目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。
 
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间（Hilbert space）来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，我们可以说这个命题是真的。
