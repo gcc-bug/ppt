@@ -121,6 +121,47 @@
 
 下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
 
+\section{类似技术}
+TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。在张量网络领域，目前除了TDD外目前还有直接使用张量网络，QMDD\citep{1623982}，以及ZX-calculus\citep{van2020zx}。
+
+QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和验证任务
+\citep{burgholzer2020verifying,burgholzer2020advanced}。
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=12cm]{Img/QMDD-intro}
+    \caption{一个QMDD的示例}
+    \label{fig:qmdd-basic}
+\end{figure}
+
+图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=4cm]{Img/zx-basic.pdf}
+    \caption{量子计算基本门在ZX-calculus的表示}
+    \label{fig:zx-basic}
+\end{figure}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=4cm]{Img/zx-rule.pdf}
+    \caption{ZX-calculus的基本化简规则}
+    \label{fig:zx-rule}
+\end{figure}
+ 
+目前ZX-calculus发展还比较早期。
+图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法；TDD part I 和 TDD part II 指的是两种不同的电路拆分优化方法；
+QMDD指的是QuantumMultiple-valued Decision Diagrams；
+TN是指google的tensor network。可以看到TDD相比其他有一定优势。因此本次研究选择TDD作为主要技术。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=8cm]{Img/tdd-compare.pdf}
+    \caption{TDD与其他实验方法的比较\citep{Hong_2022}}
+    \label{fig:tdd-compare}
+\end{figure}
+
+目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
+
 \section{在模型检验中应用TDD}
 借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。TDD给出了量子电路的紧凑表示，提供了一种方便的实现张量网络各种操作的方式，这些操作对于模拟量子物理系统非常重要。图表 12展示了一个矩阵和TDD形式，其中TDD中的蓝边表示高边，红边表示低边。可以明显看到TDD的结构更紧凑。
  	 
