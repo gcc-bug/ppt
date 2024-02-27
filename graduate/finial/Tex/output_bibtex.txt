@@ -1,0 +1,263 @@
+@article{kwiatkowska2004probabilistic,
+ abstract = {In this paper we present efficient symbolic techniques for probabilistic model checking. These have been implemented in PRISM, a tool for the analysis of probabilistic models such as discrete-time Markov chains, continuous-time Markov chains and Markov decision processes using specifications in the probabilistic temporal logics PCTL and CSL. Motivated by the success of model checkers such as SMV which use BDDs (binary decision diagrams), we have developed an implementation of PCTL and CSL model checking based on},
+ author = {Kwiatkowska, Marta and Norman, Gethin and Parker, David},
+ journal = {International journal on software tools for technology transfer},
+ pages = {128--142},
+ pub_year = {2004},
+ publisher = {Springer},
+ title = {Probabilistic symbolic model checking with PRISM: A hybrid approach},
+ venue = {International journal on software …},
+ volume = {6}
+}
+
+
+@inproceedings{baltazar2007towards,
+  title={Towards model-checking quantum security protocols},
+  author={Baltazar, Pedro and Chadha, Rohit and Mateus, Paulo and Sernadas, Am{\'\i}lcar},
+  booktitle={2007 First International Conference on Quantum, Nano, and Micro Technologies (ICQNM'07)},
+  pages={14--14},
+  year={2007},
+  organization={IEEE}
+}
+
+@article{baltazar2008quantum,
+  title={Quantum computation tree logic—model checking and complete calculus},
+  author={Baltazar, Pedro and Chadha, Rohit and Mateus, Paulo},
+  journal={International Journal of Quantum Information},
+  volume={6},
+  number={02},
+  pages={219--236},
+  year={2008},
+  publisher={World Scientific}
+}
+
+@article{mateus2006weakly,
+ abstract = {A finitary axiomatization for EQPL (exogenous quantum propositional logic) is presented. The axiomatization is shown to be weakly complete relative to an oracle for analytical reasoning. The proof is carried out using a non-trivial extension of the Fagin–Halpern–Megiddo technique together with three Henkin style completions.},
+ author = {Mateus, Paulo and Sernadas, Am{\'\i}lcar},
+ journal = {Information and Computation},
+ number = {5},
+ pages = {771--794},
+ pub_year = {2006},
+ publisher = {Elsevier},
+ title = {Weakly complete axiomatization of exogenous quantum propositional logic},
+ venue = {Information and Computation},
+ volume = {204}
+}
+
+
+@article{bennett2014quantum,
+ abstract = {We also present a protocol for coin tossing by exchange of quantum messages. Except where   Moreover, quantum cryptography does not provide digital signatures, or applications such},
+ author = {Bennett, Charles H and Brassard, Gilles},
+ journal = {Theoretical computer science},
+ pages = {7--11},
+ pub_year = {2014},
+ publisher = {Elsevier},
+ title = {Quantum cryptography: Public key distribution and coin tossing},
+ venue = {Theoretical computer science},
+ volume = {560}
+}
+
+
+@inproceedings{mateus2004reasoning,
+ abstract = {A new logic is proposed for reasoning about quantum systems. The logic embodies the postulates of quantum physics and it was designed from the semantics upwards by identifying quantum models with superpositions of classical models. This novel approach to quantum logic is completely different from the traditional approach of Birkhoff and von Neumann. It has the advantage of making quantum logic an extension of classical logic. The key new ingredient of the language of the proposed logic is a rather general modal operator},
+ author = {Mateus, Paulo and Sernadas, Amilcar},
+ booktitle = {European Workshop on Logics in Artificial Intelligence},
+ organization = {Springer},
+ pages = {239--251},
+ pub_year = {2004},
+ title = {Reasoning about quantum systems},
+ venue = {European Workshop on Logics in Artificial …}
+}
+
+
+@phdthesis{davidson2012formal,
+  title={Formal verification techniques using quantum process calculus},
+  author={Davidson, Timothy AS},
+  year={2012},
+  school={University of Warwick}
+}
+
+@article{davidson2012model,
+  title={Model Checking for Communicating Quantum Processes.},
+  author={Davidson, Timothy AS and Gay, Simon J and Mlnarik, Hynek and Nagarajan, Rajagopal and Papanikolaou, Nick},
+  journal={Int. J. Unconv. Comput.},
+  volume={8},
+  number={1},
+  pages={73--98},
+  year={2012}
+}
+
+@inproceedings{gay2005communicating,
+  title={Communicating quantum processes},
+  author={Gay, Simon J and Nagarajan, Rajagopal},
+  booktitle={Proceedings of the 32nd ACM SIGPLAN-SIGACT Symposium on Principles of Programming languages},
+  pages={145--157},
+  year={2005}
+}
+
+@article{papanikolaouqmc,
+  title={QMC: A Model Checker For Quantum Systems},
+  author={Papanikolaou, Nick}
+}
+
+@article{gay2010specification,
+  title={Specification and verification of quantum protocols},
+  author={Gay, Simon J and Nagarajan, Rajagopal and Papanikolaou, Nikolaos},
+  journal={Semantic Techniques in Quantum Computation},
+  pages={414--472},
+  year={2010},
+  publisher={Cambridge University Press Cambridge}
+}
+
+@book{gottesman1997stabilizer,
+ abstract = {Controlling operational errors and decoherence is one of the major challenges facing the field of quantum computation and other attempts to create specified many-particle entangled states. The field of quantum error correction has developed to meet this challenge. A group-theoretical structure and associated subclass of quantum codes, the stabilizer codes, has proved particularly fruitful in producing codes and in understanding the structure of both specific codes and classes of codes. I will give an overview of the field of quantum error},
+ author = {Gottesman, Daniel},
+ pub_year = {1997},
+ publisher = {California Institute of Technology},
+ title = {Stabilizer codes and quantum error correction},
+ venue = {NA}
+}
+
+
+@inproceedings{ardeshir2013equivalence,
+  title={Equivalence checking of quantum protocols},
+  author={Ardeshir-Larijani, Ebrahim and Gay, Simon J and Nagarajan, Rajagopal},
+  booktitle={Tools and Algorithms for the Construction and Analysis of Systems: 19th International Conference, TACAS 2013, Held as Part of the European Joint Conferences on Theory and Practice of Software, ETAPS 2013, Rome, Italy, March 16-24, 2013. Proceedings 19},
+  pages={478--492},
+  year={2013},
+  organization={Springer}
+}
+
+@inproceedings{ardeshir2014verification,
+  title={Verification of concurrent quantum protocols by equivalence checking},
+  author={Ardeshir-Larijani, Ebrahim and Gay, Simon J and Nagarajan, Rajagopal},
+  booktitle={Tools and Algorithms for the Construction and Analysis of Systems: 20th International Conference, TACAS 2014, Held as Part of the European Joint Conferences on Theory and Practice of Software, ETAPS 2014, Grenoble, France, April 5-13, 2014. Proceedings 20},
+  pages={500--514},
+  year={2014},
+  organization={Springer}
+}
+
+@article{ying2014model,
+ abstract = {We define a formal framework for reasoning about linear-time properties of quantum systems in which quantum automata are employed in the modeling of systems and certain (closed) subspaces of state Hilbert spaces are used as the atomic propositions about the behavior of systems. We provide an algorithm for verifying invariants of quantum automata. Then, an automata-based model-checking technique is generalized for the verification of safety properties recognizable by reversible automata and ω--properties recognizable by},
+ author = {Ying, Mingsheng and Li, Yangjia and Yu, Nengkun and Feng, Yuan},
+ journal = {ACM Transactions on Computational Logic (TOCL)},
+ number = {3},
+ pages = {1--31},
+ pub_year = {2014},
+ publisher = {ACM New York, NY, USA},
+ title = {Model-checking linear-time properties of quantum systems},
+ venue = {ACM Transactions on Computational Logic …},
+ volume = {15}
+}
+
+
+@inproceedings{kondacs1997power,
+  title={On the power of quantum finite state automata},
+  author={Kondacs, Attila and Watrous, John},
+  booktitle={Proceedings 38th annual symposium on foundations of computer science},
+  pages={66--75},
+  year={1997},
+  organization={IEEE}
+}
+
+@book{birkhoff1975logic,
+  title={The logic of quantum mechanics},
+  author={Birkhoff, Garrett and Von Neumann, John},
+  year={1975},
+  publisher={Springer}
+}
+
+@inproceedings{li2014decidable,
+  title={(Un) decidable problems about reachability of quantum systems},
+  author={Li, Yangjia and Ying, Mingsheng},
+  booktitle={CONCUR 2014--Concurrency Theory: 25th International Conference, CONCUR 2014, Rome, Italy, September 2-5, 2014. Proceedings 25},
+  pages={482--496},
+  year={2014},
+  organization={Springer}
+}
+
+@inproceedings{ying2013reachability,
+  title={Reachability probabilities of quantum Markov chains},
+  author={Ying, Shenggang and Feng, Yuan and Yu, Nengkun and Ying, Mingsheng},
+  booktitle={CONCUR 2013--Concurrency Theory: 24th International Conference, CONCUR 2013, Buenos Aires, Argentina, August 27-30, 2013. Proceedings 24},
+  pages={334--348},
+  year={2013},
+  organization={Springer}
+}
+
+@article{ying2018reachability,
+ abstract = {We introduce the notion of quantum Markov decision process (qMDP) as a semantic model of nondeterministic and concurrent quantum programs. It is shown by examples that qMDPs can be used in analysis of quantum algorithms and protocols. We study various reachability problems of qMDPs both for the finite-horizon and for the infinite-horizon. The (un) decidability and complexity of these problems are settled, and the relationship between one of them and the joint spectral radius problem, a long-standing open problem in matrix},
+ author = {Ying, Shenggang and Ying, Mingsheng},
+ journal = {Information and Computation},
+ pages = {31--51},
+ pub_year = {2018},
+ publisher = {Elsevier},
+ title = {Reachability analysis of quantum Markov decision processes},
+ venue = {Information and Computation},
+ volume = {263}
+}
+
+
+@article{ying2013verification,
+ abstract = {This paper aims at developing verification methodology for quantum programs. Quantum  mechanics is an intrinsically probabilistic theory. So, it is natural to see whether the successful  methods  Our contribution: The first aim of this paper is to develop a verification method for  quantum programs in the Sharir– Pnueli–Hart style. According to the Hilbert space formalism of},
+ author = {Ying, Mingsheng and Yu, Nengkun and Feng, Yuan and Duan, Runyao},
+ journal = {Science of Computer Programming},
+ number = {9},
+ pages = {1679--1700},
+ pub_year = {2013},
+ publisher = {Elsevier},
+ title = {Verification of quantum programs},
+ venue = {Science of Computer Programming},
+ volume = {78}
+}
+
+
+@article{feng2013model,
+ abstract = {Although security of quantum cryptography is provable based on principles of quantum mechanics, it can be compromised by flaws in the design of quantum protocols. So, it is indispensable to develop techniques for verifying and debugging quantum cryptographic systems. Model-checking has proved to be effective in the verification of classical cryptographic protocols, but an essential difficulty arises when it is applied to quantum systems: the state space of a quantum system is always a continuum even when its},
+ author = {Feng, Yuan and Yu, Nengkun and Ying, Mingsheng},
+ journal = {Journal of Computer and System Sciences},
+ number = {7},
+ pages = {1181--1198},
+ pub_year = {2013},
+ publisher = {Elsevier},
+ title = {Model checking quantum Markov chains},
+ venue = {Journal of Computer and System Sciences},
+ volume = {79}
+}
+
+
+@inproceedings{feng2013reachability,
+  title={Reachability analysis of recursive quantum Markov chains},
+  author={Feng, Yuan and Yu, Nengkun and Ying, Mingsheng},
+  booktitle={Mathematical Foundations of Computer Science 2013: 38th International Symposium, MFCS 2013, Klosterneuburg, Austria, August 26-30, 2013. Proceedings 38},
+  pages={385--396},
+  year={2013},
+  organization={Springer}
+}
+
+@inproceedings{feng2017model,
+  title={Model checking omega-regular properties for quantum Markov chains},
+  author={Feng, Yuan and Hahn, Ernst Moritz and Turrini, Andrea and Ying, Shenggang},
+  booktitle={28th International Conference on Concurrency Theory (CONCUR 2017)},
+  year={2017},
+  organization={Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik}
+}
+
+@inproceedings{feng2015qpmc,
+  title={QPMC: A model checker for quantum programs and protocols},
+  author={Feng, Yuan and Hahn, Ernst Moritz and Turrini, Andrea and Zhang, Lijun},
+  booktitle={FM 2015: Formal Methods: 20th International Symposium, Oslo, Norway, June 24-26, 2015, Proceedings 20},
+  pages={265--272},
+  year={2015},
+  organization={Springer}
+}
+
+@inproceedings{hahn2014iscas,
+  title={iscas M c: a web-based probabilistic model checker},
+  author={Hahn, Ernst Moritz and Li, Yi and Schewe, Sven and Turrini, Andrea and Zhang, Lijun},
+  booktitle={FM 2014: Formal Methods: 19th International Symposium, Singapore, May 12-16, 2014. Proceedings 19},
+  pages={312--317},
+  year={2014},
+  organization={Springer}
+}
+
