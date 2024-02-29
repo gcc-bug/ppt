@@ -63,10 +63,10 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \subsection{TDD的规范与化简}
 对于图表 6中的TDD，在结构上显然比较冗余。因此可以先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
 规范化的目的是使得TDD的终端节点只包含0和1，同时将终端节点的张量值沿路径逐步上移。具体规范步骤如下：
-\begin{myen}
+\begin{enumerate}
     \item 如果$v$是一个非零值$value\left(v\right)\neq 1$的终端节点，则将其值设置为1，并将每个入边的权重w更改为$value\left(v\right)\cdot w$。\label{norm1}
     \item 假设v是一个非终端节点，且$\phi\left(v\right)\neq 0$。首先规范化$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$。完成$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$的规范化后。如果$\phi\left.\left(low(v\right)\right)\neq 0$，并且此时$\phi\left.\left(high(v\right)\right)=0$或$\left|w_0\right|\geq\left|w_1\right|$，则将$w$设置为$w_0$。否则，将$w$设置为$w_1$。然后更新$w_0≔w_0/w,w_1≔w_1/w$。此时完成$v$的规范化。\label{norm2}
-\end{myen}
+\end{enumerate}
 
 \begin{figure}[!htbp]
     \centering
@@ -95,12 +95,12 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 对于图\ref{fig:tdd_ex}中的TDD。具体规范化过程为：应用第\ref{norm1}步于$i$和$-i$两个终端节点得到图表 \ref{fig:tdd-norma}；然后，应用第\ref{norm2}步于右侧两个$y_3$节点，得到图表 \ref{fig:tdd-normb}；最后，应用第二条规则于于右侧$y_0$节点。最后可以获得图表 \ref{fig:tdd-normc}。
 
 在完成规范化后，可以进一步简化TDD，使得TDD只包含一个终端节点，同时尽量使用重复出现的张量。具体简化步骤如下：
-\begin{myen}
+\begin{enumerate}
     \item 	合并所有值为1的终端节点。删除所有终端$0$节点，并将它们的入边重定向到唯一的终端节点，并将它们的权重重置为$0$。\label{sympl1}
 	\item 将所有权重为$0$的边重定向到终端节点。如果根节点的入边权重为$0$，则终端节点成为新的根，该TDD为空。删除所有从根节点不可达的节点，以及涉及它们的所有边。\label{sympl2}
 	\item 如果一个节点v的低边和高边后继相同，并且其低边和高边具有相同的权重w，则删除该节点。如果入边权重$w=0$，则将其传入边重定向到终端节点。否则，将其传入边重定向到其后继节点。\label{sympl3}
 	\item 合并两个具有相同索引、相同$0$和$1$后继以及对应边上相同权重的节点。\label{sympl4}
-\end{myen}
+\end{enumerate}
 
 \begin{figure}[!htbp]
     \centering
