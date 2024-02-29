@@ -20,32 +20,150 @@
 
 图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例。其中有单比特门\(H=\frac{1}{\sqrt2}\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right],T=\left[\begin{matrix}1&0\\0&e^{-i\pi/4}\\\end{matrix}\right]\)，以及双比特门\(CX=\left[\begin{matrix}\begin{matrix}1&0\\0&1\\\end{matrix}&\begin{matrix}0&0\\0&0\\\end{matrix}\\\begin{matrix}0&0\\0&0\\\end{matrix}&\begin{matrix}0&1\\1&0\\\end{matrix}\\\end{matrix}\right]\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|\psi_1\right\rangle\left|\psi_2\right\rangle\)，则输出状态为\(T\otimes H\cdot CX\cdot T\otimes H\cdot\left|\psi\right\rangle\)。
 
-在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本章对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
+在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本节对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
 
 \subsection{量子力学}
 量子力学有两种主要的表述：波动力学和矩阵力学。其中波动力学由Erwin Schrödinger首创，矩阵力学由Werner Heisenberg首创。波动力学使用微分方程为数学基础，更接近于经典物理的波动理论，适用于处理时间演化问题和连续系统。
 而矩阵力学使用线性代数为数学基础，适用于具有离散能级的系统。由于在量子计算中，大量使用矩阵力学作为理论基础。
-因此本节主要介绍矩阵力学。
-
-线性代数的基本研究对象是向量空间(vector space)，也称作线性空间(Linear Spaces)，是一种抽象的数学结构，用于描述向量的集合。向量空间在加法和标量乘法(scalar multiplication)封闭。
+因此本小节主要介绍矩阵力学。
+\subsubsection*{线性代数}
+线性代数的基本研究对象是向量空间(vector space)，也称作线性空间(Linear Spaces)。这是一种抽象的数学结构，用于描述向量的集合。向量空间在向量加法(Vector Addition)和标量乘法(scalar multiplication)封闭。
 对于一个向量空间，向量的类型满足特定条件。向量可以是几何向量、函数、多项式或任何满足向量空间公理的对象。
-同时还需要定义标量(Scalars)，在大多数情况下，标量是实数(Real Numbers)或复数(Complex Numbers)，用于通过乘法运算改变向量的大小。
+同时还需要定义标量域(Scalars)\(\mathbb{F}\) ，在大多数情况下，标量是实数(Real Numbers)\(\mathbb{R}\)或复数(Complex Numbers)\(\mathbb{C}\)，用于通过标量乘法运算改变向量的大小。
+最后向量空间的还需要遵循一系列公理。这些公理规定了向量加法和标量乘法的性质，如加法的交换律和结合律、加法和标量乘法的分配律、加法单位元的存在性(即零向量，Zero Vector)，以及乘法单位元(即标量1)的存在性。这些公理确保了向量空间内运算的一致性和预测性。
 
-向量空间的核心在于它遵循一系列公理，这些公理规定了向量加法(Vector Addition)和标量乘法(Scalar Multiplication)的性质，如加法的交换律和结合律、加法和标量乘法的分配律、加法单位元的存在性(即零向量，Zero Vector)，以及乘法单位元(即标量1)的存在性。这些公理确保了向量空间内运算的一致性和预测性。
+此外子空间(Subspace)也是是向量空间中的一个重要概念。子空间指的是一个向量空间的一个子集，同时它自身也是一个向量空间。因此子空间遵循向量空间的向量加法和标量乘法运算封闭的性质。线性算子 (Linear Operator)，也称为线性映射(Linear Mapping)或线性变换(Linear Transformation)，是在向量空间中的一种特殊函数，它在两个向量空间之间映射向量，保持向量加法和标量乘法的结构。% 线性算子定义
+设 \(V\) 和 \(W\) 是两个向量空间，一个线性算子 \(T: V \rightarrow W\) 必须满足以下两个条件：
+\begin{enumerate}
+    \item 加法性 (Additivity)：对于所有 \(u, v \in V\)，有 \(T(u + v) = T(u) + T(v)\)。
+    \item 齐次性 (Homogeneity)：对于所有标量 \(a \in \mathbb{F}\) 和所有 \(v \in V\)，有 \(T(av) = aT(v)\)。
+\end{enumerate}
+当$T$是\(T: W \rightarrow W\)的线性算子，则$T$是定义在向量空间$W$上的线性算子。其中恒等算子(identity operator)$T$是向量空间$W$上的线性算子，满足以下条件：
+\begin{align}
+    T(w) = w,\forall w \in W
+\end{align}
 
+此外有的向量空间还有内积和张量积(Tensor product)操作。内积定义为：\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)，其中 $V$ 是一个向量空间。对于任意两个向量 $u$ 和 $v$，它们的内积 $( u, v )$ 满足以下性质：
+\begin{enumerate}
+    \item 共轭对称性(Conjugate Symmetry)： \(( u, v ) = \overline{( v, u )}\)，其中\(\overline{( v, u )}\)是\(( v, u )\)的复共轭，当标量域为实数时，表现为对称性，即\(( u, v ) = ( v, u )\)
+    \item 线性 (Linearity)或齐次性：\(( \alpha u_1 + \beta u_2, v ) = \alpha( u_1, v ) + \beta( u_2, v )\)，其中\(\alpha,\beta\in\mathbb{F}\)
+    \item 正定性 (Positive Definiteness)：\(( v, v ) \geq 0\)且仅当\(v \)为加法单位元时等号成立
+\end{enumerate}
+% 张量积定义
+可以看到内积是一种特殊形式的线性算子。而张量积则提供了一种方法来构造新的向量空间。
+设 \(V\) 和 \(W\) 是两个向量空间，它们的张量积 \(V \otimes W\) 是一个新的向量空间，满足以下性质：
+\begin{enumerate}
+    \item 对于每一对元素 \(v \in V\) 和 \(w \in W\)，存在一个元素 \(v \otimes w \in V \otimes W\)，称为它们的张量积。
+    \item 张量积满足双线性性（Bilinearity）：对于所有 \(v,v' \in V\)，\(w,w' \in W\) 以及所有标量 \(a,b \in \mathbb{F}\)，有
+    \[
+    (av + bv') \otimes w = a(v \otimes w) + b(v' \otimes w),
+    \]
+    \[
+    v \otimes (aw + bw') = a(v \otimes w) + b(v \otimes w').
+    \]
+    \item 张量积是唯一的，意味着对于任何与 \(V \otimes W\) 具有相同性质的向量空间，都存在一个自然同构映射(Natural Isomorphism)到 \(V \otimes W\)。
+\end{enumerate}
 
 矩阵力学的数学基础建立在希尔伯特空间\(\mathcal{H}\)，即一个可以进行内积运算的复向量空间。
+希尔伯特空间中的向量由复数\(n\)元组\(\left(c_1,c_2,\cdots,c_n\right)\)构成，可以记作\(\mathbb{C}^n\)，其中\(c\)表示复数。向量也可以有以下列矩阵形式：
+\begin{align}
+    \left[\begin{matrix}
+        c_1\\c_2\\\vdots\\c_n
+    \end{matrix}\right]
+\end{align}
+\(\mathbb{C}^n\)中的标量为复数。因此可以定义\(\mathbb{C}^n\)矩阵形式的标量乘法运算为：
+\begin{align}
+    c'\left[\begin{matrix}
+        c_1\\c_2\\\vdots\\c_n
+    \end{matrix}\right]=\left[\begin{matrix}
+        c'\cdot c_1\\c'\cdot c_2\\\vdots\\c'\cdot c_n
+    \end{matrix}\right]
+\end{align}
+其中等式右边的乘法为复数乘法，因此复数1为乘法单位元。类似地，\(\mathbb{C}^n\)矩阵形式的向量加法可以定义为：
+\begin{align}
+    \left[\begin{matrix}
+        c_1\\c_2\\\vdots\\c_n
+    \end{matrix}\right]
+    +\left[\begin{matrix}
+        c'_1\\c'_2\\\vdots\\c'_n
+    \end{matrix}\right]=\left[\begin{matrix}
+        c_1+c'_1\\c_2+c'_2\\\vdots\\c_n+c'_n
+    \end{matrix}\right]
+\end{align}
+其中等式右边的乘法为复数加法，因此零向量的矩阵形式如下：
+\begin{align}
+    \left[\begin{matrix}
+        0\\0\\\vdots\\0
+    \end{matrix}\right]
+\end{align}
+通常将该向量记作\(\mathbf{0}\)。
+
+类似地，可以定义\(\mathbb{C}^n\)矩阵形式的内积和张量积运算为：
+\begin{align}
+    \left(\left[\begin{matrix}
+        c_1\\c_2\\\vdots\\c_n
+    \end{matrix}\right]
+    ,\left[\begin{matrix}
+        c'_1\\c'_2\\\vdots\\c'_n
+    \end{matrix}\right]\right)=
+    \sum_{i=1}^{n}c_i^* c'_i
+\end{align}
+\begin{align}
+    \left[\begin{matrix}
+        c_1\\c_2\\\vdots\\c_n
+    \end{matrix}\right]
+    \otimes\left[\begin{matrix}
+        c'_1\\c'_2\\\vdots\\c'_n
+    \end{matrix}\right]=\left[\begin{matrix}
+        c_1c'_1\\c_1c'_2\\\vdots\\c_1c'_n\\c_2c'_1\\\vdots\\c_n c'_n
+    \end{matrix}\right]
+\end{align}
+在量子计算中，通常将向量\(\psi\)记作狄拉克右矢符号\(|\psi\rangle\)。
+对向量\(|\psi\rangle\)中的复数全部取共轭，可以得到\(|\psi\rangle\)的共轭记作\(|\psi\rangle^*\)。
+向量\(|\psi\rangle\)的共轭转置可以记作\(|\psi\rangle^\dagger\)，也称对偶向量，可以用狄拉克左矢符号\(\langle\psi|\)表示。因此向量之间的内积也可以用以下方法表示：
+\begin{align}
+    (|\psi\rangle, |\phi\rangle)=\langle \psi|\phi\rangle , \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
+\end{align}
+
+希尔伯特空间\(\mathcal{H}\)中的线性算子集合，通常记作\(\mathcal{L} (\mathcal{H})\)。
+对算子\(A \in \mathcal{L}\)，$A$的伴随算子(adjoint operator)$A^\dagger$定义为:
+\begin{align}
+    \langle \psi |A^\dagger|\phi \rangle = \langle \phi |A|\psi \rangle^*, \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
+\end{align}
+算子\(A \in \mathcal{L}\)，被称为作Hermite算子(Hermite operator)，或者Hermitian，当且仅当满足以下条件：
+\begin{align}
+    A = A^\dagger
+\end{align}
 
 
+如果一个Hermitian算子\(A\)同时满足：
+\begin{align}
+    A^2 = A
+\end{align}
+那么\(A\)也被称作投影算子(project oroperator)。
 
+如果一个Hermitian算子\(A\)同时满足：
+\begin{align}
+    A^\dagger A = A A^\dagger
+\end{align}
+那么\(A\)也被称作正规算子(normal oroperator)。同时\(A\)是正规算子，当且仅当被如下对角化：
+\begin{align}
+    A = \sum_{i}\lambda_i |i\rangle\langle i|
+\end{align}
+其中$\lambda_i$是$A$的特征值，$|i\rangle$为对应特征值的特征向量。
 
-在量子力学中，有四条基本假设，其数学框架是在不断实验中总结，假设，验证而得到的。具体假设如下：
-\begin{myen}
-    \item 任何量子系统都可以用一个带内积的复向量空间表示，即希尔伯特空
-    间，称为系统的状态空间(state space)。量子系统可由该空间的单位向量描述，这
-    些向量被称为状态向量(state vector)。
-\end{myen}
-
+如果一个Hermitian算子\(A\)同时满足：
+\begin{align}
+    A^\dagger A = I
+\end{align}
+其中$I$表示希尔伯特空间中的恒等算子。那么\(A\)也被称作酉算子(unitary oroperator)。
+酉算子保持向量之间的内积，即：
+\begin{align}
+    (U|\psi\rangle, U|\phi\rangle) = \langle \psi|U^\dagger U|\phi\rangle = \langle \psi|I|\phi\rangle = \langle \psi|\phi\rangle = (|\psi\rangle, |\phi\rangle), \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
+\end{align}
+\subsubsection*{量子力学基本假设}
+在量子力学中，有四条基本假设，其数学框架是在不断实验中总结，假设，验证而得到的。
+\
 \subsection{量子线路}
 
 \section{模型检测简介}
