@@ -16,8 +16,12 @@ done
 
 for file in *.svg
 do
-  echo "${file%.svg}.pdf"
-  convert "$file" "${file%.svg}.pdf"
+  outputFile="${file%.svg}.pdf"
+  echo "Converting $file to $outputFile"
+  inkscape "$file" --export-type=pdf --export-filename="$outputFile"
 done
+
+
+
 
 echo "Convertion of all png complete."

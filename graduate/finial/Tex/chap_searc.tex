@@ -13,12 +13,16 @@
 量子线路(quantum circuit)是一种描述量子计算的模型。在量子线路中，通过量子比特的初始化、应用量子门、测量以及其他可能的操作的序列来构建和执行量子计算任务。量子线路通常从左向右阅读，每个量子门的作用是将输入的量子比特状态转变为输出状态，该过程可以认为是量子门的酉矩阵与输入的量子状态的乘积。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.6\textwidth]{Img/example_cir.pdf}
-    \caption{一个量子线路的例子}
+    \includegraphics[width=.4\textwidth]{Img/example_cir.pdf}
+    \caption{制备EPR态的量子电路图}
     \label{fig:example_cir}
 \end{figure}
 
-图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例。其中有单比特门\(H=\frac{1}{\sqrt2}\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right],T=\left[\begin{matrix}1&0\\0&e^{-i\pi/4}\\\end{matrix}\right]\)，以及双比特门\(CX=\left[\begin{matrix}\begin{matrix}1&0\\0&1\\\end{matrix}&\begin{matrix}0&0\\0&0\\\end{matrix}\\\begin{matrix}0&0\\0&0\\\end{matrix}&\begin{matrix}0&1\\1&0\\\end{matrix}\\\end{matrix}\right]\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|\psi_1\right\rangle\left|\psi_2\right\rangle\)，则输出状态为\(T\otimes H\cdot CX\cdot T\otimes H\cdot\left|\psi\right\rangle\)。
+图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例，可以用于制备EPR态。其中有单比特门\(H=\frac{1}{\sqrt2}\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right]\)，以及双比特门\(CX=\left[\begin{matrix}\begin{matrix}1&0\\0&1\\\end{matrix}&\begin{matrix}0&0\\0&0\\\end{matrix}\\\begin{matrix}0&0\\0&0\\\end{matrix}&\begin{matrix}0&1\\1&0\\\end{matrix}\\\end{matrix}\right]\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为:
+\begin{align}
+   CX\cdot H\otimes I \cdot \left|\psi\right\rangle = \frac{|00\rangle+|11\rangle}{\sqrt{2}}
+\end{align}
+具体计算过程将在\ref{sec-cir}节中介绍。
 
 在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本节对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
 
@@ -50,7 +54,7 @@
     \item 正定性 (Positive Definiteness)：\(( v, v ) \geq 0\)且仅当\(v \)为加法单位元时等号成立
 \end{enumerate}
 % 张量积定义
-可以看到内积是一种特殊形式的线性算子。而张量积则提供了一种方法来构造新的向量空间。
+可以看到内积是一种特殊形式的线性算子。当两个向量内积为$0$时，称这两个向量正交。而张量积则提供了一种方法来构造新的向量空间。
 设 \(V\) 和 \(W\) 是两个向量空间，它们的张量积 \(V \otimes W\) 是一个新的向量空间，满足以下性质：
 \begin{enumerate}
     \item 对于每一对元素 \(v \in V\) 和 \(w \in W\)，存在一个元素 \(v \otimes w \in V \otimes W\)，称为它们的张量积。
@@ -163,28 +167,170 @@
 \end{align}
 \subsubsection*{量子力学基本假设}
 在量子力学中，有四条基本假设，其数学框架是在不断实验中总结，假设，验证而得到的。
+下面分别简单介绍一下这四条假设。
 \begin{theorem}
-    任何量子系统都可以用一个带内积的复向量空间表示，即希尔伯特空
-    间，称为系统的状态空间(state space)。量子系统可由该空间的单位向量描述，这
-    些向量被称为状态向量(state vector)。
+    每个孤立的物理系统都可以通过一个内积复向量空间（即希尔伯特空间）来表征，此空间被视为系统的状态空间(state space)。该系统的全部性质由位于状态空间内的一个单位向量，即状态向量(state vector)，完整定义。
 \end{theorem}
+
+量子力学的第一条假设，提出了量子系统的描述方式。最简单的量子系统是单个量子比特(qubit)构成的二维空间。
+取$|0\rangle$和$|1\rangle$为该状态空间的一组标准正交基，则该状态空间中的所有状态向量$|\psi\rangle$都可以用以下方式表示：
+\begin{align}
+    |\psi\rangle = \alpha|0\rangle + \beta|1\rangle
+\end{align}
+其中$\alpha,\beta\in \mathbb{C}$，并满足：
+\begin{align}
+    |\alpha|^2+|\beta|^2  = 1
+    \label{eq-cal}
+\end{align}
+等式\ref{eq-cal}确保了$|\psi\rangle$的模长为1，即保证了$|\psi\rangle$是单位向量：
+\begin{align}
+    \langle\psi|\psi\rangle = 1
+    \label{eq-norm}
+\end{align}
+等式\ref{eq-norm}称为状态向量的归一化条件(normalization condition)。
+而\(\alpha,\beta\)也被称为对应基状态向量的振幅(amplitude)。
+例如，该叠加态：
+\begin{align}
+    \frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\end{align}
+处在$|0\rangle$状态的振幅为$\frac{1}{\sqrt{2}}$，处在$|1\rangle$状态的振幅为$-\frac{1}{\sqrt{2}}$。
 \begin{theorem}
-    一个封闭的量子系统(closed quantum system)的演化(evolution) 可以由酉算子(unitary operation) 表示。
+    一个封闭量子系统(closed quantum system)的演化(evolution)由酉变化(unitary operation)体现。具体来讲，系统在$t_1$时刻的状态$|\psi\rangle$与在$t_2$时刻的状态$|\psi'\rangle$之间，通过一个只与$t_1$和$t_2$两个时间点相关的酉操作符$U$连接:
+    \begin{align}
+        |\psi'\rangle = U|\psi\rangle
+    \end{align}
 \end{theorem}
-常见算子的矩阵形式
+酉变化可以用酉算子进行表示。对于酉算子$U$, 始终满足
+\begin{align}
+    U U^\dagger = I
+\end{align}
+这是因为这些演化都是可逆的。当令单个量子比特的状态空间的正交基$|0\rangle$和$|1\rangle$的矩阵形式为：
+\begin{align}
+    |0\rangle = \left[\begin{matrix}
+        1\\0
+    \end{matrix}\right],|1\rangle = \left[\begin{matrix}
+        0\\1
+    \end{matrix}\right]
+\end{align}
+可以得到常见单比特酉变化的矩阵形式，比如Pauli算子：
+\begin{align}
+    I = \left[\begin{matrix}
+        1,0\\0,1
+    \end{matrix}\right]
+    \quad
+    X = \left[\begin{matrix}
+        0,1\\1,0
+    \end{matrix}\right]
+    \quad
+    Y = \left[\begin{matrix}
+        0,-i\\i,0
+    \end{matrix}\right]
+    \quad
+    Z = \left[\begin{matrix}
+        1,0\\0,-1
+    \end{matrix}\right]
+    \label{eq-pauli}
+\end{align}
+比如Hardmard算子
+\begin{align}
+    H = \frac{1}{\sqrt{2}}\left[\begin{matrix}
+        1,1\\1,-1
+    \end{matrix}\right]
+    \label{eq-hardmard}
+\end{align}
+
 \begin{theorem}
-    量子测量(quantum measurement) 由一组测量算子 (measurement opera
-    tor) $M_m$ 刻画，这些算子作用在被测量的量子系统的状态空间上。其中下标$m$
-   对应测量后可能得到的测量结果。
+    量子测量(quantum measurement) 可以通过一系列测量算子 (measurement operator) ${M_m}$ 刻画。这些算符作用于被测量系统的状态空间上。其中下标$m$
+   对应实验中可能发生的测量结果。
 \end{theorem}
+由于测量结果的概率和为1，因此测量算子${M_m}$满足完备性，即：
+\begin{align}
+    \sum_m M_m\dagger M_m = I
+\end{align}
+假设测量前量子系统的状态为\(|\psi\rangle\)，那么测量后得到结果m的概率为
+\begin{align}
+    p(m) = \langle\psi|M_m^\dagger M_m|\psi\rangle
+\end{align}
+测量后，系统的状态变为
+\begin{align}
+    |\psi'\rangle =  \frac{M_m|\psi\rangle}{\sqrt{p(m)}} = \frac{M_m|\psi\rangle}{\langle\psi|M_m^\dagger M_m|\psi\rangle}
+\end{align}
 \begin{theorem}
     复合系统(composite system) 的状态空间是其各个子空间的状态空间的
     张量积。如果复合系统从$1$到$n$的子系统，并且第$i$个系统的状态为$|\psi_i\rangle$。则复合系统的状态为\(|\psi_1\rangle\otimes|\psi_2\rangle\otimes\cdots\otimes |\psi_n\rangle\)。
+    \label{th-com}
 \end{theorem}
+假设\ref{th-com}中的复合系统，假设了子系统之间的相互作用，并没有改变复合系统状态空间的结构。
+此时的复合系统处于直积状态(product state)。例如两个处于\(|0\rangle\)状态的单量子组成的双量子比特的复合系统，可以有以下方式的表示：
+\begin{align}
+    |0\rangle\otimes|0\rangle=\left[\begin{matrix}
+        1\\0
+    \end{matrix}\right]\otimes\left[\begin{matrix}
+        1\\0
+    \end{matrix}\right] = \left[\begin{matrix}
+        1\\0\\0\\0
+    \end{matrix}\right]
+\end{align}
+此外还存在复合系统的量子状态不能分解成各个子系统量子状态的张量积的情况。此时复合系统处于纠缠状态(entangled state)，复合系统不能表示为子系统的张量积形式。
+例如该双量子比特的复合系统的状态，就不能表示为任何单比特状态向量的张量积：
+\begin{align}
+    \frac{|00\rangle+|11\rangle}{\sqrt{2}}
+\end{align}
 \subsection{量子线路}
+\label{sec-cir}
+在计算机中，通常使用图灵机作为抽象模型。
+在讨论图灵机时，通常会设想一个容量无限的计算机。然而在实际中，计算机的容量是有限的。
+因此在实际中，一般会使用一种替代的计算模型，电路模型。该模型在计算力方面与图灵机相当，但在许多应用场景中更为实用和符合实际。电路是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。例如，图\ref{fig-not}展示了一个简单的经典电路。它以单个比特作为输入。这个比特通过一个门，该门会翻转比特，将1变为0，将0变为1。门前后的导线仅用于将比特信息传输到非门并从非门传出。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.3\textwidth]{Img/Not-gate-en}
+    \caption{执行单个非门的基本电路}
+    \label{fig-not}
+\end{figure}
 
+在量子计算中，一般使用量子电路(quantum curcuit) 作为抽象模型。
+在量子线路中，逻辑门为量子操作，导线则传递量子比特信息。量子操作可以由量子门(quantum gate) 表示。
+根据量子门作用的量子比特数，量子门可以被分为单量子比特门(single qubite gate)和多量子比特门(multiple qubit gate)。
+和经典电路模型不同，量子线路的量子信息一般从左到右传递。量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
+
+以单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
+\(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子电路符号表示如图\ref{fig-h}所示。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.3\textwidth]{Img/hardmard-gate.pdf}
+    \caption{Hadamard门的量子电路符号}
+    \label{fig-h}
+\end{figure}
+
+多量子比特门中比较常见的是双量子比特门。
+以受控门(controlled gate)为例，其
+输入量子比特分别为控制量子比特(control qubit)和目标量子比特(target qubit)。
+假设$U $是作用于目标量子比特的任意单比特量子操作，则称该门为受控$U$门。
+受控$U$门根据控制量子比特的值，决定是否将量子操作$U$作用于目标量子比特。
+若控制量子比特的值为\(|0\rangle\),则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
+\(|1\rangle\), 则目标量子比特值变为\(U|\psi\rangle\)。受控非门(controlled not gate)是最常用见的受控
+门，其量子电路符号如下：
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.3\textwidth]{Img/cnot-gate.pdf}
+    \caption{受控非门的量子电路符号}
+    \label{fig-cx}
+\end{figure}
+
+若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
+输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。通过量子电路可以描述各种量子进程，例
+如图\ref{fig:example_cir}为制备EPR态的量子电路表示，包含一个Hadamard门和一个受控非门。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如下：
+\begin{align}
+    |\psi_{out}\rangle &=  CX\cdot H\otimes I \cdot \left|\psi_{in}\right\rangle\\
+        &= CX\cdot H\otimes I \cdot \left|00\right\rangle\\
+        &= CX\cdot H\otimes I \cdot \left|0\right\rangle\otimes \left|0\right\rangle\\
+        &= CX\cdot H\left|0\right\rangle\otimes I\left|0\right\rangle\\
+        &= CX\cdot \frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes\left|0\right\rangle\\
+        &= \frac{|0\rangle|0\rangle+|1\rangle\otimes X|0\rangle}{\sqrt{2}}\\
+        &=\frac{|00\rangle+|11\rangle}{\sqrt{2}}
+\end{align}
 \section{模型检测简介}
-\textcolor{red}{写一点导语}
+本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而量子模型检测利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，展示了量子逻辑中命题的表示和逻辑结构。这些都为本次研究提供了重要的理论基础。
 \subsection{跃迁系统}
 跃迁系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
 \begin{equation}
