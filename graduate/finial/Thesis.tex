@@ -59,6 +59,9 @@
 \newlist{myen}{enumerate}{1} % Defines a new list style named mystyle
 \setlist[myen,1]{label=\alph*), leftmargin=*}
 \usepackage{multirow}
+\usepackage{braket} % Provides \ket and \bra commands
+\renewcommand{\algorithmicrequire}{\textbf{输入：}}
+\renewcommand{\algorithmicensure}{\textbf{输出：}}
 \begin{document}
 %-
 %-> Frontmatter: title page, abstract, content list, symbol list, preface

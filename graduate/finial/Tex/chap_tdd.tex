@@ -123,20 +123,18 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
 \section{进一步改进技术}
-\begin{itemize}
-  \item 索引顺序
-  \item limdd
-  \item addition的拆分方案
-  \item contraction的拆分方案
-\end{itemize}
+% \begin{itemize}
+%   \item 索引顺序
+%   \item limdd
+%   \item addition的拆分方案
+%   \item contraction的拆分方案
+% \end{itemize}
 % //TODO：modify here
 % //TODO: add new paper
-本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。
-下面简单介绍以下具体研究方法。
+本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍以下具体改进方法。
 
-\begin{myen}
-
-\item \label{addition}关于常用的量子线路划分方法，
+\subsection*{addition的拆分方案}
+\label{addition}关于常用的量子线路划分方法，
 第一种被称为addition\citep{chen2018classical}。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
 \begin{itemize}
 	\item 是对角线量子门的输入和输出索引；
@@ -152,7 +150,8 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 	\label{fig:addition}
 \end{figure} 
 
-\item 另一种常用的电路划分方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连。图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
+\subsection*{contraction的拆分方案}
+另一种常用的电路划分方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连。图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[height=7cm]{Img/cir_contraction.pdf}
@@ -161,7 +160,8 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{figure} 
 
 
-\item \label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
+\subsection*{索引顺序的调整}
+\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
 % //TODO: add new paper here
 \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
 \begin{figure}[!htbp]
@@ -184,7 +184,8 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{figure}
 
 
-\item 由于量子状态都在同一希尔伯特空间中。因此作用某些算子后，不同的量子状态可能等价。
+\subsection*{limdd的改进}
+由于量子状态都在同一希尔伯特空间中。因此作用某些算子后，不同的量子状态可能等价。
 当存储算子的资源少于存储状态的资源时，就有可能存储算子表示不同的状态\citep{vinkhuijzen2023limdd}。图\ref{fig:qmdd-example}表示了一个QMDD的例子，应用等价性，可以化简为图\ref{fig:limdd-example}。
 TDD也可以应用类似技术，进行进一步化简，从而降低资源要求。
 \begin{figure}[!htbp]
@@ -202,12 +203,15 @@ TDD也可以应用类似技术，进行进一步化简，从而降低资源要�
         \label{fig:limdd-example}
     \end{subfigure}
 \end{figure}
-\end{myen}
+% //TODO：add here
+\textcolor{red}{limdd的原理}
 
 \section{对比类似技术}
 TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。在张量网络领域，目前除了TDD外目前还有直接使用张量网络，QMDD\citep{1623982}，以及ZX-calculus\citep{van2020zx}。
 
-QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和验证任务
+QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。
+% //TODO: add QMDD
+图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和验证任务
 \citep{burgholzer2020verifying,burgholzer2020advanced}。
 \begin{figure}[!htbp]
     \centering
@@ -232,6 +236,7 @@ QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图�
 \end{figure}
  
 目前ZX-calculus发展还比较早期。
+% //add some 
 图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法；TDD part I 和 TDD part II 指的是两种不同的电路拆分优化方法；
 QMDD指的是QuantumMultiple-valued Decision Diagrams；
 TN是指google的tensor network。可以看到TDD相比其他有一定优势。因此本次研究选择TDD作为主要技术。
@@ -264,6 +269,58 @@ TN是指google的tensor network。可以看到TDD相比其他有一定优势。�
 \end{figure}
 
 TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
+% \begin{algorithm} 
+% 	\label{alg-rs} 
+% 	\begin{algorithmic}
+% 		\REQUIRE A quantum transition system $(h,S,\Sigma,\mathcal{T})$, where $\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$ and  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
+% 		\ENSURE the projector $P$ of $\mathcal{T}(S)$
+% 		\STATE $P \gets 0$ 
+% 		\STATE $B \gets Basis\_Decompose(S)$
+% 		\STATE $K \gets \cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$
+% 		\FOR{$\ket{\psi}\ in\ B$, $E\ in\ K$}
+% 		\STATE $\ket{\phi} \gets cont(\ket{\psi},E)$
+% 		\STATE $P=P \vee span\{\ket{\phi}\}$
+% 		\ENDFOR
+% 		\RETURN $P$ 
+% 	\end{algorithmic} 
+% \caption{Image 算法} 
+% \end{algorithm}
+% \begin{algorithm}
+%     \caption{Image Algorithm} % Adjusted caption to use English; replace with appropriate translation if needed
+%     \label{alg-rs}
+%     \begin{algorithmic}[1] % The [1] option enables line numbers
+%         \State 输入: A quantum transition system $(\mathcal{H},S,\Sigma,\mathcal{T})$, where $\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$ and  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
+%         \State 输出: the projector $P$ of $\mathcal{T}(S)$
+%     \Procedure{Image Algorithm}{$\mathcal{H}, S, \Sigma, \mathcal{T}$}
+        
+%         \State $P \gets 0$ 
+%         \State $B \gets \text{Basis\_Decompose}(S)$
+%         \State $K \gets \cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$
+%         \For{$\ket{\psi}$ \textbf{in} $B$, $E$ \textbf{in} $K$}
+%             \State $\ket{\phi} \gets \text{cont}(\ket{\psi},E)$
+%             \State $P=P \vee \text{span}\{\ket{\phi}\}$
+%         \EndFor
+%         \State \textbf{return} $P$ 
+%     \EndProcedure
+%     \end{algorithmic}
+%     \end{algorithm}
+
+\begin{algorithm}
+\caption{基于迁移系统的一步映射算法}
+\label{alg-image}
+\begin{algorithmic}[1] % The optional argument [1] enables line numbering
+\Require 一个量子迁移系统 $(\mathcal{H},S,\Sigma,\mathcal{T})$, 其中转移关系$\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$，  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
+\Ensure 系统下一步状态$\mathcal{T}(S)$的投影算子$P$
+\State $P \gets 0$ 
+\State $B \gets \text{Basis\_Decompose}(S)$
+\State $K \gets \cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$
+\For{$\ket{\psi}$ \textbf{in} $B$, $E$ \textbf{in} $K$}
+    \State $\ket{\phi} \gets \text{cont}(\ket{\psi},E)$
+    \State $P=P \vee \text{span}\{\ket{\phi}\}$
+\EndFor
+\State \textbf{return} $P$ 
+\end{algorithmic}
+\end{algorithm}
 
 \section{软件系统实现}
 为了实现软件的高效运行，模块化设计至关重要。
