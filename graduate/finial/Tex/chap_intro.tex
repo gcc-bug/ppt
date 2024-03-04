@@ -3,7 +3,7 @@
 
 模型检测（Model Checking）作为一种自动化的形式化方法，专门用于验证有限状态系统是否满足特定性质。这种方法最初由 E. M. Clarke 和 E. A. Emerson 提出
 \citep{Emerson_1980,Clarke,Clarke_1986}，并已在经典计算机的软件和硬件设计中得到广泛应用。例如，嵌入式系统设计中常用 UML (Unified Modeling Language) 活动图来确保硬件设计符合预定规范\citep{Grobelna_2015}。
-在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。本文将重点探讨量子模型检测在解决量子系统验证问题上的应用，特别是采用张量决策图（Tensor Decision Diagrams, 或TDD）作为核心技术的研究。
+在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。本次研究将重点探讨量子模型检测在解决量子系统验证问题上的应用，特别是采用张量决策图（Tensor Decision Diagrams, 或TDD）作为核心技术的研究。
 
 
 \section{研究背景与研究问题}
@@ -37,16 +37,16 @@
     % //TODO: add 国内 here
 \end{enumerate}
 
-随着量子计算领域的快速发展，带来了对应的验证需求。经典的形式化验证技术，如模型检测(Model Checking)和定理证明(Theorem Proving)，虽然成熟但面临新挑战。模型检测技术通过逻辑公式检测状态迁移系统的行为，虽然自动化程度高，但存在状态空间爆炸问题。定理证明通过数学逻辑来验证系统模型，尽管在处理复杂问题时具有优势，但需要人的干预，自动化程度低。
+随着量子计算领域的快速发展，对量子系统的可靠性提出了更多需要，对应的验证需求也在不断增长。经典的形式化验证技术，如模型检测(Model Checking)和定理证明(Theorem Proving)，虽然成熟但面临新挑战。模型检测技术通过逻辑公式检测状态迁移系统的行为，虽然自动化程度高，但存在状态空间爆炸问题。定理证明通过数学逻辑来验证系统模型，尽管在处理复杂问题时具有优势，但需要人的干预，自动化程度低。
 \subsection{研究的问题}
 % \begin{itemize}
 %   \item 可达性分析
 %   \item 模型检验的挑战
 % \end{itemize}
 随着量子计算硬件的发展，量子系统将越来越复杂。自动化程度低，需要大量人力参与的定理证明方法将难以应对。因此本研究中采用的主要方法是量子模型检测。
-而在量子模型检测领域，存在一个关键挑战，即状态空间爆炸问题。量子计算的状态空间\(\mathcal{H}\)维度\(dim\left(\mathcal{H}\right)=2^n\)，其中n为比特数量。随着比特数量的增加，状态空间的维数会指数级地增长，这极大地增加了计算量子系统状态的复杂度。
+而在量子模型检测领域，存在一个关键挑战，即状态空间爆炸问题。量子计算的状态空间\(\mathcal{H}\)维度\(dim\left(\mathcal{H}\right)=2^n\)，其中n为比特数量。随着比特数量的增加，状态空间的维数会指数级地增长，这极大地增加了应用模型检测来验证量子系统属性的复杂度。
 
-为应对这一挑战，引入了更高效的数据结构，以较少的资源表示量子状态和量子线路，并计算其最终结果。特别地，张量决策图（TDD）为量子电路提供了一种紧凑的表示形式，它便于实现张量网络的各种操作，这对模拟量子物理系统至关重要。如图 \ref{fig:P} 所示，通过比较矩阵形式和TDD形式的表示，可以明显看出TDD结构的紧凑性，其中TDD中实线代表高边，虚线代表低边。
+为应对这一挑战，可以引入更高效的数据结构，以较少的资源表示量子状态和量子线路，并计算其最终结果。特别地，张量决策图（TDD）为量子电路提供了一种紧凑的表示形式，它便于实现张量网络的各种操作，这对模拟量子物理系统至关重要。如图 \ref{fig:P} 所示，通过比较矩阵形式和TDD形式的表示，可以明显看出TDD结构的紧凑性，其中TDD中实线代表高边，虚线代表低边。
  	 
 \begin{figure}[!htbp]
     \begin{subfigure}[c]{0.4\textwidth}
@@ -75,10 +75,10 @@ TDD尤其适合于实施可达性分析和模型检查算法。这得益于在�
 在整个量子模型检测的发展过程中，我国国内的研究者Mingsheng Ying, Yuan Feng 等人深入参与并深刻影响了该领域的研究。
 
 量子模型检测的早期工作旨在验证量子通信协议。由于量子叠加态的特殊性质，量子测量带有概率性。因此David Parker等人采用概率模型检测工具PRISM\citep{kwiatkowska2004probabilistic}来验证量子协议的正确性，如超密编码、量子传输和量子纠错等。
-之后在引入外源量子命题逻辑(Exogenous Quantum Propositional Logic，或EQPL)\citep{mateus2006weakly}的基础上，Pedro Baltazar等人研究了量子计算树逻辑(Quantum Computation Tree Logic，或QCTL)模型检测问题，并验证了量子密钥分发BB84协议\citep{bennett2014quantum}的正确性\citep{baltazar2008quantum,baltazar2007towards}。类似地，在在引入外源量子命题逻辑后，Paulo Mateus等人则研究了量子线性时序逻辑(Quantum Linear-time temporal Logic，或QLTL)的模型检测问题\citep{mateus2009temporal}。Timothy Davidson等人将量子通信协议在量子通信进程CQP\citep{gay2005communicating}中建模，并检测了由QCTL指定的相关属性\citep{davidson2012formal,davidson2012model}。
+之后在引入外源量子命题逻辑(Exogenous Quantum Propositional Logic，或EQPL)\citep{mateus2006weakly}的基础上，Pedro Baltazar等人研究了量子计算树逻辑(Quantum Computation Tree Logic，或QCTL)模型检测问题，并验证了量子密钥分发BB84协议\citep{bennett2014quantum}的正确性\citep{baltazar2008quantum,baltazar2007towards}。类似地，在在引入外源量子命题逻辑后，Paulo Mateus等人则研究了量子线性时序逻辑(Quantum Linear-time temporal Logic，或QLTL)的模型检测问题\citep{mateus2009temporal}。Timothy Davidson等人将量子通信协议在量子通信进程(Communicating Quantum Processes，或CQP)\citep{gay2005communicating}中建模，并检测了由QCTL指定的相关属性\citep{davidson2012formal,davidson2012model}。
 Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,gay2010specification}，但其应用限于必须建模为量子电路的协议,才能在Stabilizer code\citep{gottesman1997stabilizer}中形式表示。Ebrahim Ardeshir-Larijani等人则将此技术扩展到Stabilizer code之外，用于检测量子协议的等效性\citep{ardeshir2013equivalence,ardeshir2014verification}。
 
-此外，模型检测技术也被应用于一般量子系统的检测，包括物理系统和量子程序。Mingsheng Ying等人采用量子自动机(Quantum Automata，或QA)作为系统模型\citep{kondacs1997power}，在Birkhoff-von Neumann量子逻辑\citep{birkhoff1987logic}的基础上提出了一种检测某些线性时间属性的方法\citep{ying2014model}。Yangjia Li等人在此基础上研究了量子自动机的可达性问题\citep{li2014decidable}。Shenggang Ying等人还研究了量子马尔科夫链(Quantum Markov Chains)\citep{ying2013verification}和量子马尔科夫决策过程的模型检测问题，并提出了一种分解马尔科夫链的新量子图理论\citep{ying2013reachability,ying2018reachability}。Yuan Feng等人引入超算子值马尔科夫链概念，作为量子程序和通信协议的高级模型，并开发了检测一系列属性的算法\citep{feng2013model,feng2013reachability,feng2017model}。此外，Yuan Feng等人还开发了一个基于概率模型检测工具ISCAS MC\citep{hahn2014iscas}的量子程序和协议的模型检测工具QPMA\citep{feng2015qpmc}。
+此外，模型检测技术也被应用于一般量子系统的检测，包括物理系统和量子程序。Mingsheng Ying等人采用量子自动机(Quantum Automata，或QA)作为系统模型\citep{kondacs1997power}，在Birkhoff-von Neumann量子逻辑\citep{birkhoff1987logic}的基础上提出了一种检测某些线性时间属性的方法\citep{ying2014model}。Yangjia Li等人在此基础上研究了量子自动机的可达性问题\citep{li2014decidable}。Shenggang Ying等人还研究了量子马尔科夫链(Quantum Markov Chains)\citep{ying2013verification}和量子马尔科夫决策过程的模型检测问题，并提出了一种分解马尔科夫链的新量子图理论\citep{ying2013reachability,ying2018reachability}。Yuan Feng等人引入超算子值马尔科夫链概念，作为量子程序和通信协议的高级模型，并开发了检测一系列属性的算法\citep{feng2013model,feng2013reachability,feng2017model}。此外，Yuan Feng等人还开发了一个基于概率模型检测工具Iscas Mc\citep{hahn2014iscas}的量子程序和协议的模型检测工具QPMA\citep{feng2015qpmc}。
 
 随着量子计算硬件规模的快速增长，量子电路的验证成为一个重要问题。开始的研究主要集中在二元决策图(Binary Decision Diagrams, 或BDD)在量子计算下的推广算法，如量子信息决策图(Quantum Information Decision Diagram，或QuIDD)\citep{Viamontes_2003}，量子多值决策图(Quantum multiple-valued Decision Diagram，或QMDD)\citep{Seiter_2013}等，从而对组合式量子电路进行等效性检测。显然，随着越来越复杂的物理可实现化的硬件出现，将会出现更加复杂的，更加针对于的，新的验证问题。比如量子存储\citep{Kerckhoff_2010}，量子反馈网络\citep{Gough_2008}，重复至成功(Repeated Until Success，或RUS)的量子电路\citep{Bocharov_2015}。量子模型检测的高度自动化为量子电路的验证提供了更多便利。
 
