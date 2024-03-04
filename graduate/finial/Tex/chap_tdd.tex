@@ -122,6 +122,67 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
 
 下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
+\begin{algorithm}
+    \caption{生成张量\(\phi\)的TDD形式TDD(\(\phi\))}
+    \begin{algorithmic}[1]
+    \Require 一个张量\(\phi\) 和对应的索引顺序\(I\).
+    \Ensure \(\phi\)的TDD
+    \If{\(\phi = c\) is a constant}
+        \State \textbf{return} the trivial TDD with weight \(c\)
+    \EndIf
+    \State \(x \leftarrow\) the smallest index of \(\phi\)
+    \State \(tdd \leftarrow\) an empty TDD
+    \State \(tdd.root \leftarrow\) a new node \(v\) with index \(x\)
+    \State \(v.low \leftarrow\) TDD(\(\phi|_{x=0}\))
+    \State \(v.high \leftarrow\) TDD(\(\phi|_{x=1}\))
+    \State \(tdd.weight \leftarrow 1\)
+    \State \textbf{return} reduce(\(tdd\))
+    \end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{Add(\(F, G\))}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Two reduced TDDs \(F\) and \(G\).
+\State \textbf{Output:} The reduced TDD of \(\Phi(F) + \Phi(G)\).
+\If{\(r_F = r_G\)}
+    \State \(tdd \leftarrow F\)
+    \State \(tdd.weight \leftarrow w_F + w_G\)
+    \State \textbf{return} \(tdd\)
+\EndIf
+\State \(x \leftarrow\) the smaller index of \(r_F\) and \(r_G\)
+\State \(tdd \leftarrow\) an empty TDD
+\State \(tdd.root \leftarrow\) a new node \(v\) with index \(x\)
+\State \(v.low \leftarrow\) Add(\(F_{x=0}, G_{x=0}\))
+\State \(v.high \leftarrow\) Add(\(F_{x=1}, G_{x=1}\))
+\State \(tdd.weight \leftarrow 1\)
+\State \textbf{return} reduce(\(tdd\))
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{cont(\(F, G, \text{var}\))}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Two reduced TDDs \(F\) and \(G\), and the set \text{var} of variables to be contracted.
+\State \textbf{Output:} The reduced TDD obtained by contracting \(F\) and \(G\) over \text{var}.
+\If{both \(F\) and \(G\) are trivial}
+    \State \(tdd \leftarrow F\)
+    \State \(tdd.weight \leftarrow w_F \cdot w_G \cdot 2^{\text{len}(\text{var})}\)
+    \State \textbf{return} \(tdd\)
+\EndIf
+\State \(x \leftarrow\) the smaller index of \(r_F\) and \(r_G\)
+\State \(L \leftarrow \text{cont}(F_{x=0}, G_{x=0}, \text{var}\setminus\{x\})\)
+\State \(R \leftarrow \text{cont}(F_{x=1}, G_{x=1}, \text{var}\setminus\{x\})\)
+\If{\(x \in \text{var}\)}
+    \State \textbf{return} \text{Add}(\(L, R\))
+\Else
+    \State \(tdd \leftarrow\) an empty TDD
+    \State \(tdd.root \leftarrow\) a new node \(v\) with index \(x\)
+    \State \(v.low \leftarrow L\)
+    \State \(v.high \leftarrow R\)
+    \State \(tdd.weight \leftarrow 1\)
+    \State \textbf{return} reduce(\(tdd\))
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 \section{进一步改进技术}
 本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍以下具体改进方法。
 
