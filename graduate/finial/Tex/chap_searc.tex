@@ -283,7 +283,7 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.3\textwidth]{Img/Not-gate-en}
-    \caption{执行单个非门的基本电路}
+    \caption{执行单个非门的经典基本电路}
     \label{fig-not}
 \end{figure}
 
@@ -355,7 +355,7 @@
 \end{align}
 下面介绍模型检测中的使用的时序逻辑。
 
-\subsection{时序逻辑的验证}
+\subsection{时序逻辑中的可达性问题}
 在量子模型检测中，与经典模型检测一样使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类\citep{goranko_2023}。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
 \begin{itemize}
     \item \(s\models a,iff \L\left(s\right)\models a\)
@@ -382,7 +382,7 @@
         \centering
         \includegraphics[width=\textwidth]{Img/path_for_aUb.pdf}
     \end{subfigure}
-    \caption{$\pi\models O a $与 $\pi\models a U b$的图示}
+    \caption{路径命题公式$\pi\models O a $与 $\pi\models a U b$的图示}
     \label{fig:path-formula-basic}
 \end{figure}
 在模型检测中，有三类比较重要的可达性问题，分别是可达性、持续可达性以及重复可达性。过程中主要涉及以下路径命题公式：\(\lozenge\) 表示最终(eventually)，\(\square\)表示总是(always)，\(\lozenge\square\)表示总是最终(always eventually)，\(\square\lozenge\)表示最终总是(eventually always)。其中\(\lozenge\)和\(\square\)具体定义为：
@@ -402,7 +402,7 @@
         \centering
         \includegraphics[width=\textwidth]{Img/path_for_SQa.pdf}
     \end{subfigure}
-    \caption{$\pi\models\lozenge a$与 $\pi\models\square a$的图示}
+    \caption{路径命题公式$\pi\models\lozenge a$与 $\pi\models\square a$的图示}
     \label{fig:path-formula}
 \end{figure}
 

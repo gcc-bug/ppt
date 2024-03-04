@@ -123,14 +123,6 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
 \section{进一步改进技术}
-% \begin{itemize}
-%   \item 索引顺序
-%   \item limdd
-%   \item addition的拆分方案
-%   \item contraction的拆分方案
-% \end{itemize}
-% //TODO：modify here
-% //TODO: add new paper
 本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍以下具体改进方法。
 
 \subsection*{addition的拆分方案}
@@ -161,9 +153,8 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 
 \subsection*{索引顺序的调整}
-\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数ƒ(x1,...,x8)=x1x2+x3x4+x5x6+x7x8，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
-% //TODO: add new paper here
-\textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
+\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
+% \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
 \begin{figure}[!htbp]
 	\centering
 	\begin{subfigure}[b]{.4\textwidth}
@@ -251,60 +242,7 @@ TN是指google的tensor network。可以看到TDD相比其他有一定优势。�
 目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
 
 \section{在模型检验中应用TDD}
-借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。TDD给出了量子电路的紧凑表示，提供了一种方便的实现张量网络各种操作的方式，这些操作对于模拟量子物理系统非常重要。图表 12展示了一个矩阵和TDD形式，其中TDD中的蓝边表示高边，红边表示低边。可以明显看到TDD的结构更紧凑。
- 	 
-\begin{figure}[!htbp]
-    \begin{subfigure}[c]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Img/matrix_of_tdd.pdf}
-        \caption{矩阵$P$的矩阵形式}
-        \label{fig:mat_P}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.4\textwidth}
-        \centering
-        \includegraphics[height=6cm]{Img/tdd_ex.pdf}
-        \caption{矩阵$P$的TDD形式}
-        \label{fig:tdd_P}
-    \end{subfigure}
-\end{figure}
-
-TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
-% \begin{algorithm} 
-% 	\label{alg-rs} 
-% 	\begin{algorithmic}
-% 		\REQUIRE A quantum transition system $(h,S,\Sigma,\mathcal{T})$, where $\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$ and  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
-% 		\ENSURE the projector $P$ of $\mathcal{T}(S)$
-% 		\STATE $P \gets 0$ 
-% 		\STATE $B \gets Basis\_Decompose(S)$
-% 		\STATE $K \gets \cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$
-% 		\FOR{$\ket{\psi}\ in\ B$, $E\ in\ K$}
-% 		\STATE $\ket{\phi} \gets cont(\ket{\psi},E)$
-% 		\STATE $P=P \vee span\{\ket{\phi}\}$
-% 		\ENDFOR
-% 		\RETURN $P$ 
-% 	\end{algorithmic} 
-% \caption{Image 算法} 
-% \end{algorithm}
-% \begin{algorithm}
-%     \caption{Image Algorithm} % Adjusted caption to use English; replace with appropriate translation if needed
-%     \label{alg-rs}
-%     \begin{algorithmic}[1] % The [1] option enables line numbers
-%         \State 输入: A quantum transition system $(\mathcal{H},S,\Sigma,\mathcal{T})$, where $\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$ and  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
-%         \State 输出: the projector $P$ of $\mathcal{T}(S)$
-%     \Procedure{Image Algorithm}{$\mathcal{H}, S, \Sigma, \mathcal{T}$}
-        
-%         \State $P \gets 0$ 
-%         \State $B \gets \text{Basis\_Decompose}(S)$
-%         \State $K \gets \cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$
-%         \For{$\ket{\psi}$ \textbf{in} $B$, $E$ \textbf{in} $K$}
-%             \State $\ket{\phi} \gets \text{cont}(\ket{\psi},E)$
-%             \State $P=P \vee \text{span}\{\ket{\phi}\}$
-%         \EndFor
-%         \State \textbf{return} $P$ 
-%     \EndProcedure
-%     \end{algorithmic}
-%     \end{algorithm}
-
+借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
 \begin{algorithm}
 \caption{基于迁移系统的一步映射算法}
 \label{alg-image}
@@ -320,6 +258,27 @@ TDD特别适用于实现可达性分析和模型检查算法。这是因为基�
 \EndFor
 \State \textbf{return} $P$ 
 \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm} 
+	\caption{分解投影算子$P$}
+	\label{alg-basis_dec} 
+	\begin{algorithmic}[1]
+		\Require 子空间$S$的TDD形式投影算子$P=P_S$ 
+		\Ensure $P$的一组正交基$B$分解
+		\State $B\gets \{\}$
+		\If{$P$ is empty}
+		\Return $B$
+		\Else
+		\State $\ket{i} \gets$ the column number represented by the leftmost nonzero path in the TDD of $P$
+		\State $\ket{u_i}\gets$ the state represented by the paths in the TDD of $P$ with column number $\ket{i}$
+		% \State $\ket{u_i} \gets P\ket{i}$ \COMMENT{\red{Is this necessary? It is confusing as we don't compute $P\ket{i}$ in the standard way. It is computed via the TDD.}}
+		\State $\ket{v_i} \gets \frac{\ket{u_i}}{\|\ket{u_i}\|}$
+		\State $P \gets P - \ket{v_i}\bra{v_i}$
+		\State $B \gets B \cup \{\ket{v_i}\} \cup Decompose(P)$
+		\EndIf
+		\State \textbf{return} $B$ 
+	\end{algorithmic}
 \end{algorithm}
 
 \section{软件系统实现}
