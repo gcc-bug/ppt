@@ -3,7 +3,6 @@
 TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
 本章将主要介绍在本次研究中使用的方法，因此将主要介绍TDD和进一步的改进方案，并与类似技术进行对比，然后介绍如何应用TDD进行模型检测，最后介绍本次研究中的软件实现。
 \section{TDD介绍}
-% //TODO：
 TDDs是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
 本节将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算。
 \subsection{张量网络表示量子线路}
@@ -19,7 +18,8 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
 式子\ref{eq-t}给出了$T$门的矩阵形式，可以看到$T$门是一个对角门，即$T$门不改变输入态，而是根据输入态作用一个相位。同时$CX$不改变控制比特。因此可以只用索引$x_0$表示第一个比特。
 图\ref{fig:example_cir_map}给出了图\ref{fig:example_cir_2}中量子线路中各个状态的索引值，从而可得的张量表示：
 \begin{align}
-    \phi_{x_0x_0y_0y_3}\left(a_0a_0b_0b_3\right)=\sum_{b_1,b_2=0}^{1}T\left(a_0a_0\right)H\left(b_0b_1\right)CX\left(a_0a_0b_1b_2\right)T\left(a_0a_0\right)H\left(b_2b_3\right)
+\label{eq-tensor}
+\phi_{x_0x_0y_0y_3}\left(a_0a_0b_0b_3\right)=\sum_{b_1,b_2=0}^{1}T\left(a_0a_0\right)H\left(b_0b_1\right)CX\left(a_0a_0b_1b_2\right)T\left(a_0a_0\right)H\left(b_2b_3\right)
     \end{align}
 \begin{figure}[!htbp]
     \centering
@@ -33,6 +33,27 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \caption{用张量表示图\ref{fig:example_cir_2}中量子线路}   
     \label{fig:example_cir_map}
 \end{figure}
+假如需要知道图\ref{fig:example_cir_2}中，输入态为\(\ket{00}\)时，线路输出态的状态。
+可以利用张量表示，即式子\ref{eq-tensor}计算可能的输出态。当式子\ref{eq-tensor}取\(x_0 = 0, y_0 = 0, y_1 = 0\)时计算过程如下：
+\begin{equation}
+    \begin{aligned}
+\phi_{x_0x_0y_0y_3}\left(0000\right)&=\sum_{b_1,b_2=0}^{1}T\left(00\right)H\left(0b_1\right)CX\left(00b_1b_2\right)T\left(00\right)H\left(b_20\right)\\ 
+    &=\sum_{b_1,b_2=0}^{1}1\cdot H\left(0b_1\right)CX\left(00b_1b_2\right)\cdot 1\cdot H\left(b_20\right)\\
+        &=H\left(00\right)CX\left(0000\right)H\left(00\right)+H\left(00\right)CX\left(0001\right)H\left(10\right)\\
+        &+H\left(01\right)CX\left(0010\right)H\left(00\right)+H\left(01\right)CX\left(0011\right)H\left(10\right)\\
+        &=\frac{1}{\sqrt{2}}\cdot 1 \cdot \frac{1}{\sqrt{2}}+\frac{1}{\sqrt{2}}\cdot 0 \cdot\frac{1}{\sqrt{2}}\\
+        &+\frac{1}{\sqrt{2}}\cdot 0 \cdot \frac{1}{\sqrt{2}}+\frac{1}{\sqrt{2}}\cdot 1 \cdot\frac{1}{\sqrt{2}}\\
+        &= 1
+    \end{aligned}
+    \label{eq-ex_cal_1}
+\end{equation}
+类似地，当式子\ref{eq-tensor}取\(x_0 = 0, y_0 = 0, y_1 = 1\)时，结算结果为：
+\begin{equation}
+    \begin{aligned}
+\phi_{x_0x_0y_0y_3}\left(0001\right)&=0
+    \end{aligned}
+\end{equation}
+因此对图\ref{fig:example_cir_2}中的量子线路，输入态为\(\ket{00}\)时，线路输出态一定是\(\ket{00}\)。
 以该张量网络为例，接下来讨论如何将张量网络转化为TDD。
 \subsection{张量决策图}
 张量决策图（Tensor Decision Diagrams，或TDD）是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD（Boolean Decision Diagrams）类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义如下：
@@ -40,16 +61,6 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \mathcal{F}=\left(V,E,index,value,low,high,w\right)
 \end{align}
 其中$V$是一个有限节点集，被划分为非终端节点$V_n$和终端节点$V_T$。用$r_{\mathcal{F}}$表示$\mathcal{F}$的唯一根节点。$E=\left\{\left(v,low\left(v\right)\right),\left(v,high\left(v\right)\right):v\in V_N\right\}$是树中所有边集合，其中$\left(v,low\left(v\right)\right)$和$\left(v,high\left(v\right)\right)$分别称为v的低边和高边。根结点$r_{\mathcal{F}}$具有唯一的入射边$e_{\mathcal{F}}$，该入射边没有源结点。$index:V_r\rightarrow I$将每个非终端节点分配给I中的索引。$value:V_T\rightarrow\mathbb{C}$将每个终端节点赋予一个复数值。$low$和$high$都是$V_N\rightarrow V$中的映射，它们分别为每个非终端节点指定其低边和高边后继。$w:E\rightarrow\mathbb{C}$将每条边赋予一个复数权重。特别地，$w\left(e_r\right)$称为$\mathcal{F}$的权重，并记作$w_{\mathcal{F}}$。 
-
-
-图\ref{fig:tdd_ex} 展示了将图\ref{fig:example_cir_map}中的张量网络转化为TDD。其中索引顺序$I=\{x_0,y_0,y_3\}$。非终端节点$V_n$用圆表示，终端节点$V_T$用方形表示。每个节点的低边用虚线表示，高边用实线表示。该示例中各边的权重均为1，即$w:E\rightarrow 1$。根节点的索引$index(r_{\mathcal{F}})=x_0$，即根节点\(r_{\mathcal{F}}\)是索引为\(x_0\)的节点。决策树的权重$w_{\mathcal{F}}=1$。
-% //TODO: add explain
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.6\textwidth]{Img/tree_tdd.pdf}
-    \caption{图\ref{fig:example_cir_map}中的张量网络对应的TDD}   
-    \label{fig:tdd_ex}
-\end{figure}
 
 对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= valuev$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则：
 \begin{align}
@@ -63,9 +74,33 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
 \begin{align}
     \phi\left(\mathcal{F}\right)=w_{\mathcal{F}}\cdot\phi\left(r_{\mathcal{F}}\right)
 \end{align}
+
+以图\ref{fig:example_cir_map}为例，将其对应的张量网络转化为TDD，可以得到图\ref{fig:tdd_ex}为例。其中索引顺序$I=\{x_0,y_0,y_3\}$。非终端节点$V_n$用圆表示，终端节点$V_T$用方形表示。每个节点的低边用虚线表示，高边用实线表示。该示例中各边的权重均为1，即$w:E\rightarrow 1$。根节点的索引$index(r_{\mathcal{F}})=x_0$，即根节点\(r_{\mathcal{F}}\)是索引为\(x_0\)的节点。决策树的权重$w_{\mathcal{F}}=1$。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.6\textwidth]{Img/tree_tdd.pdf}
+    \caption{图\ref{fig:example_cir_map}中的张量网络对应的TDD}   
+    \label{fig:tdd_ex}
+\end{figure}
+当需要得到该TDD对应的张量网络中一个索引序列对应的值时，只需要知道图\ref{fig:tdd_ex}中索引对应的边所连接的最后终端节点的值。
+比如式子\ref{eq-ex_cal_1}计算的\(x_0 = 0, y_0 = 0, y_1 = 0\)所对应的边是图\ref{fig:tdd_ex}中最左边的虚线，而对应的终端节点是最左边的终端节点，因此该张量网络中：
+\begin{equation}
+    \begin{aligned}
+\phi_{x_0x_0y_0y_3}\left(0000\right)
+    = 1
+    \end{aligned}
+\end{equation}
+类似地，\(x_0 = 0, y_0 = 0, y_1 = 1\)对应的终端节点是左边起，第二个的终端节点，因此：
+\begin{equation}
+    \begin{aligned}
+\phi_{x_0x_0y_0y_3}\left(0001\right)
+    = 0
+    \end{aligned}
+\end{equation}
 \subsection{TDD的规范与化简}
-对于图表 6中的TDD，在结构上显然比较冗余。因此可以先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
-规范化的目的是使得TDD的终端节点只包含0和1，同时将终端节点的张量值沿路径逐步上移。具体规范步骤如下：
+然而对于图\ref{fig:tdd_ex}中的TDD，在结构上显然比较冗余，可以进行进一步化简。具体过程是先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
+其中规范化的目的是使得TDD的终端节点只包含0和1，同时将终端节点的张量值沿路径逐步上移。具体规范步骤如下：
 \begin{enumerate}
     \item 如果$v$是一个非零值$value\left(v\right)\neq 1$的终端节点，则将其值设置为1，并将每个入边的权重w更改为$value\left(v\right)\cdot w$。\label{norm1}
     \item 假设v是一个非终端节点，且$\phi\left(v\right)\neq 0$。首先规范化$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$。完成$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$的规范化后。如果$\phi\left.\left(low(v\right)\right)\neq 0$，并且此时$\phi\left.\left(high(v\right)\right)=0$或$\left|w_0\right|\geq\left|w_1\right|$，则将$w$设置为$w_0$。否则，将$w$设置为$w_1$。然后更新$w_0≔w_0/w,w_1≔w_1/w$。此时完成$v$的规范化。\label{norm2}
@@ -95,9 +130,9 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \caption{对图\ref{fig:tdd_ex}的规范化过程}
     \label{fig:tdd-norm}
 \end{figure}
-对于图\ref{fig:tdd_ex}中的TDD。具体规范化过程为：应用第\ref{norm1}步于$i$和$-i$两个终端节点得到图表 \ref{fig:tdd-norma}；然后，应用第\ref{norm2}步于右侧两个$y_3$节点，得到图表 \ref{fig:tdd-normb}；最后，应用第二条规则于于右侧$y_0$节点。最后可以获得图表 \ref{fig:tdd-normc}。
+比如对于图\ref{fig:tdd_ex}中的TDD。具体规范化过程为：应用第\ref{norm1}步于$i$和$-i$两个终端节点得到图表 \ref{fig:tdd-norma}；然后，应用第\ref{norm2}步于右侧两个$y_3$节点，得到图表 \ref{fig:tdd-normb}；最后，应用第二条规则于于右侧$y_0$节点。最后可以获得图表 \ref{fig:tdd-normc}。
 
-在完成规范化后，可以进一步简化TDD，使得TDD只包含一个终端节点，同时尽量使用重复出现的张量。具体简化步骤如下：
+在完成规范化后，此时的TDD终端节点只包含0和1。可以进一步简化TDD，使得TDD只包含一个终端节点1，同时尽量使用重复出现的张量。具体简化步骤如下：
 \begin{enumerate}
     \item 	合并所有值为1的终端节点。删除所有终端$0$节点，并将它们的入边重定向到唯一的终端节点，并将它们的权重重置为$0$。\label{sympl1}
 	\item 将所有权重为$0$的边重定向到终端节点。如果根节点的入边权重为$0$，则终端节点成为新的根，该TDD为空。删除所有从根节点不可达的节点，以及涉及它们的所有边。\label{sympl2}
@@ -123,9 +158,9 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \label{fig:tdd-redu}
 \end{figure}
 
-对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
+比如对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
 
-下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。结合以上步骤，算法\ref{alg-tdd}简单展示了如何将给定的张量\(\phi\)转换为对应的TDD表示。
+为了阅读简洁，下文中无特殊说明的TDD均指化简后的TDD，即reduced tensor decision diagrams。结合以上步骤，算法\ref{alg-tdd}简单展示了如何将给定的张量\(\phi\)转换为对应的TDD表示。
 \begin{algorithm}
     \caption{生成张量\(\phi\)的TDD表示TDD(\(\phi\))}
     \label{alg-tdd}
