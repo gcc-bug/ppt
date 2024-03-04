@@ -28,6 +28,12 @@
 \vspace{-30pt}
 \listofapptabs
 }
-
-
+{
+\let\clearpage\relax  % Do nothing when a \clearpage command appears 
+\let\cleardoublepage\relax
+\renewcommand*{\addvspace}[1]{}
+\let\oldnumberline\numberline%
+\renewcommand{\numberline}{\algorithmname~\oldnumberline}%
+\listofalgorithms
+}
 }
