@@ -38,11 +38,10 @@
 
 随着量子计算领域的快速发展，带来了对应的验证需求。经典的形式化验证技术，如模型检测(Model Checking)和定理证明(Theorem Proving)，虽然成熟但面临新挑战。模型检测技术通过逻辑公式检测状态迁移系统的行为，虽然自动化程度高，但存在状态空间爆炸问题。定理证明通过数学逻辑来验证系统模型，尽管在处理复杂问题时具有优势，但需要人的干预，自动化程度低。
 \subsection{研究的问题}
-\begin{itemize}
-  \item 可达性分析
-  \item 模型检验的挑战
-\end{itemize}
-% //TODO: add key problem here
+% \begin{itemize}
+%   \item 可达性分析
+%   \item 模型检验的挑战
+% \end{itemize}
 随着量子计算硬件的发展，量子系统将越来越复杂。自动化程度低，需要大量人力参与的定理证明方法将难以应对。因此本研究中采用的主要方法是量子模型检测。
 而在量子模型检测领域，存在一个关键挑战，即状态空间爆炸问题。量子计算的状态空间\(\mathcal{H}\)维度\(dim\left(\mathcal{H}\right)=2^n\)，其中n为比特数量。随着比特数量的增加，状态空间的维数会指数级地增长，这极大地增加了计算量子系统状态的复杂度。
 
@@ -88,14 +87,12 @@ Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,
 
 % \subsection{国外研究进展}
 % \subsection{国内研究进展}
-% //TODO: add new paper
 
 % \begin{itemize}
 %   \item 量子计算的兴起与发展：简要介绍量子计算的历史和发展趋势。
 %   \item 量子模型检测的重要性：介绍量子模型检测在量子计算领域中的重要性。(todo: 重要性)
 %   \item TDD技术的引入：描述Tensor Decision Diagrams（TDD）技术的引入背景及其在量子计算中的潜在应用。
 % \end{itemize}
-% //TODO:add some
 
 
 \section{研究目的和重要性}
@@ -104,14 +101,8 @@ Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,
 %   \item 研究目标：列出研究实现的具体目标。
 %   \item 预期影响：讨论研究对于学术界和实际应用可能产生的影响。
 % \end{itemize}
-% // TODO: add importance
-本次研究的主要目的是借助最新的
-
-% \begin{itemize}
-%   \item QDA方面的验证
-% \end{itemize}
-% //TODO: add usage here
-而在量子计算中的自动设计领域(Quantum Design Automation, QDA)中有大量验证问题，比如对同一算法的不同仿真(synthesis)方案是否等价。比如一类RUS(Repeat Until Success)电路等价性问题。
+本次研究的主要目的是借助最新的数据结构TDD实现模型检测，即自动化地验证量子系统的状态是否满足给定的属性。
+比如在量子计算中的自动设计领域(Quantum Design Automation, 或QDA)中有大量验证问题，具体来说是对同一算法的不同仿真(synthesis)方案是否等价。比如一类RUS(Repeat Until Success)电路等价性问题。
 图\ref{fig:rus-equal}展示了两个RUS量子电路。当电路中测量门结果为$00$时，第三个比特的输出态均为$\left(I+2iZ\right)/ \sqrt 5 |\psi\rangle$。这样的等价性检验任务，可以转换为模型检测中的可达空间是否一致。
 \begin{figure}[!htbp]
 	\centering
@@ -128,7 +119,7 @@ Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,
 	\label{fig:rus-equal}
 \end{figure}
 未来能够将本研究成果应用于不同的 synthesis 算法的验证等价性中，
-从而加速量子算法在实际量子计算机上的实现，从而在量子计算的实际应用中发挥更大的作用。
+从而加速量子算法在实际量子计算机上的实现，进一步在量子计算的实际应用中发挥更大的作用。
 \section{论文结构概述}
 \begin{itemize}
   \item 章节安排：简单概述论文的结构和每一章的主要内容。
@@ -136,3 +127,5 @@ Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,
   \item 论文贡献：简述研究对现有知识体系的补充或扩展。
 \end{itemize}
 % //TODO: add structure
+\subsection*{主要工作内容与创新点}
+\subsection*{论文结构}
