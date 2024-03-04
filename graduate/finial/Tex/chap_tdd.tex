@@ -4,13 +4,8 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 本章将主要介绍在本次研究中使用的方法，因此将主要介绍TDD和进一步的改进方案，并与类似技术进行对比，然后介绍如何应用TDD进行模型检测，最后介绍本次研究中的软件实现。
 \section{TDD介绍}
 % //TODO：
-\textcolor{red}{用一段简单介绍TDD}
-% \begin{itemize}
-%   \item 张量网络表示量子线路
-%   \item 张量决策图
-%   \item TDD的规范与化简
-% \end{itemize}
-% //TODO: add some
+TDDs是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
+本节将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算。
 \subsection{张量网络表示量子线路}
 张量是与一组与索引\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为：
 \begin{align}
@@ -40,7 +35,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 
 
-图\ref{fig:tdd_ex} 展示了一个TDD的例子。其中索引顺序$I=\{x_0,y_0,y_3\}$。非终端节点$V_n$用圆表示，终端节点$V_T$用方形表示。每个节点的低边用虚线表示，高边用实线表示。该示例中各边的权重均为1，即$w:E\rightarrow 1$。根节点$r_{\mathcal{F}}=x_0$。决策树的权重$w_{\mathcal{F}}=1$。
+图\ref{fig:tdd_ex} 展示了一个TDD的例子。其中索引顺序$I=\{x_0,y_0,y_3\}$。非终端节点$V_n$用圆表示，终端节点$V_T$用方形表示。每个节点的低边用虚线表示，高边用实线表示。该示例中各边的权重均为1，即$w:E\rightarrow 1$。根节点的索引$index(r_{\mathcal{F}})=x_0$，即根节点\(r_{\mathcal{F}}\)是索引为\(x_0\)的节点。决策树的权重$w_{\mathcal{F}}=1$。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.6\textwidth]{Img/tree_tdd.pdf}
@@ -121,65 +116,79 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
 
-下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。
+下文中所有的TDD均指化简后的TDD，即reduced tensor decision diagrams。算法\ref{alg-tdd}展示了如何将给定的张量\(\phi\)转换为对应的TDD表示。
 \begin{algorithm}
-    \caption{生成张量\(\phi\)的TDD形式TDD(\(\phi\))}
+    \caption{生成张量\(\phi\)的TDD表示TDD(\(\phi\))}
+    \label{alg-tdd}
     \begin{algorithmic}[1]
-    \Require 一个张量\(\phi\) 和对应的索引顺序\(I\).
-    \Ensure \(\phi\)的TDD
-    \If{\(\phi = c\) is a constant}
-        \State \textbf{return} the trivial TDD with weight \(c\)
+    \Require 一个张量\(\phi\) 和对应的索引顺序\(I\)
+    \Ensure \(\phi\)的TDD表示TDD(\(\phi\))
+    \If{\(\phi = c\)，即输入张量是一个标量}
+        \State \Return 带权重$c$的平凡TDD
     \EndIf
-    \State \(x \leftarrow\) the smallest index of \(\phi\)
-    \State \(tdd \leftarrow\) an empty TDD
-    \State \(tdd.root \leftarrow\) a new node \(v\) with index \(x\)
-    \State \(v.low \leftarrow\) TDD(\(\phi|_{x=0}\))
-    \State \(v.high \leftarrow\) TDD(\(\phi|_{x=1}\))
-    \State \(tdd.weight \leftarrow 1\)
-    \State \textbf{return} reduce(\(tdd\))
+    \State \(x \gets\) \(\phi\)在索引顺序\(I\)中最小的索引
+    \State \(tdd \gets\) 一个空的TDD
+    \State \(tdd.root \gets\) 一个索引为\(x\)的新节点\(v\) 
+    \State \(v.low \gets\) 递归调用本算法，得到\(\phi|_{x=0}\)对应的TDD表示TDD(\(\phi|_{x=0}\))
+    \State \(v.high \gets\) 递归调用本算法，得到\(\phi|_{x=1}\)对应的TDD表示TDD(\(\phi|_{x=1}\))
+    \State \(tdd.weight \gets 1\)
+    \State \Return \(tdd\)化简后的TDD表示
     \end{algorithmic}
 \end{algorithm}
+
+
+\subsection{TDD之间的运算}
+TDD是基于张量网络的数据结构，因此张量之间的基础操作也会在TDD有所对应。
+用张量网络表示量子电路时，将大量应用张量加法和张量收缩(contraction)。因此本小节主要介绍不同TDD之间的加法和收缩。
+\subsubsection*{TDD之间的加法}
+张量网络中，两个张量的加法是将两个具有相同维度的张量在对应元素上进行加和的操作，结果是一个新的张量。这种操作在处理张量网络时用于合并具有相同结构但不同数据的张量。在TDD中，加法操作通过递归地合并两个TDD的节点来实现，对应于在张量网络中将两个张量相加，从而形成一个表示两者之和的新的张量网络。具体算法如算法\ref{alg-add}。
 \begin{algorithm}
-\caption{Add(\(F, G\))}
+\caption{对具有相同索引的两个TDD表示\(\mathcal{F}, \mathcal{G}\)进行加法运算}
+\label{alg-add}
 \begin{algorithmic}[1]
-\State \textbf{Input:} Two reduced TDDs \(F\) and \(G\).
-\State \textbf{Output:} The reduced TDD of \(\Phi(F) + \Phi(G)\).
-\If{\(r_F = r_G\)}
-    \State \(tdd \leftarrow F\)
-    \State \(tdd.weight \leftarrow w_F + w_G\)
-    \State \textbf{return} \(tdd\)
+\Require 两个简化后的TDD表示\(\mathcal{F}\)和\(\mathcal{G}\)，以及对应的索引顺序\(I\)
+\Ensure \(\mathcal{F} + \mathcal{G}\)的TDD表示
+\If{\(r_{\mathcal{F}}\) 等于\(r_{\mathcal{G}}\)，即两个TDD的结构完全一致}
+    \State \(tdd \gets \mathcal{F}\)
+    \State \(tdd.weight \gets w_{\mathcal{F}} + w_{\mathcal{G}}\)
+    \State \Return \(tdd\)
 \EndIf
-\State \(x \leftarrow\) the smaller index of \(r_F\) and \(r_G\)
-\State \(tdd \leftarrow\) an empty TDD
-\State \(tdd.root \leftarrow\) a new node \(v\) with index \(x\)
-\State \(v.low \leftarrow\) Add(\(F_{x=0}, G_{x=0}\))
-\State \(v.high \leftarrow\) Add(\(F_{x=1}, G_{x=1}\))
-\State \(tdd.weight \leftarrow 1\)
-\State \textbf{return} reduce(\(tdd\))
+\State \(x \gets\) 索引顺序\(I\)下\(\mathcal{F}\)和\(\mathcal{G}\)最小的相同索引\(r_{\mathcal{F}}\) 和 \(r_{\mathcal{G}}\)
+\State \(tdd \gets\) 一个空的TDD
+\State \(tdd.root \gets\) 一个索引为\(x\)的新节点\(v\)
+\State \(v.low \gets\) 递归调用本算法，计算\(\mathcal{F}_{x=0} + \mathcal{G}_{x=0}\)对应的TDD表示
+\State \(v.high \gets\) 递归调用本算法，计算\(\mathcal{F}_{x=1} + \mathcal{G}_{x=1}\)对应的TDD表示
+\State \(tdd.weight \gets 1\)
+\State \Return \(tdd\)化简后的TDD表示
 \end{algorithmic}
 \end{algorithm}
+
+\subsubsection*{TDD之间的收缩}
+张量收缩是张量网络中最核心的操作之一，它指的是沿着一个或多个共享维度对张量进行求和的过程，从而减少张量的总维数。这个操作在量子物理和量子计算的模拟中特别重要，因为它能够模拟多个量子态或量子门的相互作用。在TDD中，收缩操作通过在特定变量集上合并节点来实现，模拟了在张量网络中按照给定维度进行张量收缩的过程。具体算法如算法\ref{alg-cont}所示。
 \begin{algorithm}
-\caption{cont(\(F, G, \text{var}\))}
+\caption{对两个TDD表示\(\mathcal{F}, \mathcal{G}\)收缩所有在\(\text{var}\)集合中的索引}、
+\label{alg-cont}
 \begin{algorithmic}[1]
-\State \textbf{Input:} Two reduced TDDs \(F\) and \(G\), and the set \text{var} of variables to be contracted.
-\State \textbf{Output:} The reduced TDD obtained by contracting \(F\) and \(G\) over \text{var}.
-\If{both \(F\) and \(G\) are trivial}
-    \State \(tdd \leftarrow F\)
-    \State \(tdd.weight \leftarrow w_F \cdot w_G \cdot 2^{\text{len}(\text{var})}\)
-    \State \textbf{return} \(tdd\)
+\Require 两个TDD表示\(\mathcal{F}\)和\(\mathcal{G}\)，以及对应的索引顺序\(I\)和需要收缩的索引集合\text{var}
+\Ensure 通过在 $\text{var}$ 上合并 \(\mathcal{F}\) 和 \(\mathcal{G}\) 获得的简化的TDD
+\If{\(\mathcal{F}\)和\(\mathcal{G}\)都是平凡TDD}
+    \State \(tdd \gets \mathcal{F}\)
+    \State \(tdd.weight \gets w_{\mathcal{F}} \cdot w_{\mathcal{G}} \cdot 2^{\text{len}(\text{var})}\)
+    \State \Return \(tdd\)
 \EndIf
-\State \(x \leftarrow\) the smaller index of \(r_F\) and \(r_G\)
-\State \(L \leftarrow \text{cont}(F_{x=0}, G_{x=0}, \text{var}\setminus\{x\})\)
-\State \(R \leftarrow \text{cont}(F_{x=1}, G_{x=1}, \text{var}\setminus\{x\})\)
+\State \(x \gets\) 索引顺序\(I\)下\(\mathcal{F}\)和\(\mathcal{G}\)最小的相同索引\(r_{\mathcal{F}}\) and \(r_{\mathcal{G}}\)
+\State \(L \gets \) 递归调用本算法，得到\(\mathcal{F}_{x=0}, \mathcal{G}_{x=0}\)在收缩索引集合\(\text{var}\setminus\{x\}\)的TDD表示
+\State \(R \gets \) 递归调用本算法，得到\(\mathcal{F}_{x=1}, \mathcal{G}_{x=1}\)在收缩索引集合\(\text{var}\setminus\{x\}\)的TDD表示
 \If{\(x \in \text{var}\)}
-    \State \textbf{return} \text{Add}(\(L, R\))
+    \State \(tdd \gets\) 调用算法\ref{alg-add}，得到\(L, R\)的和
+    \State \Return $tdd$
 \Else
-    \State \(tdd \leftarrow\) an empty TDD
-    \State \(tdd.root \leftarrow\) a new node \(v\) with index \(x\)
-    \State \(v.low \leftarrow L\)
-    \State \(v.high \leftarrow R\)
-    \State \(tdd.weight \leftarrow 1\)
-    \State \textbf{return} reduce(\(tdd\))
+    \State \(tdd \gets\) 一个空的TDD
+    \State \(tdd.root \gets\) 一个索引为\(x\)的新节点\(v\)
+    \State \(v.low \gets L\)
+    \State \(v.high \gets R\)
+    \State \(tdd.weight \gets 1\)
+    \State \Return \(tdd\)化简后的TDD表示
 \EndIf
 \end{algorithmic}
 \end{algorithm}
@@ -304,6 +313,26 @@ TN是指google的tensor network。可以看到TDD相比其他有一定优势。�
 
 \section{在模型检验中应用TDD}
 借助新的数据结构TDD，我们可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
+\begin{algorithm} 
+\caption{分解投影算子$P$}
+\label{alg-basis_dec} 
+\begin{algorithmic}[1]
+    \Require 子空间$S$的TDD形式投影算子$P=P_S$ 
+    \Ensure $P$的正交计算基分解$B$
+    \State $B\gets \{\}$
+    \If{\(P\) 是空的} 
+        \Return \(B\)
+    \Else
+        \State \(\ket{i} \gets\) TDD表示\(P\)中最左侧非零路径所表示的列号\(i\)
+        \State \(\ket{u_i}\gets\) 由在TDD表示\(P\) 中具有列号 \(\ket{i}\) 的路径表示的状态
+        \State \(\ket{v_i} \gets \frac{\ket{u_i}}{\|\ket{u_i}\|}\)
+        \State \(P \gets P - \ket{v_i}\bra{v_i}\)
+        \State \(B' \gets \) 递归调用本算法，得到新的$P$的正交计算基分解
+        \State \(B \gets B \cup \{\ket{v_i}\} \cup B'\)
+    \EndIf
+    \State \Return \(B\)
+\end{algorithmic}
+\end{algorithm}
 \begin{algorithm}
 \caption{基于迁移系统的一步映射算法}
 \label{alg-image}
@@ -311,37 +340,16 @@ TN是指google的tensor network。可以看到TDD相比其他有一定优势。�
 \Require 一个量子迁移系统 $(\mathcal{H},S,\Sigma,\mathcal{T})$, 其中转移关系$\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$，  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
 \Ensure 系统下一步状态$\mathcal{T}(S)$的投影算子$P$
 \State $P \gets 0$ 
-\State $B \gets \text{Basis\_Decompose}(S)$
+\State $B \gets $调用算法\ref{alg-basis_dec}，得到$S$的正交计算基分解
 \State $K \gets \cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$
-\For{$\ket{\psi}$ \textbf{in} $B$, $E$ \textbf{in} $K$}
-    \State $\ket{\phi} \gets \text{cont}(\ket{\psi},E)$
+\For{$\ket{\psi}$ \textbf{在} $B$, $E$ \textbf{在} $K$}
+    \State $\ket{\phi} \gets $调用算法\ref{alg-cont}，得到\(\ket{\psi}\)和\(E\) 的收缩
     \State $P=P \vee \text{span}\{\ket{\phi}\}$
 \EndFor
-\State \textbf{return} $P$ 
+\State \Return $P$ 
 \end{algorithmic}
 \end{algorithm}
-
-\begin{algorithm} 
-	\caption{分解投影算子$P$}
-	\label{alg-basis_dec} 
-	\begin{algorithmic}[1]
-		\Require 子空间$S$的TDD形式投影算子$P=P_S$ 
-		\Ensure $P$的一组正交基$B$分解
-		\State $B\gets \{\}$
-		\If{$P$ is empty}
-		\Return $B$
-		\Else
-		\State $\ket{i} \gets$ the column number represented by the leftmost nonzero path in the TDD of $P$
-		\State $\ket{u_i}\gets$ the state represented by the paths in the TDD of $P$ with column number $\ket{i}$
-		% \State $\ket{u_i} \gets P\ket{i}$ \COMMENT{\red{Is this necessary? It is confusing as we don't compute $P\ket{i}$ in the standard way. It is computed via the TDD.}}
-		\State $\ket{v_i} \gets \frac{\ket{u_i}}{\|\ket{u_i}\|}$
-		\State $P \gets P - \ket{v_i}\bra{v_i}$
-		\State $B \gets B \cup \{\ket{v_i}\} \cup Decompose(P)$
-		\EndIf
-		\State \textbf{return} $B$ 
-	\end{algorithmic}
-\end{algorithm}
-
+% //TODO: add image exmaple
 \section{软件系统实现}
 为了实现软件的高效运行，模块化设计至关重要。
 每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
