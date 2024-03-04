@@ -4,3 +4,24 @@
 \section{论文总结}
 
 \section{工作展望}
+\subsection*{limdd的改进}
+由于量子状态都在同一希尔伯特空间中。因此作用某些算子后，不同的量子状态可能等价。
+当存储算子的资源少于存储状态的资源时，就有可能存储算子表示不同的状态\citep{vinkhuijzen2023limdd}。图\ref{fig:qmdd-example}表示了一个QMDD的例子，应用等价性，可以化简为图\ref{fig:limdd-example}。
+TDD也可以应用类似技术，进行进一步化简，从而降低资源要求。
+\begin{figure}[!htbp]
+    \centering
+    \begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=8cm]{Img/limdd.pdf}
+        \caption{一个QMDD示例}
+        \label{fig:qmdd-example}
+    \end{subfigure}
+    \begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=8cm]{Img/limdd_reduce.pdf}
+        \caption{应用等价性化简图\ref{fig:qmdd-example}}
+        \label{fig:limdd-example}
+    \end{subfigure}
+\end{figure}
+% //TODO：add here
+\textcolor{red}{limdd的原理}
