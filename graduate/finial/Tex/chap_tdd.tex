@@ -321,7 +321,14 @@ TN是指google的tensor network。
 
 \section{在模型检验中应用TDD}
 借助新的数据结构TDD，可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
-\begin{algorithm} 
+
+在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S_0, \Sigma, \mathcal{T})$，这里 $S_0$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
+
+
+比如一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S_0,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S_0$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p\}Z}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
+
+在量子模型检测中，需要用到子空间的表示。一种表示子空间的办法是通过子空间的一组正交基。算法\ref{alg-basis_dec}给出了一个计算子空间的一组计算基的方法。在此算法基础上，可以给出根据当前系统状态计算下一步系统状态的算法\ref{alg-image}.
+\begin{algorithm}
 \caption{用计算基分解投影算子$P$}
 \label{alg-basis_dec} 
 \begin{algorithmic}[1]

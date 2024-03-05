@@ -188,7 +188,7 @@
 \end{align}
 等式\ref{eq-norm}称为状态向量的归一化条件(normalization condition)。
 而\(\alpha,\beta\)也被称为对应基状态向量的振幅(amplitude)。
-例如，该叠加态：
+该叠加态：
 \begin{align}
     \frac{|0\rangle-|1\rangle}{\sqrt{2}}
 \end{align}
@@ -337,14 +337,18 @@
 \section{模型检测简介}
 本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而量子模型检测利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，展示了量子逻辑中命题的表示和逻辑结构。这些都为本次研究提供了重要的理论基础。
 \subsection{跃迁系统}
+\label{sec-transition}
 跃迁系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
 \begin{equation}
-\mathcal{M}=\{S,Act,\rightarrow,I\}
+\mathcal{M}=(S, S_0, \Sigma, R)
 \end{equation}
-其中\(S\)为系统状态集合，\(I\)为系统初态集合，因此满足\(I\subseteq S\)。\(Act\)为系统行为集合。\(\rightarrow\)为系统状态转移关系，即\(\rightarrow\subset S\times Act\times S\)。此外还有\(AP\)为描述系统原子命题。L是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为命题。
+其中\(S\)为系统状态集合，\(S_0\)为系统初态集合，因此满足\(S_0\subseteq S\)。 $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合，而 $R \subseteq S \times \Sigma \times S$ 则代表转移关系。此外还有\(AP\)为描述系统原子命题。L是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为命题。对于某个状态集 $S' \subseteq S$，通过转移关系 $R$ 得到的系统状态可以表示为
+\begin{equation}\label{eq:image}
+R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in \Sigma}.
+\end{equation}
 
 
-系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)。\(s_i\)满足\(s_{i-1}\overset{a}{\rightarrow}s_i,a\in Act\),对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\),\(s_{i-1} \overset{a}{\rightarrow}  s_i,a\in Act\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(s_0\)为开始的路径，构成了路径集合\(Path\left(s_0\right)\)。
+系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\),对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\),\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(s_0\)为开始的路径，构成了路径集合\(Path\left(s_0\right)\)。
 
 \begin{figure}[!htbp]
     \centering
@@ -353,11 +357,12 @@
     \label{fig:transition-system}
 \end{figure}
 
-图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(I=pay\)。
-系统行为\(Act=\{insert\_coin,\tau,get\_soda,get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
-量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系用酉矩阵。一个量子自动机定义如下：
+图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(S_0=pay\)。
+系统行为\(\Sigma=\{insert\_coin,\tau,get\_soda,get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
+
+量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。一个量子自动机定义如下：
 \begin{align}
-    \mathcal{M}=\{\mathcal{H},Act,\{U_\alpha,\alpha\in Act\},\mathcal{H}_0\}
+    \mathcal{M}=\{\mathcal{H},S,\Sigma,\mathcal{T}\}
 \end{align}
 下面介绍模型检测中的使用的时序逻辑。
 
