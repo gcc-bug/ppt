@@ -10,6 +10,14 @@
 量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。在量子计算中，量子比特的特殊性质允许其同时处于多种状态，这与经典比特的二进制状态不同。量子计算机的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。比特状态可以用\(\mathcal{H}\)的向量表示，量子门由\(\mathcal{H}\)上的酉算子(unitary operator)表示。
 
 量子线路(quantum circuit)是一种描述量子计算的模型。在量子线路中，通过量子比特的初始化、应用量子门、测量以及其他可能的操作的序列来构建和执行量子计算任务。量子线路通常从左向右阅读，每个量子门的作用是将输入的量子比特状态转变为输出状态，该过程可以认为是量子门的酉矩阵与输入的量子状态的乘积。
+\begin{example}
+    \label{ex-epr}
+    图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例，可以用于制备EPR态。其中有单比特门\(H=\frac{1}{\sqrt2}\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right]\)，以及双比特门\(CX=\left[\begin{matrix}\begin{matrix}1&0\\0&1\\\end{matrix}&\begin{matrix}0&0\\0&0\\\end{matrix}\\\begin{matrix}0&0\\0&0\\\end{matrix}&\begin{matrix}0&1\\1&0\\\end{matrix}\\\end{matrix}\right]\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为:
+\begin{align}
+   CX\cdot H\otimes I \cdot \left|\psi\right\rangle = \frac{|00\rangle+|11\rangle}{\sqrt{2}}
+\end{align}
+具体计算过程将在\ref{sec-cir}节中介绍。
+\end{example}
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.4\textwidth]{Img/example_cir.pdf}
@@ -17,11 +25,7 @@
     \label{fig:example_cir}
 \end{figure}
 
-图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例，可以用于制备EPR态。其中有单比特门\(H=\frac{1}{\sqrt2}\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right]\)，以及双比特门\(CX=\left[\begin{matrix}\begin{matrix}1&0\\0&1\\\end{matrix}&\begin{matrix}0&0\\0&0\\\end{matrix}\\\begin{matrix}0&0\\0&0\\\end{matrix}&\begin{matrix}0&1\\1&0\\\end{matrix}\\\end{matrix}\right]\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为:
-\begin{align}
-   CX\cdot H\otimes I \cdot \left|\psi\right\rangle = \frac{|00\rangle+|11\rangle}{\sqrt{2}}
-\end{align}
-具体计算过程将在\ref{sec-cir}节中介绍。
+
 
 在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本节对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
 
@@ -285,20 +289,31 @@
 \label{sec-cir}
 在计算机中，通常使用图灵机作为抽象模型。
 在讨论图灵机时，通常会设想一个容量无限的计算机。然而在实际中，计算机的容量是有限的。
-因此在实际中，一般会使用一种替代的计算模型，电路模型。该模型在计算力方面与图灵机相当，但在许多应用场景中更为实用和符合实际。电路是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。例如，图\ref{fig-not}展示了一个简单的经典电路。它以单个比特作为输入。这个比特通过一个门，该门会翻转比特，将1变为0，将0变为1。门前后的导线仅用于将比特信息传输到非门并从非门传出。
+因此在实际中，一般会使用一种替代的计算模型，电路模型。该模型在计算力方面与图灵机相当，但在许多应用场景中更为实用和符合实际。电路是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。
+\begin{example}
+    图\ref{fig-not}展示了一个简单的经典电路。它以单个比特作为输入。这个比特通过一个门，该门会翻转比特，将1变为0，将0变为1。门前后的导线仅用于将比特信息传输到非门并从非门传出。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.3\textwidth]{Img/Not-gate-en}
     \caption{执行单个非门的经典基本电路}
     \label{fig-not}
 \end{figure}
+\end{example}
 
 在量子计算中，一般使用量子电路(quantum curcuit) 作为抽象模型。
 在量子线路中，逻辑门为量子操作，导线则传递量子比特信息。量子操作可以由量子门(quantum gate) 表示。
-根据量子门作用的量子比特数，量子门可以被分为单量子比特门(single qubite gate)和多量子比特门(multiple qubit gate)。
-和经典电路模型不同，量子线路的量子信息一般从左到右传递。量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
+根据量子门作用的量子比特数，量子门可以被分为单量子比特门(single qubite gate)和多量子比特门(multiple qubit gate)。多量子比特门中比较常见的是双量子比特门。
+以受控门(controlled gate)为例，其
+输入量子比特分别为控制量子比特(control qubit)和目标量子比特(target qubit)。
+假设$U $是作用于目标量子比特的任意单比特量子操作，则称该门为受控$U$门。
+受控$U$门根据控制量子比特的值，决定是否将量子操作$U$作用于目标量子比特。
+若控制量子比特的值为\(|0\rangle\),则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
+\(|1\rangle\), 则目标量子比特值变为\(U|\psi\rangle\)。
 
-以单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
+和经典电路模型不同，量子线路的量子信息一般从左到右传递。量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
+因此通过量子电路可以描述各种量子进程。
+\begin{example}
+    单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
 \(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子电路符号表示如图\ref{fig-h}所示。
 \begin{figure}[htbp]
     \centering
@@ -307,14 +322,18 @@
     \label{fig-h}
 \end{figure}
 
-多量子比特门中比较常见的是双量子比特门。
-以受控门(controlled gate)为例，其
-输入量子比特分别为控制量子比特(control qubit)和目标量子比特(target qubit)。
-假设$U $是作用于目标量子比特的任意单比特量子操作，则称该门为受控$U$门。
-受控$U$门根据控制量子比特的值，决定是否将量子操作$U$作用于目标量子比特。
-若控制量子比特的值为\(|0\rangle\),则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
-\(|1\rangle\), 则目标量子比特值变为\(U|\psi\rangle\)。受控非门(controlled not gate)是最常用见的受控
-门，其量子电路符号如下：
+    而受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。
+    \begin{align}
+        \label{eq-cx}
+        CX=\left[\begin{matrix}
+            1 & 0 & 0 & 0\\
+            0 & 1 & 0 & 0\\
+            0 & 0 & 0 & 1\\
+            0 & 0 & 1 & 0\\
+        \end{matrix}\right]
+    \end{align}
+    因此若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
+输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。其量子电路符号如图\ref{fig-cx}。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.3\textwidth]{Img/cnot-gate.pdf}
@@ -322,18 +341,20 @@
     \label{fig-cx}
 \end{figure}
 
-若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
-输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。通过量子电路可以描述各种量子进程，例
-如图\ref{fig:example_cir}为制备EPR态的量子电路表示，包含一个Hadamard门和一个受控非门。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如下：
-\begin{align}
-    |\psi_{out}\rangle &=  CX\cdot H\otimes I \cdot \left|\psi_{in}\right\rangle\\
+综上，例子\ref{ex-epr}中，包含一个Hadamard门和一个受控非门的制备EPR态的量子电路。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如式子\ref{eq-eqr-cal}所示。
+\begin{equation}
+    \label{eq-eqr-cal}
+    \begin{aligned}
+        |\psi_{out}\rangle &=  CX\cdot H\otimes I \cdot \left|\psi_{in}\right\rangle\\
         &= CX\cdot H\otimes I \cdot \left|00\right\rangle\\
         &= CX\cdot H\otimes I \cdot \left|0\right\rangle\otimes \left|0\right\rangle\\
         &= CX\cdot H\left|0\right\rangle\otimes I\left|0\right\rangle\\
         &= CX\cdot \frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes\left|0\right\rangle\\
         &= \frac{|0\rangle|0\rangle+|1\rangle\otimes X|0\rangle}{\sqrt{2}}\\
         &=\frac{|00\rangle+|11\rangle}{\sqrt{2}}
-\end{align}
+    \end{aligned}
+\end{equation}
+\end{example}
 \section{模型检测简介}
 本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而量子模型检测利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，展示了量子逻辑中命题的表示和逻辑结构。这些都为本次研究提供了重要的理论基础。
 \subsection{跃迁系统}
@@ -350,24 +371,24 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 
 系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\),对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\),\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(s_0\)为开始的路径，构成了路径集合\(Path\left(s_0\right)\)。
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.6\textwidth]{Img/map.pdf}
-    \caption{一种简化版的售货机跃迁系统}
-    \label{fig:transition-system}
-\end{figure}
-
-图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(S_0=pay\)。
-系统行为\(\Sigma=\{insert\_coin,\tau,get\_soda,get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
-
 量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。一个量子自动机定义如下：
 \begin{align}
     \mathcal{M}=\{\mathcal{H},S,\Sigma,\mathcal{T}\}
 \end{align}
-下面介绍模型检测中的使用的时序逻辑。
+\begin{example}
+    
+    图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(S_0=pay\)。
+    系统行为\(\Sigma=\{insert\_coin,\tau,get\_soda\),\\\(get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=.6\textwidth]{Img/map.pdf}
+        \caption{一种简化版的售货机跃迁系统}
+        \label{fig:transition-system}
+    \end{figure}
+\end{example}
 
 \subsection{时序逻辑中的可达性问题}
-在量子模型检测中，与经典模型检测一样使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类\citep{goranko_2023}。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
+本小节将简单介绍时序逻辑中的可达性问题。在量子模型检测中，与经典模型检测一样使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类\citep{goranko_2023}。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
 \begin{itemize}
     \item \(s\models a,iff \L\left(s\right)\models a\)
     \item \(s\models\exists\varphi,iff\ \pi\models\varphi\)对一些\(\pi\in Path\left(s\right)\)

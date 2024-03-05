@@ -6,16 +6,53 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 TDDs是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
 本节将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算。
 \subsection{张量网络表示量子线路}
-张量是与一组与索引\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为：
-\begin{align}
-    \phi :{\{0,1\}}^I\rightarrow\mathbb{C}
-\end{align}
-其中\(\mathbb{C}\)为实数。张量网络是一个无向图\(G=\left(V,E\right)\)。其中顶点集V中的每个顶点v表示一个张量。边集\(E\)中每条边\(e\)代表与相邻两个张量相关联的公共索引。通过以任意顺序收缩连接的张量，可以得到一个秩为\(m\)的张量，其中\(m\)是$G$中开放边数。这个独立于收缩顺序的张量也称为该张量网络的张量表示\citep{biamonte2019lectures}。
-张量网络提供了一种新的量子线路表示方法\citep{pednault2017breaking}。一个向量表示为$[\alpha_0,\alpha_1]$的量子比特x可以描述为秩为1的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特x和输出比特y的单比特门可以表示为秩2张量$\phi_{xy}$。例如，以x作为输入比特和y作为输出比特的单比特门Z-gate的张量表示：$\phi_{xy}\left(00\right)=1,\phi_{xy}\left(01\right)=\phi_{xy}\left(10\right)=0,\phi_{xy}\left(11\right)=-1$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或电路时会规定关于其信息。
+张量是与一组与索引序列\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为定义\ref{df-tensor}所示。
+\begin{definition}
+    \label{df-tensor}
+    当张量只从从\(\{0,1\}\)中取值时，对于定义在索引序列\(I\)上的张量\(\phi\)，其可以表示为一个字典
+    \begin{align}
+        \phi :{\{0,1\}}^I\rightarrow\mathbb{C}
+    \end{align}
+    其中\(\mathbb{C}\)为复数。
+\end{definition}
 
-给定量子线路中所有量子门的输入和输出状态的索引值，就可以得到量子电路的张量表示。
-以图\ref{fig:example_cir_2}中的量子线路为例，线路中包含$T$和$H$两个不同的单比特门，以及一个两比特的受控非门$CX$。
-式子\ref{eq-t}给出了$T$门的矩阵形式，可以看到$T$门是一个对角门，即$T$门不改变输入态，而是根据输入态作用一个相位。同时$CX$不改变控制比特。因此可以只用索引$x_0$表示第一个比特。
+
+一个向量表示为$[\alpha_0,\alpha_1]$的量子比特x可以描述为秩为1的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特x和输出比特y的单比特门可以表示为秩为2的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或电路时会规定关于其信息。
+\begin{example}
+    以单比特门Z门为例，其矩阵形式如式子\ref{eq-pauli}。当以x作为输入比特索引和y作为输出比特索引时，Z门的张量表示如式子\ref{eq-tensor-z}所示。
+    \begin{align}
+        \label{eq-tensor-z}
+        \phi_{xy}\left(00\right)=1,\phi_{xy}\left(01\right)=0,\phi_{xy}\left(10\right)=0,\phi_{xy}\left(11\right)=-1
+    \end{align}
+\end{example}
+
+张量之间最重要的运算之一是收缩(contraction)。收缩是通过对共享索引求和获得新的张量。具体来说，设 张量$\gamma_{\overrightarrow{x},\overrightarrow{z}}$ 和 $\xi_{\overrightarrow{y},\overrightarrow{z}}$ 的共享索引集 是$\overrightarrow{z}$。设收缩后的新张量为 $\phi_{\overrightarrow{x},\overrightarrow{y}}$，则其表达式如式子\ref{eq-contraction}所示。
+\begin{equation}
+\label{eq-contraction}
+\phi_{\overrightarrow{x},\overrightarrow{y}}(\overrightarrow{a},\overrightarrow{b}) = \sum_{\overrightarrow{c} \in \{0,1\}^{\overrightarrow{z}}} \gamma_{\overrightarrow{x},\overrightarrow{z}}(\overrightarrow{a}, \overrightarrow{c}) \cdot \xi_{\overrightarrow{y},\overrightarrow{z}}(\overrightarrow{b}, \overrightarrow{c}).
+\end{equation}
+
+另一个重要的张量操作是切片(slicing)，它对应于布尔函数的余因子运算。设 $\phi$ 是索引序列为 $I$ 上的张量。任取一个索引\(x\in I\)，对 $\phi$ 进行关于 $x = c$ 与 $c \in \{0, 1\}$ 的切片也是一个张量 $\phi|_{x=c}$，在索引集 $I' =I/\{x\}$ 上定义如式子\ref{eq-slicing}所示。
+\begin{equation}
+    \label{eq-slicing}
+\phi|_{x=c}(\overrightarrow{a}) := \phi(c, \overrightarrow{a})
+\end{equation}
+对于任意 $\overrightarrow{a} \in \{0, 1\}^n$。称 $\phi|_{x=0}$ 和 $\phi|_{x=1}$ 分别为 $\phi$ 关于 $x$ 的负切片(negative slicing)和正切片(positive slicing)。如果 $\phi|_{x=0} \neq \phi|_{x=1}$，称索引 $x \in I$ 对于 $\phi$ 是本质的(essential)。同时张量满足定理\ref{lemma-tensor}中的性质。
+
+\begin{lemma}
+    \label{lemma-tensor}
+    对于定义在索引序列\(I\)上的张量\(\phi\)，其中的每个索引\(x\in I\)，都有
+    \begin{align}
+        \phi = \bar{x}\cdot \phi|_{x=0}+x\cdot \phi|_{x=1}
+    \end{align}
+\end{lemma}
+
+张量网络是一个无向图\(G=\left(V,E\right)\)。其中顶点集$V$中的每个顶点$v$表示一个张量。边集\(E\)中每条边\(e\)代表与相邻两个张量相关联的公共索引。通过以任意顺序收缩连接的张量，可以得到一个秩为\(m\)的张量，其中\(m\)是$G$中开放边数。这个独立于收缩顺序的张量也称为该张量网络的张量表示\citep{biamonte2019lectures}。
+张量网络提供了一种新的量子线路表示方法\citep{pednault2017breaking}。而当给定量子线路中所有量子门的输入和输出状态的索引值，收缩掉共享的索引，就可以得到量子电路的张量表示。
+\begin{example}
+    \label{ex-tensor}
+    以图\ref{fig:example_cir_2}中的量子线路为例，线路中包含$T$和$H$两个不同的单比特门，以及一个两比特的受控非门$CX$。
+式子\ref{eq-hardmard}，\ref{eq-t}，\ref{eq-cx}分别给出了$H,T,CX$门的矩阵形式，可以看到$T$门是一个对角门，即$T$门不改变输入态，而是根据输入态作用一个相位。同时$CX$不改变控制比特。因此可以只用索引$x_0$表示第一个比特。
 图\ref{fig:example_cir_map}给出了图\ref{fig:example_cir_2}中量子线路中各个状态的索引值，从而可得的张量表示：
 \begin{align}
 \label{eq-tensor}
@@ -54,28 +91,40 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \end{aligned}
 \end{equation}
 因此对图\ref{fig:example_cir_2}中的量子线路，输入态为\(\ket{00}\)时，线路输出态一定是\(\ket{00}\)。
-以该张量网络为例，接下来讨论如何将张量网络转化为TDD。
+\end{example}
 \subsection{张量决策图}
-张量决策图（Tensor Decision Diagrams，或TDD）是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD（Boolean Decision Diagrams）类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义如下：
-\begin{align}
-    \mathcal{F}=\left(V,E,index,value,low,high,w\right)
-\end{align}
-其中$V$是一个有限节点集，被划分为非终端节点$V_n$和终端节点$V_T$。用$r_{\mathcal{F}}$表示$\mathcal{F}$的唯一根节点。$E=\left\{\left(v,low\left(v\right)\right),\left(v,high\left(v\right)\right):v\in V_N\right\}$是树中所有边集合，其中$\left(v,low\left(v\right)\right)$和$\left(v,high\left(v\right)\right)$分别称为v的低边和高边。根结点$r_{\mathcal{F}}$具有唯一的入射边$e_{\mathcal{F}}$，该入射边没有源结点。$index:V_r\rightarrow I$将每个非终端节点分配给I中的索引。$value:V_T\rightarrow\mathbb{C}$将每个终端节点赋予一个复数值。$low$和$high$都是$V_N\rightarrow V$中的映射，它们分别为每个非终端节点指定其低边和高边后继。$w:E\rightarrow\mathbb{C}$将每条边赋予一个复数权重。特别地，$w\left(e_r\right)$称为$\mathcal{F}$的权重，并记作$w_{\mathcal{F}}$。 
+张量决策图(Tensor Decision Diagrams，或TDD)是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
+\begin{definition}
+    \label{df-tdd}
+    TDD是一个建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的有根节点，带权重的有向无环图，其中包括：
+    \begin{align}
+        \mathcal{F}=\left(V,E,index,value,low,high,w\right)
+    \end{align}
+    其中:
+    \begin{enumerate}
+        \item $V$是一个有限节点集，被划分为非终端节点$V_n$和终端节点$V_T$。用$r_{\mathcal{F}}$表示$\mathcal{F}$的唯一根节点。
+        \item $E=\left\{\left(v,low\left(v\right)\right),\left(v,high\left(v\right)\right):v\in V_N\right\}$是树中所有边集合，其中$\left(v,low\left(v\right)\right)$和$\left(v,high\left(v\right)\right)$分别称为v的低边和高边，分别指向该节点索引的负切片和正切片。根结点$r_{\mathcal{F}}$具有唯一的入射边$e_{\mathcal{F}}$，该入射边没有源结点。
+        \item $index:V_r\rightarrow I$将每个非终端节点分配给I中的索引。
+        \item $value:V_T\rightarrow\mathbb{C}$将每个终端节点赋予一个复数值。
+        \item $low$和$high$都是$V_N\rightarrow V$中的映射，它们分别为每个非终端节点指定其低边和高边后继。
+        \item $w:E\rightarrow\mathbb{C}$将每条边赋予一个复数权重。特别地，$w\left(e_r\right)$称为$\mathcal{F}$的权重，并记作$w_{\mathcal{F}}$。
+    \end{enumerate} 
+\end{definition}
 
-对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= valuev$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则：
+
+对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= value (v)$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则根据定义，该节点表示的张量如式子\ref{eq-non-term}所示。
 \begin{align}
+    \label{eq-non-term}
     \phi(v):=w_{0} \cdot \overline{x_{v}} \cdot \phi(\operatorname{low}(v))+w_{1} \cdot x_{v} \cdot \phi(h i g h(v))
 \end{align}
-其中$x_v=index\left(v\right),\bar{x_v}=1-index\left(v\right)$。如果$v$是非终端节点，也可以表示为：
-\begin{align}
-    \left.\phi\left(v\right)\right|_{x_v=c}≔w_c \phi (v_c)
-\end{align}
-其中$c\in\{0,1\}$。因此整个TDD也可以表示为：
+其中$x_v=index\left(v\right),\overline{x_{v}}=1-index\left(v\right)$。而整个TDD也可以表示为：
 \begin{align}
     \phi\left(\mathcal{F}\right)=w_{\mathcal{F}}\cdot\phi\left(r_{\mathcal{F}}\right)
 \end{align}
 
-以图\ref{fig:example_cir_map}为例，将其对应的张量网络转化为TDD，可以得到图\ref{fig:tdd_ex}为例。其中索引顺序$I=\{x_0,y_0,y_3\}$。非终端节点$V_n$用圆表示，终端节点$V_T$用方形表示。每个节点的低边用虚线表示，高边用实线表示。该示例中各边的权重均为1，即$w:E\rightarrow 1$。根节点的索引$index(r_{\mathcal{F}})=x_0$，即根节点\(r_{\mathcal{F}}\)是索引为\(x_0\)的节点。决策树的权重$w_{\mathcal{F}}=1$。
+\begin{example}
+    \label{ex-tdd}
+    例子\ref{ex-tensor}给出了一个量子线路到张量网络的例子。将该张量网络转化为TDD，可以得到图\ref{fig:tdd_ex}。其中索引顺序$I=\{x_0,y_0,y_3\}$。非终端节点$V_n$用圆表示，终端节点$V_T$用方形表示。每个节点的低边用虚线表示，高边用实线表示。该示例中各边的权重均为1，即$w:E\rightarrow 1$。根节点的索引$index(r_{\mathcal{F}})=x_0$，即根节点\(r_{\mathcal{F}}\)是索引为\(x_0\)的节点。决策树的权重$w_{\mathcal{F}}=1$。
 
 \begin{figure}[!htbp]
     \centering
@@ -83,29 +132,43 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \caption{索引顺序$I=\{x_0,y_0,y_3\}$时图\ref{fig:example_cir_map}中的张量网络对应的TDD}   
     \label{fig:tdd_ex}
 \end{figure}
-当需要得到该TDD对应的张量网络中一个索引序列对应的值时，只需要知道图\ref{fig:tdd_ex}中索引对应的边所连接的最后终端节点的值。
+当需要得到该TDD对应的张量网络中一个索引序列对应的值时，只需要知道图\ref{fig:tdd_ex}中索引对应的边所和连接的最后终端节点的值。将边的权重与最后的终端节点的值乘积起来，就可以知道该索引取值对应的值。
 比如式子\ref{eq-ex_cal_1}计算的\(x_0 = 0, y_0 = 0, y_1 = 0\)所对应的边是图\ref{fig:tdd_ex}中最左边的虚线，而对应的终端节点是最左边的终端节点，因此该张量网络中：
 \begin{equation}
     \begin{aligned}
 \phi_{x_0x_0y_0y_3}\left(0000\right)
-    = 1
+    = 1\cdot 1\cdot 1\cdot 1 = 1
     \end{aligned}
 \end{equation}
 类似地，\(x_0 = 0, y_0 = 0, y_1 = 1\)对应的终端节点是左边起，第二个的终端节点，因此：
 \begin{equation}
     \begin{aligned}
 \phi_{x_0x_0y_0y_3}\left(0001\right)
-    = 0
+= 1\cdot 1\cdot 1\cdot 0 = 0
     \end{aligned}
 \end{equation}
+\end{example}
 \subsection{TDD的规范与化简}
-然而对于图\ref{fig:tdd_ex}中的TDD，在结构上显然比较冗余，可以进行进一步化简。具体过程是先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
+从例子\ref{ex-tdd}中得到TDD，可以看到由于图中边的权重信息使用较少，因此根据定义得到的TDD在结构上显然比较冗余，可以进行进一步化简。具体过程是先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
 其中规范化的目的是使得TDD的终端节点只包含0和1，同时将终端节点的张量值沿路径逐步上移。具体规范步骤如下：
 \begin{enumerate}
     \item 如果$v$是一个非零值$value\left(v\right)\neq 1$的终端节点，则将其值设置为1，并将每个入边的权重w更改为$value\left(v\right)\cdot w$。\label{norm1}
     \item 假设v是一个非终端节点，且$\phi\left(v\right)\neq 0$。首先规范化$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$。完成$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$的规范化后。如果$\phi\left.\left(low(v\right)\right)\neq 0$，并且此时$\phi\left.\left(high(v\right)\right)=0$或$\left|w_0\right|\geq\left|w_1\right|$，则将$w$设置为$w_0$。否则，将$w$设置为$w_1$。然后更新$w_0≔w_0/w,w_1≔w_1/w$。此时完成$v$的规范化。\label{norm2}
 \end{enumerate}
 
+
+
+在完成规范化后，此时的TDD终端节点只包含0和1。可以进一步简化TDD，使得TDD只包含一个终端节点1，同时尽量使用重复出现的张量。具体简化步骤如下：
+\begin{enumerate}
+    \item 	合并所有值为1的终端节点。删除所有终端$0$节点，并将它们的入边重定向到唯一的终端节点，并将它们的权重重置为$0$。\label{sympl1}
+	\item 将所有权重为$0$的边重定向到终端节点。如果根节点的入边权重为$0$，则终端节点成为新的根，该TDD为空。删除所有从根节点不可达的节点，以及涉及它们的所有边。\label{sympl2}
+	\item 如果一个节点v的低边和高边后继相同，并且其低边和高边具有相同的权重w，则删除该节点。如果入边权重$w=0$，则将其传入边重定向到终端节点。否则，将其传入边重定向到其后继节点。\label{sympl3}
+	\item 合并两个具有相同索引、相同$0$和$1$后继以及对应边上相同权重的节点。\label{sympl4}
+\end{enumerate}
+
+\begin{example}
+    对于例子\ref{ex-tdd}中的TDD。具体规范化过程为：应用第\ref{norm1}步于$i$和$-i$两个终端节点得到图表 \ref{fig:tdd-norma}；然后，应用第\ref{norm2}步于右侧两个$y_3$节点，得到图表 \ref{fig:tdd-normb}；最后，应用第二条规则于于右侧$y_0$节点。最后可以获得图表 \ref{fig:tdd-normc}。
+比如对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
@@ -130,16 +193,6 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \caption{对图\ref{fig:tdd_ex}的规范化过程}
     \label{fig:tdd-norm}
 \end{figure}
-比如对于图\ref{fig:tdd_ex}中的TDD。具体规范化过程为：应用第\ref{norm1}步于$i$和$-i$两个终端节点得到图表 \ref{fig:tdd-norma}；然后，应用第\ref{norm2}步于右侧两个$y_3$节点，得到图表 \ref{fig:tdd-normb}；最后，应用第二条规则于于右侧$y_0$节点。最后可以获得图表 \ref{fig:tdd-normc}。
-
-在完成规范化后，此时的TDD终端节点只包含0和1。可以进一步简化TDD，使得TDD只包含一个终端节点1，同时尽量使用重复出现的张量。具体简化步骤如下：
-\begin{enumerate}
-    \item 	合并所有值为1的终端节点。删除所有终端$0$节点，并将它们的入边重定向到唯一的终端节点，并将它们的权重重置为$0$。\label{sympl1}
-	\item 将所有权重为$0$的边重定向到终端节点。如果根节点的入边权重为$0$，则终端节点成为新的根，该TDD为空。删除所有从根节点不可达的节点，以及涉及它们的所有边。\label{sympl2}
-	\item 如果一个节点v的低边和高边后继相同，并且其低边和高边具有相同的权重w，则删除该节点。如果入边权重$w=0$，则将其传入边重定向到终端节点。否则，将其传入边重定向到其后继节点。\label{sympl3}
-	\item 合并两个具有相同索引、相同$0$和$1$后继以及对应边上相同权重的节点。\label{sympl4}
-\end{enumerate}
-
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
@@ -157,8 +210,7 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
     \caption{对图\ref{fig:tdd-norm}的化简过程}
     \label{fig:tdd-redu}
 \end{figure}
-
-比如对于图\ref{fig:tdd-normc}中规范TDD。具体化简过程为：首先重复第\ref{sympl1} 步，合并所有终端节点，得到图\ref{fig:tdd-redu1}；由于没有符合第\ref{sympl2}和第\ref{sympl3}步的节点，因此直接进行第\ref{sympl4}步应用重复第四条规则合并第一个和第三个$y_3$节点，以及第二个和第四个$y_3$节点。最终可以得到\ref{fig:tdd-redu2}所示的简化TDD。
+\end{example}
 
 为了阅读简洁，下文中无特殊说明的TDD均指化简后的TDD，即reduced tensor decision diagrams。结合以上步骤，算法\ref{alg-tdd}简单展示了如何将给定的张量\(\phi\)转换为对应的TDD表示。
 \begin{algorithm}
@@ -240,7 +292,7 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
 \section{对比类似表示}
 TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比TDD，直接使用张量网络TN，以及QMDD\citep{1623982}三种表示的效率。
 
-QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和和验证任务
+QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和和验证任务
 \citep{burgholzer2020verifying,burgholzer2020advanced}。
 图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。
 \begin{figure}[htbp]
@@ -254,23 +306,25 @@ QMDD（Quantum Multiple-Valued Decision Diagrams），即量子多值决策图�
 \begin{enumerate}
     \item 二者都存在唯一的终端顶点，值为1。该终端顶点没有出边。
     \item 二者都有唯一一个顶点作为起始顶点，它有一个单独的入边，该入边本身没有源顶点。
-    \item 二者中的每条边（包括指向起始顶点的边）都有一个关联的复数值权重。
+    \item 二者中的每条边(包括指向起始顶点的边)都有一个关联的复数值权重。
     \item 二者中的索引都按一定顺序排列，并且都满足以下两条规则：
     \begin{enumerate}[label=\roman*)]
         \item 每个索引在从起始顶点到终端顶点的每条路径上最多出现一次。
         \item 来自索引排序低的非终端顶点的边指向索引排序高的非终端顶点或终端顶点。
     \end{enumerate}
-    \item 二者都尽量复用节点，即没有两个标记索引相同的非终端顶点有相同的出边集（即连接节点和边权重都一致）。
+    \item 二者都尽量复用节点，即没有两个标记索引相同的非终端顶点有相同的出边集(即连接节点和边权重都一致)。
 \end{enumerate}
 
 QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四个后继节点。
-而在TDD结构中，每一个非终端节点分别连接着两个后继节点。从原理上讲，如果采用相同的排序规则，量子电路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。此时TDD表达方式所需的内存空间大约与QMDD表达方式所需的内存空间持平。这是因为它们都拥有相同数目的加权边并记录了相同数量的权值（即复数）。
+而在TDD结构中，每一个非终端节点分别连接着两个后继节点。从原理上讲，如果采用相同的排序规则，量子电路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。此时TDD表达方式所需的内存空间大约与QMDD表达方式所需的内存空间持平。这是因为它们都拥有相同数目的加权边并记录了相同数量的权值(即复数)。
 因此TDD的表示形式和QMDD紧凑程度相近。
 然而TDD由于可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
 
 比如在TDD原文中\citep{Hong_2022}，就介绍了两种通过分区进行优化的方案，TDD part I和 TDD part II。TDD part I 分区方案侧重于如何将量子门分组到不同的分区中，以优化TDD的表示效率和计算性能。而TDD part II 分区方案中，重点是如何根据比特之间的相互作用和关联性将它们分配到不同的分区中。
 
-TDD part I分区方案中通过中间水平方向将电路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，电路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。以图\ref{fig:tdd-part-I}中的量子线路为例。
+TDD part I分区方案中通过中间水平方向将电路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，电路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。
+\begin{example}
+    以图\ref{fig:tdd-part-I}中的量子线路为例。
 由于线路中有四个比特，因此水品分割线将线路分割为上下各两个比特。此时虚线框的两个CX被水平分割线分割。因此当取\(k=1\)时，可以将线路划分为图\ref{fig:tdd-part-I}中的\(A1\)，\(A2\)，\(B1\)，\(B2\)四部分。
 \begin{figure}[!htbp]
     \centering
@@ -278,15 +332,18 @@ TDD part I分区方案中通过中间水平方向将电路分割为上下两等�
     \caption{TDD part I分区方案的例子，其中预设参数\(k=1\)}
     \label{fig:tdd-part-I}
 \end{figure}
+\end{example}
 
 TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟的策略的扩展。在方案中首先与第一种方案类似，从电路中部进行水平划分。当预定义的参数$k1$个CX门因为水平分割而分开时，会设立一个新的小区块。这个小区块包含电路的一小部分，内含数个因水平切割而分隔的CX门，即这些门在此区块内不与区块外的比特发生任何交互。每当这个小区块涉及到预定义的参数$k2$比特时，就进行一次新的垂直分割。
-同样以图\ref{fig:tdd-part-I}中的量子线路为例。水平分割线分割后，此时虚线框的两个CX被水平分割线分割。因此当取\(k1=1\)时，将右边虚线框的CX设立在小区块\(C\)中。当取\(k2=2\)时，小区块\(C\)的比特数限制到2。因此可以将线路划分为图\ref{fig:tdd-part-II}中的\(A1\)，\(A2\)，\(C1\)，\(B1\)，\(B2\)四部分。
+\begin{example}
+    同样以图\ref{fig:tdd-part-I}中的量子线路为例。水平分割线分割后，此时虚线框的两个CX被水平分割线分割。因此当取\(k1=1\)时，将右边虚线框的CX设立在小区块\(C\)中。当取\(k2=2\)时，小区块\(C\)的比特数限制到2。因此可以将线路划分为图\ref{fig:tdd-part-II}中的\(A1\)，\(A2\)，\(C1\)，\(B1\)，\(B2\)四部分。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[height=4.5cm]{Img/tdd-part-II.pdf}
     \caption{TDD part II分区方案的例子，其中预设参数\(k1=1,k2=2\)}
     \label{fig:tdd-part-II}
 \end{figure}
+\end{example}
 % 图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
 
 % \begin{figure}[!htbp]
@@ -325,8 +382,11 @@ TN是指google的tensor network。
 在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S_0, \Sigma, \mathcal{T})$，这里 $S_0$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
 
 
-比如一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S_0,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S_0$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p\}Z}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
+\begin{example}
+    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S_0,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S_0$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p\}Z}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
+\end{example}
 
+\subsection*{子空间的表示}
 在量子模型检测中，需要用到子空间的表示。一种表示子空间的办法是通过子空间的一组正交基。算法\ref{alg-basis_dec}给出了一个计算子空间的一组计算基的方法。在此算法基础上，可以给出根据当前系统状态计算下一步系统状态的算法\ref{alg-image}.
 \begin{algorithm}
 \caption{用计算基分解投影算子$P$}
