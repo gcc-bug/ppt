@@ -1,0 +1,14 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+
+\begin{document}
+\begin{tikzpicture}
+    \node at (0,0) [anchor=north]{
+    \begin{quantikz}[column sep=0.28cm,row sep=0.6cm]
+    &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\qw&\qw     &\ctrl{1}&\qw&\qw&\qw     &\gate{X}&\qw&\gate{H}&\qw \\
+    &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw \\
+    &\gate{X}&\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw&\qw&\qw&\qw&\qw&\qw&\qw&\qw 
+    \end{quantikz}};
+    \end{tikzpicture}
+\end{document}
