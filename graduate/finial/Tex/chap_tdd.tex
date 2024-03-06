@@ -290,6 +290,7 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
 \end{algorithm}
 
 \section{对比类似表示}
+\label{sec-compare}
 TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比TDD，直接使用张量网络TN，以及QMDD\citep{1623982}三种表示的效率。
 
 QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和和验证任务
@@ -407,11 +408,11 @@ TN是指google的tensor network。
 通过这种图的方法避免了在计算过程中需要显式表示相应的向量，也减少了0复杂度​​。
 综上所述，算法\ref{alg-basis_dec}给出了一个计算子空间的一组计算基的方法。在此算法基础上，可以给出根据当前系统状态计算下一步系统状态的算法\ref{alg-image}.
 \begin{algorithm}
-\caption{用计算基分解投影算子$P$}
+\caption{给出投影算子$P$的一组正交基}
 \label{alg-basis_dec} 
 \begin{algorithmic}[1]
     \Require 子空间$S$的TDD形式投影算子$P=P_S$ 
-    \Ensure $P$的计算基分解$B$
+    \Ensure $P$的一组正交基分解$B$
     \State $B\gets \{\}$
     \If{\(P\) 是空的} 
         \Return \(B\)
@@ -472,10 +473,18 @@ TN是指google的tensor network。
 \end{algorithmic}
 \end{algorithm}
 
-在此基础上，
+在此基础上，可以计算该量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间。具体方法如下：
+\begin{enumerate}
+    \item 初始化可达空间为\(R = S\)，并计算可达空间的投影算子\(P_{R}\)。
+    \item 调用算法\ref{alg-image}，计算系统$(\mathcal{H},S,\Sigma,\mathcal{T})$下一步状态\(S'=\mathcal{T}(S)\)。
+    \item \label{it-be}调用算法\ref{alg-basis_dec}，分解子空间得到\(S'\)的一组基\(B = \{\ket{\psi_{1}},\cdots,\ket{\psi_{n}}\}\)。同时初始化一个空的状态空间$S''$。
+    \item 遍历\(B\)中的基，假设当前向量为\(\ket{\psi_{i}}\)，计算得到\(\ket{u_i}=P\ket{\psi_{i}}\)，并标准化为$\ket{v_j}=\frac{\ket{u_j}}{|\ket{u_j}|}$。
+    \item \label{it-end}当$\ket{v_j}$为0时，考虑下一个向量；否则，此时$\ket{v_j}$与P正交，将该向量张开的空间并到子空间$S''$中，即$S''=S''\vee span\{\ket{v_j}\}$。同时更新可达空间$R=R\vee span\{\ket{v_j}\}$，即将 $P$ 更新为 $P+\ket{v_j}\bra{v_j}$。
+    \item 遍历结束后，如果$S''$为空，说明该量子系统的可达空间已经收敛，即此时的$R$就是系统的可达空间。否则用$S''$作为量子系统的初态，计算迁移系统$(\mathcal{H},S'',\Sigma,\mathcal{T})$的下一步状态，并重复上述\ref{it-be}到\ref{it-end}的过程。
+\end{enumerate}
 
 \section{针对模型检测的改进}
-本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍以下具体改进方法。
+本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍一下具体改进方法。
 
 \subsection*{addition的拆分方案}
 \label{addition}关于常用的量子线路划分方法，
@@ -484,8 +493,9 @@ TN是指google的tensor network。
 	\item 是对角线量子门的输入和输出索引；
 	\item 是受控门的控制比特位的输入和输出索引。
 \end{itemize}
-	
-图\ref{fig:addition}展示了Grover\_3电路图的索引链接图。该图描述了量子电路的连通性，通过选择图中连通度最大的索引可以对电路进行分割。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对电路进行较好的划分。
+在得到无向图后，就可以通过对连通度高索引进行张量切片，从而对量子电路进行划分。 
+\begin{example}
+    图\ref{fig:addition}展示了图\ref{fig:grover}中Grover\_3电路图的索引链接图。该图描述了量子电路的连通性，通过选择图中连通度最大的索引可以对电路进行分割。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对电路进行较好的划分。
  
 \begin{figure}[!htbp]
 	\centering
@@ -493,15 +503,19 @@ TN是指google的tensor network。
 	\caption{Grover\_3的索引连接图}
 	\label{fig:addition}
 \end{figure} 
+\end{example}
 
 \subsection*{contraction的拆分方案}
-另一种常用的电路划分方法成为contraction。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。对于两个预设整数参数k1和k2，将电路划分为若干小电路。其中每个小电路涉及最多k1个量子比特，并且与至多跨越不同部件的k2个多比特门相连。图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
+另一种常用的电路划分方法成为contraction。该方法是\ref{sec-compare}小节中的TDD part I的延申。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。应用两个预设整数参数$k1$和$k2$，将电路划分为若干小电路。其中每个小电路涉及最多$k1$个量子比特，并且与至多跨越不同部件的$k2$个多比特门相连。
+\begin{example}
+    图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[height=7cm]{Img/cir_contraction.pdf}
 	\caption{对Bit flip电路进行contraction的拆分}
 	\label{fig:contraction}
 \end{figure} 
+\end{example}
 
 
 \subsection*{索引顺序的调整}
