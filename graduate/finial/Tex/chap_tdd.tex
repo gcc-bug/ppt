@@ -289,6 +289,31 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
 \end{algorithmic}
 \end{algorithm}
 
+\subsection{TDD表示电路的优化}
+在TDD原文中\citep{Hong_2022}，还介绍了两种通过分区进行优化的方案，TDD part I和 TDD part II。TDD part I 分区方案侧重于如何将量子门分组到不同的分区中，以优化TDD的表示效率和计算性能。而TDD part II 分区方案中，重点是如何根据比特之间的相互作用和关联性将它们分配到不同的分区中。
+
+TDD part I分区方案中通过中间水平方向将电路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，电路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。
+\begin{example}
+    以图\ref{fig:tdd-part-I}中的量子线路为例。
+由于线路中有四个比特，因此水品分割线将线路分割为上下各两个比特。此时虚线框的两个CX被水平分割线分割。因此当取\(k=1\)时，可以将线路划分为图\ref{fig:tdd-part-I}中的\(A1\)，\(A2\)，\(B1\)，\(B2\)四部分。
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=4.5cm]{Img/tdd-part-I.pdf}
+    \caption{TDD part I分区方案的例子，其中预设参数\(k=1\)}
+    \label{fig:tdd-part-I}
+\end{figure}
+\end{example}
+
+TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟的策略的扩展。在方案中首先与第一种方案类似，从电路中部进行水平划分。当预定义的参数$k1$个CX门因为水平分割而分开时，会设立一个新的小区块。这个小区块包含电路的一小部分，内含数个因水平切割而分隔的CX门，即这些门在此区块内不与区块外的比特发生任何交互。每当这个小区块涉及到预定义的参数$k2$比特时，就进行一次新的垂直分割。
+\begin{example}
+    同样以图\ref{fig:tdd-part-I}中的量子线路为例。水平分割线分割后，此时虚线框的两个CX被水平分割线分割。因此当取\(k1=1\)时，将右边虚线框的CX设立在小区块\(C\)中。当取\(k2=2\)时，小区块\(C\)的比特数限制到2。因此可以将线路划分为图\ref{fig:tdd-part-II}中的\(A1\)，\(A2\)，\(C1\)，\(B1\)，\(B2\)四部分。
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[height=4.5cm]{Img/tdd-part-II.pdf}
+    \caption{TDD part II分区方案的例子，其中预设参数\(k1=1,k2=2\)}
+    \label{fig:tdd-part-II}
+\end{figure}
+\end{example}
 \section{对比类似表示}
 \label{sec-compare}
 TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比TDD，直接使用张量网络TN，以及QMDD\citep{1623982}三种表示的效率。
@@ -320,31 +345,6 @@ QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四
 而在TDD结构中，每一个非终端节点分别连接着两个后继节点。从原理上讲，如果采用相同的排序规则，量子电路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。此时TDD表达方式所需的内存空间大约与QMDD表达方式所需的内存空间持平。这是因为它们都拥有相同数目的加权边并记录了相同数量的权值(即复数)。
 因此TDD的表示形式和QMDD紧凑程度相近。
 然而TDD由于可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
-
-比如在TDD原文中\citep{Hong_2022}，就介绍了两种通过分区进行优化的方案，TDD part I和 TDD part II。TDD part I 分区方案侧重于如何将量子门分组到不同的分区中，以优化TDD的表示效率和计算性能。而TDD part II 分区方案中，重点是如何根据比特之间的相互作用和关联性将它们分配到不同的分区中。
-
-TDD part I分区方案中通过中间水平方向将电路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，电路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。
-\begin{example}
-    以图\ref{fig:tdd-part-I}中的量子线路为例。
-由于线路中有四个比特，因此水品分割线将线路分割为上下各两个比特。此时虚线框的两个CX被水平分割线分割。因此当取\(k=1\)时，可以将线路划分为图\ref{fig:tdd-part-I}中的\(A1\)，\(A2\)，\(B1\)，\(B2\)四部分。
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=4.5cm]{Img/tdd-part-I.pdf}
-    \caption{TDD part I分区方案的例子，其中预设参数\(k=1\)}
-    \label{fig:tdd-part-I}
-\end{figure}
-\end{example}
-
-TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟的策略的扩展。在方案中首先与第一种方案类似，从电路中部进行水平划分。当预定义的参数$k1$个CX门因为水平分割而分开时，会设立一个新的小区块。这个小区块包含电路的一小部分，内含数个因水平切割而分隔的CX门，即这些门在此区块内不与区块外的比特发生任何交互。每当这个小区块涉及到预定义的参数$k2$比特时，就进行一次新的垂直分割。
-\begin{example}
-    同样以图\ref{fig:tdd-part-I}中的量子线路为例。水平分割线分割后，此时虚线框的两个CX被水平分割线分割。因此当取\(k1=1\)时，将右边虚线框的CX设立在小区块\(C\)中。当取\(k2=2\)时，小区块\(C\)的比特数限制到2。因此可以将线路划分为图\ref{fig:tdd-part-II}中的\(A1\)，\(A2\)，\(C1\)，\(B1\)，\(B2\)四部分。
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=4.5cm]{Img/tdd-part-II.pdf}
-    \caption{TDD part II分区方案的例子，其中预设参数\(k1=1,k2=2\)}
-    \label{fig:tdd-part-II}
-\end{figure}
-\end{example}
 % 图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
 
 % \begin{figure}[!htbp]
@@ -361,7 +361,6 @@ TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟�
 % \end{figure}
  
 % 目前ZX-calculus发展还比较早期。
-% //TODO: add TN 
 图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II都是是前文中提到的优化方案。
 QMDD指的是QuantumMultiple-valued Decision Diagrams。
 TN是指google的tensor network。

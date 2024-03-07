@@ -451,6 +451,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
     \item 持续可达性：\( Pr^{\mathcal{M}}(s \models \lozenge \square G) = Pr^M(\pi \models \lozenge \square G : \pi \in \text{Paths}(s))\)
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
+% //TODO: add example
 \subsection{量子模型检测}
 目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。
 
@@ -464,7 +465,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \end{itemize}
 
 这些命题 \( \mathcal{X} \) 和 \( \mathcal{Y} \) 可以通过粒子的状态希尔伯特空间的特定子空间来表示。
-
+% //TODO: add safa and correct
 在数学上，这种逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作。
 具体如下：
 \begin{itemize}
@@ -481,3 +482,4 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \( (S(\mathcal{H}), \cap, \vee, \perp) \) 构成一个正交模糊格，\( \subseteq \) 是其排序，这是 Birkhoff–von Neumann 量子逻辑的代数模型。
 
 在实际应用中，通常只选择 \( S(\mathcal{H}) \) 的一个子集 AP 作为原子命题的集合。AP 中的元素可以被认为是真正关心的那些命题，而其他的可能是不相关的。出于算法目的，通常假设 AP 是可数的甚至是有限的 \( S(\mathcal{H}) \) 的子集，而不是 \( S(\mathcal{H}) \) 本身，因为 \( S(\mathcal{H}) \) 是不可数无限的。因此给定一组原子命题集 AP，对于 \( \mathcal{X} \in S(\mathcal{H}) \)，如果状态 \(|\psi\rangle\) 满足集合中所有命题的交集，说 \(|\psi\rangle\) 满足 \(\mathcal{X}\)。需要对这部分深入了解的读者，可以自行阅读\citep{2021}。
+% // TODO: add example
