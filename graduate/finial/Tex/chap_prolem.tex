@@ -14,7 +14,7 @@
 其中\(S\)为系统状态集合，\(I\)为系统初态集合，因此满足\(I\subseteq S\)。\(Act\)为系统行为集合。\(\rightarrow\)为系统状态转移关系，即\(\rightarrow\subset S\times Act\times S\)。此外还有\(AP\)为描述系统原子命题。L是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为命题。
 
 
-系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)。\(s_i\)满足\(s_{i-1}\overset{a}{\rightarrow}s_i,a\in Act\),对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\),\(s_{i-1} \overset{a}{\rightarrow}  s_i,a\in Act\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(s_0\)为开始的路径，构成了路径集合\(Path\left(s_0\right)\)。
+系统的有限路径片段\(\pi\)是一个有限状态序列\(S,s_1\ldots s_n\)。\(s_i\)满足\(s_{i-1}\overset{a}{\rightarrow}s_i,a\in Act\),对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(S,s_1\ldots\)，使得对于所有\(i>0\),\(s_{i-1} \overset{a}{\rightarrow}  s_i,a\in Act\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S\)为开始的路径，构成了路径集合\(Path\left(S\right)\)。
 
 \begin{figure}[!htbp]
     \centering

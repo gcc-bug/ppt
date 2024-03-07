@@ -1,11 +1,7 @@
-\chapter{研究方法介绍}
-张量决策图(TDD)是一种基于张量网络，结合了二元决策图的表示优势的数据结构。
-TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
-本章将主要介绍在本次研究中使用的方法，因此将主要介绍TDD和进一步的改进方案，并与类似技术进行对比，然后介绍如何应用TDD进行模型检测，最后介绍本次研究中的软件实现。
-\section{TDD介绍}
-TDDs是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
-本节将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算。
-\subsection{张量网络表示量子线路}
+\chapter{TDD介绍}
+TDD是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
+本章将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算以及和其他表示的对比。
+\section{张量网络表示量子线路}
 张量是与一组与索引序列\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为定义\ref{df-tensor}所示。
 \begin{definition}
     \label{df-tensor}
@@ -92,7 +88,8 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{equation}
 因此对图\ref{fig:example_cir_2}中的量子线路，输入态为\(\ket{00}\)时，线路输出态一定是\(\ket{00}\)。
 \end{example}
-\subsection{张量决策图}
+\section{从张量网络到TDD}
+\subsection{TDD的定义}
 张量决策图(Tensor Decision Diagrams，或TDD)是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
 \begin{definition}
     \label{df-tdd}
@@ -233,10 +230,10 @@ TDDs是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{algorithm}
 
 
-\subsection{TDD之间的运算}
+\section{TDD之间的运算}
 TDD是基于张量网络的数据结构，因此张量之间的基础操作也会在TDD有所对应。
 用张量网络表示量子电路时，将大量应用张量加法和张量收缩(contraction)。因此本小节主要介绍不同TDD之间的加法和收缩。
-\subsubsection*{TDD之间的加法}
+\subsection*{TDD之间的加法}
 张量网络中，两个张量的加法是将两个具有相同维度的张量在对应元素上进行加和的操作，结果是一个新的张量。这种操作在处理张量网络时用于合并具有相同结构但不同数据的张量。在TDD中，加法操作通过递归地合并两个TDD的节点来实现，对应于在张量网络中将两个张量相加，从而形成一个表示两者之和的新的张量网络。具体算法如算法\ref{alg-add}。
 \begin{algorithm}
 \caption{对具有相同索引的两个TDD表示\(\mathcal{F}, \mathcal{G}\)进行加法运算}
@@ -259,7 +256,7 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection*{TDD之间的收缩}
+\subsection*{TDD之间的收缩}
 张量收缩是张量网络中最核心的操作之一，它指的是沿着一个或多个共享维度对张量进行求和的过程，从而减少张量的总维数。这个操作在量子物理和量子计算的模拟中特别重要，因为它能够模拟多个量子态或量子门的相互作用。在TDD中，收缩操作通过在特定变量集上合并节点来实现，模拟了在张量网络中按照给定维度进行张量收缩的过程。具体算法如算法\ref{alg-cont}所示。
 \begin{algorithm}
 \caption{对两个TDD表示\(\mathcal{F}, \mathcal{G}\)收缩所有在\(\text{var}\)集合中的索引}、
@@ -289,7 +286,7 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{TDD表示电路的优化}
+\section{TDD表示电路的优化}
 在TDD原文中\citep{Hong_2022}，还介绍了两种通过分区进行优化的方案，TDD part I和 TDD part II。TDD part I 分区方案侧重于如何将量子门分组到不同的分区中，以优化TDD的表示效率和计算性能。而TDD part II 分区方案中，重点是如何根据比特之间的相互作用和关联性将它们分配到不同的分区中。
 
 TDD part I分区方案中通过中间水平方向将电路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，电路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。
@@ -376,14 +373,20 @@ TN是指google的tensor network。
 
 目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
 
-\section{在模型检验中应用TDD}
+
+\chapter{研究方法的介绍}
+张量决策图(TDD)是一种基于张量网络，结合了二元决策图的表示优势的数据结构。
+TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
+本章将主要介绍在本次研究中使用的方法，因此将主要介绍如何应用TDD进行模型检测并作出针对性改进，最后介绍本次研究中的软件实现。
+
+\section{在量子模型检测中应用TDD表示}
 借助新的数据结构TDD，可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
 
-在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S_0, \Sigma, \mathcal{T})$，这里 $S_0$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
+在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
 
 
 \begin{example}
-    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S_0,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S_0$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p\}Z}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
+    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p\}Z}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
 \end{example}
 \begin{example}
     \label{ex-image-grover}
@@ -399,7 +402,7 @@ TN是指google的tensor network。
     \end{figure} 
 \end{example}
 
-\subsection*{子空间的表示}
+\subsection{子空间的表示}
 在量子模型检测中，需要用到子空间的表示。一种表示子空间的办法是将子空间表示为一组基态。
 给定子空间投影算子的矩阵形式，如果有一个非零的列向量，那么在该向量的方向上就可以找到一个基向量。然后，通过正交化过程，可以递归地找到原始子空间的一组正交基向量。
 但是使用矩阵表示进行所有列的遍历会遇到很高的复杂度。而通过使用子空间投影算子的TDD表示，就可以可以容易地找到第一个非零列。
@@ -439,7 +442,7 @@ TN是指google的tensor network。
         \item 对 $P'$ 重复上述的过程，获得 另一组基$\ket{v_2}=\ket{11}\ket{-}$，此时TDD为空。因此 ${\ket{v_1},\ket{v_2}}$ 是子空间 $S$ 的一个基。
     \end{enumerate}
 \end{example}
-\subsection*{子空间的并}
+\subsection{子空间的并}
 子空间的并也是模型检测中重要的一步。设 $S=S_1\vee S_2$ 为两个子空间 $S_1,S_2$ 的并集。假设 $B_1=\{\ket{\psi_{11}},\cdots,\ket{\psi_{1k}}\}$ 和 $B_2=\{\ket{\psi_{21}},\cdots,\ket{\psi_{2l}}\}$ 分别是 $S_1$ 和 $S_2$ 的一组正交基。子空间$S$的一组正交基$B$可以通过格拉姆-施密特正交化方法(Gram–Schmidt process)计算而来，具体方法如下。
 \begin{enumerate}
     \item 令 $B=B_1$，并定义 $P=\sum_{j=1}^{k}{\ket{\psi_{1j}}\bra{\psi_{1j}}}$。
@@ -453,7 +456,7 @@ TN是指google的tensor network。
 \begin{example}
     例子\ref{ex-image-grover}中对Grover 3电路建模，例子\ref{ex-image-sub}对涉及的子空间进行了分解。考虑分解的逆过程，设 $P_1,P_2$ 为两个一维子空间 $S_1,S_2$ 的投影算子，分别由 $B_1=\{\ket{++-}\}$ 和 $B_2=\{\ket{11-}\}$ 生成。显然，$P_1=\ket{++-}\bra{++-}$。将 $B_1$ 完善为 $S=S_1\vee S_2$ 的一个基。计算得到$\ket{u}=\ket{11-}-P_1\ket{11-}=\ket{11-}-\frac{1}{4}\ket{++-}=[-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},\frac{3}{4},-\frac{3}{4}]^T$，可以被标准化为 $\ket{v}=-\frac{1}{2\sqrt{3}}(\ket{00}+\ket{01}+\ket{10}-3\ket{11})\ket{-}$。那么 $B=\{\ket{++-},\ket{v}\}$ 是一个正交归一化基，且 $P=P_1+\ket{v}\bra{v}$ 是相应的投影算子。
 \end{example}
-\subsection*{计算一步迁移}
+\section{计算一步迁移}
 结合子空间的分解算法，可以给出对于量子系统的一步映射算法，具体如\ref{alg-image}所示。
 \begin{algorithm}
 \caption{基于迁移系统的一步映射算法}
