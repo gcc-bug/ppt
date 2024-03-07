@@ -484,6 +484,7 @@ TN是指google的tensor network。
 \end{enumerate}
 
 \section{针对模型检测的改进}
+\label{sec-optimize}
 本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍一下具体改进方法。
 
 \subsection*{addition的拆分方案}
@@ -539,6 +540,43 @@ TN是指google的tensor network。
 	\caption{布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$在不同索引顺序下的BDD\citep{wiki:bdd}}
 	\label{fig:bdd-compare}
 \end{figure}
+
+\subsection*{基于TDD的分割}
+按照 \citep{narayan1996partitioned} 中关于传统模型校验方法的讨论，可以设计基于TDD的划分法。即利用布尔函数将一个大张量细分成若干个小张量的优化方法。设 $\varphi$ 是一个含有 $n$ 个索引的张量。从 $\set{0,1}^n$ 到 $\set{0,1}$ 的集合中选取一系列窗口布尔函数 (window boolean function)$\{w_1,\cdots, w_k\}$，这些函数对于同一输入，始终满足以下条件： 
+\begin{itemize}
+    \item $w_1+\cdots +w_k=1$
+    \item 对任意 $i \neq j$，$w_i \cdot w_j = 0$
+\end{itemize} 
+因此可以看到对于一个索引$a$，有且只有一个窗口函数$w_i (a) = 1$，其他窗口函数都为$0$。
+对一个张量$\varphi$，令$\varphi_i=\varphi \cdot w_i$。此时如果 $w_i(a)=1$，则$\varphi(a)=\varphi_i(a)$ ；而当$w_i(a)=0$，则$\varphi_i(a)=0$，此时存在另一个窗口函数使得$w_j(a)=1$，$\varphi(a)=\varphi_j(a)$ 。
+进而，可以得出 $\varphi = \varphi_1+ \cdots +\varphi_k$。基于这样的张量划分方法，也可以对TDD进行划分。
+
+\begin{example}
+    以例子\ref{ex-image-sub}中的
+    量子态 $\ket{v_1}=\frac{1}{\sqrt{3}}(\ket{00}+\ket{01}+\ket{10})\ket{-}=\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}+\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-}$ 作为示例。将 $q_0$ 量子比特看作是一个布尔变量，设$w_1=\bar{q_0}$ 和 $w_2=q_0$。窗口函数$w_1+w_2=1$，并且互斥。 $\ket{v_1}\cdot w_1$ 与 $\ket{v_1} \cdot w_2$ 分别代表（非标准化的）状态 $\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}$ 和 $\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-}$。$\ket{v_1}$ 的TDD表示及其窗口函数分割的TDD可在图\ref{fig:tdd-split} 中查看。
+    \begin{figure}
+    \centering
+	\begin{subfigure}[b]{.3\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/tdd_proj.pdf}
+		\caption{$\ket{v_1}$的TDD表示}
+	\end{subfigure}
+	\begin{subfigure}[b]{.3\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/tdd_proj_a0.pdf}
+		\caption{$\ket{v_1}$在$w_1=\bar{q_0}$下的TDD表示}
+	\end{subfigure}
+    \quad
+    \begin{subfigure}[b]{.3\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/tdd_proj_a1.pdf}
+		\caption{$\ket{v_1}$在$w_2=q_0$下的TDD表示}
+	\end{subfigure}
+    
+    \caption{$\ket{v_1}=\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}+\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-}$的TDD表示与窗口函数分解}
+    \label{fig:tdd-split}
+    \end{figure}
+\end{example}
 
 \section{软件系统实现}
 为了实现软件的高效运行，模块化设计至关重要。
