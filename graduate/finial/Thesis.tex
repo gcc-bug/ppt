@@ -73,6 +73,18 @@
 
 \providecommand{\algorithmname}{算法}
 \renewcommand{\listalgorithmname}{算法目录}
+
+\usepackage{tikz}
+\usepackage{array}
+
+\newcommand\DiagonalCell[2]{%
+  \begin{tikzpicture}[baseline=(current bounding box.center),anchor=center]
+    \node[minimum width=0.8cm,minimum height=2em] (box) {};
+    \draw (box.north west) -- (box.south east);
+    \node[anchor=south west,inner sep=1pt,outer sep=0pt] at (box.south west) {#1};
+    \node[anchor=north east,inner sep=1pt,outer sep=0pt] at (box.north east) {#2};
+  \end{tikzpicture}%
+}
 \begin{document}
 %-
 %-> Frontmatter: title page, abstract, content list, symbol list, preface
