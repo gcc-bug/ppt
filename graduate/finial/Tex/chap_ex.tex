@@ -4,51 +4,57 @@
 其中image computation，即量子迁移系统的一步映射是模型检测中，反复用的算法。
 可以说利用更少的资源进行image computation，就可以降低计算量子系统的可达空间时的资源消耗。
 因此本章节的实验主要围绕image computation，并进一步讨论优化方法的参数影响。
-\section{实验设置}
+\section{实验设置与实验数据}
 在模型检测中，image computation指的是在给定当前状态和转移行为的情况下计算接下来的状态。
-在这一过程中，时间资源可以用计算过程中的用时度量。空间资源方面，由于不同编译语言，不同计算平台之间存在差异，因此用计算过程中TDD节点个数进行度量。
+在这一过程中，时间资源可以用计算过程中的用时度量。空间资源方面，由于不同编译语言，不同计算平台之间存在差异，所以用计算过程中TDD节点个数进行度量空间资源。
+同时由于最大节点数可以表现实验中内存资源占用最多的时刻。因此实验中比较最大节点数。
 目前，在Intel Xeon-Gold-5215 CPU，512GB RAM的硬件平台上，进行了TDD对量子迁移系统的image computation的实验。
 
-首先表\ref{table:time}对比了\ref{sec-optimize}节中的addition 和 contraction 两种优化方法以及不加入优化方法，三种方法的资源消耗。time表示计算时间，单位为秒，max node表示计算过程中TDD的节点最大个数。
+\ref{sec-optimize}节中具体讨论了五种进一步的优化方案。分别是addition 和 contraction 两种通过电路拆分进行优化的方案，以及调整TDD索引顺序，
+以及TDD拆分和用子空间近似表示两种对TDD优化方法。其中调整TDD索引顺序是在实验前进行的，因此这里不再展示。
+
+在具体实验中，首先表\ref{table:time}对比了\ref{sec-optimize}节中的addition 和 contraction 两种优化方法以及不加入优化方法，三种方法的资源消耗。time表示计算时间，单位为秒，最大节点数表示计算过程中TDD的节点最大个数。
 basic表示没有使用优化技术，addition表示使用\ref{addition}节中的addition优化技术，contraction表示使用\ref{contraction}节中的contraction优化技术。“-”表示超过一小时的运行上限。
 \begin{table}[!htbp]
     \centering
-    \begin{tabular}{llllllllll}
-        \hline
-        \multirow{2}{*}{Benchmark} &  & \multicolumn{2}{c}{basic} &  & \multicolumn{2}{c}{addition} &  & \multicolumn{2}{c}{contraction} \\ \cline{3-4} \cline{6-7} \cline{9-10} 
-                                   &  & time        & max \#node       &  & time          & max \#node        &  & time           & max \#node          \\ \hline
-        Grover\_15 &   & 19.33  & 15785     &   & 17.35      & 15099  & & 1.61 & 597  \\
-        Grover\_18 &   & 76.47  & 61694     &   & 66.02      & 60332  & & 2.41 & 516  \\
-        Grover\_20 &   & 294.65 & 243946    &   & 259.87     & 241240 & & 4.39  & 1036 \\ 
-        Grover\_40 &   & -      &           &   & -          &        & & 2953.57 & 851973 \\
-        \hline
-        QFT\_15     &  & 34.64   & 65536   &  & 18.88  & 32770   &  & 0.08 & 63  \\
-        QFT\_18     &  & 282.12  & 524288  &  & 148.13 & 262146 &   & 0.10  & 31  \\
-        QFT\_20     &  & 1199.21 & 2097152 &  & 655.19 & 1048578 &  & 0.12 & 63  \\
-        QFT\_30     &  & -       &         &  & -      &        &  & 0.29 & 31  \\
-        QFT\_50     &  & -       &         &  & -      &        &  & 1.02 & 51  \\
-        QFT\_100    &  & -       &         &  & -      &        &  & 7.14 & 101 \\
-        \hline
-        BV\_100     &  & 7.36    & 596     &  & 7.43      & 596     &  & 0.41           & 102 \\
-        BV\_200     &  & 31.57   & 1196    &  & 30.03     & 1196    &  & 1.70           & 202 \\
-        BV\_300     &  & 75.66   & 1796    &  & 75.56     & 1796    &  & 4.28           & 302 \\
-        BV\_400     &  & 146.47  & 2396    &  & 145.40    & 2396    &  & 9.18           & 402 \\
-        BV\_500     &  & 244.15  & 2996    &  & 223.90    & 2996    &  & 16.31          & 502 \\
-        \hline
-        GHZ\_100    &  & 0.38    & 595     &  & 0.13      & 301    &  & 0.18           & 200 \\%& 0.03    
-        GHZ\_200    &  & 0.72    & 1195    &  & 0.37      & 601    &  & 0.48           & 400 \\%& 0.12     
-        GHZ\_300    &  & 1.29    & 1795    &  & 0.62      & 901    &  & 0.80           & 600 \\%& 0.24     
-        GHZ\_400    &  & 2.03    & 2395    &  & 1.00      & 1201    &  & 1.26           & 800 \\%& 0.42     
-        GHZ\_500    &  & 2.96    & 2995    &  & 1.45      & 1501    &  & 1.72           & 1000\\%& 0.62     
-        \hline
-        QRW\_15     &  & 36.86   & 13122     &  & 24.59     & 10882     & & 7.16  & 222 \\
-        QRW\_18     &  & 139.76  & 90538     &  & 84.69     & 37064     & & 11.23 & 226 \\
-        QRW\_20     &  & 341.05  & 265614    &  & 218.29    & 107714    & & 14.31 & 404 \\
-        QRW\_30     &   &-       &          &  &-          &          & & 36.82 & 404 \\
-        QRW\_50     &   &-       &          &  &-          &          & & 118.08 & 404 \\
-        QRW\_100    &   &-       &          &  &-          &          & & 692.08 & 436 \\
-        \hline
-    \end{tabular}
+    \scalebox{0.8}{
+        \begin{tabular}{llllllllll}
+            \hline
+            \multirow{2}{*}{Benchmark} &  & \multicolumn{2}{c}{basic} &  & \multicolumn{2}{c}{addition优化方案} &  & \multicolumn{2}{c}{contraction优化方案} \\ \cline{3-4} \cline{6-7} \cline{9-10} 
+                                       &  & 时间        & 最大节点数       &  & 时间          & 最大节点数        &  & 时间           & 最大节点数          \\ \hline
+            Grover\_15 &   & 19.33  & 15785     &   & 17.35      & 15099  & & 1.61 & 597  \\
+            Grover\_18 &   & 76.47  & 61694     &   & 66.02      & 60332  & & 2.41 & 516  \\
+            Grover\_20 &   & 294.65 & 243946    &   & 259.87     & 241240 & & 4.39  & 1036 \\ 
+            Grover\_40 &   & -      &           &   & -          &        & & 2953.57 & 851973 \\
+            \hline
+            QFT\_15     &  & 34.64   & 65536   &  & 18.88  & 32770   &  & 0.08 & 63  \\
+            QFT\_18     &  & 282.12  & 524288  &  & 148.13 & 262146 &   & 0.10  & 31  \\
+            QFT\_20     &  & 1199.21 & 2097152 &  & 655.19 & 1048578 &  & 0.12 & 63  \\
+            QFT\_30     &  & -       &         &  & -      &        &  & 0.29 & 31  \\
+            QFT\_50     &  & -       &         &  & -      &        &  & 1.02 & 51  \\
+            QFT\_100    &  & -       &         &  & -      &        &  & 7.14 & 101 \\
+            \hline
+            BV\_100     &  & 7.36    & 596     &  & 7.43      & 596     &  & 0.41           & 102 \\
+            BV\_200     &  & 31.57   & 1196    &  & 30.03     & 1196    &  & 1.70           & 202 \\
+            BV\_300     &  & 75.66   & 1796    &  & 75.56     & 1796    &  & 4.28           & 302 \\
+            BV\_400     &  & 146.47  & 2396    &  & 145.40    & 2396    &  & 9.18           & 402 \\
+            BV\_500     &  & 244.15  & 2996    &  & 223.90    & 2996    &  & 16.31          & 502 \\
+            \hline
+            GHZ\_100    &  & 0.38    & 595     &  & 0.13      & 301    &  & 0.18           & 200 \\%& 0.03    
+            GHZ\_200    &  & 0.72    & 1195    &  & 0.37      & 601    &  & 0.48           & 400 \\%& 0.12     
+            GHZ\_300    &  & 1.29    & 1795    &  & 0.62      & 901    &  & 0.80           & 600 \\%& 0.24     
+            GHZ\_400    &  & 2.03    & 2395    &  & 1.00      & 1201    &  & 1.26           & 800 \\%& 0.42     
+            GHZ\_500    &  & 2.96    & 2995    &  & 1.45      & 1501    &  & 1.72           & 1000\\%& 0.62     
+            \hline
+            QRW\_15     &  & 36.86   & 13122     &  & 24.59     & 10882     & & 7.16  & 222 \\
+            QRW\_18     &  & 139.76  & 90538     &  & 84.69     & 37064     & & 11.23 & 226 \\
+            QRW\_20     &  & 341.05  & 265614    &  & 218.29    & 107714    & & 14.31 & 404 \\
+            QRW\_30     &   &-       &          &  &-          &          & & 36.82 & 404 \\
+            QRW\_50     &   &-       &          &  &-          &          & & 118.08 & 404 \\
+            QRW\_100    &   &-       &          &  &-          &          & & 692.08 & 436 \\
+            \hline
+        \end{tabular}
+    }
     \caption{对不同测试实验应用image computation}
     \label{table:time}
 \end{table}
@@ -92,13 +98,49 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
                          
         \end{tabular}
     }
-    \caption{对grover\_15应用不同的addition 参数。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
+    \caption{对grover\_15应用不同的addition 参数的时间对比。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
     \label{table:addition}
 \end{table}
-  
+\begin{table}[htbp]
+    \centering
+    \scalebox{0.8}{
+        \begin{tabular}{cccccccccccccc} % Corrected to 14 c's for 14 columns
+            \toprule
+            k  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 \\
+            \midrule
+            time & 219 & 225 & 220 & 218 & 363 & 570 & 621 & 728 & 1298 & 1982 & 2868 & 4680 & 8615 \\
+            \bottomrule
+            \end{tabular}
+    }
+    \caption{对grover\_15应用不同的contraction 参数的时间对比。}
+    \label{table-contraction}
+\end{table}
+\begin{table}[]
+    \centering
+    \scalebox{0.8}{
+    \begin{tabular}{c|c|ccccc}
+                        电路  & 优化方法 & & $k=0$ & $k=1$ & $k=2$ & $k=3$ \\\hline
+    % \multirow{2}{*}{Grover\_20} & time   & 3.10 &3.36 &3.39 &3.37   \\
+    %                         &max\_node &1178  &793  &780  &513   \\\hline
+    \multirow{2}{*}{Grover\_40} & \multirow{2}{*}{TDD-part}    &time       & 1,510.42   &1,519.24 & 1,459.02 & 1,495.20  \\
+                           & &max \#node     &589,865     & 393,423 & 393,239 & 245,814  \\\hline
+    % \multirow{2}{*}{QFT}    &time       & 0.45   &0.30 &0.37 & 0.40  \\
+    %                         &approx     &515     & 259 & 259 & 132  \\\hline
+    \multirow{2}{*}{QFT\_100}  & \multirow{2}{*}{approx.}    &time       &121.28    & 118.78 & 116.69 & 128.31\\
+                              &   & max \#node     &524,369     & 262,226 & 262,226 & 131,155\\
+    % \multirow{2}{*}{GHZ\_500}    &time       & 1.72   & & &  \\
+    %                         &approx     &1000     & 501 & 501 & 251  \\\hline
+    
+    \end{tabular}
+    }
+    \caption{TDD拆分与近似的优化方案}
 
+    \label{table:tdd-based}
+    \end{table}
 
-\section{数据结果与分析}
+    同时为了验证基于TDD的分割和近似技巧在降低image computation过程中内存占用以及缓解内存溢出问题上的效果。实验中，选取了Grover\_40和QFT\_100作为测试案例，记录了采用合约分割法进行image computation时TDDs的处理时间及其最大节点数量。实验成果汇编于表\ref{table:tdd-based}。表中，变量 $k$ 用于指示采用的分割次数。当 $k=1$时，将原TDD一分为二，形成两个较为均衡的部分，从而显著减少了节点数量。$k=2$时，进一步将一个分支细分为两个小部分。而到了 $k=3$，在另一个分支上继续分割，节点数因此再次大幅度降低。
+\section{数据结果分析}
+\subsection*{电路拆分方案的比较}
 图\ref{fig:grover-compare}表示了对Grover搜索算法运行不同image computation算法的资源对比。图\ref{fig:QFT-compare}表示了对quantum Fourier transform（QFT）算法运行不同image computation算法的资源对比。图\ref{fig:BV-compare}表示了对Bernstein–Vazirani（BV）算法运行不同image computation算法的资源对比。图\ref{fig:GHZ-compare}表示了对Greenberger–Horne–Zeilinger （GHZ）状态制备电路运行不同image computation算法的资源对比。图\ref{fig:QRW-compare}表示了对在$2^n$ 环上的quantum random walk （QRW）算法运行不同image computation算法的资源对比。
 
 通过对比不同优化技术下的计算时间，可以看到使用优化技术能够显著降低计算时间。例如，在Grover-20的例子中，使用"contraction"优化技术的情况下，计算时间从294秒降低到了4秒。这表明优化技术在提高计算效率方面起到了积极的作用。
@@ -194,3 +236,9 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
     \label{fig:QRW-compare}
 \end{figure}
 
+\subsection*{addition拆分方案的参数分析}
+
+\subsection*{TDD结构优化的分析}
+对于Grover\_40电路，初始使用子空间 $S_0=span{\ket{0\cdots0}}$ 以简化过程。从表~\ref{table:tdd-based}可见，在不进行image computation优化的情况下，最大的TDD节点数达到了589,865。通过在达到最大TDD之前实施基于TDD的分割，可以将最大节点数减至393,423。若对两个分支均执行TDD基分割，则最大节点数可进一步降至245,814，不足原数的一半。此外，这一过程几乎不会增加时间消耗。
+    
+但有时，计算末尾才会出现最大的TDD。这意味着，即便在整个计算过程中已将TDD分割为多个小片段，最大的TDD仍难以避免，除非采取近似方法。以初始子空间为 $S_0=span\{\ket{+\cdots+ -\cdots -}\}$（最后20个量子比特全为 $\ket{-}$）的QFT\_100为例，计算结束时出现了含有524,369节点的最大TDD。因此，虽然会在计算过程中通过TDD分割获得多个小TDD，但在最后不会将它们合并。相反，用这些TDD张成的子空间来近似原始TDD。进而，通过将原来的一维子空间近似为二维子空间，可以将最大TDD的节点数降至262,226；将原空间近似为四维时，节点数可降至131,155。值得注意的是，实际验证时无需将这些小TDD同时存储于内存中，而可以逐一进行计算与验证。
