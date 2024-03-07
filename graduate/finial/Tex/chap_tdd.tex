@@ -485,9 +485,9 @@ TN是指google的tensor network。
 
 \section{针对模型检测的改进}
 \label{sec-optimize}
-本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割张量网络和优化TDD结构。下面简单介绍一下具体改进方法。
+本次研究的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本次研究的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割电路和优化TDD结构。下面简单介绍一下具体改进方法。
 
-\subsection*{addition的拆分方案}
+\subsection*{addition的电路拆分方案}
 \label{addition}关于常用的量子线路划分方法，
 第一种被称为addition\citep{chen2018classical}。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
 \begin{itemize}
@@ -506,7 +506,7 @@ TN是指google的tensor network。
 \end{figure} 
 \end{example}
 
-\subsection*{contraction的拆分方案}
+\subsection*{contraction的电路拆分方案}
 另一种常用的电路划分方法成为contraction。该方法是\ref{sec-compare}小节中的TDD part I的延申。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。应用两个预设整数参数$k1$和$k2$，将电路划分为若干小电路。其中每个小电路涉及最多$k1$个量子比特，并且与至多跨越不同部件的$k2$个多比特门相连。
 \begin{example}
     图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
@@ -577,7 +577,7 @@ TN是指google的tensor network。
     \label{fig:tdd-split}
     \end{figure}
 \end{example}
-
+\subsection*{用投影算子近似TDD}
 \section{软件系统实现}
 为了实现软件的高效运行，模块化设计至关重要。
 每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
