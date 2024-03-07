@@ -454,18 +454,41 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 % //TODO: add example
 \subsection{量子模型检测}
 目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。
-
+\subsubsection*{量子命题}
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
 
-例如，考虑以下量子逻辑命题：
+\begin{example}
+    考虑以下量子逻辑命题：
 
 \begin{itemize}
 \item 命题 \( \mathcal{X} \)：在时间 \( t \) 时，量子粒子的位置 \( x \) 坐标在区间 \( [a, b] \) 内。
 \item 命题 \( \mathcal{Y} \)：在时间 \( t \) 时，量子粒子的动量 \( y \) 坐标在区间 \( [a, b] \) 内。
 \end{itemize}
-
 这些命题 \( \mathcal{X} \) 和 \( \mathcal{Y} \) 可以通过粒子的状态希尔伯特空间的特定子空间来表示。
+\end{example}
+
+
 % //TODO: add safa and correct
+上述将子空间视为原子命题的想法也可以用量子测量来解释。假设系统的一个基本性质由希尔伯特空间$\mathcal{H}$的一个闭子空间$\mathcal{X}$描述。
+在量子力学中,为了检查这个性质是否满足,需要对系统当前态$|\psi\rangle$执行一个二元(是或否)测量$\{P_{\mathcal{X}}, P_{\mathcal{X}}^{\perp}\}$，
+其中$P_{\mathcal{X}}$和$P_{\mathcal{X}}^\perp$分别是到$\mathcal{X}$和它的正交补$\mathcal{X}^\perp$的投影。测量结果通常是非确定性的:$\mathcal{X}$在$|\psi\rangle$中满足的概率是$\langle\psi|P_{\mathcal{X}}|\psi\rangle$,而不满足的概率是
+$\langle\psi|P_{\mathcal{X}}^\perp|\psi\rangle = 1 - \langle\psi|P_{\mathcal{X}}|\psi\rangle$。可以通过设置一个阈值$\lambda \in [0,1]$来定义关于满足的概率的量化关系:
+
+\begin{equation}
+\mathcal{X} \text{在}|\psi\rangle\text{中}(\lambda, \triangleright)\text{-满足},\text{如果}\langle\psi|P_{\mathcal{X}}|\psi\rangle \triangleright \lambda, 
+\end{equation}
+
+其中$\triangleright \in {<, \leq, >, \geq}$。这里,我们只考虑定性满足,即阈值$\lambda$为0或1时的$(\lambda, \triangleright)$满足。很明显,对于任何纯态$|\psi\rangle$和子空间$\mathcal{X}$,都有:
+
+\begin{itemize}
+\item 如果$|\psi\rangle \in \mathcal{X}$,那么$\mathcal{X}$在$|\psi\rangle$中$(1, \geq)$-满足;
+\item 如果$|\psi\rangle \in \mathcal{X}^\perp$,那么$\mathcal{X}$在$|\psi\rangle$中$(0, \leq)$-满足。
+\end{itemize}
+
+量子逻辑中的连接词。在确定了原子命题之后,我们需要引入一些连接词,以便从原子命题构造复合命题,从而指定量子系统的更复杂性质。从语义上看,它们可以被视为$\mathcal{S}(\mathcal{H})$上的代数运算。首先,子空间之间的包含关系$\subseteq$在$\mathcal{S}(\mathcal{H})$中是一个偏序关系。可以将其理解为量子逻辑的(元逻辑)中的蕴含。其次,子空间$\mathcal{X}$的正交补$\mathcal{X}^\perp$是量子逻辑中否定的解释。
+
+第三,很容易看出$\mathcal{S}(\mathcal{H})$对于交运算是封闭的,也就是说,对于$\mathcal{S}(\mathcal{H})$中的任何元素族${\mathcal{X}_i}$,都有
+
 在数学上，这种逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作。
 具体如下：
 \begin{itemize}
