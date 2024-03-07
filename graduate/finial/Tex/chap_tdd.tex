@@ -560,6 +560,7 @@ TN是指google的tensor network。
         \centering
         \includegraphics[height=6cm]{Img/tdd_proj.pdf}
 		\caption{$\ket{v_1}$的TDD表示}
+        \label{fig:tdd-split-a}
 	\end{subfigure}
 	\begin{subfigure}[b]{.3\textwidth}
         \centering
@@ -577,14 +578,25 @@ TN是指google的tensor network。
     \label{fig:tdd-split}
     \end{figure}
 \end{example}
-\subsection*{用投影算子近似TDD}
+\subsection*{用子空间近似TDD表示$\ket{\psi}$}
+通过上述方法的优化，最终得到的TDD可能依然偏大。在很多实际应用中，对子空间进行一个合理的过度估计已足够，这与经典案例中的做法相似 \citep{Cho_1996,lin2014parallel,Wang+farside_iccad03}。
+针对特定量子态 $\ket{\psi}$，能够通过包含它的适当子空间来近似 $\ket{\psi}$。
+例如，假设已通过张量加法或窗口函数分割将量子态分为 $\ket{\psi} = \ket{\psi_1}+\ket{\psi_2}$。于是，可以通过 $span\{\ket{\psi_1},\ket{\psi_2}\}$ 子空间近似地表示 $\ket{\psi}$。
+
+进一步地，也可以对量子态 $\ket{\psi}$ 进行张量积估计。即找到一系列张量积态 $\ket{\psi_1},\cdots, \ket{\psi_k}$，使得 $\ket{\psi}$ 位于它们张成的空间之内。这样，便能够计算出一个更大系统的映射。但这种方法的成本在于过估计子空间的维度可能会过大。给定量子态 $\ket{\psi}$，若 $\ket{\psi}=\sum_{j=0}^{2^{k-1}-1}{\ket{j}\ket{\phi}\ket{\gamma_j}}$，认为它的第 $k$ 个量子比特是可分割的。对于每个态 $\ket{\psi}$，首先探查是否存在可分割的量子比特。若存在，提取出相应的态并移除该量子比特；否则，将采用那些振幅非零的计算基态进行估计。
+\begin{example}
+    再次以例子\ref{ex-image-sub}中的
+    量子态$\ket{v_1}=\frac{1}{\sqrt{3}}(\ket{00}+\ket{01}+\ket{10})\ket{-}$ 为例。图 \ref{fig:tdd-split-a}给出了该量子态的TDD表示。
+可以发现其第三个量子比特$q_2$是可分割的，即所有的$q_0$，$q_1$都会经过同样的$q_2$结点。$q_2$对应的量子态为 $\ket{-}$。在移除这个量子比特后，得到 $\ket{\psi}=\frac{1}{\sqrt{3}}(\ket{00}+\ket{01}+\ket{10})$，该态属于子空间 $span\{\ket{00},\ket{01},\ket{10}\}$。从而为态 $\ket{v_1}$ 找到了一种张量积的近似表示 $\{\ket{00-},\ket{01-},\ket{10-}\}$。
+\end{example}
+
 \section{软件系统实现}
-为了实现软件的高效运行，模块化设计至关重要。
-每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
-% //TODO: add more explain
+为了实现软件的高效运行，模块化设计至关重要。每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
 \begin{itemize}
     \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
     \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
     \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
-    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中。
+    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中，对TDD进行分割。
 \end{itemize}
+通过上述模块的协同工作，
+保证了最终的软件系统能够高效、灵活地处理本次研究中对量子模型检测的各种需求。
