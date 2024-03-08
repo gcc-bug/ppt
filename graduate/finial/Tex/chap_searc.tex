@@ -52,18 +52,18 @@
 
 此外有的向量空间还有内积和张量积(Tensor product)操作。内积定义为：\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)，其中 $V$ 是一个向量空间。对于任意两个向量 $u$ 和 $v$，它们的内积 $( u, v )$ 满足以下性质：
 \begin{enumerate}
-    \item 共轭对称性(Conjugate Symmetry)： \(( u, v ) = \overline{( v, u )}\)，其中\(\overline{( v, u )}\)是\(( v, u )\)的复共轭，当标量域为实数时，表现为对称性，即\(( u, v ) = ( v, u )\)
-    \item 线性 (Linearity)或齐次性：\(( \alpha u_1 + \beta u_2, v ) = \alpha( u_1, v ) + \beta( u_2, v )\)，其中\(\alpha,\beta\in\mathbb{F}\)
-    \item 正定性 (Positive Definiteness)：\(( v, v ) \geq 0\)且仅当\(v \)为加法单位元时等号成立
+    \item 共轭对称性(Conjugate Symmetry)： \(( u, v ) = \overline{( v, u )}\)，其中\(\overline{( v, u )}\)是\(( v, u )\)的复共轭，当标量域为实数时，表现为对称性，即\(( u, v ) = ( v, u )\)。
+    \item 线性 (Linearity)或齐次性：\(( \alpha u_1 + \beta u_2, v ) = \alpha( u_1, v ) + \beta( u_2, v )\)，其中\(\alpha,\beta\in\mathbb{F}\)。
+    \item 正定性 (Positive Definiteness)：\(( v, v ) \geq 0\)且仅当\(v \)为加法单位元时等号成立。
 \end{enumerate}
 % 张量积定义
 可以看到内积是一种特殊形式的线性算子。当两个向量内积为$0$时，称这两个向量正交。而张量积则提供了一种方法来构造新的向量空间。
 设 \(V\) 和 \(W\) 是两个向量空间，它们的张量积 \(V \otimes W\) 是一个新的向量空间，满足以下性质：
 \begin{enumerate}
     \item 对于每一对元素 \(v \in V\) 和 \(w \in W\)，存在一个元素 \(v \otimes w \in V \otimes W\)，称为它们的张量积。
-    \item 张量积满足双线性性（Bilinearity）：对于所有 \(v,v' \in V\)，\(w,w' \in W\) 以及所有标量 \(a,b \in \mathbb{F}\)，有
+    \item 张量积满足双线性性（Bilinearity）：对于所有 \(v,v' \in V\)，\(w，w' \in W\) 以及所有标量 \(a,b \in \mathbb{F}\)，有
     \[
-    (av + bv') \otimes w = a(v \otimes w) + b(v' \otimes w),
+    (av + bv') \otimes w = a(v \otimes w) + b(v' \otimes w)，
     \]
     \[
     v \otimes (aw + bw') = a(v \otimes w) + b(v \otimes w').
@@ -203,7 +203,7 @@
         |\psi'\rangle = U|\psi\rangle
     \end{align}
 \end{theorem}
-酉变化可以用酉算子进行表示。对于酉算子$U$, 始终满足
+酉变化可以用酉算子进行表示。对于酉算子$U$， 始终满足
 \begin{align}
     U U^\dagger = I
 \end{align}
@@ -307,8 +307,8 @@
 输入量子比特分别为控制量子比特(control qubit)和目标量子比特(target qubit)。
 假设$U $是作用于目标量子比特的任意单比特量子操作，则称该门为受控$U$门。
 受控$U$门根据控制量子比特的值，决定是否将量子操作$U$作用于目标量子比特。
-若控制量子比特的值为\(|0\rangle\),则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
-\(|1\rangle\), 则目标量子比特值变为\(U|\psi\rangle\)。
+若控制量子比特的值为\(|0\rangle\)，则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
+\(|1\rangle\)， 则目标量子比特值变为\(U|\psi\rangle\)。
 
 和经典电路模型不同，量子线路的量子信息一般从左到右传递。量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
 因此通过量子电路可以描述各种量子进程。
@@ -369,7 +369,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \end{equation}
 
 
-系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)，其中\(s_0\in S_0\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\),对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\),\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S_0\)为开始的路径，构成了路径集合\(Path\left(S_0\right)\)。
+系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)，其中\(s_0\in S_0\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\)，对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\)，\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S_0\)为开始的路径，构成了路径集合\(Path\left(S_0\right)\)。
 
 量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。一个量子自动机定义如下：
 \begin{align}
@@ -378,7 +378,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \begin{example}
     
     图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(S_0=pay\)。
-    系统行为\(\Sigma=\{insert\_coin,\tau,get\_soda\),\\\(get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
+    系统行为\(\Sigma=\{insert\_coin,\tau,get\_soda\)，\\\(get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
     \begin{figure}[!htbp]
         \centering
         \includegraphics[width=.6\textwidth]{Img/map.pdf}
@@ -451,9 +451,16 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
     \item 持续可达性：\( Pr^{\mathcal{M}}(s \models \lozenge \square G) = Pr^M(\pi \models \lozenge \square G : \pi \in \text{Paths}(s))\)
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
-% //TODO: add example
+\begin{example}
+    根据上文的路径命题公式和满足条件，可以解释下列命题：
+    \begin{itemize}
+        \item $\square\lozenge\varphi$: 对于每一个时间点 \(i\)，都存在某个时间点 \(j \geq i\) 使得 \(\varphi\) 在时间点 \(j\) 为真；即\(\varphi\) 无限次地成立。
+        \item $\lozenge\square\varphi$: 存在一个时间点 \(i\) 使得 \(\varphi\) 从 \(i\) 开始在所有时间点 \(j \geq i\) 时为真；即\(\varphi\) 最终永远成立。
+        \item $\square(\text{请求} \rightarrow \lozenge\text{响应})$: 每一个请求最终都会得到响应。
+      \end{itemize}
+\end{example}
 \subsection{量子模型检测}
-目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。
+目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。而需要对本小节深入了解的读者，可以自行阅读\citep{2021}。
 \subsubsection*{量子命题}
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
 
@@ -461,175 +468,103 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
     考虑以下量子逻辑命题：
 
 \begin{itemize}
-\item 命题 \( \mathcal{X} \)：在时间 \( t \) 时，量子粒子的位置 \( x \) 坐标在区间 \( [a, b] \) 内。
-\item 命题 \( \mathcal{Y} \)：在时间 \( t \) 时，量子粒子的动量 \( y \) 坐标在区间 \( [a, b] \) 内。
+\item 命题 \( \mathcal{X} \)：在时间 \( t \) 时，量子粒子的位置 \( x \) 坐标在区间 \( [a， b] \) 内。
+\item 命题 \( \mathcal{Y} \)：在时间 \( t \) 时，量子粒子的动量 \( y \) 坐标在区间 \( [a， b] \) 内。
 \end{itemize}
 这些命题 \( \mathcal{X} \) 和 \( \mathcal{Y} \) 可以通过粒子的状态希尔伯特空间的特定子空间来表示。
 \end{example}
 
 
 上述将子空间视为原子命题的想法也可以用量子测量来解释。假设系统的一个基本性质由希尔伯特空间$\mathcal{H}$的一个闭子空间$\mathcal{X}$描述。
-在量子力学中,为了检查这个性质是否满足,需要对系统当前态$|\psi\rangle$执行一个二元(是或否)测量$\{P_{\mathcal{X}}, P_{\mathcal{X}}^{\perp}\}$，
+在量子力学中，为了检查这个性质是否满足，需要对系统当前态$|\psi\rangle$执行一个二元(是或否)测量$\{P_{\mathcal{X}}， P_{\mathcal{X}}^{\perp}\}$，
 其中$P_{\mathcal{X}}$和$P_{\mathcal{X}}^\perp$分别是到$\mathcal{X}$和它的正交补$\mathcal{X}^\perp$的投影。测量结果通常是非确定性，其对应概率分别为：
 \begin{itemize}
     \item $\mathcal{X}$在$|\psi\rangle$中满足的概率是$\langle\psi|P_{\mathcal{X}}|\psi\rangle$。
     \item 不满足的概率是
     $\langle\psi|P_{\mathcal{X}}^\perp|\psi\rangle = 1 - \langle\psi|P_{\mathcal{X}}|\psi\rangle$。
 \end{itemize}
-可以通过设置一个阈值$\lambda \in [0,1]$来定义关于满足的概率的量化关系:
+同时可以通过设置一个阈值$\lambda \in [0，1]$来定义关于满足的概率的量化关系:
 
-\begin{equation}
-\mathcal{X} \text{在}|\psi\rangle\text{中}(\lambda, \triangleright)\text{-满足},\text{如果}\langle\psi|P_{\mathcal{X}}|\psi\rangle \triangleright \lambda, 
-\end{equation}
+\begin{definition}
+    如果$\langle\psi|P_{\mathcal{X}}|\psi\rangle \rhd \lambda$，则称$|\psi\rangle$是$(\lambda, \rhd)$满足子空间$\mathcal{X}$描述的命题。其中其中$\rhd \in \{<, \leq, >, \geq\}$。 
+\end{definition}
 
-其中$\triangleright \in {<, \leq, >, \geq}$。这里,我们只考虑定性满足,即阈值$\lambda$为0或1时的$(\lambda, \triangleright)$满足。很明显,对于任何纯态$|\psi\rangle$和子空间$\mathcal{X}$,都有:
+在本次研究中只考虑定性满足，即阈值$\lambda$为0或1时的$(\lambda, \rhd)$满足。显然，对于任何纯态$|\psi\rangle$和子空间$\mathcal{X}$，都有:
 
 \begin{itemize}
-\item 如果$|\psi\rangle \in \mathcal{X}$,那么$\mathcal{X}$在$|\psi\rangle$中$(1, \geq)$-满足;
-\item 如果$|\psi\rangle \in \mathcal{X}^\perp$,那么$\mathcal{X}$在$|\psi\rangle$中$(0, \leq)$-满足。
+\item 如果$|\psi\rangle \in \mathcal{X}$，那么$\mathcal{X}$在$|\psi\rangle$中$(1, \geq)$-满足;
+\item 如果$|\psi\rangle \in \mathcal{X}^\perp$，那么$\mathcal{X}$在$|\psi\rangle$中$(0, \leq)$-满足。
 \end{itemize}
 
-量子逻辑中的连接词。在确定了原子命题之后,我们需要引入一些连接词,以便从原子命题构造复合命题,从而指定量子系统的更复杂性质。从语义上看,它们可以被视为$\mathcal{S}(\mathcal{H})$上的代数运算。首先,子空间之间的包含关系$\subseteq$在$\mathcal{S}(\mathcal{H})$中是一个偏序关系。可以将其理解为量子逻辑的(元逻辑)中的蕴含。其次,子空间$\mathcal{X}$的正交补$\mathcal{X}^\perp$是量子逻辑中否定的解释。
+\subsubsection*{量子逻辑中的连接词}
+在数学上，这种集合的命题逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作。
+具体如下：
 
-第三,很容易看出$\mathcal{S}(\mathcal{H})$对于交运算是封闭的,也就是说,对于$\mathcal{S}(\mathcal{H})$中的任何元素族${\mathcal{X}_i}$,都有
+\begin{itemize}
+    \item 子空间之间的包含关系 \( \subseteq \) 在 \(S(\mathcal{H})\) 中是一个偏序关系，它可以理解为量子逻辑的蕴含(元逻辑)。
+    \item 一个子空间 \( \mathcal{X} \) 的正交补 \( \mathcal{X}^\perp \) 在量子逻辑中用作否定的解释。
+    \item \(S(\mathcal{H})\) 对交集是封闭的，即对于 \(S(\mathcal{H})\) 中的任何元素族 \( \{\mathcal{X}_i\} \)，都有$\bigcap_{i} \mathcal{X}_{i} \in \mathcal{S}(\mathcal{H})$。在量子逻辑中用于表示合取。
+    \item 对于一组子空间 \(\{\mathcal{X}_i\}\)，这些子空间的并定义为
+    \(
+    \bigvee_i \mathcal{X}_i = \text{span} \left( \bigcup_i \mathcal{X}_i \right).
+    \)。在量子逻辑中，析取被解释为子空间的并。
+\end{itemize}
 
-量子逻辑中的合取被解释为交运算。此外,我们有:
 
-\textbf{定义4.6} 对于希尔伯特空间$\mathcal{H}$中的一个(有限或无限)子空间族${\mathcal{X}_i}$,它们的连运算定义为
+量子逻辑中的析取被解释为子空间的并运算。\( (S(\mathcal{H})， \cap， \vee， \perp) \) 构成一个正交模格(orthomodular lattice)，\( \subseteq \) 是其序关系，这是 Birkhoff–von Neumann 量子逻辑的代数模型。
 
-\begin{equation}
-\bigvee \mathcal{X}_i = \operatorname{span}\left(\bigcup \mathcal{X}_i\right).
-\end{equation}
+在实际应用中，通常只选择$\mathcal{S}(\mathcal{H})$的一个子集$AP$作为原子命题的集合。$AP$的元素可以被看作是真正关注的命题，而其他命题可能是无关的。为了算法的目的，通常假设$AP$是$\mathcal{S}(\mathcal{H})$的一个可列或者甚至是有限的子集，而不是作为原子命题的集合使用$\mathcal{S}(\mathcal{H})$本身，因为$\mathcal{S}(\mathcal{H})$是无穷无尽的。
 
-特别地,我们用$\mathcal{X} \vee \mathcal{Y}$表示希尔伯特空间$\mathcal{H}$中两个子空间$\mathcal{X}$和$\mathcal{Y}$的连运算。
-
-量子逻辑中的析取被解释为连运算。众所周知,($\mathcal{S}(\mathcal{H}), \cap, \vee, ^\perp$)是一个正交模格,其中$\subseteq$是它的序关系,这是无矛盾量子逻辑的一个代数模型。在这里,我们不打算讨论量子逻辑的更多细节,感兴趣的读者可以参考[20, 71]。
-
-在实际应用中,我们通常只选择$\mathcal{S}(\mathcal{H})$的一个子集$AP$作为原子命题的集合。$AP$的元素可以被看作是真正关注的命题,而其他命题可能是无关的。为了算法的目的,我们通常假设$AP$是$\mathcal{S}(\mathcal{H})$的一个可列或者甚至是有限的子集,而不是作为原子命题的集合使用$\mathcal{S}(\mathcal{H})$本身,因为$\mathcal{S}(\mathcal{H})$是无穷无尽的。
-
-量子逻辑中的满足。现在我们进一步定义何时一个(量子逻辑)命题被一个量子态满足。对于任何原子命题$\mathcal{X} \in AP$和状态$|\psi\rangle \in \mathcal{H}$,如果$|\psi\rangle \in \mathcal{X}$,那么我们说状态$|\psi\rangle$满足$\mathcal{X}$。我们用$L(|\psi\rangle)$表示在状态$|\psi\rangle$中被满足的原子命题集合:
+\subsubsection*{量子逻辑中的满足}
+在量子逻辑中，“满足”(satisfaction)意味着量子系统的状态可以在逻辑表达式指定的条件下被视为真。对于任何原子命题$\mathcal{X} \in AP$和状态$|\psi\rangle \in \mathcal{H}$，如果$|\psi\rangle \in \mathcal{X}$，那么说状态$|\psi\rangle$满足$\mathcal{X}$。用$L(|\psi\rangle)$表示在状态$|\psi\rangle$中被满足的原子命题集合:
 
 \begin{equation}
 L(|\psi\rangle) = {\mathcal{X} \in AP : |\psi\rangle \in \mathcal{X}}.
 \end{equation}
 
-有时,我们需要在一个状态$|\psi\rangle$和一个不在$AP$中的命题$\mathcal{X}$之间建立更一般的满足关系,例如,在某些应用中,我们可能对一个命题$\mathcal{X}$在一个状态$|\psi\rangle$中是否满足感兴趣,但由于内存的考虑,量子模型检查器只选择了一个非常有限的不包括$\mathcal{X}$的原子命题集合。
+有时，需要在一个状态$|\psi\rangle$和一个不在$AP$中的命题$\mathcal{X}$之间建立更一般的满足关系。例如，在某些应用中，可能对一个命题$\mathcal{X}$是否被一个状态$|\psi\rangle$满足感兴趣，但由于内存的考虑，量子模型检测中一般只会选择了一个非常有限的不包括$\mathcal{X}$的原子命题集合。
 
-\textbf{定义4.7} 给定一个原子命题集合$AP$,令$\mathcal{X} \in \mathcal{S}(\mathcal{H})$。
+对于这样一个不在$AP$中的命题$\mathcal{X}$。给定一个原子命题集合$AP$，其中$\mathcal{X} \in \mathcal{S}(\mathcal{H})$。
+如果$\bigcap_{\mathcal{Y} \in L(|\psi\rangle) }\mathcal{Y} \subseteq \mathcal{X}$，那么状态$|\psi\rangle$满足$\mathcal{X}$，记作$|\psi\rangle \models_{AP} \mathcal{X}$或简单地$|\psi\rangle \models \mathcal{X}$。
+直观地说，$\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y}$是可以用原子命题来定义并描述状态$|\psi\rangle$的最弱陈述。因此，包含关系意味着在状态$|\psi\rangle$中成立的原子命题集合共同蕴含命题$\mathcal{X}$。而如果$\mathcal{X} \in AP$，那么$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
 
-那么我们说状态$|\psi\rangle$满足$\mathcal{X}$,记作$|\psi\rangle \models_{AP} \mathcal{X}$或简单地$|\psi\rangle \models \mathcal{X}$,如果
+\begin{example}
+    设$\mathcal{H}$是一个$n$维希尔伯特空间，它的标准正规基是$\{|0\rangle, |1\rangle, \cdots, |n - 1\rangle\}\ (n \geq 2)$,令$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$。
+    \begin{itemize}
+        \item 如果取$AP$为与基态$|0\rangle$正交的子空间:
 
-\begin{equation}
-\boxed{\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} \subseteq \mathcal{X}.} \quad (4.2)
-\end{equation}
+        \begin{equation}
+        AP = {\mathcal{Y} \in \mathcal{S}(\mathcal{H}) : |0\rangle \perp \mathcal{Y}},
+        \end{equation}
+        
+        那么$L(|\psi\rangle) = \varnothing$，因此
+        
+        \begin{equation}
+        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}.}
+        \end{equation}
+        
+        所以对于任何$\mathcal{X} \in \mathcal{S}(\mathcal{H})$，有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。
+        
+        \item 设$AP$为$\mathcal{H}$的2维子空间。对于$n = 2$的情况，
+        \begin{equation}
+            {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}}
+            \end{equation}
+            
+            那么有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。对于$n > 2$的情况，
+            
+            \begin{equation}
+            {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle}\}
+            \end{equation}
+            
+            并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
+            
+        \item 如果$AP$是包含基态$|2\rangle$的子空间，即$AP = \{\mathcal{X} \in \mathcal{S}(\mathcal{H}) : |2\rangle \in \mathcal{X}\}$，那么
+            
+            \begin{equation}
+            {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle, |2\rangle}\}
+            \end{equation}
+            
+            并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle,|2\rangle \in \mathcal{X}$。
+    \end{itemize}
 
-直观地说,\boxed{\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y}}是可以用原子命题来定义并描述状态$|\psi\rangle$的最弱陈述。因此,包含关系(4.2)意味着在状态$|\psi\rangle$中成立的原子命题集合共同蕴含命题$\mathcal{X}$。特别地,如果$\mathcal{X} \in AP$,那么$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
-
-\textbf{例4.8} 设$\mathcal{H}$是一个$n$维希尔伯特空间,它的标准正规基是${|0\rangle, |1\rangle, \cdots, |n - 1\rangle}\ (n \geq 2)$,令$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$。
-
-(i) 如果我们取$AP$为与基态$|0\rangle$正交的子空间:
-
-\begin{equation*}
-AP = {\mathcal{Y} \in \mathcal{S}(\mathcal{H}) : |0\rangle \perp \mathcal{Y}},
-\end{equation*}
-
-那么$L(|\psi\rangle) = \varnothing$和
-
-\begin{equation*}
-\boxed{\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}.}
-\end{equation*}
-
-因此,对于任何$\mathcal{X} \in \mathcal{S}(\mathcal{H})$,有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。
-
-(ii) 设$AP$为$\mathcal{H}$的2维子空间。对于$n = 2$的情况,
-\begin{equation*}
-    \boxed{\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H},}
-    \end{equation*}
-    
-    那么有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。对于$n > 2$的情况,
-    
-    \begin{equation*}
-    \boxed{\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}{|\psi\rangle},}
-    \end{equation*}
-    
-    并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
-    
-    (iii) 如果$AP$是包含基态$|2\rangle$的子空间,即$AP = {\mathcal{X} \in \mathcal{S}(\mathcal{H}) : |2\rangle \in \mathcal{X}}$,那么
-    
-    \begin{equation*}
-    \boxed{\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}{|\psi\rangle, |2\rangle},}
-    \end{equation*}
-    
-    并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle,|2\rangle \in \mathcal{X}$。
-    
-    一些特殊的命题集合。一般来说,量子逻辑中的一个命题集合不能像经典命题逻辑那样对待。其中一个主要原因是量子系统命题之间的非交换性。为了总结这一小节,我们确定了一个特殊的原子量子命题集合类,这种集合相对容易处理。
-    
-    \textbf{定义4.9} 一个$\mathcal{S}(\mathcal{H})$中的原子命题集合$AP$称为正则的,如果它满足以下两个条件:
-    
-    (i) $AP$中任意两个元素$\mathcal{X}_1$、$\mathcal{X}_2$可交换:
-    
-    \begin{equation*}
-    P_{\mathcal{X}1} P{\mathcal{X}2} = P{\mathcal{X}2} P{\mathcal{X}_1},
-    \end{equation*}
-    
-    其中$P_{\mathcal{X}1}$、$P{\mathcal{X}_2}$分别是到$\mathcal{X}_1$和$\mathcal{X}_2$的投影;并且
-    
-    (ii) $AP$对连运算封闭:如果$\mathcal{X}_1$、$\mathcal{X}_2 \in AP$,那么$\mathcal{X}_1 \vee \mathcal{X}_2 \in AP$。
-    
-    下面的引理表明,对于正则的原子命题集合$AP$,我们只需要检查它的基态,以便验证一个量子状态是否满足该集合中的每个命题。
-
-    属性(可以用$AP$来定义)被一个子空间中的所有状态满足。
-
-\textbf{引理4.10} 给定希尔伯特空间$\mathcal{H}$中的一个正则原子命题集合$AP$。设$\mathcal{Y}$是$\mathcal{H}$的一个(闭)子空间,它的基是${|\psi_i\rangle}$。那么以下两个陈述是等价的:
-
-(i) $|\xi\rangle \models \mathcal{X}$对于所有$|\xi\rangle \in \mathcal{Y}$成立;
-
-(ii) $|\psi_i\rangle \models \mathcal{X}$对于所有$i$成立。
-
-\textbf{证明} 显然,(i)蕴含(ii)。现在我们证明(ii)蕴含(i)。对于任意$|\xi\rangle \in \mathcal{Y}$,我们可以写成:
-
-\begin{equation*}
-|\xi\rangle = \sum_{i \in J} a_i |\psi_i\rangle
-\end{equation*}
-
-对于某个有限指标集$J$和某些复数$a_i\ (i \in J)$,因为${|\psi_i\rangle}$是$\mathcal{Y}$的一个基。由于假设$|\psi_i\rangle \models \mathcal{X}$,我们有
-
-\begin{equation*}
-\boxed{\bigcap_{\mathcal{Z} \in L(|\psi_i\rangle)} \mathcal{Z} \subseteq \mathcal{X}}
-\end{equation*}
-
-对于所有$i \in J$。因此,
-
-\begin{equation*}
-\bigvee_{i \in J} \boxed{\bigcap_{\mathcal{Z} \in L(|\psi_i\rangle)} \mathcal{Z} \subseteq \mathcal{X}.}
-\end{equation*}
-
-由于$AP$中任意两个元素可交换,分配律在$AP$中有效(见[24]中的命题2.5),我们有
-
-\begin{equation*}
-\bigvee_{i \in J} \boxed{\bigcap_{\mathcal{Z} \in L(|\psi_i\rangle)} \mathcal{Z}} = \boxed{\bigcap_{\mathcal{Z} \in \bigsqcup_{i \in J} L(|\psi_i\rangle)} \mathcal{Z}(i).}
-\end{equation*}
-
-因此,我们只需要证明
-
-\begin{equation}
-\boxed{\bigcap_{\mathcal{Z} \in L(|\xi\rangle)} \mathcal{Z} \subseteq \boxed{\bigcap_{\mathcal{Z} \in \bigsqcup_{i \in J} L(|\psi_i\rangle)} \mathcal{Z}(i).}} \quad (4.3)
-\end{equation}
-
-在数学上，这种逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作。
-具体如下：
-\begin{itemize}
-    \item 子空间之间的包含关系 \( \subseteq \) 在 \(S(\mathcal{H})\) 中是一个偏序关系，它可以理解为量子逻辑的蕴含(元逻辑)。
-    \item 一个子空间 \( \mathcal{X} \) 的正交补 \( \mathcal{X}^\perp \) 在量子逻辑中用作否定的解释。
-    \item \(S(\mathcal{H})\) 对交集是封闭的，即对于 \(S(\mathcal{H})\) 中的任何元素族 \( \{\mathcal{X}_i\} \)，都有$\bigcap_{i} \mathcal{X}_{i} \in \mathcal{S}(\mathcal{H})$。在量子逻辑中用于表示合取。
-    \item 对于一组子空间 \(\{\mathcal{X}_i\}\)，它们的并集定义为
-    \(
-    \bigvee_i \mathcal{X}_i = \text{span} \left( \bigcup_i \mathcal{X}_i \right).
-    \)
-    。在量子逻辑中，析取被解释为并集。
-\end{itemize}
-
-\( (S(\mathcal{H}), \cap, \vee, \perp) \) 构成一个正交模糊格，\( \subseteq \) 是其排序，这是 Birkhoff–von Neumann 量子逻辑的代数模型。
-
-在实际应用中，通常只选择 \( S(\mathcal{H}) \) 的一个子集 AP 作为原子命题的集合。AP 中的元素可以被认为是真正关心的那些命题，而其他的可能是不相关的。出于算法目的，通常假设 AP 是可数的甚至是有限的 \( S(\mathcal{H}) \) 的子集，而不是 \( S(\mathcal{H}) \) 本身，因为 \( S(\mathcal{H}) \) 是不可数无限的。因此给定一组原子命题集 AP，对于 \( \mathcal{X} \in S(\mathcal{H}) \)，如果状态 \(|\psi\rangle\) 满足集合中所有命题的交集，说 \(|\psi\rangle\) 满足 \(\mathcal{X}\)。需要对这部分深入了解的读者，可以自行阅读\citep{2021}。
-% // TODO: add example
+\end{example}
