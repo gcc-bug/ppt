@@ -462,6 +462,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \subsection{量子模型检测}
 目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。而需要对本小节深入了解的读者，可以自行阅读\citep{2021}。
 \subsubsection*{量子命题}
+\label{sec-logic}
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
 
 \begin{example}
@@ -497,6 +498,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \end{itemize}
 
 \subsubsection*{量子逻辑中的连接词}
+\label{sec-connect}
 在数学上，这种集合的命题逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作。
 具体如下：
 
