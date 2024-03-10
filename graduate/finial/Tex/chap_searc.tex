@@ -469,15 +469,15 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
     考虑以下量子逻辑命题：
 
 \begin{itemize}
-\item 命题 \( \mathcal{X} \)：在时间 \( t \) 时，量子粒子的位置 \( x \) 坐标在区间 \( [a， b] \) 内。
-\item 命题 \( \mathcal{Y} \)：在时间 \( t \) 时，量子粒子的动量 \( y \) 坐标在区间 \( [a， b] \) 内。
+\item 命题 \( \mathcal{X} \)：在时间 \( t \) 时，量子粒子的位置 \( x \) 坐标在区间 \( [a, b] \) 内。
+\item 命题 \( \mathcal{Y} \)：在时间 \( t \) 时，量子粒子的动量 \( y \) 坐标在区间 \( [a, b] \) 内。
 \end{itemize}
 这些命题 \( \mathcal{X} \) 和 \( \mathcal{Y} \) 可以通过粒子的状态希尔伯特空间的特定子空间来表示。
 \end{example}
 
 
 上述将子空间视为原子命题的想法也可以用量子测量来解释。假设系统的一个基本性质由希尔伯特空间$\mathcal{H}$的一个闭子空间$\mathcal{X}$描述。
-在量子力学中，为了检查这个性质是否满足，需要对系统当前态$|\psi\rangle$执行一个二元(是或否)测量$\{P_{\mathcal{X}}， P_{\mathcal{X}}^{\perp}\}$，
+在量子力学中，为了检查这个性质是否满足，需要对系统当前态$|\psi\rangle$执行一个二元(是或否)测量$\{P_{\mathcal{X}}, P_{\mathcal{X}}^{\perp}\}$，
 其中$P_{\mathcal{X}}$和$P_{\mathcal{X}}^\perp$分别是到$\mathcal{X}$和它的正交补$\mathcal{X}^\perp$的投影。测量结果通常是非确定性，其对应概率分别为：
 \begin{itemize}
     \item $\mathcal{X}$在$|\psi\rangle$中满足的概率是$\langle\psi|P_{\mathcal{X}}|\psi\rangle$。
@@ -513,7 +513,7 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \end{itemize}
 
 
-量子逻辑中的析取被解释为子空间的并运算。\( (S(\mathcal{H})， \cap， \vee， \perp) \) 构成一个正交模格(orthomodular lattice)，\( \subseteq \) 是其序关系，这是 Birkhoff–von Neumann 量子逻辑的代数模型。
+量子逻辑中的析取被解释为子空间的并运算。\( (S(\mathcal{H}), \cap, \vee, \perp) \) 构成一个正交模格(orthomodular lattice)，\( \subseteq \) 是其序关系，这是 Birkhoff–von Neumann 量子逻辑的代数模型。
 
 在实际应用中，通常只选择$\mathcal{S}(\mathcal{H})$的一个子集$AP$作为原子命题的集合。$AP$的元素可以被看作是真正关注的命题，而其他命题可能是无关的。为了算法的目的，通常假设$AP$是$\mathcal{S}(\mathcal{H})$的一个可列或者甚至是有限的子集，而不是作为原子命题的集合使用$\mathcal{S}(\mathcal{H})$本身，因为$\mathcal{S}(\mathcal{H})$是无穷无尽的。
 
