@@ -425,22 +425,19 @@ TN是指google的tensor network\citep{roberts2019tensornetwork}。
 目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
 
 \section{本章小结}
-本章介绍了TDD(Tensor Decision Diagrams)数据结构及其在表示和模拟量子电路中的应用。主要内容包括:
+% 本章详细介绍了TDD的数据结构，并展示了其在表示量子电路方面相比其他类似表示法的优势。
+% 首先，通过说明了如何使用张量网络来表示量子电路。
+% 随后，定义了TDD数据结构。并介绍了如何将张量网络转换为TDD表示的方法，以及TDD的规范化和化简策略。
+% 在此基础上介绍了TDD间的基本运算，包括加法和收缩操作。这些操作分别对应于张量运算中的求和和张量收缩。
 
-\begin{itemize}
-    \item 介绍了使用张量网络表示量子电路的方法，并给出了一个示例。
-    \item 
-    定义了TDD数据结构，其本质上是一种带权重的决策树，用于紧凑地表示张量网络。
-    \item 
-    介绍了如何将张量网络转换为TDD表示，以及TDD的规范化和化简方法。
-    \item 
-    介绍了TDD之间的基本运算，包括加法和收缩(对应于张量运算中的求和和张量收缩)。
-    \item 
-    介绍了两种基于分区的方法(TDD part I和II)来优化TDD在模拟量子线路时的性能。
-    \item 
-    将TDD与其他量子线路表示方法(如QMDD和张量网络)进行了比较，分析了各自的优缺点。
-\end{itemize}
-总的来说，TDD作为一种新兴的数据结构，为高效模拟和分析量子线路提供了一种有前景的方法。本章详细阐述了TDD的原理和算法，为后续在量子模型检查等领域的应用奠定了基础。
+% 最后通过与其他量子线路表示方法（如QMDD和张量网络）的比较，分析了TDD的优点。因此，TDD作为一种新兴的数据结构，其在分析量子线路方面拥有巨大潜力，能为量子模型检查等可能领域的应用提供了坚实的理论和算法基础。
+在本章中，深入探讨了TDD的数据结构，其作为一种加权决策树，可以用于紧凑地表示量子线路。本章还通过对比实验讨论了TDD在表达量子电路方面相较于其他表示方法的优势。
+
+本章内容从使用张量网络表示量子电路的方法开始。然后，对TDD数据结构进行了详细定义。
+随后，本章详细介绍了如何将张量网络转换为TDD表示，包括TDD的规范化和化简策略。此外，还讨论了TDD之间的基本运算方法，如加法和收缩操作，这些操作分别对应于张量运算中的求和和张量收缩。
+为了全面理解TDD的实际效果，将其与QMDD和张量网络的表示方法进行了实验比较，分析了TDD的优势。
+
+通过深入探讨TDD的原理和算法，本章阐述了TDD在分析量子线路方面的巨大潜力，也为量子模型检查等领域的研究奠定了坚实的理论基础。
 \chapter{在量子模型检测中应用TDD表示}
 张量决策图(TDD)是一种基于张量网络，结合了二元决策图的表示优势的数据结构。
 TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
@@ -560,6 +557,27 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \section{针对模型检测的改进}
 \label{sec-optimize}
 本文工作的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本文工作的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割电路和优化TDD结构。下面简单介绍一下具体改进方法。
+\subsection*{索引顺序的调整}
+\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
+% \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
+\begin{figure}[!htbp]
+	\centering
+	\begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/BDD_Variable_Ordering_Bad.svg.pdf}
+		\caption{索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}}
+		\label{fig:bdd-bad}
+	\end{subfigure}
+    \qquad
+	\begin{subfigure}[b]{.4\textwidth}
+        \centering
+        \includegraphics[height=6cm]{Img/BDD_Variable_Ordering_Good.svg.pdf}
+		\caption{索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}}
+		\label{fig:bdd-good}
+	\end{subfigure}
+	\caption{布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$在不同索引顺序下的BDD\citep{wiki:bdd}}
+	\label{fig:bdd-compare}
+\end{figure}
 
 \subsection*{addition的电路拆分方案}
 \label{addition}关于常用的量子线路划分方法，
@@ -593,27 +611,6 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{example}
 
 
-\subsection*{索引顺序的调整}
-\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
-% \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
-\begin{figure}[!htbp]
-	\centering
-	\begin{subfigure}[b]{.4\textwidth}
-        \centering
-        \includegraphics[height=6cm]{Img/BDD_Variable_Ordering_Bad.svg.pdf}
-		\caption{索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}}
-		\label{fig:bdd-bad}
-	\end{subfigure}
-    \qquad
-	\begin{subfigure}[b]{.4\textwidth}
-        \centering
-        \includegraphics[height=6cm]{Img/BDD_Variable_Ordering_Good.svg.pdf}
-		\caption{索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}}
-		\label{fig:bdd-good}
-	\end{subfigure}
-	\caption{布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$在不同索引顺序下的BDD\citep{wiki:bdd}}
-	\label{fig:bdd-compare}
-\end{figure}
 
 \subsection*{基于窗函数对TDD分割}
 按照 \citep{narayan1996partitioned} 中关于传统模型校验方法的讨论，可以设计基于TDD的划分法。即利用布尔函数将一个大张量细分成若干个小张量的优化方法。设 $\varphi$ 是一个含有 $n$ 个索引的张量。从 $\set{0,1}^n$ 到 $\set{0,1}$ 的集合中选取一系列窗口布尔函数 (window boolean function)$\{w_1,\cdots, w_k\}$，这些函数对于同一输入，始终满足以下条件： 
@@ -675,6 +672,6 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 通过上述模块的协同工作，
 保证了最终的软件系统能够高效、灵活地处理本文工作中对量子模型检测的各种需求。
 \section{本章小结}
-本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先介绍了如何将量子系统建模为量子迁移系统，并使用TDD表示相关的子空间。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括电路拆分、索引顺序调整、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
+本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单回顾了如何将量子系统建模为量子迁移系统。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition电路拆分、contraction 电路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
 
 通过上述方法，本文以TDD为数据结构，构建了一种能高效计算量子模型检测中可达性分析问题的解决方案。TDD结合了BDD的紧凑表示和张量网络的计算优势，为解决量子计算中的模型检测问题提供了新的可能性。软件系统的模块化设计也为高效实现这一方案奠定了基础。总的来说，本章介绍的技术为量子模型检测提供了一种有前景的新方法。
