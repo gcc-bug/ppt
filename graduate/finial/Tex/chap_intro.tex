@@ -3,7 +3,7 @@
 
 模型检测（Model Checking）作为一种自动化的形式化方法，专门用于验证有限状态系统是否满足特定性质。这种方法最初由 E. M. Clarke 和 E. A. Emerson 提出
 \citep{Emerson_1980,Clarke,Clarke_1986}，并已在经典计算机的软件和硬件设计中得到广泛应用。例如，嵌入式系统设计中常用 UML (Unified Modeling Language) 活动图来确保硬件设计符合预定规范\citep{Grobelna_2015}。
-在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。本次研究将重点探讨量子模型检测在解决量子系统验证问题上的应用，特别是采用张量决策图（Tensor Decision Diagrams, 或TDD）作为核心技术的研究。
+在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。本次研究将重点探讨量子模型检测在解决量子系统验证问题上的应用，特别是采用张量决策图（Tensor Decision Diagrams， 或TDD）作为核心技术的研究。
 
 
 \section{研究背景与研究问题}
@@ -12,7 +12,7 @@
 \citep{bhatta2020plurality}。
 经历两次世界大战期间，不仅促进了计算理论的飞速发展，如图灵机的提出\citep{hodges2014alan}，也加速了量子理论在核物理学等领域的应用\citep{maartensson2006manhattan}。
 
-随着物理学家将量子力学模型应用于计算问题并将经典比特替换为量子比特，量子力学和计算机科学领域开始融合。 1980年，Paul Benioff基于量子理论提出了量子图灵机的概念，为量子计算奠定了理论基础\citep{benioff1980computer}。随着经典计算机在模拟量子动力学过程中遇到的计算限制，Yuri Manin和Richard Feynman分别提出，利用量子现象的计算模型可能更为高效\citep{Feynman,manin1980vychislimoe}。此外， Charles Bennett 和 Gilles Brassard在1984年提出量子密钥分发，进一步展示了量子理论在加强信息安全性方面的潜力\citep{bennett2014quantum}。
+随着物理学家将量子力学模型应用于计算问题并将经典比特替换为量子比特，量子力学和计算机科学领域开始融合。 1980年，Paul Benioff基于量子理论提出了量子图灵机的概念，为量子计算奠定了理论基础\citep{benioff1980computer}。随着经典计算机在模拟量子动力学过程中遇到的计算限制，Yuri Manin和Richard Feynman分别提出，利用量子现象的计算模型可能更为高效\citep{Feynman，manin1980vychislimoe}。此外， Charles Bennett 和 Gilles Brassard在1984年提出量子密钥分发，进一步展示了量子理论在加强信息安全性方面的潜力\citep{bennett2014quantum}。
 
 
 进入90年代，量子计算的发展迎来了新的突破。Peter Shor的算法证明了量子计算机在破解传统加密方面的潜力\citep{Shor} 。该算法是量子算法发展史上重要的里程碑之一，向人们证明了量子计算对实际问题的加速能力。之后Grover的算法为解决非结构化搜索问题提供了量子加速的可能\citep{Grover_1996} 。同时，Seth Lloyd 证明量子计算机可以模拟量子系统，而无需经典模拟中存在的指数开销\citep{lloyd1996universal}， 验证了费曼 1982 年的猜想\citep{cao2019quantum}。
@@ -71,15 +71,15 @@ TDD尤其适合于实施可达性分析和模型检查算法。这得益于在�
 \section{研究现状与相关工作}
 量子模型检测的早期工作集中在验证量子通信协议。随着量子计算的不断发展，逐渐出现了对量子程序的验证工具。
 如今量子模型检测又集中在了电路验证方面的工作。
-在整个量子模型检测的发展过程中，我国国内的研究者Mingsheng Ying, Yuan Feng 等人深入参与并深刻影响了该领域的研究。
+在整个量子模型检测的发展过程中，我国国内的研究者Mingsheng Ying， Yuan Feng 等人深入参与并深刻影响了该领域的研究。
 
 量子模型检测的早期工作旨在验证量子通信协议。由于量子叠加态的特殊性质，量子测量带有概率性。因此David Parker等人采用概率模型检测工具PRISM\citep{kwiatkowska2004probabilistic}来验证量子协议的正确性，如超密编码、量子传输和量子纠错等。
 之后在引入外源量子命题逻辑(Exogenous Quantum Propositional Logic，或EQPL)\citep{mateus2006weakly}的基础上，Pedro Baltazar等人研究了量子计算树逻辑(Quantum Computation Tree Logic，或QCTL)模型检测问题，并验证了量子密钥分发BB84协议\citep{bennett2014quantum}的正确性\citep{baltazar2008quantum,baltazar2007towards}。类似地，在在引入外源量子命题逻辑后，Paulo Mateus等人则研究了量子线性时序逻辑(Quantum Linear-time temporal Logic，或QLTL)的模型检测问题\citep{mateus2009temporal}。Timothy Davidson等人将量子通信协议在量子通信进程(Communicating Quantum Processes，或CQP)\citep{gay2005communicating}中建模，并检测了由QCTL指定的相关属性\citep{davidson2012formal,davidson2012model}。
-Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,gay2010specification}，但其应用限于必须建模为量子电路的协议,才能在Stabilizer code\citep{gottesman1997stabilizer}中形式表示。Ebrahim Ardeshir-Larijani等人则将此技术扩展到Stabilizer code之外，用于检测量子协议的等效性\citep{ardeshir2013equivalence,ardeshir2014verification}。
+Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\citep{Gay,gay2010specification}，但其应用限于必须建模为量子电路的协议，才能在Stabilizer code\citep{gottesman1997stabilizer}中形式表示。Ebrahim Ardeshir-Larijani等人则将此技术扩展到Stabilizer code之外，用于检测量子协议的等效性\citep{ardeshir2013equivalence,ardeshir2014verification}。
 
 此外，模型检测技术也被应用于一般量子系统的检测，包括物理系统和量子程序。Mingsheng Ying等人采用量子自动机(Quantum Automata，或QA)作为系统模型\citep{kondacs1997power}，在Birkhoff-von Neumann量子逻辑\citep{birkhoff1987logic}的基础上提出了一种检测某些线性时间属性的方法\citep{ying2014model}。Yangjia Li等人在此基础上研究了量子自动机的可达性问题\citep{li2014decidable}。Shenggang Ying等人还研究了量子马尔科夫链(Quantum Markov Chains)\citep{ying2013verification}和量子马尔科夫决策过程的模型检测问题，并提出了一种分解马尔科夫链的新量子图理论\citep{ying2013reachability,ying2018reachability}。Yuan Feng等人引入超算子值马尔科夫链概念，作为量子程序和通信协议的高级模型，并开发了检测一系列属性的算法\citep{feng2013model,feng2013reachability,feng2017model}。此外，Yuan Feng等人还开发了一个基于概率模型检测工具Iscas Mc\citep{hahn2014iscas}的量子程序和协议的模型检测工具QPMA\citep{feng2015qpmc}。
 
-随着量子计算硬件规模的快速增长，量子电路的验证成为一个重要问题。开始的研究主要集中在二元决策图(Binary Decision Diagrams, 或BDD)在量子计算下的推广算法，如量子信息决策图(Quantum Information Decision Diagram，或QuIDD)\citep{Viamontes_2003}，量子多值决策图(Quantum multiple-valued Decision Diagram，或QMDD)\citep{Seiter_2013}等，从而对组合式量子电路进行等效性检测。显然，随着越来越复杂的物理可实现化的硬件出现，将会出现更加复杂的，更加针对于的，新的验证问题。比如量子存储\citep{Kerckhoff_2010}，量子反馈网络\citep{Gough_2008}，重复至成功(Repeated Until Success，或RUS)的量子电路\citep{Bocharov_2015}。量子模型检测的高度自动化为量子电路的验证提供了更多便利。
+随着量子计算硬件规模的快速增长，量子电路的验证成为一个重要问题。开始的研究主要集中在二元决策图(Binary Decision Diagrams， 或BDD)在量子计算下的推广算法，如量子信息决策图(Quantum Information Decision Diagram，或QuIDD)\citep{Viamontes_2003}，量子多值决策图(Quantum multiple-valued Decision Diagram，或QMDD)\citep{Seiter_2013}等，从而对组合式量子电路进行等效性检测。显然，随着越来越复杂的物理可实现化的硬件出现，将会出现更加复杂的，更加针对于的，新的验证问题。比如量子存储\citep{Kerckhoff_2010}，量子反馈网络\citep{Gough_2008}，重复至成功(Repeated Until Success，或RUS)的量子电路\citep{Bocharov_2015}。量子模型检测的高度自动化为量子电路的验证提供了更多便利。
 
 
 未来量子模型检测的最重要目标是寻找一类更简单易于检测的属性。过去的研究追求的是普遍性，即只针对检测量子系统的一般可达性和时间逻辑属性。然而，为了实现这一目标，模型检测的效率非常低，且仅适用于非常小规模和深度较小的量子电路。因此，需要确定一类更简单易于检测的属性，以便当前的量子模型检测工具可以高效地进行检测\citep{ying2021model}。
@@ -102,7 +102,7 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\c
 %   \item 预期影响：讨论研究对于学术界和实际应用可能产生的影响。
 % \end{itemize}
 本次研究的主要目的是借助最新的数据结构TDD实现模型检测，即利用TDD自动化地验证量子系统的状态是否满足给定的属性。
-比如在量子计算中的自动设计领域(Quantum Design Automation, 或QDA)中有大量验证问题，具体来说是对同一算法的不同仿真(synthesis)方案是否等价。比如一类RUS(Repeat Until Success)电路等价性问题。
+比如在量子计算中的自动设计领域(Quantum Design Automation， 或QDA)中有大量验证问题，具体来说是对同一算法的不同仿真(synthesis)方案是否等价。比如一类RUS(Repeat Until Success)电路等价性问题。
 图\ref{fig:rus-equal}展示了两个RUS量子电路。当电路中测量门结果为$00$时，第三个比特的输出态均为$\left(I+2iZ\right)/ \sqrt 5 |\psi\rangle$。这样的等价性检验任务，可以转换为模型检测中的可达空间是否一致。
 \begin{figure}[!htbp]
 	\centering
@@ -135,4 +135,31 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\c
     \item 在量子模型检测中，子空间的表示以及子空间的并是比较重要的内容。因此本次研究中，首先设计了基于TDD的对子空间进行基分解的算法，然后设计了基于TDD的子空间的并算法。
     \item 在量子模型检测中，一步迁移指的是在已知当前系统状态的情况下，计算系统下一步的状态。一步迁移是量子模型检测中非常重要的一步。
 \end{enumerate}
+% 主要工作:
+
+% 研究了基于张量网络表示量子电路和量子系统的方法，并引入了TDD(Tensor Decision Diagrams)数据结构。
+% 设计了基于TDD的算法来计算量子迁移系统的可达空间，用于量子模型检测中的可达性分析。
+% 提出了多种优化策略，如电路拆分、TDD结构优化和子空间近似表示等，以降低可达性分析过程中的时间和空间资源消耗。
+% 进行了实验评估，证明了所提优化方法的有效性，尤其是基于contraction的电路拆分算法能显著提升效率。
+% 开发了基于Python和C语言的软件系统，实现了所设计的TDD数据结构和算法。
 \subsection*{论文结构}
+本章为绪论，主要介绍了研究的背景、目的和意义。剩余章节的安排如下：
+
+第二章为\textbf{背景介绍}。该章节主要介绍了量子计算和模型检测的基础理论知识，为后续研究奠定理论基础。其中量子计算相关概念的介绍，
+从量子力学的数学基础，即线性代数出发，然后介绍了量子力学的四条基本假设，最后介绍了量子线路。
+模型检测相关概念的介绍，从经典模型检测出发，然后介绍了时序逻辑的基本概念，最后简单介绍了量子逻辑。
+
+第三章 为\textbf{TDD介绍}，该章节主要
+介绍了TDD数据结构，以及如何将量子电路表示为TDD，并介绍了TDD的基本运算以及与其他表示的比较。
+该章节中从张量网络表示出发，然后介绍了TDD的定义。接着介绍了如何从张量表示转化到TDD表示，以及对TDD的一些化简技术。
+最后将TDD表示的效率与其他电路表示技术进行了对比，从而说明了TDD表示在量子计算领域的优势。
+
+第四章为 \textbf{研究方法的介绍}，该章节
+详细阐述了基于TDD的量子模型检测方法，包括量子系统建模、TDD算法设计和针对量子模型检测的优化技术。
+
+
+第五章为 \textbf{实验设计与评估}，该章节
+设计并评估了多种优化image computation算法的方法，重点分析了电路拆分和TDD结构优化对降低资源消耗的效果。
+
+第六章为 \textbf{总结与展望}，该章节主要
+对全文内容进行总结，并对未来的研究方向进行了展望。
