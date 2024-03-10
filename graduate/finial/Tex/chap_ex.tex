@@ -1,9 +1,9 @@
 \chapter{实验设计与评估}
 在上一章节中，详细介绍了TDD表示，如何在量子模型检测中应用TDD，并在最后简单介绍整体软件设计。
 本文工作的目的是应用TDD的表示能力，降低量子模型检测的资源消耗，为大规模的量子系统验证提供更实用的工具。
-其中image computation，即量子迁移系统的一步映射是模型检测中，反复用的算法。
-可以说利用更少的资源进行image computation，就可以降低计算量子系统的可达空间时的资源消耗。
-因此本章节的实验主要围绕image computation，并进一步讨论优化方法的参数影响。
+其中一步迁移算法，即量子迁移系统的一步映射是模型检测中，反复用的算法。
+可以说利用更少的资源进行一步迁移，就可以降低计算量子系统的可达空间时的资源消耗。
+因此本章节的实验主要围绕一步迁移算法，并进一步讨论优化方法的参数影响。
 
 在这实验过程中，时间资源可以用计算过程中的用时度量。空间资源方面，由于不同编译语言，不同计算平台之间存在差异，所以用计算过程中TDD节点个数进行度量空间资源。
 同时由于最大节点数可以表现实验中内存资源占用最多的时刻。因此实验中通过比较最大节点数讨论空间资源占用。
@@ -28,16 +28,16 @@
         \label{fig:grover-node}
     \end{subfigure}
     
-    \caption{对Grover算法运行image computation时不同电路拆分技术的资源对比}
+    \caption{对Grover算法运行一步迁移算法时不同电路拆分技术的资源对比}
     \label{fig:grover-compare}
 \end{figure}
 
 
 
-图\ref{fig:grover-compare}表示了对Grover搜索算法运行不同image computation算法的资源对比。可以看到不论是基础算法(basic)和addition 方案在超过20量子比特时都无法在规定时间内完成。而contraction方案，在40个比特以后才不能在超时前完成计算。
+图\ref{fig:grover-compare}表示了对Grover搜索算法运行不同一步迁移算法的资源对比。可以看到不论是基础算法(basic)和addition 方案在超过20量子比特时都无法在规定时间内完成。而contraction方案，在40个比特以后才不能在超时前完成计算。
 
 
-图\ref{fig:QFT-compare}表示了对quantum Fourier transform（QFT）算法运行不同image computation算法的资源对比。可以看到不论是基础算法(basic)和addition 方案在超过20量子比特后无法进行计算。而contraction 方法在100比特前始终没有超时，特别是最大节点数相比其他两种方法显著地小。
+图\ref{fig:QFT-compare}表示了对quantum Fourier transform（QFT）算法运行不同一步迁移算法的资源对比。可以看到不论是基础算法(basic)和addition 方案在超过20量子比特后无法进行计算。而contraction 方法在100比特前始终没有超时，特别是最大节点数相比其他两种方法显著地小。
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{.45\textwidth}
@@ -53,11 +53,11 @@
         \caption{对QFT 算法应用不同电路拆分技术的最大节点对比}
         \label{fig:QFT-node}
     \end{subfigure}
-    \caption{对QFT算法运行image computation时不同电路拆分技术的资源对比}
+    \caption{对QFT算法运行一步迁移算法时不同电路拆分技术的资源对比}
     \label{fig:QFT-compare}
 \end{figure}
 
-图\ref{fig:BV-compare}表示了对Bernstein–Vazirani（BV）算法运行不同image computation算法的资源对比。尽管三种方法都能在5分钟内计算500量子比特的Bernstein-Vazirani算法的图像。但在该方法中绿色的contraction 方法依然比其他两种方法有优势。
+图\ref{fig:BV-compare}表示了对Bernstein–Vazirani（BV）算法运行不同一步迁移算法的资源对比。尽管三种方法都能在5分钟内计算500量子比特的Bernstein-Vazirani算法的图像。但在该方法中绿色的contraction 方法依然比其他两种方法有优势。
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{.45\textwidth}
@@ -73,11 +73,11 @@
         \caption{对BV 算法应用不同电路拆分技术的最大节点对比}
         \label{fig:BV-node}
     \end{subfigure}
-    \caption{对BV算法运行image computation时不同电路拆分技术的资源对比}
+    \caption{对BV算法运行一步迁移算法时不同电路拆分技术的资源对比}
     \label{fig:BV-compare}
 \end{figure}
 
-图\ref{fig:GHZ-compare}表示了对Greenberger–Horne–Zeilinger （GHZ）状态制备电路运行不同image computation算法的资源对比。三种方法也都能在4秒钟内完成500量子比特的GHZ算法的图像计算。但是时间方面addition 方法比较好，但和contraction差距之间不明显。最大节点数方面，contraction则同样比addition好，但差距不明显。
+图\ref{fig:GHZ-compare}表示了对Greenberger–Horne–Zeilinger （GHZ）状态制备电路运行不同一步迁移算法的资源对比。三种方法也都能在4秒钟内完成500量子比特的GHZ算法的图像计算。但是时间方面addition 方法比较好，但和contraction差距之间不明显。最大节点数方面，contraction则同样比addition好，但差距不明显。
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{.45\textwidth}
@@ -93,11 +93,11 @@
         \caption{对GHZ 算法应用不同电路拆分技术的最大节点对比}
         \label{fig:GHZ-node}
     \end{subfigure}
-    \caption{对GHZ算法运行image computation时不同电路拆分技术的资源对比}
+    \caption{对GHZ算法运行一步迁移算法时不同电路拆分技术的资源对比}
     \label{fig:GHZ-compare}
 \end{figure}
 
-图\ref{fig:QRW-compare}表示了对在$2^n$ 环上的quantum random walk （QRW）算法运行不同image computation算法的资源对比。可以看到基础算法(basic)和addition 方案再次在超过20量子比特后不能计算。而contraction 方法在100比特前始终没有超时，空间资源方面的最大节点数在20比特之后趋于稳定。
+图\ref{fig:QRW-compare}表示了对在$2^n$ 环上的quantum random walk （QRW）算法运行不同一步迁移算法的资源对比。可以看到基础算法(basic)和addition 方案再次在超过20量子比特后不能计算。而contraction 方法在100比特前始终没有超时，空间资源方面的最大节点数在20比特之后趋于稳定。
 
 \begin{figure}[!htbp]
     \centering
@@ -114,7 +114,7 @@
         \caption{对QRW 算法应用不同电路拆分技术的最大节点对比}
         \label{fig:QRW-node}
     \end{subfigure}
-    \caption{对QRW算法运行image computation时不同电路拆分技术的资源对比}
+    \caption{对QRW算法运行一步迁移算法时不同电路拆分技术的资源对比}
     \label{fig:QRW-compare}
 \end{figure}
 
@@ -124,7 +124,7 @@
 
 而尽管contraction 电路划分方案总是优于addition 电路划分方案，但保留addition 电路划分方案是必要的。首先，注意到addition 电路划分方案对不同电路的性能表现各不相同，这意味着addition 电路划分方案具有其独特效果。
 比如GHZ电路中，addition方案的时间资源比较小。特别是对于中心化电路，即在无向图中某些索引的度远大于其他的电路。因此有些电路天然需要使用addition 电路划分方案进行分割。另一方面，addition 电路划分方案可以与contraction 电路划分方案结合使用。
-同时对于addition 电路划分方案，由于电路被划分成许多更简单的部分，因此可以使用更小的空间消耗计算每个部分的图像。也就是当空间资源有限时，可以增加参数$k$，将电路切割成更多部分。然后可以逐部分image computation，再将它们相加。还可以使用二级缓存来帮助完成这一方案的最终计算。
+同时对于addition 电路划分方案，由于电路被划分成许多更简单的部分，因此可以使用更小的空间消耗计算每个部分的图像。也就是当空间资源有限时，可以增加参数$k$，将电路切割成更多部分。然后可以逐部分一步迁移，再将它们相加。还可以使用二级缓存来帮助完成这一方案的最终计算。
 
 表\ref{table:time}给出了三种方法的资源消耗的详细数据。time表示计算TDD收缩的总时间，单位为秒，最大节点数表示计算过程中TDD的节点最大个数。
 basic表示没有使用优化技术，addition表示使用\ref{addition}节中的addition优化技术，contraction表示使用\ref{contraction}节中的contraction优化技术。“-”表示超过一小时的运行上限。
@@ -169,13 +169,13 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
             \hline
         \end{tabular}
     }
-    \caption{对不同测试实验应用image computation}
+    \caption{对不同测试实验应用一步迁移算法}
     \label{table:time}
 \end{table}
 \section{电路划分技术的参数选择}
 
 本节中同样以Grover\_15电路为例，研究不同参数电路划分方案性能的影响。
-首先讨论参数$k$对addition 电路划分方案性能的影响。使用参数$k$从1到13的addition 电路划分方案image computation。表\ref{table:addition}为具体数据。根据表\ref{table:addition}绘制折线图\ref{fig:addition-ex}。从折线图中，可以看出，当参数$k$小于五时，总时间不会发生显著变化。但当参数$k$增大时，时间将会指数级增长。这是因为随着$k$的增长，将电路划分成$2^k$部分。这也说明，通常不应该将电路划分成太多部分，只有在存在明显中心时才进行划分。
+首先讨论参数$k$对addition 电路划分方案性能的影响。使用参数$k$从1到13的addition 电路划分方案的一步迁移。表\ref{table:addition}为具体数据。根据表\ref{table:addition}绘制折线图\ref{fig:addition-ex}。从折线图中，可以看出，当参数$k$小于五时，总时间不会发生显著变化。但当参数$k$增大时，时间将会指数级增长。这是因为随着$k$的增长，将电路划分成$2^k$部分。这也说明，通常不应该将电路划分成太多部分，只有在存在明显中心时才进行划分。
 \begin{figure}
     \centering
     \includegraphics[width=.8\textwidth]{Img/addition_para.pdf}
@@ -252,9 +252,9 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
 
 
 
-    最后为了验证基于TDD优化方法，即对TDD的分割和近似方法在降低image computation过程中内存占用以及缓解内存溢出问题上的效果。实验中，选取了Grover\_40和QFT\_100作为测试案例，分别采用了TDD的分割和子空间近似的方法进行image computation，并记录了TDD的处理时间及其最大节点数量。实验成果汇编于表\ref{table:tdd-based}。表中，变量 $k$ 用于指示采用的分割次数。当 $k=1$时，将原TDD一分为二，形成两个较为均衡的部分，从而显著减少了节点数量。$k=2$时，进一步将一个分支细分为两个小部分。而到了 $k=3$，在另一个分支上继续分割，节点数因此再次大幅度降低。
+    最后为了验证基于TDD优化方法，即对TDD的分割和近似方法在降低系统的一步迁移过程中内存占用以及缓解内存溢出问题上的效果。实验中，选取了Grover\_40和QFT\_100作为测试案例，分别采用了TDD的分割和子空间近似的方法进行系统的一步迁移，并记录了TDD的处理时间及其最大节点数量。实验成果汇编于表\ref{table:tdd-based}。表中，变量 $k$ 用于指示采用的分割次数。当 $k=1$时，将原TDD一分为二，形成两个较为均衡的部分，从而显著减少了节点数量。$k=2$时，进一步将一个分支细分为两个小部分。而到了 $k=3$，在另一个分支上继续分割，节点数因此再次大幅度降低。
 
-对于Grover\_40电路，初始使用子空间 $S=span{\ket{0\cdots0}}$ 以简化过程。从表\ref{table:tdd-based}可见，在不进行image computation优化的情况下，最大的TDD节点数达到了589,865。通过在达到最大TDD之前实施基于TDD的分割，可以将最大节点数减至393,423。若对两个分支均分割TDD，则最大节点数可进一步降至245,814，不足原数的一半。此外，这一过程几乎不会增加时间消耗。
+对于Grover\_40电路，初始使用子空间 $S=span{\ket{0\cdots0}}$ 以简化过程。从表\ref{table:tdd-based}可见，在不进行一步迁移算法优化的情况下，最大的TDD节点数达到了589,865。通过在达到最大TDD之前实施基于TDD的分割，可以将最大节点数减至393,423。若对两个分支均分割TDD，则最大节点数可进一步降至245,814，不足原数的一半。此外，这一过程几乎不会增加时间消耗。
     
 但有时，计算末尾才会出现最大的TDD。这意味着，即便在整个计算过程中已将TDD分割为多个小片段，最大的TDD仍难以避免，除非采取近似方法。这里以初始子空间为 $S=span\{\ket{+\cdots+ -\cdots -}\}$（最后20个量子比特全为 $\ket{-}$）的QFT\_100为例，计算结束时出现了含有524,369节点的最大TDD。因此，虽然会在计算过程中通过TDD分割获得多个小TDD，但在最后不会将它们合并。相反，用这些TDD张成的子空间来近似原始TDD。进而，通过将原来的一维子空间近似为二维子空间，可以将最大TDD的节点数降至262,226；将原空间近似为四维时，节点数可降至131,155。在整个近似过程中，时间消耗同样不会显著增加。值得注意的是，实际验证时无需将这些小TDD同时存储于内存中，而可以逐一进行计算与验证。
 
@@ -282,7 +282,7 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
 \end{table}
 
 \section{本章小结}
-本章主要介绍了几种优化image computation算法的方法,并进行了实验对比。主要优化方法包括电路拆分(addition和contraction)和对TDD结构的优化(拆分和子空间近似)。
+本章主要介绍了几种优化一步迁移算法的方法,并进行了实验对比。主要优化方法包括电路拆分(addition和contraction)和对TDD结构的优化(拆分和子空间近似)。
 
 实验结果表明,contraction电路拆分方法在降低时间和空间资源消耗方面效果最佳,能够显著提高算法效率,尤其对线路层数较深的量子算法很有优势。addition电路拆分方法次之,对某些特殊电路也有一定优化效果。
 
@@ -290,4 +290,4 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
 
 另一方面,针对TDD结构进行拆分和子空间近似也能有效降低内存占用,避免内存溢出,且时间开销较小。尤其是当出现大的最终TDD时,子空间近似方法很有帮助。
 
-总的来说,上述优化方法能够有效降低image computation过程中的时间和空间资源消耗,提高量子模型检测的可扩展性,为大规模量子系统验证提供实用的工具。
+总的来说,上述优化方法能够有效降低一步迁移算法过程中的时间和空间资源消耗,提高量子模型检测的可扩展性,为大规模量子系统验证提供实用的工具。
