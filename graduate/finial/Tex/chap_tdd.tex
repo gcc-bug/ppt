@@ -615,7 +615,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 	\label{fig:bdd-compare}
 \end{figure}
 
-\subsection*{基于TDD的分割}
+\subsection*{基于窗函数对TDD分割}
 按照 \citep{narayan1996partitioned} 中关于传统模型校验方法的讨论，可以设计基于TDD的划分法。即利用布尔函数将一个大张量细分成若干个小张量的优化方法。设 $\varphi$ 是一个含有 $n$ 个索引的张量。从 $\set{0,1}^n$ 到 $\set{0,1}$ 的集合中选取一系列窗口布尔函数 (window boolean function)$\{w_1,\cdots, w_k\}$，这些函数对于同一输入，始终满足以下条件： 
 \begin{itemize}
     \item $w_1+\cdots +w_k=1$

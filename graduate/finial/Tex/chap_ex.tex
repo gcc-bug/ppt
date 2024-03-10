@@ -8,10 +8,87 @@
 在这实验过程中，时间资源可以用计算过程中的用时度量。空间资源方面，由于不同编译语言，不同计算平台之间存在差异，所以用计算过程中TDD节点个数进行度量空间资源。
 同时由于最大节点数可以表现实验中内存资源占用最多的时刻。因此实验中通过比较最大节点数讨论空间资源占用。
 具体实验方面，\ref{sec-optimize}节中具体讨论了五种进一步的优化方案。分别是addition 和 contraction 两种通过电路拆分进行优化的方案，以及调整TDD索引顺序，以及TDD拆分和用子空间近似表示两种对TDD优化方法。其中调整TDD索引顺序是在实验前进行的，因此这里不再展示。最后本章节中的实验是在Intel Xeon-Gold-5215 CPU，512GB RAM的硬件平台进行的。
+\section{电路划分技术的参数选择}
+\label{sec-para}
+本节中都以Grover\_15电路为例，研究不同参数电路划分方案性能的影响。
+首先讨论参数$k$对addition 电路划分方案性能的影响。使用参数$k$从1到13的addition 电路划分方案的一步迁移。表\ref{table:addition}为具体数据。根据表\ref{table:addition}绘制折线图\ref{fig:addition-ex}。从折线图中，可以看出，当参数$k$小于五时，总时间不会发生显著变化。但当参数$k$增大时，时间将会指数级增长。这是因为随着$k$的增长，将电路划分成$2^k$部分。这说明，通常不应该将电路划分成太多部分，只有在存在明显中心时才进行划分。
+
+因此最好不将addition 电路划分方案的参数设置的过大。
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{Img/addition_para.pdf}
+    \caption{不同参数$k$对Grover\_15电路的additon划分方案的时间影响}
+    \label{fig:addition-ex}
+\end{figure}
+\begin{table}[htbp]
+    \centering
+    \scalebox{0.8}{
+        \begin{tabular}{cccccccccccccc} % Corrected to 14 cs for 14 columns
+            \toprule
+            k  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 \\
+            \midrule
+            时间 & 219 & 225 & 220 & 218 & 363 & 570 & 621 & 728 & 1298 & 1982 & 2868 & 4680 & 8615 \\
+            \bottomrule
+            \end{tabular}
+    }
+    \caption{对grover\_15应用不同的addition参数的时间对比。}
+    \label{table:addition}
+\end{table}
+
+
+以Grover\_15电路为例，继续研究参数$k_1$和$k_2$对contraction 电路划分方案性能的影响。表\ref{table-contraction}展示了对Grover\_15应用不同的contraction参数的时间比较，单位为秒。其中表\ref{table-contraction}中蓝色表示用时为用时超过10秒的参数，紫色表示用时小于等于2秒。深紫色表示用时超过100秒，即特别长的参数对。深紫色表示用时小于等于1.5秒，表示用时特别少的参数对。
+
+从表\ref{table-contraction}中的颜色可以看出，时间比较长的蓝色部分主要集中在图下半部分。这说明只要不把参数$k_1$设置得太大，contraction 电路划分方案方法就会很有效。这意味着对于参数有很宽的选择范围。
+
+同时从表格中还可以看到，当将contraction 电路划分方案的参数$k_1$设置在2到9之间，$k_2$设置在2到6之间时，时间基本都是比较短的紫色。这意味着通常最好将contraction拆分方案的参数设置为适中的值。
+
+
+\begin{table}[!htbp]
+    \centering
+    \scalebox{0.8}{
+        \begin{tabular}{c|ccccccccccccccc}
+            \rowcolor[HTML]{FFFFFF} 
+            \DiagonalCell{k1}{k2}                         & 1                           & 2                           & 3                           & 4                           & 5                           & 6                           & 7                          & 8                           & 9                           & 10                          & 11                          & 12                          & 13                          & 14                          & 15                          \\\hline
+                \rowcolor[HTML]{FFFFFF} 
+        1                          & 2.8                                              & 2.2                         & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}2.0                      & 2.1                        & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & 2.2                         & 2.1                         & 2.1                         \\ \cline{3-7}
+        \rowcolor[HTML]{CCC0DA} 
+        
+        \rowcolor[HTML]{FFFFFF} 
+        3                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.1                        & 2.1                         & 2.5                         & 2.3                         & 2.7                         & 2.3                         & 3.1                         & 2.8                         & 3.3                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        4                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.3} & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & 2.2                        & 2.1                         & 2.6                         & 2.3                         & 2.8                         & 2.7                         & 3.3                         & 3.0                         & 3.3                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        5                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}1.9 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.3                        & \cellcolor[HTML]{CCC0DA}1.9 & 2.5                         & 2.3                         & 2.8                         & 2.7                         & 3.4                         & 3.0                         & 3.6                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        6                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.9                         & 2.8                         & 3.1                         & 2.9                         & 3.7                         & 3.7                         & 4.2                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        7                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{CCC0DA}1.5 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.8                         & 3.0                         & 3.6                         & 3.3                       & 4.2                         & 5.7                         & 5.0                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        8                          & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.1                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.4                        & 2.2                         & 2.8                         & 2.8                         & 3.7                         & 3.4                         & 4.3                         & 4.8                         & 5.2                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        9                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{B1A0C7}1.4 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.5                        & \cellcolor[HTML]{CCC0DA}2.0 & 3.3                         & 2.9                         & 3.7                         & 3.5                         & 4.9                         & 4.7                         & 5.8                         \\ \cline{3-7}
+        \rowcolor[HTML]{FFFFFF} 
+        10                         & 2.3                                              & \cellcolor[HTML]{CCC0DA}1.9 & 2.3                         & \cellcolor[HTML]{CCC0DA}1.6 & 2.6                         & 2.7                                              & 3.1                        & 2.2                         & 4.0                         & 3.6                         & 4.6                         & 3.9                         & 5.6                         & 5.2                         & 7.5                         \\
+        \rowcolor[HTML]{FFFFFF} 
+        11                         & 3.2                                              & 3.2                         & 3.5                         & 3.1                         & 4.7                         & 4.2                                              & 5.6                        & 4.2                         & 6.8                         & 7.2                         & 7.6                         & 6.3                         & 9.0                         & 8.1                         & \cellcolor[HTML]{8DB4E2}11  \\
+        \rowcolor[HTML]{FFFFFF} 
+        12                         & 5.6                                              & 6.0                         & 7.2                         & 6.0                         & 8.3                         & 9.0                                              & 8.9                        & 7.8                         & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}15  & \cellcolor[HTML]{8DB4E2}16  \\
+        \rowcolor[HTML]{8DB4E2} 
+        \cellcolor[HTML]{FFFFFF}13 & 11                                               & 12                          & 14                          & 12                          & 15                          & 18                                               & 18                         & 15                          & 18                          & 20                          & 18                          & 32                          & 32                          & 30                          & 25                          \\
+        \rowcolor[HTML]{8DB4E2} 
+        \cellcolor[HTML]{FFFFFF}14 & 20                                               & 21                          & 24                          & 32                          & 31                          & 44                                               & 77                         & 50                          & 86                          & \cellcolor[HTML]{538DD5}109 & 68                          & \cellcolor[HTML]{538DD5}133 & 70                          & \cellcolor[HTML]{538DD5}119 & \cellcolor[HTML]{538DD5}142 \\
+        \rowcolor[HTML]{538DD5} 
+        \cellcolor[HTML]{FFFFFF}15 & \cellcolor[HTML]{8DB4E2}28                       & \cellcolor[HTML]{8DB4E2}30  & \cellcolor[HTML]{8DB4E2}31  & \cellcolor[HTML]{8DB4E2}53  & \cellcolor[HTML]{8DB4E2}69  & 111                                              & \cellcolor[HTML]{8DB4E2}85 & \cellcolor[HTML]{8DB4E2}81  & 102                         & 153                         & 114                         & 130                         & 166                         & 162                         & 235                        
+                         
+        \end{tabular}
+    }
+    \caption{对grover\_15应用不同的contration参数的时间对比。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
+    \label{table-contraction}
+\end{table}
 
 \section{电路划分技术}
 为了方便比较，本节将首先利用数据绘制图像，然后分析具体趋势。其中蓝色圆点折线始终代表没有电路拆分技术的Basic方法，橙色方块折线始终代表addition 拆分技术方法，绿色三角块折线始终代表contraction 电路拆分技术方法。
-图中时间单位均为秒，参数选择上addition优化方法中的参数为$k=1$，addition优化方法中的参数为$k1=k2=4$。
+图中时间单位均为秒。参数选择上，根据\ref{sec-para}节的结论，将addition优化方法中的参数为$k=1$，addition优化方法中的参数为$k1=k2=4$。
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{.45\textwidth}
@@ -172,79 +249,6 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
     \caption{对不同测试实验应用一步迁移算法}
     \label{table:time}
 \end{table}
-\section{电路划分技术的参数选择}
-
-本节中同样以Grover\_15电路为例，研究不同参数电路划分方案性能的影响。
-首先讨论参数$k$对addition 电路划分方案性能的影响。使用参数$k$从1到13的addition 电路划分方案的一步迁移。表\ref{table:addition}为具体数据。根据表\ref{table:addition}绘制折线图\ref{fig:addition-ex}。从折线图中，可以看出，当参数$k$小于五时，总时间不会发生显著变化。但当参数$k$增大时，时间将会指数级增长。这是因为随着$k$的增长，将电路划分成$2^k$部分。这也说明，通常不应该将电路划分成太多部分，只有在存在明显中心时才进行划分。
-\begin{figure}
-    \centering
-    \includegraphics[width=.8\textwidth]{Img/addition_para.pdf}
-    \caption{不同参数$k$对Grover\_15电路的additon划分方案的时间影响}
-    \label{fig:addition-ex}
-\end{figure}
-\begin{table}[htbp]
-    \centering
-    \scalebox{0.8}{
-        \begin{tabular}{cccccccccccccc} % Corrected to 14 cs for 14 columns
-            \toprule
-            k  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 \\
-            \midrule
-            时间 & 219 & 225 & 220 & 218 & 363 & 570 & 621 & 728 & 1298 & 1982 & 2868 & 4680 & 8615 \\
-            \bottomrule
-            \end{tabular}
-    }
-    \caption{对grover\_15应用不同的addition参数的时间对比。}
-    \label{table:addition}
-\end{table}
-以Grover\_15电路为例，继续研究参数$k_1$和$k_2$对contraction 电路划分方案性能的影响。表\ref{table-contraction}展示了对Grover\_15应用不同的contraction参数的时间比较，单位为秒。其中表\ref{table-contraction}中蓝色表示用时为用时超过10秒的参数，紫色表示用时小于等于2秒。深紫色表示用时超过100秒，即特别长的参数对。深紫色表示用时小于等于1.5秒，表示用时特别少的参数对。
-
-从表\ref{table-contraction}中的颜色可以看出，时间比较长的蓝色部分主要集中在图下半部分。这说明只要不把参数$k_1$设置得太大，contraction 电路划分方案方法就会很有效。这意味着对于参数有很宽的选择范围。
-
-同时从表格中还可以看到，当将contraction 电路划分方案的参数$k_1$设置在2到9之间，$k_2$设置在2到6之间时，时间基本都是比较短的紫色。这意味着通常最好将参数设置为适中的值。
-
-
-\begin{table}[!htbp]
-    \centering
-    \scalebox{0.8}{
-        \begin{tabular}{c|ccccccccccccccc}
-            \rowcolor[HTML]{FFFFFF} 
-            \DiagonalCell{k1}{k2}                         & 1                           & 2                           & 3                           & 4                           & 5                           & 6                           & 7                          & 8                           & 9                           & 10                          & 11                          & 12                          & 13                          & 14                          & 15                          \\\hline
-                \rowcolor[HTML]{FFFFFF} 
-        1                          & 2.8                                              & 2.2                         & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}2.0                      & 2.1                        & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & 2.2                         & 2.1                         & 2.1                         \\ \cline{3-7}
-        \rowcolor[HTML]{CCC0DA} 
-        
-        \rowcolor[HTML]{FFFFFF} 
-        3                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.1                        & 2.1                         & 2.5                         & 2.3                         & 2.7                         & 2.3                         & 3.1                         & 2.8                         & 3.3                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        4                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.3} & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & 2.2                        & 2.1                         & 2.6                         & 2.3                         & 2.8                         & 2.7                         & 3.3                         & 3.0                         & 3.3                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        5                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}1.9 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.3                        & \cellcolor[HTML]{CCC0DA}1.9 & 2.5                         & 2.3                         & 2.8                         & 2.7                         & 3.4                         & 3.0                         & 3.6                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        6                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.9                         & 2.8                         & 3.1                         & 2.9                         & 3.7                         & 3.7                         & 4.2                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        7                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{CCC0DA}1.5 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.8                         & 3.0                         & 3.6                         & 3.3                       & 4.2                         & 5.7                         & 5.0                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        8                          & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.1                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.4                        & 2.2                         & 2.8                         & 2.8                         & 3.7                         & 3.4                         & 4.3                         & 4.8                         & 5.2                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        9                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{B1A0C7}1.4 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.5                        & \cellcolor[HTML]{CCC0DA}2.0 & 3.3                         & 2.9                         & 3.7                         & 3.5                         & 4.9                         & 4.7                         & 5.8                         \\ \cline{3-7}
-        \rowcolor[HTML]{FFFFFF} 
-        10                         & 2.3                                              & \cellcolor[HTML]{CCC0DA}1.9 & 2.3                         & \cellcolor[HTML]{CCC0DA}1.6 & 2.6                         & 2.7                                              & 3.1                        & 2.2                         & 4.0                         & 3.6                         & 4.6                         & 3.9                         & 5.6                         & 5.2                         & 7.5                         \\
-        \rowcolor[HTML]{FFFFFF} 
-        11                         & 3.2                                              & 3.2                         & 3.5                         & 3.1                         & 4.7                         & 4.2                                              & 5.6                        & 4.2                         & 6.8                         & 7.2                         & 7.6                         & 6.3                         & 9.0                         & 8.1                         & \cellcolor[HTML]{8DB4E2}11  \\
-        \rowcolor[HTML]{FFFFFF} 
-        12                         & 5.6                                              & 6.0                         & 7.2                         & 6.0                         & 8.3                         & 9.0                                              & 8.9                        & 7.8                         & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}15  & \cellcolor[HTML]{8DB4E2}16  \\
-        \rowcolor[HTML]{8DB4E2} 
-        \cellcolor[HTML]{FFFFFF}13 & 11                                               & 12                          & 14                          & 12                          & 15                          & 18                                               & 18                         & 15                          & 18                          & 20                          & 18                          & 32                          & 32                          & 30                          & 25                          \\
-        \rowcolor[HTML]{8DB4E2} 
-        \cellcolor[HTML]{FFFFFF}14 & 20                                               & 21                          & 24                          & 32                          & 31                          & 44                                               & 77                         & 50                          & 86                          & \cellcolor[HTML]{538DD5}109 & 68                          & \cellcolor[HTML]{538DD5}133 & 70                          & \cellcolor[HTML]{538DD5}119 & \cellcolor[HTML]{538DD5}142 \\
-        \rowcolor[HTML]{538DD5} 
-        \cellcolor[HTML]{FFFFFF}15 & \cellcolor[HTML]{8DB4E2}28                       & \cellcolor[HTML]{8DB4E2}30  & \cellcolor[HTML]{8DB4E2}31  & \cellcolor[HTML]{8DB4E2}53  & \cellcolor[HTML]{8DB4E2}69  & 111                                              & \cellcolor[HTML]{8DB4E2}85 & \cellcolor[HTML]{8DB4E2}81  & 102                         & 153                         & 114                         & 130                         & 166                         & 162                         & 235                        
-                         
-        \end{tabular}
-    }
-    \caption{对grover\_15应用不同的contration参数的时间对比。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
-    \label{table-contraction}
-\end{table}
 
 \section{对TDD结构的优化}
 
@@ -282,12 +286,12 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
 \end{table}
 
 \section{本章小结}
-本章主要介绍了几种优化一步迁移算法的方法,并进行了实验对比。主要优化方法包括电路拆分(addition和contraction)和对TDD结构的优化(拆分和子空间近似)。
+本章主要介绍了几种优化一步迁移算法的方法，并进行了实验对比。主要优化方法包括电路拆分(addition和contraction)和对TDD结构的优化(拆分和子空间近似)。
 
-实验结果表明,contraction电路拆分方法在降低时间和空间资源消耗方面效果最佳,能够显著提高算法效率,尤其对线路层数较深的量子算法很有优势。addition电路拆分方法次之,对某些特殊电路也有一定优化效果。
+实验结果表明，在电路拆分方法中，参数的选择很关键。对addition方法，参数k不宜过大；对contraction方法，参数k1、k2适中值范围较宽，通常取2-9和2-6较为合适。
 
-在电路拆分方法中,参数的选择很关键。对addition方法,参数k不宜过大;对contraction方法,参数k1、k2适中值范围较宽,通常取2-9和2-6较为合适。
+而contraction电路拆分方法在降低时间和空间资源消耗方面效果最佳，能够显著提高算法效率，尤其对线路层数较深的量子算法很有优势。addition电路拆分方法次之，但是对某些特殊电路也有一定优化效果。
 
-另一方面,针对TDD结构进行拆分和子空间近似也能有效降低内存占用,避免内存溢出,且时间开销较小。尤其是当出现大的最终TDD时,子空间近似方法很有帮助。
+另一方面，针对TDD结构进行拆分和子空间近似也能有效降低内存占用，避免内存溢出，且时间开销较小。尤其是当出现大的最终TDD时，子空间近似方法很有帮助。
 
-总的来说,上述优化方法能够有效降低一步迁移算法过程中的时间和空间资源消耗,提高量子模型检测的可扩展性,为大规模量子系统验证提供实用的工具。
+总的来说，上述优化方法能够有效降低一步迁移算法过程中的时间和空间资源消耗，提高量子模型检测的可扩展性，为大规模量子系统验证提供实用的工具。
