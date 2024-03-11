@@ -3,7 +3,9 @@
 
 模型检测（Model Checking）作为一种自动化的形式化方法，专门用于验证有限状态系统是否满足特定性质。这种方法最初由 E. M. Clarke 和 E. A. Emerson 提出
 \citep{Emerson_1980,Clarke,Clarke_1986}，并已在经典计算机的软件和硬件设计中得到广泛应用。例如，嵌入式系统设计中常用 UML (Unified Modeling Language) 活动图来确保硬件设计符合预定规范\citep{Grobelna_2015}。
-在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。本文工作将重点探讨量子模型检测在解决量子系统验证问题上的应用，特别是采用张量决策图（Tensor Decision Diagrams， 或TDD）作为核心技术的研究。
+在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。
+然而随着量子系统中量子比特的增加，量子模型检测的资源消耗会呈现指数级增长。
+本文工作将重点探讨采用张量决策图(Tensor Decision Diagrams， 或TDD)作为数据结构，从而缓解资源消耗的量子模型检测方法。
 
 
 \section{研究背景与研究问题}
@@ -101,25 +103,30 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\c
 %   \item 研究目标：列出研究实现的具体目标。
 %   \item 预期影响：讨论研究对于学术界和实际应用可能产生的影响。
 % \end{itemize}
-本文工作的主要目的是借助最新的数据结构TDD实现模型检测，即利用TDD自动化地验证量子系统的状态是否满足给定的属性。
+本文工作的主要目的是借助最新的数据结构TDD实现更少资源的量子模型检测，即在保证自动化验证的前提下，利用TDD更快地验证量子系统的状态是否满足给定的属性。
+
+如今量子计算的发展诞生了大量的验证需求。
 比如在量子计算中的自动设计领域(Quantum Design Automation， 或QDA)中有大量验证问题，具体来说是对同一算法的不同仿真(synthesis)方案是否等价。比如一类RUS(Repeat Until Success)电路等价性问题。
 图\ref{fig:rus-equal}展示了两个RUS量子电路。当电路中测量门结果为$00$时，第三个比特的输出态均为$\left(I+2iZ\right)/ \sqrt 5 |\psi\rangle$。这样的等价性检验任务，可以转换为模型检测中的可达空间是否一致。
 \begin{figure}[!htbp]
 	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[height=3cm]{Img/rus_s.pdf}
 	\end{subfigure}
 	\qquad
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[height=3cm]{Img/rus_T.pdf}
 	\end{subfigure}
 	\caption{两个等价的RUS电路\citep{Bocharov_2015}}
 	\label{fig:rus-equal}
 \end{figure}
-未来能够将本文成果应用于不同的 synthesis 算法的验证等价性中，
-从而加速量子算法在实际量子计算机上的实现，进一步在量子计算的实际应用中发挥更大的作用。
+% 未来能够将本文成果应用于
+能够更快地验证不同的 synthesis 算法的等价性，
+% 从而加速量子算法在实际量子计算机上的实现，进一步在
+在量子计算的实际研发过程中着重要作用。
+TDD作为针对量子计算设计的高效数据结构，已经展示了其在表现量子电路上的优势。因此本文希望将这一数据结构应用在量子模型检测，降低量子模型检测的资源负担，从而应用到更多量子系统的验证问题中。
 \section{论文结构概述}
 % \begin{itemize}
 %   \item 章节安排：简单概述论文的结构和每一章的主要内容。
@@ -134,7 +141,7 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\c
     \item 首先调研了TDD在量子计算中的优势。TDD是一种基于张量网络的决策图模型。与Google的tensor network计算包相比较计算资源增长速度明显比较小。而与类似的QMDD技术相比较，计算资源相近。但是由于TDD比较灵活的与各类优化技术结合，在加入简单的电路优化技术后，TDD的表示好于QMDD。
     \item 在量子模型检测中，子空间的表示以及子空间的并是比较重要的内容。因此本文工作中，首先设计了基于TDD的对子空间进行基分解的算法，然后设计了基于TDD的子空间的并算法。
     在此基础上，提出了基于TDD的量子迁移系统的一步迁移算法。为量子模型检测提供了算法基础。
-    \item 与此同时，针对量子模型检测，设计了基于电路分割以及TDD结构的优化方案。并设计数值实验，验证了这些优化方案在一步迁移算法中的实用性。验证了TDD在量子模型检测中的实用性。
+    \item 与此同时，针对量子模型检测，设计了基于电路分割以及TDD结构的优化方案。然后实现了需要的TDD软件并设计数值实验，验证了这些优化方案在一步迁移算法中的实用性。验证了TDD在量子模型检测中的实用性。
 \end{enumerate}
 % 主要工作:
 
