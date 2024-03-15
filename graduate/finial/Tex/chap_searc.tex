@@ -1,5 +1,5 @@
 \chapter{背景介绍}
-
+% //TODO: rewrite
 
 模型检测将待检测的系统建模为一个跃迁系统(transition system)，在时序逻辑(temporal logic)中指定待验证的属性。给定模型\(M\) 和属性\(\varphi\)，模型检测将验证是否\(M\)满足\(\varphi\)。在不同的模型检测方法中，高级符号模型检查(Advanced Symbolic Model Checking)\citep{Grobelna_2015}使用简化的有序二叉决策图(Reduced Ordered Binary Decision Diagrams，ROBDDs 或 BDDs)\citep{Bryant_1986}来表示状态集合和转移关系。通过迭代调用图像计算算法来计算所有可达状态，判断一个模型是否满足时间属性，直到达到不动点为止。
 
@@ -27,8 +27,9 @@
 
 
 
-在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本节对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读\citep{nielsen2010quantum}。
-
+在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本节对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读
+\citep{nielsen2010quantum}。
+% // TODO: ref problem
 \subsection{量子力学}
 量子力学有两种主要的表述：波动力学和矩阵力学。其中波动力学由Erwin Schrödinger首创，矩阵力学由Werner Heisenberg首创。波动力学使用微分方程为数学基础，更接近于经典物理的波动理论，适用于处理时间演化问题和连续系统。
 而矩阵力学使用线性代数为数学基础，适用于具有离散能级的系统。由于在量子计算中，大量使用矩阵力学作为理论基础。
@@ -461,6 +462,8 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
 \end{example}
 \subsection{量子模型检测}
 目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。而需要对本小节深入了解的读者，可以自行阅读\citep{2021}。
+% // TODO: ref problem
+
 \subsubsection*{量子命题}
 \label{sec-logic}
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
