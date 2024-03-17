@@ -1,9 +1,7 @@
 \chapter{背景介绍}
 % //TODO: rewrite
 
-模型检测将待检测的系统建模为一个跃迁系统(transition system)，在时序逻辑(temporal logic)中指定待验证的属性。给定模型\(M\) 和属性\(\varphi\)，模型检测将验证是否\(M\)满足\(\varphi\)。在不同的模型检测方法中，高级符号模型检查(Advanced Symbolic Model Checking)\citep{Grobelna_2015}使用简化的有序二叉决策图(Reduced Ordered Binary Decision Diagrams，ROBDDs 或 BDDs)\citep{Bryant_1986}来表示状态集合和转移关系。通过迭代调用图像计算算法来计算所有可达状态，判断一个模型是否满足时间属性，直到达到不动点为止。
 
-最近，随着量子计算的发展，关于量子线路的验证技术也在不断发展\citep{viamontes2007checking,burgholzer2020advanced}。其中，利用模型检测方法对线路进行自动化验证也有了一些应用。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。因此本文工作希望应用基于张量网络(tensor network)的张量决策图(tensor decision diagrams)进行量子模型检测。
 
 而在本章中将简要介绍本文工作中的一些重要的基础知识。因此本章分为两节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。
 \section{量子计算简介}

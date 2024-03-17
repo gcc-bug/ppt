@@ -103,9 +103,13 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具QMC\c
 %   \item 研究目标：列出研究实现的具体目标。
 %   \item 预期影响：讨论研究对于学术界和实际应用可能产生的影响。
 % \end{itemize}
+模型检测将待检测的系统建模为一个跃迁系统(transition system)，在时序逻辑(temporal logic)中指定待验证的属性。给定模型\(M\) 和属性\(\varphi\)，模型检测将验证是否\(M\)满足\(\varphi\)。在不同的模型检测方法中，高级符号模型检查(Advanced Symbolic Model Checking)\citep{Grobelna_2015}使用简化的有序二叉决策图(Reduced Ordered Binary Decision Diagrams，ROBDDs 或 BDDs)\citep{Bryant_1986}来表示状态集合和转移关系。通过迭代调用图像计算算法来计算所有可达状态，判断一个模型是否满足时间属性，直到达到不动点为止。
+
+随着量子计算的发展，关于量子线路的验证技术也在不断发展\citep{viamontes2007checking,burgholzer2020advanced}。其中，利用模型检测方法对线路进行自动化验证也有了一些应用。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。因此本文工作希望应用基于张量网络(tensor network)的张量决策图(tensor decision diagrams)进行量子模型检测。
+
 本文工作的主要目的是借助最新的数据结构TDD实现更少资源的量子模型检测，即在保证自动化验证的前提下，利用TDD更快地验证量子系统的状态是否满足给定的属性。
 
-如今量子计算的发展诞生了大量的验证需求。
+同时如今量子计算存在大量的验证需求。
 比如在量子计算中的自动设计领域(Quantum Design Automation， 或QDA)中有大量验证问题，具体来说是对同一算法的不同仿真(synthesis)方案是否等价。比如一类RUS(Repeat Until Success)电路等价性问题。
 图\ref{fig:rus-equal}展示了两个RUS量子电路。当电路中测量门结果为$00$时，第三个比特的输出态均为$\left(I+2iZ\right)/ \sqrt 5 |\psi\rangle$。这样的等价性检验任务，可以转换为模型检测中的可达空间是否一致。
 \begin{figure}[!htbp]
