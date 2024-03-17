@@ -1,20 +1,19 @@
 \chapter{背景介绍}
 % //TODO: rewrite
-
-
-
-而在本章中将简要介绍本文工作中的一些重要的基础知识。因此本章分为两节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。
+本章中简要介绍本文工作中的一些重要的基础知识。本章将分为两节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。
 \section{量子计算简介}
+本节将简单介绍量子计算相关的背景内容，具体内容可以参考
+\citep{nielsen2010quantum}。
 量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。在量子计算中，量子比特的特殊性质允许其同时处于多种状态，这与经典比特的二进制状态不同。量子计算机的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。比特状态可以用\(\mathcal{H}\)的向量表示，量子门由\(\mathcal{H}\)上的酉算子(unitary operator)表示。
 
-量子线路(quantum circuit)是一种描述量子计算的模型。在量子线路中，通过量子比特的初始化、应用量子门、测量以及其他可能的操作的序列来构建和执行量子计算任务。量子线路通常从左向右阅读，每个量子门的作用是将输入的量子比特状态转变为输出状态，该过程可以认为是量子门的酉矩阵与输入的量子状态的乘积。
+而量子线路(quantum circuit)是一种描述量子计算的模型\citep{nielsen2010quantum}。在量子线路中，通过量子比特的初始化、应用量子门、测量以及其他可能的操作的序列来构建和执行量子计算任务。量子线路通常从左向右阅读，每个量子门的作用是将输入的量子比特状态转变为输出状态，该过程可以认为是量子门的酉矩阵与输入的量子状态的乘积。
 \begin{example}
     \label{ex-epr}
-    图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例，可以用于制备EPR态。其中有单比特门\(H=\frac{1}{\sqrt2}\left[\begin{matrix}1&1\\1&-1\\\end{matrix}\right]\)，以及双比特门\(CX=\left[\begin{matrix}\begin{matrix}1&0\\0&1\\\end{matrix}&\begin{matrix}0&0\\0&0\\\end{matrix}\\\begin{matrix}0&0\\0&0\\\end{matrix}&\begin{matrix}0&1\\1&0\\\end{matrix}\\\end{matrix}\right]\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为:
+    图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例，可以用于制备EPR态。其中有单比特门\(H\)，以及双比特门\(CX\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为:
 \begin{align}
-   CX\cdot H\otimes I \cdot \left|\psi\right\rangle = \frac{|00\rangle+|11\rangle}{\sqrt{2}}
+   \frac{|00\rangle+|11\rangle}{\sqrt{2}}
 \end{align}
-具体计算过程将在\ref{sec-cir}节中介绍。
+不同量子操作的含义将在\ref{sec-mat}节中具体介绍，关于该量子线路的具体计算过程将在\ref{sec-cir}节中介绍。
 \end{example}
 \begin{figure}[!htbp]
     \centering
@@ -25,15 +24,14 @@
 
 
 
-在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。本节对该部分进行简单介绍，而需要对这部分深入了解的读者，可以自行阅读
-\citep{nielsen2010quantum}。
-% // TODO: ref problem
+在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。
+
 \subsection{量子力学}
 量子力学有两种主要的表述：波动力学和矩阵力学。其中波动力学由Erwin Schrödinger首创，矩阵力学由Werner Heisenberg首创。波动力学使用微分方程为数学基础，更接近于经典物理的波动理论，适用于处理时间演化问题和连续系统。
 而矩阵力学使用线性代数为数学基础，适用于具有离散能级的系统。由于在量子计算中，大量使用矩阵力学作为理论基础。
 因此本小节主要介绍矩阵力学。
 \subsubsection*{线性代数}
-线性代数的基本研究对象是向量空间(vector space)，也称作线性空间(Linear Spaces)。这是一种抽象的数学结构，用于描述向量的集合。向量空间在向量加法(Vector Addition)和标量乘法(scalar multiplication)封闭。
+线性代数的基本研究对象是向量空间(vector space)，也称作线性空间(Linear Spaces)。这是一种抽象的数学结构，用于描述向量的集合。向量空间在向量加法(Vector Addition)和标量乘法(scalar multiplication)封闭\cite{greub2012linear}。
 对于一个向量空间，向量的类型满足特定条件。向量可以是几何向量、函数、多项式或任何满足向量空间公理的对象。
 同时还需要定义标量域(Scalars)\(\mathbb{F}\) ，在大多数情况下，标量是实数(Real Numbers)\(\mathbb{R}\)或复数(Complex Numbers)\(\mathbb{C}\)，用于通过标量乘法运算改变向量的大小。
 最后向量空间的还需要遵循一系列公理。这些公理规定了向量加法和标量乘法的性质，如加法的交换律和结合律、加法和标量乘法的分配律、加法单位元的存在性(即零向量，Zero Vector)，以及乘法单位元(即标量1)的存在性。这些公理确保了向量空间内运算的一致性和预测性。
@@ -41,7 +39,7 @@
 此外子空间(Subspace)也是是向量空间中的一个重要概念。子空间指的是一个向量空间的一个子集，同时它自身也是一个向量空间。因此子空间遵循向量空间的向量加法和标量乘法运算封闭的性质。线性算子 (Linear Operator)，也称为线性映射(Linear Mapping)或线性变换(Linear Transformation)，是在向量空间中的一种特殊函数，它在两个向量空间之间映射向量，保持向量加法和标量乘法的结构。线性算子定义如定义\ref{def-op}所示。% 线性算子定义
 \begin{definition}
     \label{def-op}
-    设 \(V\) 和 \(W\) 是两个向量空间，一个线性算子 \(T: V \rightarrow W\) 必须满足以下两个条件：
+    设 \(V\) 和 \(W\) 是两个向量空间，算子 \(T: V \rightarrow W\) 是线性算子，当且仅当满足以下两个条件：
 \begin{enumerate}
     \item 加法性 (Additivity)：对于所有 \(u, v \in V\)，有 \(T(u + v) = T(u) + T(v)\)。
     \item 齐次性 (Homogeneity)：对于所有标量 \(a \in \mathbb{F}\) 和所有 \(v \in V\)，有 \(T(av) = aT(v)\)。
@@ -51,9 +49,9 @@
 当$T$是\(T: W \rightarrow W\)的线性算子，则称$T$是定义在向量空间$V$上的线性算子。其中恒等算子(identity operator)是一类特殊的线性算子，其定义如定义\ref{def-id}所示。
 \begin{definition}
     \label{def-id}
-    设 \(V\) 是一个向量空间，$T$是向量空间$V$上的线性算子，且$T$是恒等算子，则$T$满足以下条件：
+    设 \(V\) 是一个向量空间，$T$是向量空间$V$上的线性算子。$T$是恒等算子，当且仅当$T$满足以下条件：
     \begin{align}
-        T(w) = w,\forall w \in W
+        T(v) = v,\forall v \in V
     \end{align}
 \end{definition}
 
@@ -61,7 +59,7 @@
 \begin{definition}
     \label{def-pro}
     设 \(V\) 是一个向量空间，
-    \(V\)上的内积操作为\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)。那么对于任意两个向量 $u$ 和 $v$，它们的内积 $( u, v )$ 满足以下性质：
+    \(V\)上的内积操作为一个映射\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)。对于任意两个向量 $u$ 和 $v$，它们的内积 $( u, v )$ 满足以下性质：
 \begin{enumerate}
     \item 共轭对称性(Conjugate Symmetry)： \(( u, v ) = \overline{( v, u )}\)，其中\(\overline{( v, u )}\)是\(( v, u )\)的复共轭，当标量域为实数时，表现为对称性，即\(( u, v ) = ( v, u )\)。
     \item 线性 (Linearity)或齐次性：\(( \alpha u_1 + \beta u_2, v ) = \alpha( u_1, v ) + \beta( u_2, v )\)，其中\(\alpha,\beta\in\mathbb{F}\)。
@@ -148,39 +146,51 @@
     (|\psi\rangle, |\phi\rangle)=\langle \psi|\phi\rangle , \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
 \end{align}
 
-希尔伯特空间\(\mathcal{H}\)中的线性算子集合，通常记作\(\mathcal{L} (\mathcal{H})\)。
-对算子\(A \in \mathcal{L}\)，$A$的伴随算子(adjoint operator)$A^\dagger$定义为:
+希尔伯特空间\(\mathcal{H}\)中的线性算子集合，通常记作\(\mathcal{L} (\mathcal{H})\)。对于算子$A$，其伴随算子(adjoint operator)$A^\dagger$的定义如定义\ref{def-dagger}所示。
+在伴随算子基础上可以如定义\ref{def-hermite}所示，定义Hermite算子(Hermite operator)。
+\begin{definition}
+    \label{def-dagger}
+    设算子\(A \in \mathcal{L}(\mathcal{H})\)，\(A^\dagger\)是$A$的伴随算子满足，那么\(A^\dagger\)满足：
 \begin{align}
     \langle \psi |A^\dagger|\phi \rangle = \langle \phi |A|\psi \rangle^*, \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
 \end{align}
-算子\(A \in \mathcal{L}\)，被称为作Hermite算子(Hermite operator)，或者Hermitian，当且仅当满足以下条件：
+\end{definition}
+\begin{definition}
+    \label{def-hermite}
+    设算子\(A \in \mathcal{L}(\mathcal{H})\)。算子\(A\)是Hermite算子，当且仅当\(A\)满足：
 \begin{align}
     A = A^\dagger
 \end{align}
+\end{definition}
 
 
-如果一个Hermitian算子\(A\)同时满足：
+而在Hermite算子的基础上，可以继续定义几类重要的算子，如定义\ref{def-proj}中的投影算子(project oroperator)，定义\ref{def-normal}中的正规算子(normal oroperator)，以及定义\ref{def-unitary}中的酉算子(unitary oroperator)。
+\begin{definition}
+    \label{def-proj}
+    设算子\(A \in \mathcal{L}(\mathcal{H})\)，且\(A\)是Hermite算子。那么\(A\)是投影算子，当且仅当\(A\)满足：
 \begin{align}
     A^2 = A
 \end{align}
-那么\(A\)也被称作投影算子(project oroperator)。
+\end{definition}
 
-如果一个Hermitian算子\(A\)同时满足：
+\begin{definition}
+    \label{def-normal}
+    设算子\(A \in \mathcal{L}(\mathcal{H})\)，且\(A\)是Hermite算子。那么\(A\)是正规算子，当且仅当\(A\)满足：
 \begin{align}
     A^\dagger A = A A^\dagger
 \end{align}
-那么\(A\)也被称作正规算子(normal oroperator)。同时\(A\)是正规算子，当且仅当被如下对角化：
-\begin{align}
-    A = \sum_{i}\lambda_i |i\rangle\langle i|
-\end{align}
-其中$\lambda_i$是$A$的特征值，$|i\rangle$为对应特征值的特征向量。
+\end{definition}
 
-如果一个Hermitian算子\(A\)同时满足：
+\begin{definition}
+    \label{def-unitary}
+    设算子\(A \in \mathcal{L}(\mathcal{H})\)，且\(A\)是Hermite算子。那么\(A\)是酉算子，当且仅当\(A\)满足：
 \begin{align}
     A^\dagger A = I
 \end{align}
-其中$I$表示希尔伯特空间中的恒等算子。那么\(A\)也被称作酉算子(unitary oroperator)。
-酉算子保持向量之间的内积，即：
+其中$I$表示希尔伯特空间中的恒等算子。
+\end{definition}
+
+其中酉算子保持向量之间的内积，即：
 \begin{align}
     (U|\psi\rangle, U|\phi\rangle) = \langle \psi|U^\dagger U|\phi\rangle = \langle \psi|I|\phi\rangle = \langle \psi|\phi\rangle = (|\psi\rangle, |\phi\rangle), \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
 \end{align}
@@ -231,6 +241,7 @@
         0\\1
     \end{matrix}\right]
 \end{align}
+\label{sec-mat}
 可以得到常见单比特酉变化的矩阵形式，比如Pauli算子：
 \begin{align}
     I = \left[\begin{matrix}
