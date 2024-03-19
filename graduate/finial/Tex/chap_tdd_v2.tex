@@ -2,19 +2,16 @@
 
 张量决策图(TDD)是一种基于张量网络，结合了二元决策图的表示优势的数据结构。
 TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
-本章将主要介绍在本文工作中使用的方法，因此将主要介绍如何应用TDD进行模型检测并作出针对性改进，最后介绍本文工作中的软件实现。
+本章将主要介绍在本文工作中使用的方法，因此将首先介绍TDD，然后介绍如何应用TDD进行模型检测并作出针对性改进，最后介绍本文工作中的软件实现。
 
-借助新的数据结构TDD，可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
-
-目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
-% //TODO: rewrite intro
 \section{TDD简介}
-% //TODO: add intro
 TDD是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
-本章将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算以及和其他表示的对比。
+本节将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后简单介绍TDD与类似表示的对比。
+有关TDD的具体内容，可以参考\citep{Hong_2022}。
+% 目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
 \subsection*{TDD定义}
 张量是与一组与索引序列\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为定义\ref{df-tensor}所示。
-\begin{definition}
+\begin{definition}\citep{biamonte2019lectures}
     \label{df-tensor}
     当张量只从从\(\{0,1\}\)中取值时，对于定义在索引序列\(I\)上的张量\(\phi\)，其可以表示为一个字典
     \begin{align}
@@ -24,7 +21,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{definition}
 
 
-一个向量表示为$[\alpha_0,\alpha_1]$的量子比特x可以描述为秩为1的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特x和输出比特y的单比特门可以表示为秩为2的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或电路时会规定关于其信息。
+因此一个向量表示为$[\alpha_0,\alpha_1]$的量子比特$x$可以描述为秩为$1$的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特$x$和输出比特$y$的单比特门可以表示为秩为$2$的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或电路时会规定关于其信息。
 
 张量之间最重要的运算之一是收缩(contraction)。收缩是通过对共享索引求和获得新的张量。具体来说，设 张量$\gamma_{\overrightarrow{x},\overrightarrow{z}}$ 和 $\xi_{\overrightarrow{y},\overrightarrow{z}}$ 的共享索引集 是$\overrightarrow{z}$。设收缩后的新张量为 $\phi_{\overrightarrow{x},\overrightarrow{y}}$，则其表达式如式子\ref{eq-contraction}所示。
 \begin{equation}
@@ -37,22 +34,23 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
     \label{eq-slicing}
 \phi|_{x=c}(\overrightarrow{a}) := \phi(c, \overrightarrow{a})
 \end{equation}
-对于任意 $\overrightarrow{a} \in \{0, 1\}^n$。称 $\phi|_{x=0}$ 和 $\phi|_{x=1}$ 分别为 $\phi$ 关于 $x$ 的负切片(negative slicing)和正切片(positive slicing)。如果 $\phi|_{x=0} \neq \phi|_{x=1}$，称索引 $x \in I$ 对于 $\phi$ 是本质的(essential)。同时张量满足定理\ref{lemma-tensor}中的性质。
+对于任意 $\overrightarrow{a} \in \{0, 1\}^n$。称 $\phi|_{x=0}$ 和 $\phi|_{x=1}$ 分别为 $\phi$ 关于 $x$ 的负切片(negative slicing)和正切片(positive slicing)。如果 $\phi|_{x=0} \neq \phi|_{x=1}$，称索引 $x \in I$ 对于 $\phi$ 是本质的(essential)。
+% 同时张量满足定理\ref{lemma-tensor}中的性质。
 
-\begin{lemma}
-    \label{lemma-tensor}
-    对于定义在索引序列\(I\)上的张量\(\phi\)，其中的每个索引\(x\in I\)，都有
-    \begin{align}
-        \phi = \bar{x}\cdot \phi|_{x=0}+x\cdot \phi|_{x=1}
-    \end{align}
-\end{lemma}
+% \begin{lemma}
+%     \label{lemma-tensor}
+%     对于定义在索引序列\(I\)上的张量\(\phi\)，其中的每个索引\(x\in I\)，都有
+%     \begin{align}
+%         \phi = \bar{x}\cdot \phi|_{x=0}+x\cdot \phi|_{x=1}
+%     \end{align}
+% \end{lemma}
 
 张量网络是一个无向图\(G=\left(V,E\right)\)。其中顶点集$V$中的每个顶点$v$表示一个张量。边集\(E\)中每条边\(e\)代表与相邻两个张量相关联的公共索引。通过以任意顺序收缩连接的张量，可以得到一个秩为\(m\)的张量，其中\(m\)是$G$中开放边数。这个独立于收缩顺序的张量也称为该张量网络的张量表示\citep{biamonte2019lectures}。
 张量网络提供了一种新的量子线路表示方法\citep{pednault2017breaking}。而当给定量子线路中所有量子门的输入和输出状态的索引值，收缩掉共享的索引，就可以得到量子电路的张量表示。
 
 
 张量决策图(Tensor Decision Diagrams，或TDD)是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
-\begin{definition}
+\begin{definition}\citep{Hong_2022}
     \label{df-tdd}
     TDD是一个建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的有根节点，带权重的有向无环图，其中包括：
     \begin{align}
@@ -124,7 +122,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 
 \subsection*{对比类似表示}
 \label{sec-compare}
-TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比TDD，直接使用张量网络TN，以及QMDD\citep{1623982}三种表示的效率。
+TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比定义\ref{df-tensor}中的张量网络TN，定义\ref{df-tdd}中的张量决策图TDD，以及QMDD\citep{1623982}三种表示的效率。
 
 QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和和验证任务
 \citep{burgholzer2020verifying,burgholzer2020advanced}。
@@ -155,9 +153,9 @@ QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四
 然而TDD由于可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
 
 
-图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II都是是前文中提到的优化方案。
-QMDD指的是QuantumMultiple-valued Decision Diagrams。
-TN是指google的tensor network\citep{roberts2019tensornetwork}。
+图\ref{fig:tdd-compare}是\cite{Hong_2022}中展示的目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II是两种额外的优化方案。
+QMDD指的是Quantum Multiple-valued Decision Diagrams。
+TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}。
 从图\ref{fig:tdd-compare}可以看到，两种TDD的优化方案都是时间消耗最少的。不使用拆分优化的TDD No Part与QMDD时间接近。而当比特数少于10时，TN的时间少于TDD No Part，但随着比特数增加，TN的用时快速超过TDD No Part。
 因此TDD相比其他表示方式有一定优势。这是本文工作研究中选择TDD作为主要技术的重要原因。
 
@@ -170,11 +168,11 @@ TN是指google的tensor network\citep{roberts2019tensornetwork}。
 
 \section{将量子系统建模为量子迁移系统}
 
-在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
+在\ref{sec-transition}节中介绍了跃迁系统，其中定义\ref{def-model-q}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\{\mathcal{T}_\sigma, \sigma \in \Sigma\}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
 
 
 \begin{example}
-    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p\}Z}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
+    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p}Z\}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
 \end{example}
 \begin{example}
     \label{ex-image-grover}
@@ -397,6 +395,6 @@ TN是指google的tensor network\citep{roberts2019tensornetwork}。
 通过上述模块的协同工作，
 保证了最终的软件系统能够高效、灵活地处理本文工作中对量子模型检测的各种需求。
 \section{本章小结}
-本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单回顾了如何将量子系统建模为量子迁移系统。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition电路拆分、contraction 电路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
+本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单介绍TDD的定义以及表示的优势，然后回顾了如何将量子系统建模为量子迁移系统，接着给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition电路拆分、contraction 电路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
 
 通过上述方法，本文以TDD为数据结构，构建了一种能高效计算量子模型检测中可达性分析问题的解决方案。TDD结合了BDD的紧凑表示和张量网络的计算优势，为解决量子计算中的模型检测问题提供了新的可能性。软件系统的模块化设计也为高效实现这一方案奠定了基础。总的来说，本章介绍的技术为量子模型检测提供了一种有前景的新方法。
