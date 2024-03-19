@@ -197,7 +197,7 @@
 \subsubsection*{量子力学基本假设}
 在量子力学中，有四条基本假设，其数学框架是在不断实验中总结，假设，验证而得到的。
 下面分别简单介绍一下这四条假设。
-\begin{theorem}
+\begin{theorem}\citep{nielsen2010quantum}
     每个孤立的物理系统都可以通过一个内积复向量空间（即希尔伯特空间）来表征，此空间被视为系统的状态空间(state space)。该系统的全部性质由位于状态空间内的一个单位向量，即状态向量(state vector)，完整定义。
 \end{theorem}
 
@@ -223,7 +223,7 @@
     \frac{|0\rangle-|1\rangle}{\sqrt{2}}
 \end{align}
 处在$|0\rangle$状态的振幅为$\frac{1}{\sqrt{2}}$，处在$|1\rangle$状态的振幅为$-\frac{1}{\sqrt{2}}$。
-\begin{theorem}
+\begin{theorem}\citep{nielsen2010quantum}
     一个封闭量子系统(closed quantum system)的演化(evolution)由酉变化(unitary operation)体现。具体来讲，系统在$t_1$时刻的状态$|\psi\rangle$与在$t_2$时刻的状态$|\psi'\rangle$之间，通过一个只与$t_1$和$t_2$两个时间点相关的酉操作符$U$连接:
     \begin{align}
         |\psi'\rangle = U|\psi\rangle
@@ -275,7 +275,7 @@
     \label{eq-t}
 \end{align}
 
-\begin{theorem}
+\begin{theorem}\citep{nielsen2010quantum}
     量子测量(quantum measurement) 可以通过一系列测量算子 (measurement operator) ${M_m}$ 刻画。这些算符作用于被测量系统的状态空间上。其中下标$m$
    对应实验中可能发生的测量结果。
 \end{theorem}
@@ -291,7 +291,7 @@
 \begin{align}
     |\psi'\rangle =  \frac{M_m|\psi\rangle}{\sqrt{p(m)}} = \frac{M_m|\psi\rangle}{\langle\psi|M_m^\dagger M_m|\psi\rangle}
 \end{align}
-\begin{theorem}
+\begin{theorem}\citep{nielsen2010quantum}
     复合系统(composite system) 的状态空间是其各个子空间的状态空间的
     张量积。如果复合系统从$1$到$n$的子系统，并且第$i$个系统的状态为$|\psi_i\rangle$。则复合系统的状态为\(|\psi_1\rangle\otimes|\psi_2\rangle\otimes\cdots\otimes |\psi_n\rangle\)。
     \label{th-com}
