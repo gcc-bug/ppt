@@ -37,7 +37,7 @@
 最后向量空间的还需要遵循一系列公理。这些公理规定了向量加法和标量乘法的性质，如加法的交换律和结合律、加法和标量乘法的分配律、加法单位元的存在性(即零向量，Zero Vector)，以及乘法单位元(即标量1)的存在性。这些公理确保了向量空间内运算的一致性和预测性。
 
 此外子空间(Subspace)也是是向量空间中的一个重要概念。子空间指的是一个向量空间的一个子集，同时它自身也是一个向量空间。因此子空间遵循向量空间的向量加法和标量乘法运算封闭的性质。线性算子 (Linear Operator)，也称为线性映射(Linear Mapping)或线性变换(Linear Transformation)，是在向量空间中的一种特殊函数，它在两个向量空间之间映射向量，保持向量加法和标量乘法的结构。线性算子定义如定义\ref{def-op}所示。% 线性算子定义
-\begin{definition}
+\begin{definition}\citep{greub2012linear}
     \label{def-op}
     设 \(V\) 和 \(W\) 是两个向量空间，算子 \(T: V \rightarrow W\) 是线性算子，当且仅当满足以下两个条件：
 \begin{enumerate}
@@ -47,7 +47,7 @@
 \end{definition}
 
 当$T$是\(T: W \rightarrow W\)的线性算子，则称$T$是定义在向量空间$V$上的线性算子。其中恒等算子(identity operator)是一类特殊的线性算子，其定义如定义\ref{def-id}所示。
-\begin{definition}
+\begin{definition}\citep{greub2012linear}
     \label{def-id}
     设 \(V\) 是一个向量空间，$T$是向量空间$V$上的线性算子。$T$是恒等算子，当且仅当$T$满足以下条件：
     \begin{align}
@@ -56,7 +56,7 @@
 \end{definition}
 
 此外有的向量空间还有内积和张量积(Tensor product)操作。而内积定义如定义\ref{def-pro}所示。
-\begin{definition}
+\begin{definition}\citep{greub2012linear}
     \label{def-pro}
     设 \(V\) 是一个向量空间，
     \(V\)上的内积操作为一个映射\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)。对于任意两个向量 $u$ 和 $v$，它们的内积 $( u, v )$ 满足以下性质：
@@ -68,7 +68,7 @@
 \end{definition}
 % 张量积定义
 可以看到内积是一种特殊形式的线性算子。当两个向量内积为$0$时，称这两个向量正交。而张量积则提供了一种方法来构造新的向量空间。其定义如定义\ref{def-tensor-product}所示。
-\begin{definition}
+\begin{definition}\citep{greub2012linear}
     \label{def-tensor-product}
     设 \(V\) 和 \(W\) 是两个向量空间，它们的张量积 \(V \otimes W\) 是一个新的向量空间，满足以下性质：
 \begin{enumerate}
@@ -148,14 +148,14 @@
 
 希尔伯特空间\(\mathcal{H}\)中的线性算子集合，通常记作\(\mathcal{L} (\mathcal{H})\)。对于算子$A$，其伴随算子(adjoint operator)$A^\dagger$的定义如定义\ref{def-dagger}所示。
 在伴随算子基础上可以如定义\ref{def-hermite}所示，定义Hermite算子(Hermite operator)。
-\begin{definition}
+\begin{definition}\citep{nielsen2010quantum}
     \label{def-dagger}
     设算子\(A \in \mathcal{L}(\mathcal{H})\)，\(A^\dagger\)是$A$的伴随算子满足，那么\(A^\dagger\)满足：
 \begin{align}
     \langle \psi |A^\dagger|\phi \rangle = \langle \phi |A|\psi \rangle^*, \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
 \end{align}
 \end{definition}
-\begin{definition}
+\begin{definition}\citep{nielsen2010quantum}
     \label{def-hermite}
     设算子\(A \in \mathcal{L}(\mathcal{H})\)。算子\(A\)是Hermite算子，当且仅当\(A\)满足：
 \begin{align}
@@ -165,7 +165,7 @@
 
 
 而在Hermite算子的基础上，可以继续定义几类重要的算子，如定义\ref{def-proj}中的投影算子(project oroperator)，定义\ref{def-normal}中的正规算子(normal oroperator)，以及定义\ref{def-unitary}中的酉算子(unitary oroperator)。
-\begin{definition}
+\begin{definition}\citep{nielsen2010quantum}
     \label{def-proj}
     设算子\(A \in \mathcal{L}(\mathcal{H})\)，且\(A\)是Hermite算子。那么\(A\)是投影算子，当且仅当\(A\)满足：
 \begin{align}
@@ -173,7 +173,7 @@
 \end{align}
 \end{definition}
 
-\begin{definition}
+\begin{definition}\citep{nielsen2010quantum}
     \label{def-normal}
     设算子\(A \in \mathcal{L}(\mathcal{H})\)，且\(A\)是Hermite算子。那么\(A\)是正规算子，当且仅当\(A\)满足：
 \begin{align}
@@ -181,7 +181,7 @@
 \end{align}
 \end{definition}
 
-\begin{definition}
+\begin{definition}\citep{nielsen2010quantum}
     \label{def-unitary}
     设算子\(A \in \mathcal{L}(\mathcal{H})\)，且\(A\)是Hermite算子。那么\(A\)是酉算子，当且仅当\(A\)满足：
 \begin{align}
@@ -386,22 +386,33 @@
 本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而量子模型检测利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，展示了量子逻辑中命题的表示和逻辑结构。这些都为本文工作的研究提供了重要的理论基础。
 \subsection{跃迁系统}
 \label{sec-transition}
-跃迁系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
-\begin{equation}
-\mathcal{M}=(S, S_0, \Sigma, R)
-\end{equation}
-其中\(S\)为系统状态集合，\(S_0\)为系统初态集合，因此满足\(S_0\subseteq S\)。 $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合，而 $R \subseteq S \times \Sigma \times S$ 则代表转移关系。此外还有\(AP\)为描述系统原子命题。L是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为命题。对于某个状态集 $S' \subseteq S$，通过转移关系 $R$ 得到的系统状态可以表示为
+跃迁系统广泛应用于模型检测中待检测系统的建模，具体定义如定义\ref{def-model}所示。
+\begin{definition}\citep{baier2008principles}
+    \label{def-model}
+    迁移系统为一个四元组，具体包含：
+    \begin{equation}
+        \mathcal{M}=(S, S_0, \Sigma, R)
+    \end{equation}
+    其中\(S\)为系统状态集合；\(S_0\)为系统初态集合，因此满足\(S_0\subseteq S\)； $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合； $R \subseteq S \times \Sigma \times S$ 则代表转移关系。
+\end{definition}
+
+此外迁移系统还需要有\(AP\)描述系统原子命题。$L$是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为命题。对于某个状态集 $S' \subseteq S$，通过转移关系 $R$ 得到的系统状态可以表示为
 \begin{equation}\label{eq:image}
-R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in \Sigma}.
+R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in \Sigma\}
 \end{equation}
 
 
 系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)，其中\(s_0\in S_0\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\)，对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\)，\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S_0\)为开始的路径，构成了路径集合\(Path\left(S_0\right)\)。
 
-量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。一个量子自动机定义如下：
-\begin{align}
-    \mathcal{M}=\{\mathcal{H},S,\Sigma,\mathcal{T}\}
-\end{align}
+量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。量子迁移系统的具体定义如定义\ref{def-model-q}所示。
+\begin{definition}\citep{2021}
+    \label{def-model-q}
+    迁移系统为一个四元组，具体包含：
+    \begin{align}
+        \mathcal{M}=\{\mathcal{H},S,\Sigma,\mathcal{T}\}
+    \end{align}
+    其中\(\mathcal{H}\)为希尔伯特空间，表示量子状态空间；\(S\)为系统初态集合，因此满足\(S\subseteq \mathcal{H}\)； $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合； $\mathcal{T}$ 则代表量子系统的状态转移关系。
+\end{definition}
 \begin{example}
     % //TODO: rewrite
     图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(S_0=pay\)。
@@ -480,15 +491,18 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
 
-\subsection{量子模型检测}
-目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质\citep{birkhoff1987logic}。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。而需要对本小节深入了解的读者，可以自行阅读\citep{2021}。
-% // TODO: ref problem
+\subsection{量子模型检测使用的量子逻辑}
+本小节将简单介绍在量子模型中使用的量子逻辑，具体内容可以参考\citep{2021}。
+目前量子的模型检测，主要使用Birkhoff-von Neumann Quantum Logic来描述量子系统的性质
+% \citep{birkhoff1987logic}
+。Birkhoff-von Neumann量子逻辑是一种非经典逻辑，用于描述量子力学中事件的逻辑结构。它由 Birkhoff 和 von Neumann 在 1936 年首次提出。在量子逻辑中，命题的集合不再形成布尔代数，而是形成一个投影算子的正交完备格，这与传统的逻辑系统不同。
+
 
 \subsubsection*{量子命题}
 \label{sec-logic}
 在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
 
-\begin{example}
+\begin{example}\citep{2021}
     考虑以下量子逻辑命题：
 
 \begin{itemize}
@@ -507,9 +521,9 @@ R(S') := { t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in
     \item 不满足的概率是
     $\langle\psi|P_{\mathcal{X}}^\perp|\psi\rangle = 1 - \langle\psi|P_{\mathcal{X}}|\psi\rangle$。
 \end{itemize}
-同时可以通过设置一个阈值$\lambda \in [0，1]$来定义关于满足的概率的量化关系:
+同时可以通过设置一个阈值$\lambda \in [0,1]$来定义关于满足的概率的量化关系:
 
-\begin{definition}
+\begin{definition}\citep{2021}
     如果$\langle\psi|P_{\mathcal{X}}|\psi\rangle \rhd \lambda$，则称$|\psi\rangle$是$(\lambda, \rhd)$满足子空间$\mathcal{X}$描述的命题。其中其中$\rhd \in \{<, \leq, >, \geq\}$。 
 \end{definition}
 
@@ -553,7 +567,7 @@ L(|\psi\rangle) = {\mathcal{X} \in AP : |\psi\rangle \in \mathcal{X}}.
 如果$\bigcap_{\mathcal{Y} \in L(|\psi\rangle) }\mathcal{Y} \subseteq \mathcal{X}$，那么状态$|\psi\rangle$满足$\mathcal{X}$，记作$|\psi\rangle \models_{AP} \mathcal{X}$或简单地$|\psi\rangle \models \mathcal{X}$。
 直观地说，$\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y}$是可以用原子命题来定义并描述状态$|\psi\rangle$的最弱陈述。因此，包含关系意味着在状态$|\psi\rangle$中成立的原子命题集合共同蕴含命题$\mathcal{X}$。而如果$\mathcal{X} \in AP$，那么$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
 
-\begin{example}
+\begin{example}\citep{2021}
     设$\mathcal{H}$是一个$n$维希尔伯特空间，它的标准正规基是$\{|0\rangle, |1\rangle, \cdots, |n - 1\rangle\}\ (n \geq 2)$,令$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$。
     \begin{itemize}
         \item 如果取$AP$为与基态$|0\rangle$正交的子空间:
