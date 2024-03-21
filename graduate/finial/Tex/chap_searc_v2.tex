@@ -414,13 +414,23 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     其中\(\mathcal{H}\)为希尔伯特空间，表示量子状态空间；\(S\)为系统初态集合，因此满足\(S\subseteq \mathcal{H}\)； $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合； $\mathcal{T}$ 则代表量子系统的状态转移关系。
 \end{definition}
 \begin{example}
-    % //TODO: rewrite
-    图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(S_0=pay\)。
-    系统行为\(\Sigma=\{insert\_coin,\tau,get\_soda\)，\\\(get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
+    \label{ex-transition}
+    图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的交通指挥灯模型。在该模型中，交通指挥灯系统状态将在红黄绿三种交通状态中切换。
+    因此在该例子中，系统状态\(S=\{Red,\ Green,\ Yellow\}\)，即三种通行状态。系统初态是\(S_0 = \{Red\}\)。
+    系统行为\(\Sigma=\{Red\ Timer,\ Green\ Timer,\ Yellow\  Timer\}\)，即三种交通灯的亮起时间。转移关系图中已经展示。
+    在交通灯系统中，考虑到行人过街的安全性，可以定义以下原子命题：
+\begin{itemize}
+    \item \(safe\)：表示行人可以安全开始穿越街道。
+    \item \(continue\)：表示对于已经开始穿越街道的行人，即行人仍在交叉路口内，应继续穿越至安全地带。
+    \item \(stop\)：表示行人不应穿越街道。
+\end{itemize}
+因此\(L\left(Red  \right)=\{stop\}\)，\(L\left(Green \right)=\{safe,\ continue\}\)，\(L\left(Yellow  \right)=\{continue\}\)。
+
+该系统的路径为\(\pi = Red, Green , Yellow , Red , \cdots \)。
     \begin{figure}[!htbp]
         \centering
-        \includegraphics[width=.6\textwidth]{Img/map.pdf}
-        \caption{一种简化版的售货机跃迁系统}
+        \includegraphics[width=.6\textwidth]{Img/transition.pdf}
+        \caption{一种简化版的交通指挥灯跃迁系统}
         \label{fig:transition-system}
     \end{figure}
 \end{example}
@@ -490,6 +500,16 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \item 持续可达性：\( Pr^{\mathcal{M}}(s \models \lozenge \square G) = Pr^M(\pi \models \lozenge \square G : \pi \in \text{Paths}(s))\)
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
+\begin{example}
+    在例子\ref{ex-transition}中介绍了一个简化版的交通指挥灯的跃迁系统模型。在交通系统中，如果行人可以安全开始穿越，那么在下一个时刻，行人应该继续穿越，直到他们需要停止穿越。这样的命题可以转化为时序命题公式：
+    \begin{equation}
+        safe \rightarrow O(continue\ U\ stop )
+    \end{equation}
+    类似地，需要关心行人总能安全地通过路面。这样的命题可以转化为路径命题公式：
+    \begin{equation}
+        \pi \models \square\lozenge safe
+    \end{equation}
+\end{example}
 
 \subsection{量子模型检测使用的量子逻辑}
 本小节将简单介绍在量子模型中使用的量子逻辑，具体内容可以参考\citep{2021}。
