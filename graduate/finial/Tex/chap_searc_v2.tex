@@ -1,10 +1,13 @@
 \chapter{背景介绍}
-% //TODO: rewrite
 本章中简要介绍本文工作中的一些重要的基础知识。本章将分为两节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。
 \section{量子计算简介}
 本节将简单介绍量子计算相关的背景内容，具体内容可以参考
 \citep{nielsen2010quantum}。
-量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。在量子计算中，量子比特的特殊性质允许其同时处于多种状态，这与经典比特的二进制状态不同。量子计算机的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。比特状态可以用\(\mathcal{H}\)的向量表示，量子门由\(\mathcal{H}\)上的酉算子(unitary operator)表示。
+本节将分两个部分介绍量子计算相关背景，第一部分介绍量子力学，第二部分介绍量子线路模型。
+
+量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。
+而量子力学就是描述量子比特特性的理论。
+量子比特的特殊性质在于其可以同时处于多种状态，这与经典比特的二进制状态不同。量子比特的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。因此比特状态可以用\(\mathcal{H}\)的向量表示，量子操作用\(\mathcal{H}\)上的线性算子(linear operator)表示。
 
 而量子线路(quantum circuit)是一种描述量子计算的模型\citep{nielsen2010quantum}。在量子线路中，通过量子比特的初始化、应用量子门、测量以及其他可能的操作的序列来构建和执行量子计算任务。量子线路通常从左向右阅读，每个量子门的作用是将输入的量子比特状态转变为输出状态，该过程可以认为是量子门的酉矩阵与输入的量子状态的乘积。
 \begin{example}
@@ -39,27 +42,27 @@
 此外子空间(Subspace)也是是向量空间中的一个重要概念。子空间指的是一个向量空间的一个子集，同时它自身也是一个向量空间。因此子空间遵循向量空间的向量加法和标量乘法运算封闭的性质。线性算子 (Linear Operator)，也称为线性映射(Linear Mapping)或线性变换(Linear Transformation)，是在向量空间中的一种特殊函数，它在两个向量空间之间映射向量，保持向量加法和标量乘法的结构。线性算子定义如定义\ref{def-op}所示。% 线性算子定义
 \begin{definition}\citep{greub2012linear}
     \label{def-op}
-    设 \(V\) 和 \(W\) 是两个向量空间，算子 \(T: V \rightarrow W\) 是线性算子，当且仅当满足以下两个条件：
+    设 \(V\) 和 \(W\) 是两个向量空间，算子 \(T: V \rightarrow W\) 是线性算子，当且仅当\(T\)满足以下两个条件：
 \begin{enumerate}
     \item 加法性 (Additivity)：对于所有 \(u, v \in V\)，有 \(T(u + v) = T(u) + T(v)\)。
     \item 齐次性 (Homogeneity)：对于所有标量 \(a \in \mathbb{F}\) 和所有 \(v \in V\)，有 \(T(av) = aT(v)\)。
 \end{enumerate}
 \end{definition}
 
-当$T$是\(T: W \rightarrow W\)的线性算子，则称$T$是定义在向量空间$V$上的线性算子。其中恒等算子(identity operator)是一类特殊的线性算子，其定义如定义\ref{def-id}所示。
+当$T$是\(T: V \rightarrow V\)的线性算子，则称$T$是定义在向量空间$V$上的线性算子。其中恒等算子(identity operator)是一类特殊的线性算子，其定义如定义\ref{def-id}所示。
 \begin{definition}\citep{greub2012linear}
     \label{def-id}
     设 \(V\) 是一个向量空间，$T$是向量空间$V$上的线性算子。$T$是恒等算子，当且仅当$T$满足以下条件：
     \begin{align}
-        T(v) = v,\forall v \in V
+        T(v) = v,\quad \forall v \in V
     \end{align}
 \end{definition}
 
-此外有的向量空间还有内积和张量积(Tensor product)操作。而内积定义如定义\ref{def-pro}所示。
+此外有的向量空间还有内积(inner product)和张量积(tensor product)操作。而内积定义如定义\ref{def-pro}所示。
 \begin{definition}\citep{greub2012linear}
     \label{def-pro}
     设 \(V\) 是一个向量空间，
-    \(V\)上的内积操作为一个映射\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)。对于任意两个向量 $u$ 和 $v$，它们的内积 $( u, v )$ 满足以下性质：
+    \(V\)上有一个映射\(( \cdot, \cdot ): V \times V \rightarrow \mathbb{F}\)。该映射是内积，当且仅当对于任意两个向量 $u$ 和 $v$， $( u, v )$ 满足以下性质：
 \begin{enumerate}
     \item 共轭对称性(Conjugate Symmetry)： \(( u, v ) = \overline{( v, u )}\)，其中\(\overline{( v, u )}\)是\(( v, u )\)的复共轭，当标量域为实数时，表现为对称性，即\(( u, v ) = ( v, u )\)。
     \item 线性 (Linearity)或齐次性：\(( \alpha u_1 + \beta u_2, v ) = \alpha( u_1, v ) + \beta( u_2, v )\)，其中\(\alpha,\beta\in\mathbb{F}\)。
@@ -70,23 +73,21 @@
 可以看到内积是一种特殊形式的线性算子。当两个向量内积为$0$时，称这两个向量正交。而张量积则提供了一种方法来构造新的向量空间。其定义如定义\ref{def-tensor-product}所示。
 \begin{definition}\citep{greub2012linear}
     \label{def-tensor-product}
-    设 \(V\) 和 \(W\) 是两个向量空间，它们的张量积 \(V \otimes W\) 是一个新的向量空间，满足以下性质：
+    设 \(V\) 和 \(W\) 是两个向量空间，它们的张量积 \(V \otimes W\) 是一个新的向量空间，其必须满足以下性质：
 \begin{enumerate}
     \item 对于每一对元素 \(v \in V\) 和 \(w \in W\)，存在一个元素 \(v \otimes w \in V \otimes W\)，称为它们的张量积。
-    \item 张量积满足双线性性（Bilinearity）：对于所有 \(v,v' \in V\)，\(w，w' \in W\) 以及所有标量 \(a,b \in \mathbb{F}\)，有
-    \[
-    (av + bv') \otimes w = a(v \otimes w) + b(v' \otimes w)，
-    \]
-    \[
+    \item 张量积满足双线性性（Bilinearity）：对于所有 \(v,v' \in V\)，\(w,w' \in W\) 以及所有标量 \(a,b \in \mathbb{F}\)，有
+    \begin{align}
+    (av + bv') \otimes w = a(v \otimes w) + b(v' \otimes w),\\
     v \otimes (aw + bw') = a(v \otimes w) + b(v \otimes w').
-    \]
+    \end{align}
     \item 张量积是唯一的，意味着对于任何与 \(V \otimes W\) 具有相同性质的向量空间，都存在一个自然同构映射(Natural Isomorphism)到 \(V \otimes W\)。
 \end{enumerate}
 \end{definition}
 
 
 矩阵力学的数学基础建立在希尔伯特空间\(\mathcal{H}\)，即一个可以进行内积运算的复向量空间。
-希尔伯特空间中的向量由复数\(n\)元组\(\left(c_1,c_2,\cdots,c_n\right)\)构成，可以记作\(\mathbb{C}^n\)，其中\(c\)表示复数。向量也可以有以下列矩阵形式：
+希尔伯特空间中的向量由复数\(n\)元组\(\left(c_1,c_2,\cdots,c_n\right)\)构成，可以记作\(\mathbb{C}^n\)，其中\(c\)表示复数。因此复向量也可以有以下列矩阵形式：
 \begin{align}
     \left[\begin{matrix}
         c_1\\c_2\\\vdots\\c_n
@@ -143,7 +144,7 @@
 对向量\(|\psi\rangle\)中的复数全部取共轭，可以得到\(|\psi\rangle\)的共轭记作\(|\psi\rangle^*\)。
 向量\(|\psi\rangle\)的共轭转置可以记作\(|\psi\rangle^\dagger\)，也称对偶向量，可以用狄拉克左矢符号\(\langle\psi|\)表示。因此向量之间的内积也可以用以下方法表示：
 \begin{align}
-    (|\psi\rangle, |\phi\rangle)=\langle \psi|\phi\rangle , \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
+    (|\psi\rangle, |\phi\rangle)=\langle \psi|\phi\rangle ,\quad \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
 \end{align}
 
 希尔伯特空间\(\mathcal{H}\)中的线性算子集合，通常记作\(\mathcal{L} (\mathcal{H})\)。对于算子$A$，其伴随算子(adjoint operator)$A^\dagger$的定义如定义\ref{def-dagger}所示。
@@ -152,7 +153,7 @@
     \label{def-dagger}
     设算子\(A \in \mathcal{L}(\mathcal{H})\)，\(A^\dagger\)是$A$的伴随算子满足，那么\(A^\dagger\)满足：
 \begin{align}
-    \langle \psi |A^\dagger|\phi \rangle = \langle \phi |A|\psi \rangle^*, \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
+    \langle \psi |A^\dagger|\phi \rangle = \langle \phi |A|\psi \rangle^*,\quad \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
 \end{align}
 \end{definition}
 \begin{definition}\citep{nielsen2010quantum}
@@ -191,9 +192,12 @@
 \end{definition}
 
 其中酉算子保持向量之间的内积，即：
-\begin{align}
-    (U|\psi\rangle, U|\phi\rangle) = \langle \psi|U^\dagger U|\phi\rangle = \langle \psi|I|\phi\rangle = \langle \psi|\phi\rangle = (|\psi\rangle, |\phi\rangle), \forall |\psi \rangle, |\phi \rangle\in \mathcal{H}
-\end{align}
+\begin{equation}
+    \begin{split}
+        (U|\psi\rangle, U|\phi\rangle) &= \langle \psi|U^\dagger U|\phi\rangle \\
+        &= \langle \psi|I|\phi\rangle = \langle \psi|\phi\rangle = (|\psi\rangle, |\phi\rangle), \forall |\psi \rangle,\quad |\phi \rangle\in \mathcal{H}
+    \end{split}
+\end{equation}
 \subsubsection*{量子力学基本假设}
 在量子力学中，有四条基本假设，其数学框架是在不断实验中总结，假设，验证而得到的。
 下面分别简单介绍一下这四条假设。
@@ -218,11 +222,13 @@
 \end{align}
 等式\ref{eq-norm}称为状态向量的归一化条件(normalization condition)。
 而\(\alpha,\beta\)也被称为对应基状态向量的振幅(amplitude)。
-该叠加态：
+\begin{example}
+    式子\ref{eq-entag}中的叠加态，处在$|0\rangle$状态的振幅为$\frac{1}{\sqrt{2}}$，处在$|1\rangle$状态的振幅为$-\frac{1}{\sqrt{2}}$。
 \begin{align}
+    \label{eq-entag}
     \frac{|0\rangle-|1\rangle}{\sqrt{2}}
 \end{align}
-处在$|0\rangle$状态的振幅为$\frac{1}{\sqrt{2}}$，处在$|1\rangle$状态的振幅为$-\frac{1}{\sqrt{2}}$。
+\end{example}
 \begin{theorem}\citep{nielsen2010quantum}
     一个封闭量子系统(closed quantum system)的演化(evolution)由酉变化(unitary operation)体现。具体来讲，系统在$t_1$时刻的状态$|\psi\rangle$与在$t_2$时刻的状态$|\psi'\rangle$之间，通过一个只与$t_1$和$t_2$两个时间点相关的酉操作符$U$连接:
     \begin{align}
@@ -307,6 +313,18 @@
         1\\0\\0\\0
     \end{matrix}\right]
 \end{align}
+类似地，可以得到\(\ket{01},\ket{10},\ket{11}\)的矩阵形式。从而可以得到双量子复合系统的操作。式子\ref{eq-cx}为双量子复合系统中常见的受控非门操作的矩阵形式。
+\begin{align}
+    \label{eq-cx}
+    CX=\left[\begin{matrix}
+        1 & 0 & 0 & 0\\
+        0 & 1 & 0 & 0\\
+        0 & 0 & 0 & 1\\
+        0 & 0 & 1 & 0\\
+    \end{matrix}\right]
+\end{align}
+
+
 此外还存在复合系统的量子状态不能分解成各个子系统量子状态的张量积的情况。此时复合系统处于纠缠状态(entangled state)，复合系统不能表示为子系统的张量积形式。
 例如该双量子比特的复合系统的状态，就不能表示为任何单比特状态向量的张量积：
 \begin{align}
@@ -314,9 +332,9 @@
 \end{align}
 \subsection{量子线路}
 \label{sec-cir}
-在计算机中，通常使用图灵机作为抽象模型。
-在讨论图灵机时，通常会设想一个容量无限的计算机。然而在实际中，计算机的容量是有限的。
-因此在实际中，一般会使用一种替代的计算模型，电路模型。该模型在计算力方面与图灵机相当，但在许多应用场景中更为实用和符合实际。电路是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。
+在经典计算机理论中，通常使用图灵机作为抽象模型。
+在讨论图灵机时，会设想一个容量无限的计算机。然而在实际中，计算机的容量是有限的。
+因此在实际讨论时，一般会使用电路模型，作为图灵机的替代模型。该模型在计算力方面与图灵机等价，但在许多应用场景中更为实用和符合实际。电路模型是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。
 \begin{example}
     图\ref{fig-not}展示了一个简单的经典电路。它以单个比特作为输入。这个比特通过一个门，该门会翻转比特，将1变为0，将0变为1。门前后的导线仅用于将比特信息传输到非门并从非门传出。
 \begin{figure}[htbp]
@@ -327,7 +345,7 @@
 \end{figure}
 \end{example}
 
-在量子计算中，一般使用量子电路(quantum curcuit) 作为抽象模型。
+在量子计算类似，一般使用量子电路(quantum curcuit) 作为抽象模型。
 在量子线路中，逻辑门为量子操作，导线则传递量子比特信息。量子操作可以由量子门(quantum gate) 表示。
 根据量子门作用的量子比特数，量子门可以被分为单量子比特门(single qubite gate)和多量子比特门(multiple qubit gate)。多量子比特门中比较常见的是双量子比特门。
 以受控门(controlled gate)为例，其
@@ -337,8 +355,8 @@
 若控制量子比特的值为\(|0\rangle\)，则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
 \(|1\rangle\)， 则目标量子比特值变为\(U|\psi\rangle\)。
 
-和经典电路模型不同，量子线路的量子信息一般从左到右传递。量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
-因此通过量子电路可以描述各种量子进程。
+而和经典电路模型不同，量子线路一般会固定阅读方向。量子信息固定从左到右传递。因此量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
+综上通过量子电路可以描述各种量子计算的过程。
 \begin{example}
     单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
 \(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子电路符号表示如图\ref{fig-h}所示。
@@ -349,17 +367,7 @@
     \label{fig-h}
 \end{figure}
 
-    而受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。
-    \begin{align}
-        \label{eq-cx}
-        CX=\left[\begin{matrix}
-            1 & 0 & 0 & 0\\
-            0 & 1 & 0 & 0\\
-            0 & 0 & 0 & 1\\
-            0 & 0 & 1 & 0\\
-        \end{matrix}\right]
-    \end{align}
-    因此若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
+    而受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
 输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。其量子电路符号如图\ref{fig-cx}。
 \begin{figure}[htbp]
     \centering
@@ -436,7 +444,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 \end{example}
 
 \subsection{时序逻辑中的可达性问题}
-本小节将简单介绍时序逻辑中的可达性问题。在量子模型检测中，与经典模型检测一样使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类\citep{goranko_2023}。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
+本小节将简单介绍时序逻辑中的可达性问题，具体内容可以参考\citep{goranko_2023}。经典模型检测使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
 \begin{itemize}
     \item \(s\models a,iff \L\left(s\right)\models a\)
     \item \(s\models\exists\varphi,iff\ \pi\models\varphi\)对一些\(\pi\in Path\left(s\right)\)
@@ -556,7 +564,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 
 \subsubsection*{量子逻辑中的连接词}
 \label{sec-connect}
-在数学上，这种集合的命题逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作。
+在数学上，这种集合的命题逻辑结构可以使用格理论(lattice theory)来描述，其中格中的元素对应于量子事件，格的操作则对应于逻辑运算。在确定了原子命题后，需要引入连接词，这些连接词可以用来构建更复杂的命题，以描述量子系统的复杂属性。在语义上，这些可以被视为在希尔伯特空间$\mathcal{H}$的一个子空间 \(S(\mathcal{H})\) 中的代数操作\citep{2021}。
 具体如下：
 
 \begin{itemize}
