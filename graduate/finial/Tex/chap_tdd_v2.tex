@@ -49,7 +49,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 张量网络提供了一种新的量子线路表示方法\citep{pednault2017breaking}。而当给定量子线路中所有量子门的输入和输出状态的索引值，收缩掉共享的索引，就可以得到量子电路的张量表示。
 
 
-张量决策图(Tensor Decision Diagrams，或TDD)是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
+TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量，并进一步表示量子电路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
 \begin{definition}\citep{Hong_2022}
     \label{df-tdd}
     TDD是一个建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的有根节点，带权重的有向无环图，其中包括：
@@ -101,7 +101,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 
 为了阅读简洁，下文中无特殊说明的TDD均指化简后的TDD，即reduced tensor decision diagrams。结合以上步骤，算法\ref{alg-tdd}简单展示了如何将给定的张量\(\phi\)转换为对应的TDD表示。
 \begin{algorithm}
-    \caption{生成张量\(\phi\)的TDD表示TDD(\(\phi\))}
+    \caption{生成张量\(\phi\)的TDD表示TDD(\(\phi\))\citep{Hong_2022}}
     \label{alg-tdd}
     \begin{algorithmic}[1]
     \Require 一个张量\(\phi\) 和对应的索引顺序\(I\)
@@ -148,12 +148,14 @@ QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供
 \end{enumerate}
 
 QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四个后继节点。
-而在TDD结构中，每一个非终端节点分别连接着两个后继节点。从原理上讲，如果采用相同的排序规则，量子电路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。此时TDD表达方式所需的内存空间大约与QMDD表达方式所需的内存空间持平。这是因为它们都拥有相同数目的加权边并记录了相同数量的权值(即复数)。
-因此TDD的表示形式和QMDD紧凑程度相近。
-然而TDD由于可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
+而在TDD结构中，每一个非终端节点分别连接着两个后继节点。
+因此从原理上讲，如果采用相同的排序规则，量子电路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。但由于它们都拥有相同数目的加权边并记录了相同数量的权值（即复数）。此时TDD表达方式所需的内存空间与QMDD表达方式所需的内存空间持平。
+
+虽然TDD的表示形式和QMDD紧凑程度相近。
+但是TDD非常灵活，可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
 
 
-图\ref{fig:tdd-compare}是\cite{Hong_2022}中展示的目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II是两种额外的优化方案。
+图\ref{fig:tdd-compare}是\cite{Hong_2022}中展示的目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II是两种的张量网络中的优化技术。
 QMDD指的是Quantum Multiple-valued Decision Diagrams。
 TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}。
 从图\ref{fig:tdd-compare}可以看到，两种TDD的优化方案都是时间消耗最少的。不使用拆分优化的TDD No Part与QMDD时间接近。而当比特数少于10时，TN的时间少于TDD No Part，但随着比特数增加，TN的用时快速超过TDD No Part。
@@ -168,11 +170,11 @@ TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}�
 
 \section{将量子系统建模为量子迁移系统}
 
-在\ref{sec-transition}节中介绍了跃迁系统，其中定义\ref{def-model-q}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\{\mathcal{T}_\sigma, \sigma \in \Sigma\}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
+在\ref{sec-transition}节中介绍了跃迁系统，其中定义\ref{def-model-q}给出了量子跃迁系统的简单定义。这里简单回顾一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\{\mathcal{T}_\sigma, \sigma \in \Sigma\}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
 
 
 \begin{example}
-    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S,\{1,2\},{\mathcal{T}_1,\mathcal{T}_2} \big)$，这里 $S$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p}Z\}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
+    一个单量子比特的系统可能遭受两种潜在的噪声影响：比特位翻转和相位翻转。如果不能准确判断会发生哪一种噪声，这样的系统可以被表达为一个量子转移系统 $\mathcal{M}=\big(\mathcal{H}_2,S,\{1,2\},\{\mathcal{T}_1,\mathcal{T}_2\} \big)$，这里 $S$ 代表 $\mathcal{H}$ 中的一个子空间，$\mathcal{T}_1=\{\sqrt{p}I, \sqrt{1-p}X\}$ 和 $\mathcal{T}_2=\{\sqrt{p}I, \sqrt{1-p}Z\}$。 $I,X,Z$ 分别代表恒等矩阵、Pauli $X$ 矩阵和Pauli $Z$ 矩阵。
 \end{example}
 \begin{example}
     \label{ex-image-grover}
@@ -336,7 +338,7 @@ TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}�
 
 
 \subsection*{基于窗函数对TDD分割}
-按照 \citep{narayan1996partitioned} 中关于传统模型校验方法的讨论，可以设计基于TDD的划分法。即利用布尔函数将一个大张量细分成若干个小张量的优化方法。设 $\varphi$ 是一个含有 $n$ 个索引的张量。从 $\set{0,1}^n$ 到 $\set{0,1}$ 的集合中选取一系列窗口布尔函数 (window boolean function)$\{w_1,\cdots, w_k\}$，这些函数对于同一输入，始终满足以下条件： 
+按照 \citep{narayan1996partitioned} 中关于经典模型检测方法的讨论，可以设计基于TDD的划分法。即利用布尔函数将一个大张量细分成若干个小张量的优化方法。设 $\varphi$ 是一个含有 $n$ 个索引的张量。从 $\set{0,1}^n$ 到 $\set{0,1}$ 的集合中选取一系列窗口布尔函数 (window boolean function)$\{w_1,\cdots, w_k\}$，这些函数对于同一输入，始终满足以下条件： 
 \begin{itemize}
     \item $w_1+\cdots +w_k=1$
     \item 对任意 $i \neq j$，$w_i \cdot w_j = 0$
