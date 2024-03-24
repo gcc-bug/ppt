@@ -35,7 +35,7 @@ def image(qa):
     return sp,max_node
 \end{lstlisting}
 \section*{addition优化方案}
-\begin{lstlisting}[language=Python, caption=对量子电路应用addition优化方案]
+\begin{lstlisting}[language=Python, caption=对量子线路应用addition优化方案]
 def image_add_par(tn,qa,k=0,partial=0):
     sp= generate_initial_space(qa.initial_states)
 
@@ -59,7 +59,7 @@ def image_add_par(tn,qa,k=0,partial=0):
 
     return sp
 \end{lstlisting}
-\begin{lstlisting}[language=Python, caption=对量子电路应用contraction优化方案]
+\begin{lstlisting}[language=Python, caption=对量子线路应用contraction优化方案]
 def image_cont_par(qa,k1=0,k2=0):
     sp= generate_initial_space(qa.initial_states)
     max_node = 0

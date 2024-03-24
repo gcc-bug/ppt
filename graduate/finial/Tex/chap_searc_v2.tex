@@ -21,7 +21,7 @@
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.4\textwidth]{Img/example_cir.pdf}
-    \caption{制备EPR态的量子电路图}
+    \caption{制备EPR态的量子线路图}
     \label{fig:example_cir}
 \end{figure}
 
@@ -334,18 +334,18 @@
 \label{sec-cir}
 在经典计算机理论中，通常使用图灵机作为抽象模型。
 在讨论图灵机时，会设想一个容量无限的计算机。然而在实际中，计算机的容量是有限的。
-因此在实际讨论时，一般会使用电路模型，作为图灵机的替代模型。该模型在计算力方面与图灵机等价，但在许多应用场景中更为实用和符合实际。电路模型是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。
+因此在实际讨论时，一般会使用线路模型，作为图灵机的替代模型。该模型在计算力方面与图灵机等价，但在许多应用场景中更为实用和符合实际。线路模型是由导线(wire)和逻辑门(gate)构成，它们分别负责信息的传递和基本计算操作。
 \begin{example}
-    图\ref{fig-not}展示了一个简单的经典电路。它以单个比特作为输入。这个比特通过一个门，该门会翻转比特，将1变为0，将0变为1。门前后的导线仅用于将比特信息传输到非门并从非门传出。
+    图\ref{fig-not}展示了一个简单的经典线路。它以单个比特作为输入。这个比特通过一个门，该门会翻转比特，将1变为0，将0变为1。门前后的导线仅用于将比特信息传输到非门并从非门传出。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.3\textwidth]{Img/Not-gate-en}
-    \caption{执行单个非门的经典基本电路}
+    \caption{执行单个非门的经典基本线路}
     \label{fig-not}
 \end{figure}
 \end{example}
 
-在量子计算类似，一般使用量子电路(quantum curcuit) 作为抽象模型。
+在量子计算类似，一般使用量子线路(quantum curcuit) 作为抽象模型。
 在量子线路中，逻辑门为量子操作，导线则传递量子比特信息。量子操作可以由量子门(quantum gate) 表示。
 根据量子门作用的量子比特数，量子门可以被分为单量子比特门(single qubite gate)和多量子比特门(multiple qubit gate)。多量子比特门中比较常见的是双量子比特门。
 以受控门(controlled gate)为例，其
@@ -355,28 +355,28 @@
 若控制量子比特的值为\(|0\rangle\)，则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
 \(|1\rangle\)， 则目标量子比特值变为\(U|\psi\rangle\)。
 
-而和经典电路模型不同，量子线路一般会固定阅读方向。量子信息固定从左到右传递。因此量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
-综上通过量子电路可以描述各种量子计算的过程。
+而和经典线路模型不同，量子线路一般会固定阅读方向。量子信息固定从左到右传递。因此量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
+综上通过量子线路可以描述各种量子计算的过程。
 \begin{example}
     单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
-\(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子电路符号表示如图\ref{fig-h}所示。
+\(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子线路符号表示如图\ref{fig-h}所示。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.3\textwidth]{Img/hardmard-gate.pdf}
-    \caption{Hadamard门的量子电路符号}
+    \caption{Hadamard门的量子线路符号}
     \label{fig-h}
 \end{figure}
 
     而受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
-输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。其量子电路符号如图\ref{fig-cx}。
+输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。其量子线路符号如图\ref{fig-cx}。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.3\textwidth]{Img/cnot-gate.pdf}
-    \caption{受控非门的量子电路符号}
+    \caption{受控非门的量子线路符号}
     \label{fig-cx}
 \end{figure}
 
-综上，例子\ref{ex-epr}中，包含一个Hadamard门和一个受控非门的制备EPR态的量子电路。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如式子\ref{eq-eqr-cal}所示。
+综上，例子\ref{ex-epr}中，包含一个Hadamard门和一个受控非门的制备EPR态的量子线路。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如式子\ref{eq-eqr-cal}所示。
 \begin{equation}
     \label{eq-eqr-cal}
     \begin{aligned}

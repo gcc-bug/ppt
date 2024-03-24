@@ -1,7 +1,7 @@
 \chapter{TDD介绍}
 % //TODO: rewrite
-TDD是一种决策图样式的数据结构，用于使用张量网络表示量子电路。
-本章将从用张量网络表示量子电路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算以及和其他表示的对比。
+TDD是一种决策图样式的数据结构，用于使用张量网络表示量子线路。
+本章将从用张量网络表示量子线路开始，然后简单介绍张量网络如何转换到TDD，最后介绍TDD之间的运算以及和其他表示的对比。
 \section{张量网络表示量子线路}
 张量是与一组与索引序列\(I=\{x_1,\ldots,x_n\}\)相关联的多维线性映射。在量子计算中，可以假设只从\(\{0,1\}\)中取值。因此，张量定义为定义\ref{df-tensor}所示。
 \begin{definition}
@@ -14,7 +14,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{definition}
 
 
-一个向量表示为$[\alpha_0,\alpha_1]$的量子比特x可以描述为秩为1的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特x和输出比特y的单比特门可以表示为秩为2的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或电路时会规定关于其信息。
+一个向量表示为$[\alpha_0,\alpha_1]$的量子比特x可以描述为秩为1的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特x和输出比特y的单比特门可以表示为秩为2的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或线路时会规定关于其信息。
 \begin{example}
     以单比特门Z门为例，其矩阵形式如式子\ref{eq-pauli}。当以x作为输入比特索引和y作为输出比特索引时，Z门的张量表示如式子\ref{eq-tensor-z}所示。
     \begin{align}
@@ -45,7 +45,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{lemma}
 
 张量网络是一个无向图\(G=\left(V,E\right)\)。其中顶点集$V$中的每个顶点$v$表示一个张量。边集\(E\)中每条边\(e\)代表与相邻两个张量相关联的公共索引。通过以任意顺序收缩连接的张量，可以得到一个秩为\(m\)的张量，其中\(m\)是$G$中开放边数。这个独立于收缩顺序的张量也称为该张量网络的张量表示\citep{biamonte2019lectures}。
-张量网络提供了一种新的量子线路表示方法\citep{pednault2017breaking}。而当给定量子线路中所有量子门的输入和输出状态的索引值，收缩掉共享的索引，就可以得到量子电路的张量表示。
+张量网络提供了一种新的量子线路表示方法\citep{pednault2017breaking}。而当给定量子线路中所有量子门的输入和输出状态的索引值，收缩掉共享的索引，就可以得到量子线路的张量表示。
 \begin{example}
     \label{ex-tensor}
     以图\ref{fig:example_cir_2}中的量子线路为例，线路中包含$T$和$H$两个不同的单比特门，以及一个两比特的受控非门$CX$。
@@ -91,7 +91,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{example}
 \section{从张量网络到TDD}
 \subsection{TDD的定义}
-张量决策图(Tensor Decision Diagrams，或TDD)是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子电路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
+张量决策图(Tensor Decision Diagrams，或TDD)是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}。它可用于表示张量和量子线路。与BDD(Boolean Decision Diagrams)类似，TDD是一种建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的决策树模型。具体定义定义\ref{df-tdd}所示。
 \begin{definition}
     \label{df-tdd}
     TDD是一个建立在索引顺序$I=\{x_1,\ldots,x_n\}$上的有根节点，带权重的有向无环图，其中包括：
@@ -235,7 +235,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 
 \section{TDD之间的运算}
 TDD是基于张量网络的数据结构，因此张量之间的基础操作也会在TDD有所对应。
-用张量网络表示量子电路时，将大量应用张量加法和张量收缩(contraction)。因此本小节主要介绍不同TDD之间的加法和收缩。
+用张量网络表示量子线路时，将大量应用张量加法和张量收缩(contraction)。因此本小节主要介绍不同TDD之间的加法和收缩。
 \subsection*{TDD之间的加法}
 张量网络中，两个张量的加法是将两个具有相同维度的张量在对应元素上进行加和的操作，结果是一个新的张量。这种操作在处理张量网络时用于合并具有相同结构但不同数据的张量。在TDD中，加法操作通过递归地合并两个TDD的节点来实现，对应于在张量网络中将两个张量相加，从而形成一个表示两者之和的新的张量网络。具体算法如算法\ref{alg-add}。算法的复杂度为\(\mathcal{O}(|\mathcal{F}|\cdot|\mathcal{G}|)\)，其中\(|\mathcal{F}|\)，\(|\mathcal{G}|\)分别表示\(\mathcal{F}\)和\(\mathcal{F}\)的节点数量。
 \begin{algorithm}
@@ -290,7 +290,7 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
 \end{algorithmic}
 \end{algorithm}
 \begin{example}
-    例子\ref{ex-tdd-reduce}中对例子\ref{ex-tdd}中的TDD进行了简化，得到了图\ref{fig:example_cir_2}中量子电路的TDD表示。同样应用\ref{sec-reduce}中的化简方法，可以得到图\ref{fig-00-01}中\(\ket{00}\)在索引顺序\(\{x_0,y_0\}\)下的TDD表示。
+    例子\ref{ex-tdd-reduce}中对例子\ref{ex-tdd}中的TDD进行了简化，得到了图\ref{fig:example_cir_2}中量子线路的TDD表示。同样应用\ref{sec-reduce}中的化简方法，可以得到图\ref{fig-00-01}中\(\ket{00}\)在索引顺序\(\{x_0,y_0\}\)下的TDD表示。
     \begin{figure}[!htbp]
         \begin{subfigure}[b]{.3\textwidth}
             \centering
@@ -314,7 +314,7 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
         \caption{\(\ket{00}\)在索引\(\{x_0,y_0\}\)下的TDD表示以及\(x_0=0\)和\(x_0=1\)下的表示}
         \label{fig-00}
     \end{figure}
-    此时图\ref{fig-00-01}的TDD可以用来表示图\ref{fig:example_cir_2}中电路的输入态。收缩该输入态与代表电路的TDD表示中所有相同索引，即\(\{x_0,y_0\}\)，就可以得到在电路的输出态。令\(\mathcal{F}\)表示输入态的TDD，\(\mathcal{G}\)表示电路的TDD，此时对应的索引顺序为\(\{x_0,y_0,y_1\}\)，需要收缩的序列为\(\{x_0,y_0\}\)。根据算法\ref{alg-cont}，具体收缩过程如下：
+    此时图\ref{fig-00-01}的TDD可以用来表示图\ref{fig:example_cir_2}中线路的输入态。收缩该输入态与代表线路的TDD表示中所有相同索引，即\(\{x_0,y_0\}\)，就可以得到在线路的输出态。令\(\mathcal{F}\)表示输入态的TDD，\(\mathcal{G}\)表示线路的TDD，此时对应的索引顺序为\(\{x_0,y_0,y_1\}\)，需要收缩的序列为\(\{x_0,y_0\}\)。根据算法\ref{alg-cont}，具体收缩过程如下：
     \begin{enumerate}
         \item 找到\(\mathcal{F}\)与\(\mathcal{G}\)中最小相同索引，通过
         图\ref{fig-00-01}与图\ref{fig:tdd-redu2}中最小相同索引\(x_0\)。
@@ -338,10 +338,10 @@ TDD是基于张量网络的数据结构，因此张量之间的基础操作也�
         \label{fig:cir-01}
     \end{figure}
 \end{example}
-\section{TDD表示电路的优化}
+\section{TDD表示线路的优化}
 在TDD原文中\citep{Hong_2022}，还介绍了两种通过分区进行优化的方案，TDD part I和 TDD part II。TDD part I 分区方案侧重于如何将量子门分组到不同的分区中，以优化TDD的表示效率和计算性能。而TDD part II 分区方案中，重点是如何根据比特之间的相互作用和关联性将它们分配到不同的分区中。
 
-TDD part I分区方案中通过中间水平方向将电路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，电路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。
+TDD part I分区方案中通过中间水平方向将线路分割为上下两等部分，确保每部分包含的比特数目大致相等。接着，线路会被垂直方向切割，以此确保在任一分区中，由水平切割线分隔的CX门的数量不会超过预设的参数$k$。
 \begin{example}
     以图\ref{fig:tdd-part-I}中的量子线路为例。
 由于线路中有四个比特，因此水品分割线将线路分割为上下各两个比特。此时虚线框的两个CX被水平分割线分割。因此当取\(k=1\)时，可以将线路划分为图\ref{fig:tdd-part-I}中的\(A1\)，\(A2\)，\(B1\)，\(B2\)四部分。
@@ -353,7 +353,7 @@ TDD part I分区方案中通过中间水平方向将电路分割为上下两等�
 \end{figure}
 \end{example}
 
-TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟的策略的扩展。在方案中首先与第一种方案类似，从电路中部进行水平划分。当预定义的参数$k1$个CX门因为水平分割而分开时，会设立一个新的小区块。这个小区块包含电路的一小部分，内含数个因水平切割而分隔的CX门，即这些门在此区块内不与区块外的比特发生任何交互。每当这个小区块涉及到预定义的参数$k2$比特时，就进行一次新的垂直分割。
+TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟的策略的扩展。在方案中首先与第一种方案类似，从线路中部进行水平划分。当预定义的参数$k1$个CX门因为水平分割而分开时，会设立一个新的小区块。这个小区块包含线路的一小部分，内含数个因水平切割而分隔的CX门，即这些门在此区块内不与区块外的比特发生任何交互。每当这个小区块涉及到预定义的参数$k2$比特时，就进行一次新的垂直分割。
 \begin{example}
     同样以图\ref{fig:tdd-part-I}中的量子线路为例。水平分割线分割后，此时虚线框的两个CX被水平分割线分割。因此当取\(k1=1\)时，将右边虚线框的CX设立在小区块\(C\)中。当取\(k2=2\)时，小区块\(C\)的比特数限制到2。因此可以将线路划分为图\ref{fig:tdd-part-II}中的\(A1\)，\(A2\)，\(C1\)，\(B1\)，\(B2\)四部分。
 \begin{figure}[!htbp]
@@ -367,7 +367,7 @@ TDD part II分区方案是基于\citep{huang2020classical}中用于传统模拟�
 \label{sec-compare}
 TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比TDD，直接使用张量网络TN，以及QMDD\citep{1623982}三种表示的效率。
 
-QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和和验证任务
+QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子线路的合成\citep{niemann2020advanced}和和验证任务
 \citep{burgholzer2020verifying,burgholzer2020advanced}。
 图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。
 \begin{figure}[htbp]
@@ -391,7 +391,7 @@ QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供
 \end{enumerate}
 
 QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四个后继节点。
-而在TDD结构中，每一个非终端节点分别连接着两个后继节点。从原理上讲，如果采用相同的排序规则，量子电路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。此时TDD表达方式所需的内存空间大约与QMDD表达方式所需的内存空间持平。这是因为它们都拥有相同数目的加权边并记录了相同数量的权值(即复数)。
+而在TDD结构中，每一个非终端节点分别连接着两个后继节点。从原理上讲，如果采用相同的排序规则，量子线路的TDD表达方式的节点数大约是其QMDD表达方式节点数的两倍。此时TDD表达方式所需的内存空间大约与QMDD表达方式所需的内存空间持平。这是因为它们都拥有相同数目的加权边并记录了相同数量的权值(即复数)。
 因此TDD的表示形式和QMDD紧凑程度相近。
 然而TDD由于可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
 % 图\ref{fig:zx-basic}展示了ZX-calculus中量子计算基本门的形式。图\ref{fig:zx-rule}展示了ZX-calculus的基本化简规则。将一个量子线路中的比特门表示为Z-calculus后化简，从而进行验证。
@@ -410,7 +410,7 @@ QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四
 % \end{figure}
  
 % 目前ZX-calculus发展还比较早期。
-图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II都是是前文中提到的优化方案。
+图\ref{fig:tdd-compare}展示了目前各种比较成熟的表示方法下模拟量子线路的时间对比。其中TDD No Part指的是不对线路进行拆分优化的方法。TDD part I 和TDD part II都是是前文中提到的优化方案。
 QMDD指的是QuantumMultiple-valued Decision Diagrams。
 TN是指google的tensor network\citep{roberts2019tensornetwork}。
 从图\ref{fig:tdd-compare}可以看到，两种TDD的优化方案都是时间消耗最少的。不使用拆分优化的TDD No Part与QMDD时间接近。而当比特数少于10时，TN的时间少于TDD No Part，但随着比特数增加，TN的用时快速超过TDD No Part。
@@ -419,22 +419,22 @@ TN是指google的tensor network\citep{roberts2019tensornetwork}。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[height=8cm]{Img/tdd-compare.pdf}
-    \caption{对QFT电路，TDD与TN,QMDD表示的比较\citep{Hong_2022}}
+    \caption{对QFT线路，TDD与TN,QMDD表示的比较\citep{Hong_2022}}
     \label{fig:tdd-compare}
 \end{figure}
 
 目前，TDD研究集中在开发更有效的算法来使用TDD操作和收缩张量网络。这包括开发新技术来分割张量网络，优化TDD结构，从而进一步提高基于TDD的可达性分析和模型检测算法的效率。这也是实现基于TDD的量子模型检测的主要方法。
 
 \section{本章小结}
-% 本章详细介绍了TDD的数据结构，并展示了其在表示量子电路方面相比其他类似表示法的优势。
-% 首先，通过说明了如何使用张量网络来表示量子电路。
+% 本章详细介绍了TDD的数据结构，并展示了其在表示量子线路方面相比其他类似表示法的优势。
+% 首先，通过说明了如何使用张量网络来表示量子线路。
 % 随后，定义了TDD数据结构。并介绍了如何将张量网络转换为TDD表示的方法，以及TDD的规范化和化简策略。
 % 在此基础上介绍了TDD间的基本运算，包括加法和收缩操作。这些操作分别对应于张量运算中的求和和张量收缩。
 
 % 最后通过与其他量子线路表示方法（如QMDD和张量网络）的比较，分析了TDD的优点。因此，TDD作为一种新兴的数据结构，其在分析量子线路方面拥有巨大潜力，能为量子模型检查等可能领域的应用提供了坚实的理论和算法基础。
-在本章中，深入探讨了TDD的数据结构，其作为一种加权决策树，可以用于紧凑地表示量子线路。本章还通过对比实验讨论了TDD在表达量子电路方面相较于其他表示方法的优势。
+在本章中，深入探讨了TDD的数据结构，其作为一种加权决策树，可以用于紧凑地表示量子线路。本章还通过对比实验讨论了TDD在表达量子线路方面相较于其他表示方法的优势。
 
-本章内容从使用张量网络表示量子电路的方法开始。然后，对TDD数据结构进行了详细定义。
+本章内容从使用张量网络表示量子线路的方法开始。然后，对TDD数据结构进行了详细定义。
 随后，本章详细介绍了如何将张量网络转换为TDD表示，包括TDD的规范化和化简策略。此外，还讨论了TDD之间的基本运算方法，如加法和收缩操作，这些操作分别对应于张量运算中的求和和张量收缩。
 为了全面理解TDD的实际效果，将其与QMDD和张量网络的表示方法进行了实验比较，分析了TDD的优势。
 
@@ -444,7 +444,7 @@ TN是指google的tensor network\citep{roberts2019tensornetwork}。
 TDD针对于量子计算，可以有很好的空间优势，同时也可以很方便的结合过去在二元决策图的模型检测算法的优化技术。
 本章将主要介绍在本文工作中使用的方法，因此将主要介绍如何应用TDD进行模型检测并作出针对性改进，最后介绍本文工作中的软件实现。
 
-借助新的数据结构TDD，可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子电路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
+借助新的数据结构TDD，可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子线路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
 
 在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
 
@@ -454,8 +454,8 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{example}
 \begin{example}
     \label{ex-image-grover}
-    量子线路也可以表达为一个量子迁移系统。图\ref{fig:grover}展示了实现两量子比特 Grover 迭代的电路 \citep{Grover_1996}，这是 Grover 算法的一个基本过程，用于找到布尔函数 $f(x)=1$ 的解。该类算法需要验证的属性是能否始终进入布尔函数解所在的子空间。
-    对于该电路，第一个 CCX 门表示搜索用的oracle，实现了$ O\ket{x}\ket{y}=\ket{x}\ket{f(x)\oplus y}$，其中 $f(x)=x_1 \wedge x_2$。因此，该电路oracle的解是\(00\) 。其他门实现了一个补$2\ket{\psi}\bra{\psi}-I$，其中$\ket{\psi}=\frac{1}{\sqrt{2}^{n}}\sum_{i=0}^{2^n-1}\ket{i}$。给定输入状态 $\ket{++-}=\frac{1}{2}\sum_{i=0}^3\ket{i}\ket{-}$，电路首先将状态变为 $\frac{1}{2}\sum_{i=0}^2 \ket{i}\ket{-}-\frac{1}{2}\ket{11}\ket{-}$，然后变为 $\ket{11}\ket{-}$。对于状态空间 $S=span\{\ket{++-},\ket{11-}\}$。当目前系统状态 $\ket{\varphi} \in S$，下一步系统状态总会在 $S$ 中。
+    量子线路也可以表达为一个量子迁移系统。图\ref{fig:grover}展示了实现两量子比特 Grover 迭代的线路 \citep{Grover_1996}，这是 Grover 算法的一个基本过程，用于找到布尔函数 $f(x)=1$ 的解。该类算法需要验证的属性是能否始终进入布尔函数解所在的子空间。
+    对于该线路，第一个 CCX 门表示搜索用的oracle，实现了$ O\ket{x}\ket{y}=\ket{x}\ket{f(x)\oplus y}$，其中 $f(x)=x_1 \wedge x_2$。因此，该线路oracle的解是\(00\) 。其他门实现了一个补$2\ket{\psi}\bra{\psi}-I$，其中$\ket{\psi}=\frac{1}{\sqrt{2}^{n}}\sum_{i=0}^{2^n-1}\ket{i}$。给定输入状态 $\ket{++-}=\frac{1}{2}\sum_{i=0}^3\ket{i}\ket{-}$，线路首先将状态变为 $\frac{1}{2}\sum_{i=0}^2 \ket{i}\ket{-}-\frac{1}{2}\ket{11}\ket{-}$，然后变为 $\ket{11}\ket{-}$。对于状态空间 $S=span\{\ket{++-},\ket{11-}\}$。当目前系统状态 $\ket{\varphi} \in S$，下一步系统状态总会在 $S$ 中。
 
     因此该系统可以表示为量子迁移系统 $(\mathcal{H}_8, S, {1}, \mathcal{T})$ 进行建模，其中 $\mathcal{T}_1 = {(2\ket{\psi}\bra{\psi}-I) O}$，需要检查的属性是$\mathcal{T}_1(S)=S$。
     \begin{figure}[!htbp]
@@ -499,7 +499,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 \begin{example}
     \label{ex-image-sub}
-    例子\ref{ex-image-grover}将Grover算法的电路建模为量子迁移系统。其中用到了子空间$S=span\{\ket{++-},\ket{11-}\}$。相应投影算子 $P$ 的矩阵和 TDD 表示如图 \ref{fig:P} 所示。
+    例子\ref{ex-image-grover}将Grover算法的线路建模为量子迁移系统。其中用到了子空间$S=span\{\ket{++-},\ket{11-}\}$。相应投影算子 $P$ 的矩阵和 TDD 表示如图 \ref{fig:P} 所示。
     根据该TDD表示求解原子空间的基的过程如下：
     \begin{enumerate}
         \item 应用图算法，得到最左侧路径对应于 $(x_1,x_2,x_3,y_1,y_2,y_3)=(0,0,0,0,0,0)$，这意味着投影算子的第一列非零。
@@ -524,7 +524,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 这个过程展示了如何从一组生成向量开始，通过计算和正交化过程，构建出一个复合空间的正交归一化基。在量子计算和量子信息中，这种方法特别有用，因为它允许准确地描述和操控量子态的子空间。
 
 \begin{example}
-    例子\ref{ex-image-grover}中对Grover 3电路建模，例子\ref{ex-image-sub}对涉及的子空间进行了分解。考虑分解的逆过程，设 $P_1,P_2$ 为两个一维子空间 $S_1,S_2$ 的投影算子，分别由 $B_1=\{\ket{++-}\}$ 和 $B_2=\{\ket{11-}\}$ 生成。显然，$P_1=\ket{++-}\bra{++-}$。将 $B_1$ 完善为 $S=S_1\vee S_2$ 的一个基。计算得到$\ket{u}=\ket{11-}-P_1\ket{11-}=\ket{11-}-\frac{1}{4}\ket{++-}=[-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},\frac{3}{4},-\frac{3}{4}]^T$，可以被标准化为 $\ket{v}=-\frac{1}{2\sqrt{3}}(\ket{00}+\ket{01}+\ket{10}-3\ket{11})\ket{-}$。那么 $B=\{\ket{++-},\ket{v}\}$ 是一个正交归一化基，且 $P=P_1+\ket{v}\bra{v}$ 是相应的投影算子。
+    例子\ref{ex-image-grover}中对Grover 3线路建模，例子\ref{ex-image-sub}对涉及的子空间进行了分解。考虑分解的逆过程，设 $P_1,P_2$ 为两个一维子空间 $S_1,S_2$ 的投影算子，分别由 $B_1=\{\ket{++-}\}$ 和 $B_2=\{\ket{11-}\}$ 生成。显然，$P_1=\ket{++-}\bra{++-}$。将 $B_1$ 完善为 $S=S_1\vee S_2$ 的一个基。计算得到$\ket{u}=\ket{11-}-P_1\ket{11-}=\ket{11-}-\frac{1}{4}\ket{++-}=[-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},\frac{3}{4},-\frac{3}{4}]^T$，可以被标准化为 $\ket{v}=-\frac{1}{2\sqrt{3}}(\ket{00}+\ket{01}+\ket{10}-3\ket{11})\ket{-}$。那么 $B=\{\ket{++-},\ket{v}\}$ 是一个正交归一化基，且 $P=P_1+\ket{v}\bra{v}$ 是相应的投影算子。
 \end{example}
 \section{计算一步迁移}
 结合子空间的分解算法，可以给出对于量子系统的一步映射算法，具体如\ref{alg-image}所示。
@@ -557,9 +557,9 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 \section{针对模型检测的改进}
 \label{sec-optimize}
-本文工作的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本文工作的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割电路和优化TDD结构。下面简单介绍一下具体改进方法。
+本文工作的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本文工作的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割线路和优化TDD结构。下面简单介绍一下具体改进方法。
 \subsection*{索引顺序的调整}
-\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模电路上寻求规律，然后在更大规模电路中应用较优顺序。
+\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x1,...,x8)=x1x2+x3x4+x5x6+x7x8$，但图\ref{fig:bdd-good}的结构更简单。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x5,x7,x2,x4,x6,x8\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4,x5,x6,x7,x8\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模线路上寻求规律，然后在更大规模线路中应用较优顺序。
 % \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
 \begin{figure}[!htbp]
 	\centering
@@ -580,16 +580,16 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 	\label{fig:bdd-compare}
 \end{figure}
 
-\subsection*{addition的电路拆分方案}
+\subsection*{addition的线路拆分方案}
 \label{addition}关于常用的量子线路划分方法，
-第一种被称为addition\citep{chen2018classical}。将量子电路视为张量网络，首先将一个量子电路C转换成无向图G。G中的每个节点表示量子电路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
+第一种被称为addition\citep{chen2018classical}。将量子线路视为张量网络，首先将一个量子线路C转换成无向图G。G中的每个节点表示量子线路的一个索引，并且如果它们是相同门的输入或输出索引，则在G中连接两个节点。并且当满足以下两个条件之一时输入和输出索引不变：
 \begin{itemize}
 	\item 是对角线量子门的输入和输出索引；
 	\item 是受控门的控制比特位的输入和输出索引。
 \end{itemize}
-在得到无向图后，就可以通过对连通度高索引进行张量切片，从而对量子电路进行划分。 
+在得到无向图后，就可以通过对连通度高索引进行张量切片，从而对量子线路进行划分。 
 \begin{example}
-    图\ref{fig:addition}展示了图\ref{fig:grover}中Grover\_3电路图的索引链接图。该图描述了量子电路的连通性，通过选择图中连通度最大的索引可以对电路进行分割。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对电路进行较好的划分。
+    图\ref{fig:addition}展示了图\ref{fig:grover}中Grover\_3线路图的索引链接图。该图描述了量子线路的连通性，通过选择图中连通度最大的索引可以对线路进行分割。因此选择图中连通度较大的$x_1^1,x_1^3x_2^1$可以对线路进行较好的划分。
  
 \begin{figure}[!htbp]
 	\centering
@@ -599,14 +599,14 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{figure} 
 \end{example}
 
-\subsection*{contraction的电路拆分方案}
-另一种常用的电路划分方法成为contraction。该方法是\ref{sec-compare}小节中的TDD part I的延申。在这一方法中，将量子电路划分为若干个较小的部分，其收缩等于原始电路。应用两个预设整数参数$k1$和$k2$，将电路划分为若干小电路。其中每个小电路涉及最多$k1$个量子比特，并且与至多跨越不同部件的$k2$个多比特门相连。
+\subsection*{contraction的线路拆分方案}
+另一种常用的线路划分方法成为contraction。该方法是\ref{sec-compare}小节中的TDD part I的延申。在这一方法中，将量子线路划分为若干个较小的部分，其收缩等于原始线路。应用两个预设整数参数$k1$和$k2$，将线路划分为若干小线路。其中每个小线路涉及最多$k1$个量子比特，并且与至多跨越不同部件的$k2$个多比特门相连。
 \begin{example}
-    图\ref{fig:contraction}展示了对Bit flip电路进行k1=3,k2=2的拆分结果。
+    图\ref{fig:contraction}展示了对Bit flip线路进行k1=3,k2=2的拆分结果。
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[height=7cm]{Img/cir_contraction.pdf}
-	\caption{对Bit flip电路进行contraction的拆分}
+	\caption{对Bit flip线路进行contraction的拆分}
 	\label{fig:contraction}
 \end{figure} 
 \end{example}
@@ -673,6 +673,6 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 通过上述模块的协同工作，
 保证了最终的软件系统能够高效、灵活地处理本文工作中对量子模型检测的各种需求。
 \section{本章小结}
-本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单回顾了如何将量子系统建模为量子迁移系统。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition电路拆分、contraction 电路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
+本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单回顾了如何将量子系统建模为量子迁移系统。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition线路拆分、contraction 线路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
 
 通过上述方法，本文以TDD为数据结构，构建了一种能高效计算量子模型检测中可达性分析问题的解决方案。TDD结合了BDD的紧凑表示和张量网络的计算优势，为解决量子计算中的模型检测问题提供了新的可能性。软件系统的模块化设计也为高效实现这一方案奠定了基础。总的来说，本章介绍的技术为量子模型检测提供了一种有前景的新方法。
