@@ -1,0 +1,26 @@
+\documentclass[10.5pt]{article} % Defines the document class
+\usepackage{xeCJK}
+% Package inclusions go here
+\usepackage[utf8]{inputenc} % For UTF-8 encoding
+\usepackage[T1]{fontenc} % T1 Font encoding
+\usepackage{lmodern} % Modern LaTeX fonts
+\usepackage{graphicx} % To include images
+\usepackage{indentfirst} % Indent first paragraph after section title
+\usepackage{lipsum} % For generating filler text
+\usepackage[left=2cm,right=2cm,top=1cm,bottom=2cm]{geometry} % Page margins
+\linespread{1.25}
+\usepackage{pdfpages}
+\title{科研成果认定说明} % Document title
+\author{高丁超} % Author name
+\date{} % Date
+\pagestyle{empty}
+\begin{document}
+
+% \maketitle % Generates the title
+\thispagestyle{empty}
+\includepdf[pages=1,scale =1,pagecommand={}]{scan.pdf}
+\includepdf[pages=1,scale = 0.8,pagecommand={\section*{附录一ICCAD审稿意见}}]{ICCAD.pdf}
+\includepdf[pages=2-,scale = 0.8]{ICCAD.pdf}
+\includepdf[pages=1,scale = 0.8,pagecommand={\section*{附录二DAC审稿意见}}]{DAC.pdf}
+\includepdf[pages=2-,scale = 0.8]{DAC.pdf}
+\end{document}
