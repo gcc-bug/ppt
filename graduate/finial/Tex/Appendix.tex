@@ -11,93 +11,176 @@
 
 \setcounter{chapter}{0}
 \setcounter{section}{0}
-\chapter{优化方案的python实现}\label{chap:app1}{
-在\ref{sec-optimize}节中介绍了对基于TDD的量子模型检测的一些优化方案。
-本附录是关于这些优化方法的具体实现，以python为例。
+\chapter{部分优化方案的python实现}\label{chap:app1}{
+第\ref{sec-optimize}节介绍了针对基于TDD的量子模型检测方法的一些优化策略。第\ref{sec-ex}章节证实了量子拆分技术能够有效降低计算资源消耗，是一种非常实用的优化方案。本附录将以Python为例，介绍这些优化方法的具体实现。
 
-首先是
-\begin{lstlisting}[language=Python, caption=Python example]
-def image(qa):
-    sp= generate_initial_space(qa.initial_states)
-    max_node = 0
-    for op in qa.operators:
-        qa.operators[op],node = qa.operators[op].cont()
-        max_node = max(max_node,node)
-    res_list = []
-    for op in qa.operators:
-        for phi in qa.initial_states:
-            max_node= max(max_node,qa.operators[op].node_number())
-            res=simulation(qa.operators[op],phi)
-            res_list.append(res)
-            change_index(res,'y','x')
-            max_node = max(max_node,res.node_number())
-            sp,_=join(sp,res)
-    return sp,max_node
-\end{lstlisting}
-\section*{addition优化方案}
-\begin{lstlisting}[language=Python, caption=对量子线路应用addition优化方案]
-def image_add_par(tn,qa,k=0,partial=0):
-    sp= generate_initial_space(qa.initial_states)
-
-    if not partial:
-        for op in qa.operators:
-            qa.operators[op]=addition_partition(tn,k)
-    else:
-        for op in qa.operators:
-            qa.operators[op]=addition_partition_partial(tn,k)
-
-    for op in qa.operators:
-        for phi in qa.initial_states:
-            res=get_identity_tdd()
-            res.weight=0
-            for p in qa.operators[op]:
-                temp=simulation(p,phi)
-                change_index(temp,'y','x')
-                res=add(res,temp)
-            update_tdd_after_add(res,temp)
-            sp,_=join(sp,res)
-
+在代码实现中，变量Ts一般表示一个量子迁移系统，其中包含以下变量：
+\begin{itemize}
+    \item Ts.initial\_states是一个列表，包含所有量子迁移系统的初态。
+    \item Ts.operators是一个列表，按顺序包含所有量子线路的操作。
+\end{itemize}
+基于这样 的量子迁移系统设计，可以设计代码段1。
+此代码段核心使用张量收缩技术，以计算量子迁移系统的一次状态转移。具体来说，就是基于系统的初始状态来预测其下一状态空间。这里，simulation函数负责执行量子操作的TDD与量子态的收缩操作，而join函数则用于将得到的新量子状态并入当前状态子空间中。
+因此，代码逻辑首先从系统的初始态出发，构建一个初始的状态子空间。接着，它遍历所有量子操作，对每一个初始态执行操作，通过simulation函数计算操作后的结果，并利用join函数将这些新状态并入到状态子空间中，以完成系统下一步状态空间的构建。
+\begin{lstlisting}[language=Python, caption={利用TDD收缩直接计算一步迁移\label{code-image}}]
+def image(Ts):
+    sp= generate_initial_space(Ts.initial_states)
+    for op in Ts.operators:
+        for phi in Ts.initial_states:
+            res=simulation(Ts.operators[op],phi)
+            sp=join(sp,res)
     return sp
 \end{lstlisting}
-\begin{lstlisting}[language=Python, caption=对量子线路应用contraction优化方案]
-def image_cont_par(qa,k1=0,k2=0):
-    sp= generate_initial_space(qa.initial_states)
-    max_node = 0
-    for op in qa.operators:
-        qa.operators[op],node=contraction_partition(qa.operators[op],k1,k2)
-        max_node = max(node,max_node)
 
-    res_list=[]
-    for op in qa.operators:
-        for phi in qa.initial_states:
+类似地，可以设计代码段2中的addition优化方案。其中tn为表示量子线路的量子张量网络。不同在于其中的Ts的operators将会在运行中生成。
+其他运行逻辑与代码段1类似，码段2的函数首先生成系统的初始状态子空间。然后，对系统中的每个量子操作，通过函数addition\_partition应用分区优化tn的索引，从而得到Ts的量子操作。这一步调整了量子操作，以便提高执行效率。
+在应用了优化后的量子操作进行状态转移的计算过程中，函数对每个初始态进行遍历。对于每个量子操作，它初始化一个表示恒等操作的TDD，作为累加的基础。接着，通过遍历量子操作的所有部分，使用simulation函数计算每部分的效果，并利用add函数将这些TDD累加到res中。由于应用索引划分了线路，相当于对张量网络进行了切片。因此这里需要使用TDD的加法，即add函数。这样最后的res就是对应量子初态在执行所有量子操作后的量子状态。最后通过join函数将该量子状态的结果并入到状态子空间中。
+其中的函数addition\_partition如代码段3所示。
+\begin{lstlisting}[language=Python, caption=对量子线路应用addition优化方案计算一步迁移]
+def image_add_par(tn,Ts,k=0):
+    sp= generate_initial_space(Ts.initial_states)
+
+    Ts.operators[op]=addition_partition(tn,k)
+
+    for op in Ts.operators:
+        for phi in Ts.initial_states:
+            res=get_identity_tdd()
+            for p in Ts.operators[op]:
+                temp=simulation(p,phi)
+                res=add(res,temp)
+            sp=join(sp,res)
+    return sp
+\end{lstlisting}
+\begin{lstlisting}[language=Python, caption={addition方案中的电路划分函数}]
+def addition_partition(tn,k=0):
+    """partition a tensor network tn according to k nodes with biggest degree"""
+
+    lin_graph.add_nodes_from(tn.index_set)
+
+    deg=[lin_graph.degree(key) for key in lin_graph.nodes]
+
+    big_degres=[]
+    node_list=list(lin_graph.nodes)
+
+    t = k
+    while t:
+        biggest_degree=max(deg)
+        if biggest_degree<=0:
+            break
+        idx=deg.index(biggest_degree)
+        big_degres.append(node_list[idx])
+        deg[idx]=0
+        t-=1
+
+    dd_list=[]
+    for t in range(2**k):
+        b=list(bin(t)[2:])
+        b.reverse()
+        temp_tn=copy.copy(tn)
+        temp_tn.tensors=[]
+        for tensor in tn.tensors:
+            temp_ts=copy.copy(tensor)
+            for idx in tensor.index_set:
+                if idx.key in big_degres:
+                    if big_degres.index(idx.key)< len(b) and b[big_degres.index(idx.key)]=='1':
+                        temp_ts.dd=cont(temp_ts.tdd(),Tensor(ket1,[idx]).tdd())
+                    else:
+                        temp_ts.dd=cont(temp_ts.tdd(),Tensor(ket0,[idx]).tdd())
+            temp_tn.tensors.append(temp_ts)
+        dd_list.append(temp_tn.cont())
+
+    return dd_list
+\end{lstlisting}
+
+
+同样也可以设计对量子线路应用contraction的优化方案，具体如代码段4。该函数利用两个参数k1和k2来调节收缩分区的策略，以达到更优的计算性能。函数的输入的tn和Ts的情况和addition方案相同。tn也是表示量子线路的量子张量网络。Ts的operators同样会在运行中生成。
+初始步骤与之前类似，函数从生成系统初始状态的子空间开始。不同在于对于量子系统中定义的每个量子操作，根据参数k1和k2，使用contraction\_partition函数对其进行分区。在这一步中Ts中的量子操作将会按块划分，因此之后的Ts中的operators是一个列表，包含所有在该块的量子操作。
+这一步骤的目的是重新组织量子操作的结构，使得后续的计算过程更加高效。
+在经过优化的量子操作上执行状态转移计算时，该函数遍历所有初始状态。对于每一个量子操作，它从当前的量子状态开始，逐步应用经过收缩优化的量子操作的各个部分。这里的simulation函数用于计算经过每一步操作后的结果。每次操作后得到的新状态通过join函数并入到状态子空间中。其中的函数contraction\_partition如代码段5所示。
+\begin{lstlisting}[language=Python, caption=对量子线路应用contraction优化方案计算一步迁移]
+def image_cont_par(tn,Ts,k1=0,k2=0):
+    sp= generate_initial_space(Ts.initial_states)
+
+    Ts.operators=contraction_partition(tn,k1,k2)
+
+    for op in Ts.operators:
+        for phi in Ts.initial_states:
             res=phi
-            for p in qa.operators[op]:
-                max_node = max(max_node,p.node_number())
+            for p in Ts.operators[op]:
                 res=simulation(p,res)
-                max_node = max(max_node,res.node_number())
-            change_index(res,'y','x')
-            res_list.append(res)
-            sp,_=join(sp,res)
-    return sp,max_node
+            sp=join(sp,res)
+    return sp
 \end{lstlisting}
-\begin{lstlisting}[language=Python, caption=对TDD运用窗函数划分]
-def tdd_partition(tdd: TDD, windows: list[dict]) -> list[TDD]:
-    if not check_windows(windows):
-        return []
 
-    partitions = [partition(tdd.node, window) for window in windows]
-    for partitioned_tdd in partitions:
-        G.tdd_initial(partitioned_tdd,tdd)
-        if partitioned_tdd.weight:
-            partitioned_tdd.weight = tdd.weight
+\begin{lstlisting}[language=Python, caption={contraction方案中的电路划分函数}]
+def contraction_partition(tn,k1=0,k2=0):
+    dd_list=[]
 
-    return partitions
+    cir_par=circuit_partition(tn,k1,k2)
+    for ver in cir_par:
+        for hor in ver:
+            tdd,node = TensorNetwork(hor).cont()
+            dd_list.append(tdd)
+
+    return dd_list
+
+def circuit_partition(tn,k1=0,k2=0):
+    """The first partition scheme;
+    cx_max is the number of CNOTs allowed to be cut
+    """
+
+    num_qubit=tn.qubits_num
+
+    if k1==0:
+        blocks_num=2
+        k1=np.ceil(num_qubit/2)
+    else:
+        blocks_num=int(np.ceil(num_qubit/k1))
+    res=[[[] for _ in range(blocks_num)]]
+
+    if k2==0:
+        cx_max=num_qubit//2
+    else:
+        cx_max=k2
+
+    cx_num=0
+    level=0
+
+    for tensor in tn.tensors:
+        qubit_list = tensor.qubits
+        mi=int(min(qubit_list)//k1)
+        ma=int(max(qubit_list)//k1)
+        if mi==ma:
+            res[level][mi].append(tensor)
+        else:
+            cx_num+=1
+            if cx_num<=cx_max:
+                res[level][int(qubit_list[-1]//k1)].append(tensor)
+            else:
+                level+=1
+                res.append([])
+                for k in range(blocks_num):
+                    res[level].append([])
+                res[level][int(qubit_list[-1]//k1)].append(tensor)
+                cx_num=1
+
+    return res
 \end{lstlisting}
-\begin{lstlisting}[language=Python, caption=对TDD进行分割]
-def tdd_split(tdd:TDD, split_point:int)-> list[TDD,TDD]:
-    B= split_before(tdd.node, split_point)
-    A= split_after(tdd.node, split_point)
-    return generate_tdd_index(B, A, tdd, split_point)
-\end{lstlisting}
+% \begin{lstlisting}[language=Python, caption=对TDD运用窗函数划分]
+% def tdd_partition(tdd: TDD, windows: list[dict]) -> list[TDD]:
+%     partitions = [partition(tdd.node, window) for window in windows]
+%     for partitioned_tdd in partitions:
+%         G.tdd_initial(partitioned_tdd,tdd)
+%         if partitioned_tdd.weight:
+%             partitioned_tdd.weight = tdd.weight
+
+%     return partitions
+% \end{lstlisting}
+% \begin{lstlisting}[language=Python, caption=对TDD进行分割]
+% def tdd_split(tdd:TDD, split_point:int)-> list[TDD,TDD]:
+%     B= split_before(tdd.node, split_point)
+%     A= split_after(tdd.node, split_point)
+%     return generate_tdd_index(B, A, tdd, split_point)
+% \end{lstlisting}
 \thispagestyle{appendixheader}
 }
