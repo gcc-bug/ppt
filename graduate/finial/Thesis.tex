@@ -85,6 +85,34 @@
     \node[anchor=north east,inner sep=1pt,outer sep=0pt] at (box.north east) {#2};
   \end{tikzpicture}%
 }
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 \begin{document}
 %-
 %-> Frontmatter: title page, abstract, content list, symbol list, preface
@@ -129,9 +157,9 @@
 }
 \cleardoublepage%
 \appendix% initialize the environment
-% \input{Tex/Appendix}% appendix content
+\input{Tex/Appendix}% appendix content
 
-% \thispagestyle{appendixheader}
+\thispagestyle{appendixheader}
 \backmatter% initialize the environment
 \input{Tex/Backmatter}% other information
 \end{document}

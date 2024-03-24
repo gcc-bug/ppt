@@ -11,101 +11,93 @@
 
 \setcounter{chapter}{0}
 \setcounter{section}{0}
-\chapter{附录中的公式}\label{chap:app1}{
+\chapter{优化方案的python实现}\label{chap:app1}{
+在\ref{sec-optimize}节中介绍了对基于TDD的量子模型检测的一些优化方案。
+本附录是关于这些优化方法的具体实现，以python为例。
 
-对公式的引用如，公式\eqref{eq:appedns}
-\begin{equation} \label{eq:appedns}
-    % \adddotsbeforeeqnnum%
-    \begin{cases}
-        \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho\Vector{V}) = 0\\
-        \frac{\partial (\rho\Vector{V})}{\partial t} + \nabla\cdot(\rho\Vector{V}\Vector{V}) = \nabla\cdot\Tensor{\sigma}\\
-        \frac{\partial (\rho E)}{\partial t} + \nabla\cdot(\rho E\Vector{V}) = \nabla\cdot(k\nabla T) + \nabla\cdot(\Tensor{\sigma}\cdot\Vector{V})
-    \end{cases}
-\end{equation}
+首先是
+\begin{lstlisting}[language=Python, caption=Python example]
+def image(qa):
+    sp= generate_initial_space(qa.initial_states)
+    max_node = 0
+    for op in qa.operators:
+        qa.operators[op],node = qa.operators[op].cont()
+        max_node = max(max_node,node)
+    res_list = []
+    for op in qa.operators:
+        for phi in qa.initial_states:
+            max_node= max(max_node,qa.operators[op].node_number())
+            res=simulation(qa.operators[op],phi)
+            res_list.append(res)
+            change_index(res,'y','x')
+            max_node = max(max_node,res.node_number())
+            sp,_=join(sp,res)
+    return sp,max_node
+\end{lstlisting}
+\section*{addition优化方案}
+\begin{lstlisting}[language=Python, caption=对量子电路应用addition优化方案]
+def image_add_par(tn,qa,k=0,partial=0):
+    sp= generate_initial_space(qa.initial_states)
 
-\begin{equation} \label{eq:appedns2}
-    % \adddotsbeforeeqnnum%
-    \begin{cases}
-        \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho\Vector{V}) = 0\\
-        \frac{\partial (\rho\Vector{V})}{\partial t} + \nabla\cdot(\rho\Vector{V}\Vector{V}) = \nabla\cdot\Tensor{\sigma}\\
-        \frac{\partial (\rho E)}{\partial t} + \nabla\cdot(\rho E\Vector{V}) = \nabla\cdot(k\nabla T) + \nabla\cdot(\Tensor{\sigma}\cdot\Vector{V})
-    \end{cases}
-\end{equation}
+    if not partial:
+        for op in qa.operators:
+            qa.operators[op]=addition_partition(tn,k)
+    else:
+        for op in qa.operators:
+            qa.operators[op]=addition_partition_partial(tn,k)
 
+    for op in qa.operators:
+        for phi in qa.initial_states:
+            res=get_identity_tdd()
+            res.weight=0
+            for p in qa.operators[op]:
+                temp=simulation(p,phi)
+                change_index(temp,'y','x')
+                res=add(res,temp)
+            update_tdd_after_add(res,temp)
+            sp,_=join(sp,res)
 
-mathtext: $A,F,L,2,3,5,\sigma$, mathnormal: $A,F,L,2,3,5,\sigma$, mathrm: $\mathrm{A,F,L,2,3,5,\sigma}$.
+    return sp
+\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=对量子电路应用contraction优化方案]
+def image_cont_par(qa,k1=0,k2=0):
+    sp= generate_initial_space(qa.initial_states)
+    max_node = 0
+    for op in qa.operators:
+        qa.operators[op],node=contraction_partition(qa.operators[op],k1,k2)
+        max_node = max(node,max_node)
 
-mathbf: $\mathbf{A,F,L,2,3,5,\sigma}$, mathit: $\mathit{A,F,L,2,3,5,\sigma}$, mathsf: $\mathsf{A,F,L,2,3,5,\sigma}$.
+    res_list=[]
+    for op in qa.operators:
+        for phi in qa.initial_states:
+            res=phi
+            for p in qa.operators[op]:
+                max_node = max(max_node,p.node_number())
+                res=simulation(p,res)
+                max_node = max(max_node,res.node_number())
+            change_index(res,'y','x')
+            res_list.append(res)
+            sp,_=join(sp,res)
+    return sp,max_node
+\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=对TDD运用窗函数划分]
+def tdd_partition(tdd: TDD, windows: list[dict]) -> list[TDD]:
+    if not check_windows(windows):
+        return []
 
-mathtt: $\mathtt{A,F,L,2,3,5,\sigma}$, mathfrak: $\mathfrak{A,F,L,2,3,5,\sigma}$, mathbb: $\mathbb{A,F,L,2,3,5,\sigma}$.
+    partitions = [partition(tdd.node, window) for window in windows]
+    for partitioned_tdd in partitions:
+        G.tdd_initial(partitioned_tdd,tdd)
+        if partitioned_tdd.weight:
+            partitioned_tdd.weight = tdd.weight
 
-mathcal: $\mathcal{A,F,L,2,3,5,\sigma}$, mathscr: $\mathscr{A,F,L,2,3,5,\sigma}$, boldsymbol: $\boldsymbol{A,F,L,2,3,5,\sigma}$.
-
-vector: $\Vector{\sigma, T, a, F, n}$, unitvector: $\unitVector{\sigma, T, a, F, n}$
-
-matrix: $\Matrix{\sigma, T, a, F, n}$, unitmatrix: $\unitMatrix{\sigma, T, a, F, n}$
-
-tensor: $\Tensor{\sigma, T, a, F, n}$, unittensor: $\unitTensor{\sigma, T, a, F, n}$ 
-
-
+    return partitions
+\end{lstlisting}
+\begin{lstlisting}[language=Python, caption=对TDD进行分割]
+def tdd_split(tdd:TDD, split_point:int)-> list[TDD,TDD]:
+    B= split_before(tdd.node, split_point)
+    A= split_after(tdd.node, split_point)
+    return generate_tdd_index(B, A, tdd, split_point)
+\end{lstlisting}
 \thispagestyle{appendixheader}
-}
-\chapter{附录中的图表}{
-\stepcounter{app}
-\setcounter{app_fig}{1}
-\setcounter{app_tab}{1}
-
-
-附表测试
-
-\begin{apptab}[!htbp]
-    \bicaption{\enspace 这是一个样表}{\enspace This is a sample table}
-    \stepcounter{app_tab}
-    \label{apptab:1}
-    \centering
-    \footnotesize% fontsize
-    \setlength{\tabcolsep}{4pt}% column separation
-    \renewcommand{\arraystretch}{1.2}%row space 
-    \begin{tabular}{lcccccccc}
-        \hline
-        行号 & \multicolumn{8}{c}{跨多列的标题}\\
-        %\cline{2-9}% partial hline from column i to column j
-        \hline
-        Row 1 & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$\\
-        \hline
-    \end{tabular}
-\end{apptab}
-
-
-\begin{apptab}[!htbp]
-    \bicaption{\enspace 这是一个样表}{\enspace This is a sample table}
-    \stepcounter{app_tab}
-    \label{apptab:2}
-    \centering
-    \footnotesize% fontsize
-    \setlength{\tabcolsep}{4pt}% column separation
-    \renewcommand{\arraystretch}{1.2}%row space 
-    \begin{tabular}{lcccccccc}
-        \hline
-        行号 & \multicolumn{8}{c}{跨多列的标题}\\
-        %\cline{2-9}% partial hline from column i to column j
-        \hline
-        Row 1 & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$\\
-        \hline
-    \end{tabular}
-\end{apptab}
-
-附图测试
-
-\begin{appfig}[!htbp]
-    \centering
-    \includegraphics[width=0.40\textwidth]{Img/cx}
-    \bicaption{\enspace 这是一个样图}{\enspace This is a sample figure}
-    \fignote{对图片的注释}
-    
-    \label{appfig:1}
-    \stepcounter{app_fig}
-\end{appfig}
-
-% //TODO: 是否需要附录
 }
