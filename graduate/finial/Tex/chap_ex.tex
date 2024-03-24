@@ -22,6 +22,8 @@
     \label{fig:addition-ex}
 \end{figure}
 \begin{table}[htbp]
+    \caption{对grover\_15应用不同的addition参数的时间对比}
+    \label{table:addition}
     \centering
     \scalebox{0.8}{
         \begin{tabular}{cccccccccccccc} % Corrected to 14 cs for 14 columns
@@ -32,8 +34,6 @@
             \bottomrule
             \end{tabular}
     }
-    \caption{对grover\_15应用不同的addition参数的时间对比}
-    \label{table:addition}
 \end{table}
 
 
@@ -46,6 +46,9 @@
 
 \begin{table}[!htbp]
     \centering
+    % \caption{对grover\_15应用不同的contration参数的时间对比。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
+    \caption{对grover\_15应用不同的contration参数的时间对比}%calculating the 
+    \label{table-contraction}
     \scalebox{0.8}{
         \begin{tabular}{c|ccccccccccccccc}
             \rowcolor[HTML]{FFFFFF} 
@@ -83,8 +86,6 @@
                          
         \end{tabular}
     }
-    \caption{对grover\_15应用不同的contration参数的时间对比。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
-    \label{table-contraction}
 \end{table}
 
 \section{线路划分技术}
@@ -208,6 +209,8 @@
 basic表示没有使用优化技术，addition表示使用\ref{addition}节中的addition优化技术，contraction表示使用\ref{contraction}节中的contraction优化技术。“-”表示超过一小时的运行上限。
 
 \begin{table}[!htbp]
+    \caption{对不同测试实验应用一步迁移算法}
+    \label{table:time}
     \centering
     \scalebox{0.8}{
         \begin{tabular}{llllllllll}
@@ -247,8 +250,6 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
             \hline
         \end{tabular}
     }
-    \caption{对不同测试实验应用一步迁移算法}
-    \label{table:time}
 \end{table}
 
 \section{对TDD结构的优化}
@@ -264,6 +265,10 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
 但有时，计算末尾才会出现最大的TDD。这意味着，即便在整个计算过程中已将TDD分割为多个小片段，最大的TDD仍难以避免，除非采取近似方法。这里以初始子空间为 $S=span\{\ket{+\cdots+ -\cdots -}\}$（最后20个量子比特全为 $\ket{-}$）的QFT\_100为例，计算结束时出现了含有524,369节点的最大TDD。因此，虽然会在计算过程中通过TDD分割获得多个小TDD，但在最后不会将它们合并。相反，用这些TDD张成的子空间来近似原始TDD。进而，通过将原来的一维子空间近似为二维子空间，可以将最大TDD的节点数降至262,226；将原空间近似为四维时，节点数可降至131,155。在整个近似过程中，时间消耗同样不会显著增加。值得注意的是，实际验证时无需将这些小TDD同时存储于内存中，而可以逐一进行计算与验证。
 
 \begin{table}[]
+    
+    \caption{TDD拆分与近似的优化方案}
+
+    \label{table:tdd-based}
     \centering
     \scalebox{0.8}{
     \begin{tabular}{c|c|ccccc}
@@ -281,9 +286,6 @@ basic表示没有使用优化技术，addition表示使用\ref{addition}节中�
     
     \end{tabular}
     }
-    \caption{TDD拆分与近似的优化方案}
-
-    \label{table:tdd-based}
 \end{table}
 
 \section{本章小结}
