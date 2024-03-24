@@ -122,7 +122,10 @@ TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}
 
 \subsection*{对比类似表示}
 \label{sec-compare}
-TDD是一种相对较新的数据结构，用于表示和操作张量网络。张量网络提供了量子线路更紧凑的表现形式。本小节中将对比定义\ref{df-tensor}中的张量网络TN，定义\ref{df-tdd}中的张量决策图TDD，以及QMDD\citep{1623982}三种表示的效率。
+TDD是一种相对较新的数据结构，用于表示和操作张量网络。与之类似的表示方法有张量网络TN和量子多值决策图QMDD。本节的最后将讨论定义\ref{df-tensor}中的张量网络TN，定义\ref{df-tdd}中的张量决策图TDD，以及QMDD\citep{1623982}三种表示的效率。
+
+张量网络TN提供了量子线路更紧凑的表现形式。但在张量之间的收缩过程中，如式子\ref{eq-contraction}所示，张量网络需要对要收缩的索引进行大量的加法操作。而TDD基于决策数的结构可以借助树算法，减少加法运算，从而快速得到收缩结果。
+因此TDD表示量子线路，一般会比TN节省更多资源。
 
 QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子电路的合成\citep{niemann2020advanced}和和验证任务
 \citep{burgholzer2020verifying,burgholzer2020advanced}。
@@ -130,7 +133,7 @@ QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供
 \begin{figure}[htbp]
     \centering
     \includegraphics[height=10cm]{Img/QMDD-intro}
-    \caption{一个QMDD的示例}
+    \caption{一个QMDD的示例\citep{1623982}}
     \label{fig:qmdd-basic}
 \end{figure}
 
@@ -154,19 +157,20 @@ QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四
 虽然TDD的表示形式和QMDD紧凑程度相近。
 但是TDD非常灵活，可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
 
+综上，TDD的效率一般比TN的表示效率高，与QMDD类似。但TDD的高度灵活性，使得TDD的发展可能比QMDD更好。特别地，\cite{Hong_2022}中进行了三者的数值对比实验，验证了TDD的表示优势。
+这是本次研究中选择TDD作为表示电路的最重要原因。
+% 图\ref{fig:tdd-compare}是\cite{Hong_2022}中展示的目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II是两种的张量网络中的优化技术。
+% QMDD指的是Quantum Multiple-valued Decision Diagrams。
+% TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}。
+% 从图\ref{fig:tdd-compare}可以看到，两种TDD的优化方案都是时间消耗最少的。不使用拆分优化的TDD No Part与QMDD时间接近。而当比特数少于10时，TN的时间少于TDD No Part，但随着比特数增加，TN的用时快速超过TDD No Part。
+% 因此TDD相比其他表示方式有一定优势。这是本文工作研究中选择TDD作为主要技术的重要原因。
 
-图\ref{fig:tdd-compare}是\cite{Hong_2022}中展示的目前各种比较成熟的表示方法下模拟量子电路的时间对比。其中TDD No Part指的是不对电路进行拆分优化的方法。TDD part I 和TDD part II是两种的张量网络中的优化技术。
-QMDD指的是Quantum Multiple-valued Decision Diagrams。
-TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}。
-从图\ref{fig:tdd-compare}可以看到，两种TDD的优化方案都是时间消耗最少的。不使用拆分优化的TDD No Part与QMDD时间接近。而当比特数少于10时，TN的时间少于TDD No Part，但随着比特数增加，TN的用时快速超过TDD No Part。
-因此TDD相比其他表示方式有一定优势。这是本文工作研究中选择TDD作为主要技术的重要原因。
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[height=8cm]{Img/tdd-compare.pdf}
-    \caption{对QFT电路，TDD与TN,QMDD表示的比较\citep{Hong_2022}}
-    \label{fig:tdd-compare}
-\end{figure}
+% \begin{figure}[!htbp]
+%     \centering
+%     \includegraphics[height=8cm]{Img/tdd-compare.pdf}
+%     \caption{对QFT电路，TDD与TN,QMDD表示的比较\citep{Hong_2022}}
+%     \label{fig:tdd-compare}
+% \end{figure}
 
 \section{将量子系统建模为量子迁移系统}
 
@@ -251,7 +255,7 @@ TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}�
     例子\ref{ex-image-grover}中对Grover 3电路建模，例子\ref{ex-image-sub}对涉及的子空间进行了分解。考虑分解的逆过程，设 $P_1,P_2$ 为两个一维子空间 $S_1,S_2$ 的投影算子，分别由 $B_1=\{\ket{++-}\}$ 和 $B_2=\{\ket{11-}\}$ 生成。显然，$P_1=\ket{++-}\bra{++-}$。将 $B_1$ 完善为 $S=S_1\vee S_2$ 的一个基。计算得到$\ket{u}=\ket{11-}-P_1\ket{11-}=\ket{11-}-\frac{1}{4}\ket{++-}=[-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},\frac{3}{4},-\frac{3}{4}]^T$，可以被标准化为 $\ket{v}=-\frac{1}{2\sqrt{3}}(\ket{00}+\ket{01}+\ket{10}-3\ket{11})\ket{-}$。那么 $B=\{\ket{++-},\ket{v}\}$ 是一个正交归一化基，且 $P=P_1+\ket{v}\bra{v}$ 是相应的投影算子。
 \end{example}
 \section{计算一步迁移}
-结合子空间的分解算法，可以给出对于量子系统的一步映射算法，具体如\ref{alg-image}所示。
+结合子空间的分解算法，可以给出对于量子系统的一步映射算法，具体如算法\ref{alg-image}所示。
 \begin{algorithm}
 \caption{基于迁移系统的一步映射算法}
 \label{alg-image}
