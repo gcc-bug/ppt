@@ -5,14 +5,11 @@
 \begin{document}
 \begin{tikzpicture}
     \begin{yquant*}
-        cnot q[2] | q[0-1];
-        box {$H$} q[0-1];
-        box {$X$} q[0-1];
-        X q[1];
-        cnot q[1] | q[0];
-        X q[1];
-        box {$X$} q[0-1];
-        box {$H$} q[0-1];
+        H q[2];
+        cnot q[0] | q[1-2];
+        x q[1-2];
+        cnot q[0] | q[1-2];
+        x q[2];
     \end{yquant*}
   \end{tikzpicture}
 \end{document}
