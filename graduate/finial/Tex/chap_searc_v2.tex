@@ -357,6 +357,7 @@
 
 而和经典线路模型不同，量子线路一般会固定阅读方向。量子信息固定从左到右传递。因此量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
 综上通过量子线路可以描述各种量子计算的过程。
+% //TODO: add more
 \begin{example}
     单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
 \(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子线路符号表示如图\ref{fig-h}所示。
@@ -422,6 +423,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     其中\(\mathcal{H}\)为希尔伯特空间，表示量子状态空间；\(S\)为系统初态集合，因此满足\(S\subseteq \mathcal{H}\)； $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合； $\mathcal{T}$ 则代表量子系统的状态转移关系。
 \end{definition}
 \begin{example}
+    % //TODO: rewrite
     \label{ex-transition}
     图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的交通指挥灯模型。在该模型中，交通指挥灯系统状态将在红黄绿三种交通状态中切换。
     因此在该例子中，系统状态\(S=\{Red,\ Green,\ Yellow\}\)，即三种通行状态。系统初态是\(S_0 = \{Red\}\)。
@@ -596,6 +598,7 @@ L(|\psi\rangle) = {\mathcal{X} \in AP : |\psi\rangle \in \mathcal{X}}.
 直观地说，$\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y}$是可以用原子命题来定义并描述状态$|\psi\rangle$的最弱陈述。因此，包含关系意味着在状态$|\psi\rangle$中成立的原子命题集合共同蕴含命题$\mathcal{X}$。而如果$\mathcal{X} \in AP$，那么$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
 
 \begin{example}\citep{2021}
+    % //TODO: rewrite
     设$\mathcal{H}$是一个$n$维希尔伯特空间，它的标准正规基是$\{|0\rangle, |1\rangle, \cdots, |n - 1\rangle\}\ (n \geq 2)$,令$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$。
     \begin{itemize}
         \item 如果取$AP$为与基态$|0\rangle$正交的子空间:
