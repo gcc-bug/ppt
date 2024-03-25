@@ -519,7 +519,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     由于该系统的初态是off。而状态\(\text{off}\)的下一步一定是\(\text{low}\)，同时存在off到达状态high的路径。因此该系统的路径满足下列路径命题公式：
     \begin{align}
         & \pi \models O\ \text{light} \\
-        & \pi \models \lozenge \text{bright}
+        & \pi \models \lozenge\ \text{bright}
     \end{align}
     
 \end{example}
@@ -591,56 +591,84 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 在量子逻辑中，“满足”(satisfaction)意味着量子系统的状态可以在逻辑表达式指定的条件下被视为真。对于任何原子命题$\mathcal{X} \in AP$和状态$|\psi\rangle \in \mathcal{H}$，如果$|\psi\rangle \in \mathcal{X}$，那么说状态$|\psi\rangle$满足$\mathcal{X}$。用$L(|\psi\rangle)$表示在状态$|\psi\rangle$中被满足的原子命题集合:
 
 \begin{equation}
-L(|\psi\rangle) = {\mathcal{X} \in AP : |\psi\rangle \in \mathcal{X}}.
+L(|\psi\rangle) = \{\mathcal{X} \in AP : |\psi\rangle \in \mathcal{X}\}
 \end{equation}
 
 有时，需要在一个状态$|\psi\rangle$和一个不在$AP$中的命题$\mathcal{X}$之间建立更一般的满足关系。例如，在某些应用中，可能对一个命题$\mathcal{X}$是否被一个状态$|\psi\rangle$满足感兴趣，但由于内存的考虑，量子模型检测中一般只会选择了一个非常有限的不包括$\mathcal{X}$的原子命题集合。
 
-对于这样一个不在$AP$中的命题$\mathcal{X}$。给定一个原子命题集合$AP$，其中$\mathcal{X} \in \mathcal{S}(\mathcal{H})$。
+给定一个原子命题集合$AP$，对于一个命题$\mathcal{X},\mathcal{X} \in \mathcal{S}(\mathcal{H})$。
 如果$\bigcap_{\mathcal{Y} \in L(|\psi\rangle) }\mathcal{Y} \subseteq \mathcal{X}$，那么状态$|\psi\rangle$满足$\mathcal{X}$，记作$|\psi\rangle \models_{AP} \mathcal{X}$或简单地$|\psi\rangle \models \mathcal{X}$。
 直观地说，$\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y}$是可以用原子命题来定义并描述状态$|\psi\rangle$的最弱陈述。因此，包含关系意味着在状态$|\psi\rangle$中成立的原子命题集合共同蕴含命题$\mathcal{X}$。而如果$\mathcal{X} \in AP$，那么$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
 
-\begin{example}\citep{2021}
+% \begin{example}\citep{2021}
+%     
+%     设$\mathcal{H}$是一个$n$维希尔伯特空间，它的标准正规基是$\{|0\rangle, |1\rangle, \cdots, |n - 1\rangle\}\ (n \geq 2)$,令$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)$。
+%     \begin{itemize}
+%         \item 如果取$AP$为与基态$|0\rangle$正交的子空间:
+
+%         \begin{equation}
+%         AP = \{\mathcal{Y} \in \mathcal{S}(\mathcal{H}) : |0\rangle \perp \mathcal{Y}\}
+%         \end{equation}
+%         由于$(\ket{0},\ket{\psi}) = \frac{1}{\sqrt{2}}(\langle 0|0\rangle -\langle 0 |1\rangle) = \frac{1}{\sqrt{2}}\neq 0$，
+%         因此$L(|\psi\rangle) = \varnothing$。所以        
+%         \begin{equation}
+%         {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}.}
+%         \end{equation}
+%         即对于任何$\mathcal{X} \in \mathcal{S}(\mathcal{H})$，有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。
+        
+%         \item 设$AP$为$\mathcal{H}$的2维子空间。对于$n = 2$的情况，
+%         \begin{equation}
+%             {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}}
+%             \end{equation}
+            
+%             那么有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。对于$n > 2$的情况，
+            
+%             \begin{equation}
+%             {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle}\}
+%             \end{equation}
+            
+%             并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
+            
+%         \item 如果$AP$是包含基态$|2\rangle$的子空间，即$AP = \{\mathcal{X} \in \mathcal{S}(\mathcal{H}) : |2\rangle \in \mathcal{X}\}$，那么
+            
+%             \begin{equation}
+%             {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle, |2\rangle}\}
+%             \end{equation}
+            
+%             并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle,|2\rangle \in \mathcal{X}$。
+%     \end{itemize}
+
+% \end{example}
+\begin{example}
     % //TODO: rewrite
-    设$\mathcal{H}$是一个$n$维希尔伯特空间，它的标准正规基是$\{|0\rangle, |1\rangle, \cdots, |n - 1\rangle\}\ (n \geq 2)$,令$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$。
-    \begin{itemize}
-        \item 如果取$AP$为与基态$|0\rangle$正交的子空间:
-
-        \begin{equation}
-        AP = {\mathcal{Y} \in \mathcal{S}(\mathcal{H}) : |0\rangle \perp \mathcal{Y}},
-        \end{equation}
-        
-        那么$L(|\psi\rangle) = \varnothing$，因此
-        
-        \begin{equation}
-        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}.}
-        \end{equation}
-        
-        所以对于任何$\mathcal{X} \in \mathcal{S}(\mathcal{H})$，有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。
-        
-        \item 设$AP$为$\mathcal{H}$的2维子空间。对于$n = 2$的情况，
-        \begin{equation}
-            {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}}
-            \end{equation}
-            
-            那么有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。对于$n > 2$的情况，
-            
-            \begin{equation}
-            {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle}\}
-            \end{equation}
-            
-            并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle \in \mathcal{X}$。
-            
-        \item 如果$AP$是包含基态$|2\rangle$的子空间，即$AP = \{\mathcal{X} \in \mathcal{S}(\mathcal{H}) : |2\rangle \in \mathcal{X}\}$，那么
-            
-            \begin{equation}
-            {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle, |2\rangle}\}
-            \end{equation}
-            
-            并且$|\psi\rangle \models \mathcal{X}$当且仅当$|\psi\rangle,|2\rangle \in \mathcal{X}$。
-    \end{itemize}
-
+    假设$\mathcal{H}$是一个$n$维的希尔伯特空间，其标准正交基为$\{|0\rangle, |1\rangle, \cdots, |n - 1\rangle\}\ (n \geq 2)$。定义$|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)$。讨论此时\(\ket{\psi}\)的满足情况。
+    
+    首先讨论将$AP$定义为与基态$|0\rangle$正交的子空间时，即
+    $AP = \{\mathcal{Y} \in \mathcal{S}(\mathcal{H}) : |0\rangle \perp \mathcal{Y}\}$。
+    由于$(\ket{0},\ket{\psi}) = \frac{1}{\sqrt{2}}(\langle 0|0\rangle - \langle 0|1\rangle) = \frac{1}{\sqrt{2}} \neq 0$，因此$L(|\psi\rangle) = \varnothing$。对于空集中的所有元素取交得到全空间，所以有：
+    \begin{equation}
+    {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}.}
+    \end{equation}
+    也就是说，对于任何$\mathcal{X} \in \mathcal{S}(\mathcal{H})$，$|\psi\rangle \models \mathcal{X}$成立当且仅当$\mathcal{X} = \mathcal{H}$。
+    
+    接下来讨论$AP$被定义为$\mathcal{H}$的2维子空间的情况。当希尔伯特空间也满足$n = 2$的情形，此时$AP = span\{\ket{0},\ket{1}\}$。因此有：
+    \begin{equation}
+        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \mathcal{H}}
+    \end{equation}
+    则有$|\psi\rangle \models \mathcal{X}$当且仅当$\mathcal{X} = \mathcal{H}$。对于尔伯特空间$n > 2$的情形，可以得到：
+    \begin{equation}
+        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle}\}
+    \end{equation}
+    因此$|\psi\rangle \models \mathcal{X}$成立当且仅当$|\psi\rangle \in \mathcal{X}$。
+    
+    而如果$AP$定义为包含基态$|2\rangle$的子空间，即$AP = \{\mathcal{X} \in \mathcal{S}(\mathcal{H}) : |2\rangle \in \mathcal{X}\}$，那么可以得到：
+    \begin{equation}
+        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle, |2\rangle}\}
+    \end{equation}
+    并且$|\psi\rangle \models \mathcal{X}$成立当且仅当$|\psi\rangle,|2\rangle \in \mathcal{X}$。
 \end{example}
+
+
 \section{TDD简介}
 TDD是一种决策图样式的数据结构，用于使用张量网络表示量子线路。
 本节将从用张量网络表示量子线路开始，简单介绍张量网络如何转换到TDD，最后简单介绍TDD与类似表示的对比。
