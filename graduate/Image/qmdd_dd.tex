@@ -1,0 +1,38 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes}
+
+\begin{document}
+\begin{tikzpicture}[auto, every node/.style={circle, minimum size=0.01cm, align=center}, node distance=2cm,>=Latex]
+
+  % Node styles
+  \tikzset{
+    state/.style={draw, circle},
+    terminal/.style={rectangle, minimum size=1cm}
+  }
+
+  % Nodes
+  \node[state] (x0) {$x_0$};
+  \node[state, below left=of x0] (x2_1) {$x_2$};
+  \node[state, below right=of x0] (x2_2) {$x_2$};
+  \node[state, below right=of x2_1] (x1_1) {$x_1$};
+  \node[state, below left=of x2_2] (x1_2) {$x_1$};
+  \node[terminal, below=of x2_1] (end1) {$00$};
+  \node[terminal, below=of x2_2] (end2) {$01$};
+  \node[terminal, below=2.5cm of x1_1] (1) {$1$};
+  \node[terminal, below=2.5cm of x1_2] (i) {$i$};
+
+  % Edges
+  \draw[->] (x0) -- node[above left] {$-\frac{1}{2}$} (x1_1);
+  \draw[->] (x0) -- node[above right] {$-\frac{1}{2}$} (x1_2);
+  \draw[->] (x1_1) -- node[above left] {$-\frac{1}{2}$} (x2_1);
+  \draw[->] (x1_1) -- node[above right] {$-\frac{1}{2}$} (x2_2);
+  \draw[->] (x2_1) -- (end1);
+  \draw[->] (x2_2) -- (end2);
+  \draw[->] (x1_1) -- node[left] {$-\frac{1}{2}$} (1);
+  \draw[->] (x1_2) -- node[right] {$-\frac{i}{2}$} (1);
+  \draw[->] (x1_1) -- node[left] {$-\frac{i}{2}$} (i);
+  \draw[->] (x1_2) -- node[right] {$-\frac{i}{2}$} (i);
+
+\end{tikzpicture}
+\end{document}
