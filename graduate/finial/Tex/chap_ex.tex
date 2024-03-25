@@ -5,10 +5,48 @@
 其中一步迁移算法，即量子迁移系统的一步映射是模型检测中，反复用的算法。
 可以说利用更少的资源进行一步迁移，就可以降低计算量子系统的可达空间时的资源消耗。
 因此本章节的实验主要围绕一步迁移算法，讨论各种优化方案的实际效果。
+\section{实验设计}
+本小节主要介绍具体的实验设计。在实验测试基准方面，本次研究选择了五种不同类型的量子算法。
+在实验的量化方面，本次研究用程序运行时间量化优化方案的时间资源，用运行过程中的最大节点数量化优化方案的空间资源。
+\subsection*{实验基准设计}
+本次研究中，选取了五类不同的量子算法作为基准实验。分别是Grover，QFT，BV，GHZ，QRW算法。
 
+Grover算法，由Lov Grover于1996年提出，是一种量子搜索算法\citep{Grover_1996}。它能够在未排序的数据库中查找特定元素，其搜索效率远超经典算法。Grover算法展示了量子计算在搜索问题上的指数级别的加速能力，是一类非常重要的量子算法。
+
+Grover算法的量子电路包括初始化、Oracle和反射（也称为Grover演算）几个关键部分。初始化过程将所有量子位置于叠加状态，以确保搜索空间的均匀覆盖。Oracle是根据搜索目标设计的，它能够标记出目标态。最后，反射操作增强了目标态的概率幅度，而减少了非目标态的概率幅度。重复Oracle和反射操作可以显著提高找到目标项的概率。
+本次实验中选取了搜索$0\cdots 0$的Oracle。因此
+% //TODO: add figure
+
+\paragraph{量子傅里叶变换（QFT）}
+量子傅里叶变换是量子算法中的核心组成部分，特别是在量子计算中的素数分解和周期性问题求解中占有重要地位。QFT能够高效地将量子态从时域转换到频域，是许多量子算法，包括著名的Shor算法的基础。
+
+量子傅里叶变换（QFT）的电路设计利用了量子位之间的相位关系来执行变换。核心组件是一系列的受控旋转门，它们在不同的量子位上以不同的旋转角度施加，从而实现复数矩阵的乘法。QFT电路的高效性在于其使用了远少于经典傅里叶变换所需的运算步骤。
+% //TODO: add figure
+
+\paragraph{Bernstein-Vazirani算法}
+Bernstein-Vazirani算法展示了量子计算在解决特定的线性代数问题上的优势。通过一次量子测量即可确定一个隐藏的二进制字符串，而经典算法需要多次查询。该算法证明了量子计算在处理信息编码和解码问题上的潜力。
+
+Bernstein-Vazirani算法的量子电路相对简单，核心是一次量子查询。电路首先将所有量子位初始化到叠加态，然后应用一个特殊的Oracle，该Oracle能够对输入的二进制字符串进行编码。通过对量子位的一次测量，就可以直接获得这个隐藏的字符串，展示了量子并行处理的能力。
+% //TODO: add figure
+
+\paragraph{Greenberger-Horne-Zeilinger（GHZ）态}
+GHZ态是一种特殊的量子纠缠态，涉及三个或更多的量子位。它是量子信息科学的一个重要组成部分，尤其在量子通信和量子计算中的应用。GHZ态的生成和操控是量子计算能力的一个重要指标。
+
+生成GHZ态的量子电路从一个量子位的叠加态开始，该量子位通过一系列的受控非门（CNOT）与其他量子位相连。这个过程在量子位之间产生强烈的纠缠，形成了GHZ态。这种状态对于测试量子纠缠和量子通信协议极为重要。
+% //TODO: add figure
+
+\paragraph{量子随机游走（QRW）}
+量子随机游走是在量子态空间中的随机游走，与经典随机游走在概率分布上有本质的不同。QRW在量子算法设计、量子搜索以及量子密码学中有广泛的应用。它是理解量子计算概念和开发新量子算法的一个有力工具。
+
+量子随机游走（QRW）的量子电路设计依赖于叠加和纠缠的特性，以及量子干涉效应。电路通过交替应用移动操作和硬币投掷操作（用量子逻辑门实现）在量子位上模拟随机游走的过程。这种设计可以在量子计算中模拟复杂的概率过程，为开发新算法提供了一种工具。
+本次实验中，选取了在$0$到$2^n-1$循环链上的量子随机游走。
+% //TODO: add figure
+
+\subsection*{实验量化指标选择}
 在这实验过程中，时间资源可以用计算过程中的耗时度量。空间资源方面，由于不同编译语言，不同计算平台之间存在差异。所以用计算过程中TDD节点个数进行度量空间资源。
 同时由于最大节点数可以表现实验中内存资源占用最多的时刻。因此实验中通过比较最大节点数讨论空间资源占用。
-具体实验方面，\ref{sec-optimize}节中具体讨论了五种进一步的优化方案。分别是调整TDD索引顺序，addition 和 contraction 两种通过线路拆分进行优化的方案，以及TDD拆分和用子空间近似表示两种对TDD优化方法。其中调整TDD索引顺序是在实验前进行的，因此这里不再展示。最后本章节中的实验是在Intel Xeon-Gold-5215 CPU，512GB RAM的硬件平台进行的。
+具体实验方面，\ref{sec-optimize}节中具体讨论了五种进一步的优化方案。分别是调整TDD索引顺序，addition 和 contraction 两种通过线路拆分进行优化的方案，以及TDD拆分和用子空间近似表示两种对TDD优化方法。其中调整TDD索引顺序是在实验前进行的，因此这里不再展示。 
+最后本章节中的实验是在Intel Xeon-Gold-5215 CPU，512GB RAM的硬件平台进行的。
 \section{线路划分技术的参数选择}
 \label{sec-para}
 本节中都以Grover\_15线路为例，研究不同参数线路划分方案性能的影响。
@@ -57,7 +95,9 @@
         1                          & 2.8                                              & 2.2                         & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}2.0                      & 2.1                        & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & 2.2                         & 2.1                         & 2.1                         \\ \cline{3-7}
         \rowcolor[HTML]{CCC0DA} 
         
-        \rowcolor[HTML]{FFFFFF} 
+        \rowcolor[HTML]{FFFFFF}
+        2                          & \multicolumn{1}{l|}{2.6} & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                       & \cellcolor[HTML]{CCC0DA}2.0                         & 2.3                         & \cellcolor[HTML]{CCC0DA}2.0                        & 2.3                         & 2.3                         & 2.4                         \\
+\rowcolor[HTML]{FFFFFF}  
         3                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.1                        & 2.1                         & 2.5                         & 2.3                         & 2.7                         & 2.3                         & 3.1                         & 2.8                         & 3.3                         \\
         \rowcolor[HTML]{FFFFFF} 
         4                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.3} & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & 2.2                        & 2.1                         & 2.6                         & 2.3                         & 2.8                         & 2.7                         & 3.3                         & 3.0                         & 3.3                         \\
