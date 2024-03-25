@@ -30,9 +30,12 @@
 在量子计算机上可以执行各种算法和计算任务，如量子搜索\citep{Grover_1996}、量子因子分解\citep{Shor}和量子模拟\citep{Feynman}等。量子计算的潜力在于其能够在某些特定问题上比经典计算机更高效地进行计算，尤其在处理大规模数据和解决复杂问题方面具有潜在优势。
 
 \subsection{量子力学}
-量子力学有两种主要的表述：波动力学和矩阵力学。其中波动力学由Erwin Schrödinger首创，矩阵力学由Werner Heisenberg首创。波动力学使用微分方程为数学基础，更接近于经典物理的波动理论，适用于处理时间演化问题和连续系统。
-而矩阵力学使用线性代数为数学基础，适用于具有离散能级的系统。由于在量子计算中，大量使用矩阵力学作为理论基础。
+% 量子力学有两种主要的表述：波动力学和矩阵力学。其中波动力学由Erwin Schrödinger首创，矩阵力学由Werner Heisenberg首创。波动力学使用微分方程为数学基础，更接近于经典物理的波动理论，适用于处理时间演化问题和连续系统。
+% 而矩阵力学使用线性代数为数学基础，适用于具有离散能级的系统。由于在量子计算中，大量使用矩阵力学作为理论基础。
+% 因此本小节主要介绍矩阵力学。
+在量子计算中，大量使用矩阵力学作为理论基础。
 因此本小节主要介绍矩阵力学。
+矩阵力学以线性代数为基础，根据实验物理中总结的假设，建立了完整描述量子系统的理论体系。
 \subsubsection*{线性代数}
 线性代数的基本研究对象是向量空间(vector space)，也称作线性空间(Linear Spaces)。这是一种抽象的数学结构，用于描述向量的集合。向量空间在向量加法(Vector Addition)和标量乘法(scalar multiplication)封闭\cite{greub2012linear}。
 对于一个向量空间，向量的类型满足特定条件。向量可以是几何向量、函数、多项式或任何满足向量空间公理的对象。
@@ -357,7 +360,6 @@
 
 而和经典线路模型不同，量子线路一般会固定阅读方向。量子信息固定从左到右传递。因此量子线路模型也可以看作经过一系列量子门，将线路左边的输入量子状态转换为线路右边的输出量子状态的模型。
 综上通过量子线路可以描述各种量子计算的过程。
-% //TODO: add more
 \begin{example}
     单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
 \(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子线路符号表示如图\ref{fig-h}所示。
@@ -411,7 +413,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 \end{equation}
 
 
-系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)，其中\(s_0\in S_0\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\)，对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\)，\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S_0\)为开始的路径，构成了路径集合\(Path\left(S_0\right)\)。
+系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)，其中\(s_0\in S_0\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\)，对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\)，\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S_0\)中元素为开始的路径，构成了路径集合\(Path\left(S_0\right)\)。
 
 量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。量子迁移系统的具体定义如定义\ref{def-model-q}所示。
 \begin{definition}\citep{2021}
@@ -425,22 +427,20 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 \begin{example}
     % //TODO: rewrite
     \label{ex-transition}
-    图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的交通指挥灯模型。在该模型中，交通指挥灯系统状态将在红黄绿三种交通状态中切换。
-    因此在该例子中，系统状态\(S=\{Red,\ Green,\ Yellow\}\)，即三种通行状态。系统初态是\(S_0 = \{Red\}\)。
-    系统行为\(\Sigma=\{Red\ Timer,\ Green\ Timer,\ Yellow\  Timer\}\)，即三种交通灯的亮起时间。转移关系图中已经展示。
-    在交通灯系统中，考虑到行人过街的安全性，可以定义以下原子命题：
+    图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的可调节台灯系统。
+    在该例子中，系统状态\(S=\{\text{off},\ \text{low},\ \text{high}\}\)，分别代表熄灭，低亮度，高亮度状态。系统初态是\(S_0 = \{\text{off}\}\)。
+    系统行为\(\Sigma=\{\text{p1},\ \text{p2}\}\)，分别表示电源开关和亮度调节开关。转移关系图中已经展示。
+    在台灯系统中，考虑到台灯的亮度，可以定义以下原子命题：
 \begin{itemize}
-    \item \(safe\)：表示行人可以安全开始穿越街道。
-    \item \(continue\)：表示对于已经开始穿越街道的行人，即行人仍在交叉路口内，应继续穿越至安全地带。
-    \item \(stop\)：表示行人不应穿越街道。
+    \item \(\text{light}\)：表示台灯处于照明状态。
+    \item \(\text{bright}\)：表示台灯正在高亮度照明。
 \end{itemize}
-因此\(L\left(Red  \right)=\{stop\}\)，\(L\left(Green \right)=\{safe,\ continue\}\)，\(L\left(Yellow  \right)=\{continue\}\)。
-
-该系统的路径为\(\pi = Red, Green , Yellow , Red , \cdots \)。
+因此\(L\left(\text{off}  \right)=\{\varnothing\}\)，\(L\left(\text{low}\right)=\{\text{light}\}\)，\(L\left(\text{high}  \right)=\{\text{light},\text{bright}\}\)。
+该系统的一条路径为\(\pi = \text{off},\ \text{low}, \ \text{off}, \cdots  \)。该路径是路径集合\(Path(\{\text{off}\})\)的元素。
     \begin{figure}[!htbp]
         \centering
         \includegraphics[width=.6\textwidth]{Img/transition.pdf}
-        \caption{一种简化版的交通指挥灯跃迁系统}
+        \caption{简化版的可调节台灯跃迁系统}
         \label{fig:transition-system}
     \end{figure}
 \end{example}
@@ -450,7 +450,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 \begin{itemize}
     \item \(s\models a,iff \L\left(s\right)\models a\)
     \item \(s\models\exists\varphi,iff\ \pi\models\varphi\)对一些\(\pi\in Path\left(s\right)\)
-    \item \(s\models\forall\varphi,iff\ \pi\models\varphi\)对所有\(π\in Paths\)
+    \item \(s\models\forall\varphi,iff\ \pi\models\varphi\)对所有\(π\in Path(s)\)
     \item \(s\models\lnot\varphi,iff\ s\nvDash\varphi\)
     \item \(s\models\varphi\land\psi,iff\ s\models\varphi\ and\ s\models\psi\)
     \item \(\pi\models O\varphi,iff\ \pi\left[1\right]\models\varphi\)
@@ -480,7 +480,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \item \(\lozenge\varphi\overset{\text{def} }{=} \text{True}U\varphi\)
     \item \(\square\varphi\overset{\text{def} }{=} \neg\lozenge\neg\varphi\)
 \end{itemize}
-图\ref{fig:path-formula}展示了这两种基本路径命题公式的直观示意图。
+图\ref{fig:path-formula}展示了这两种路径命题公式的直观示意图。
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{0.8\textwidth}
@@ -503,7 +503,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \item \(\pi\models\lozenge\square\varphi,iff\exists i\ge 0.\forall j\ge i,\pi[j)\models\varphi\)
     \item \(\pi\models\square\lozenge\varphi,iff\forall i\ge 0.\exists j\ge i,\pi[j)\models\varphi\)
 \end{itemize}
-% //TODO:add some explian
+
 基于此三种可达性问题定义分别如下：
 \begin{itemize}
     \item 可达性：\( Pr^{\mathcal{M}}(s \models \lozenge G) = Pr^M(\pi \models \lozenge G : \pi \in \text{Paths}(s))\)
@@ -511,14 +511,17 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 \end{itemize}
 \begin{example}
-    在例子\ref{ex-transition}中介绍了一个简化版的交通指挥灯的跃迁系统模型。在交通系统中，如果行人可以安全开始穿越，那么在下一个时刻，行人应该继续穿越，直到他们需要停止穿越。这样的命题可以转化为时序命题公式：
-    \begin{equation}
-        safe \rightarrow O(continue\ U\ stop )
-    \end{equation}
-    类似地，需要关心行人总能安全地通过路面。这样的命题可以转化为路径命题公式：
-    \begin{equation}
-        \pi \models \square\lozenge safe
-    \end{equation}
+    在例子\ref{ex-transition}中介绍了一个简化版的可调节台灯的跃迁系统模型。状态\(\text{off}\)满足下列状态公式：
+    \begin{align}
+        & \text{off} \models \lnot\ \text{light} \\
+        & \text{off} \models \lnot\ \text{light} \land \lnot\ \text{bright}
+    \end{align}
+    由于该系统的初态是off。而状态\(\text{off}\)的下一步一定是\(\text{low}\)，同时存在off到达状态high的路径。因此该系统的路径满足下列路径命题公式：
+    \begin{align}
+        & \pi \models O\ \text{light} \\
+        & \pi \models \lozenge \text{bright}
+    \end{align}
+    
 \end{example}
 
 \subsection{量子模型检测使用的量子逻辑}
@@ -769,6 +772,7 @@ QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供
     \centering
     \includegraphics[height=10cm]{Img/QMDD-intro}
     \caption{从矩阵到QMDD的示例\citep{1623982}}
+    % //TODO: rewrite
     \label{fig:qmdd-basic}
 \end{figure}
 
