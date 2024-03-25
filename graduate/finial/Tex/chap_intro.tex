@@ -47,22 +47,22 @@
 随着量子计算硬件的发展，量子系统将越来越复杂。自动化程度低，需要大量人力参与的定理证明方法将难以应对。因此本文中采用的主要方法是量子模型检测。
 而在量子模型检测领域，存在一个关键挑战，即状态空间爆炸问题。量子计算的状态空间\(\mathcal{H}\)维度\(dim\left(\mathcal{H}\right)=2^n\)，其中n为比特数量。随着比特数量的增加，状态空间的维数会指数级地增长，这极大地增加了应用模型检测来验证量子系统属性的复杂度。
 
-为应对这一挑战，可以引入更高效的数据结构，以较少的资源表示量子状态和量子线路，并计算其最终结果。特别地，TDD为量子线路提供了一种紧凑的表示形式，它便于实现张量网络的各种操作，这对模拟量子物理系统至关重要。如图 \ref{fig:P} 所示，通过比较矩阵形式和TDD形式的表示，可以明显看出TDD结构的紧凑性，其中TDD中实线代表高边，虚线代表低边。
+为应对这一挑战，可以引入更高效的数据结构，以较少的资源表示量子状态和量子线路，并计算其最终结果。特别地，TDD为量子线路提供了一种紧凑的表示形式，它便于实现张量网络的各种操作，这对模拟量子物理系统至关重要。如图 \ref{fig:P} 所示，通过比较矩阵形式和TDD形式的表示，可以明显看出TDD在表示量子线路时，结构的紧凑性。其中TDD的实线代表高边，虚线代表低边。
  	 
 \begin{figure}[!htbp]
     \begin{subfigure}[c]{0.4\textwidth}
         \centering
         \includegraphics[width=1.2\textwidth]{Img/matrix_of_tdd.pdf}
-        \caption{矩阵$P$的矩阵形式}
+        \caption{Grover\_3量子线路的矩阵形式}
         \label{fig:mat_P}
     \end{subfigure}
     \begin{subfigure}[c]{0.4\textwidth}
         \centering
         \includegraphics[height=7cm]{Img/tdd_ex.pdf}
-        \caption{矩阵$P$的TDD形式}
+        \caption{Grover\_3量子线路的TDD形式}
         \label{fig:tdd_P}
     \end{subfigure}
-    \caption{应用TDD可以减少存储特殊矩阵的资源}
+    \caption{应用TDD可以减少存储量子线路的资源}
     \label{fig:P}
 \end{figure}
 

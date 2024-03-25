@@ -798,9 +798,19 @@ QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供
 图\ref{fig:qmdd-basic}展示了一个矩阵到最终QMDD的一个过程。
 \begin{figure}[htbp]
     \centering
-    \includegraphics[height=10cm]{Img/QMDD-intro}
-    \caption{从矩阵到QMDD的示例\citep{1623982}}
-    % //TODO: rewrite
+    \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[height =3cm]{Img/qmdd_mat.pdf}
+        \caption{一个clifford+T线路的矩阵形式}
+        \label{fig:qmdd_mat}
+    \end{subfigure}
+    \qquad
+    \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Img/qmdd_dd.pdf}
+        \caption{图\ref{fig:qmdd_mat}中矩阵的QMDD表示}
+    \end{subfigure}
+    \caption{从矩阵到QMDD的示例\citep{niemann2020advanced}}
     \label{fig:qmdd-basic}
 \end{figure}
 
