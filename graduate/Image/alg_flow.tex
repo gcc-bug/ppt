@@ -1,0 +1,35 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{xeCJK}
+\usetikzlibrary{automata, positioning, arrows}
+\begin{document}
+
+\begin{tikzpicture}[node distance = 7cm]
+
+% Define styles
+\tikzstyle{startstop} = [shape = circle, rounded corners, minimum width=1cm, minimum height=1cm,text centered, draw=black]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+% Nodes
+\node (start) [startstop] {用户};
+\node (process1) [process, right of=start] {输入处理模块};
+\node (process2) [process, right of=process1] {内存管理模块};
+\node (process3) [process, below = 3cm of process1] {TDD算法模块};
+\node (process4) [process, right of=process3] {TDD基础模块};
+
+% Arrows
+\draw [arrow] (start) -- (process1) node[midway, fill=white,font=\small] {量子编程语言};
+\draw [arrow] (process1) -- (process2) node[midway, fill=white,font=\small] {量子操作对应的TDD};
+\draw [arrow] (process1) -- (process3) node[midway, fill=white,font=\small] {量子线路的张量索引图};
+\draw [arrow,bend left=30] (process3) to node[midway, fill=white] {优化后的索引收缩顺序} (process4);
+\draw [arrow,bend left = 30] (process4) to node[midway, fill=white] {收缩后的TDD} (process3);
+\draw [arrow] (process4) -- (process2) node[midway, fill=white] {创建收缩后的新TDD};
+
+\draw [arrow,bend left=15] (start) to node[midway, fill=white] {需要验证的属性} (process3);
+\draw [arrow,bend left=30] (process2.east) to node[auto, fill=white] {需创建TDD的地址} (process4.east);
+\draw [arrow,bend left = 30] (process3) to node[midway, fill=white,font=\small] {算法结果} (start);
+
+\end{tikzpicture}
+
+\end{document}
