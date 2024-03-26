@@ -19,7 +19,7 @@
     \item Ts.initial\_states是一个列表，包含所有量子迁移系统的初态。
     \item Ts.operators是一个列表，按顺序包含所有量子线路的操作。
 \end{itemize}
-基于这样 的量子迁移系统设计，可以设计代码段1。
+基于这样 的量子迁移系统设计，可以设计代码段2。
 此代码段核心使用张量收缩技术，以计算量子迁移系统的一次状态转移。具体来说，就是基于系统的初始状态来预测其下一状态空间。这里，simulation函数负责执行量子操作的TDD与量子态的收缩操作，而join函数则用于将得到的新量子状态并入当前状态子空间中。
 因此，代码逻辑首先从系统的初始态出发，构建一个初始的状态子空间。接着，它遍历所有量子操作，对每一个初始态执行操作，通过simulation函数计算操作后的结果，并利用join函数将这些新状态并入到状态子空间中，以完成系统下一步状态空间的构建。
 \begin{lstlisting}[language=Python, caption={利用TDD收缩直接计算一步迁移\label{code-image}}]
@@ -32,10 +32,10 @@ def image(Ts):
     return sp
 \end{lstlisting}
 
-类似地，可以设计代码段2中的addition优化方案。其中tn为表示量子线路的量子张量网络。不同在于其中的Ts的operators将会在运行中生成。
-其他运行逻辑与代码段1类似，码段2的函数首先生成系统的初始状态子空间。然后，对系统中的每个量子操作，通过函数addition\_partition应用分区优化tn的索引，从而得到Ts的量子操作。这一步调整了量子操作，以便提高执行效率。
+类似地，可以设计代码段3中的addition优化方案。其中tn为表示量子线路的量子张量网络。不同在于其中的Ts的operators将会在运行中生成。
+其他运行逻辑与代码段2类似，码段2的函数首先生成系统的初始状态子空间。然后，对系统中的每个量子操作，通过函数addition\_partition应用分区优化tn的索引，从而得到Ts的量子操作。这一步调整了量子操作，以便提高执行效率。
 在应用了优化后的量子操作进行状态转移的计算过程中，函数对每个初始态进行遍历。对于每个量子操作，它初始化一个表示恒等操作的TDD，作为累加的基础。接着，通过遍历量子操作的所有部分，使用simulation函数计算每部分的效果，并利用add函数将这些TDD累加到res中。由于应用索引划分了线路，相当于对张量网络进行了切片。因此这里需要使用TDD的加法，即add函数。这样最后的res就是对应量子初态在执行所有量子操作后的量子状态。最后通过join函数将该量子状态的结果并入到状态子空间中。
-其中的函数addition\_partition如代码段3所示。
+其中的函数addition\_partition如代码段4所示。
 \begin{lstlisting}[language=Python, caption=对量子线路应用addition优化方案计算一步迁移]
 def image_add_par(tn,Ts,k=0):
     sp= generate_initial_space(Ts.initial_states)
@@ -93,10 +93,10 @@ def addition_partition(tn,k=0):
 \end{lstlisting}
 
 
-同样也可以设计对量子线路应用contraction的优化方案，具体如代码段4。该函数利用两个参数k1和k2来调节收缩分区的策略，以达到更优的计算性能。函数的输入的tn和Ts的情况和addition方案相同。tn也是表示量子线路的量子张量网络。Ts的operators同样会在运行中生成。
+同样也可以设计对量子线路应用contraction的优化方案，具体如代码段5。该函数利用两个参数k1和k2来调节收缩分区的策略，以达到更优的计算性能。函数的输入的tn和Ts的情况和addition方案相同。tn也是表示量子线路的量子张量网络。Ts的operators同样会在运行中生成。
 初始步骤与之前类似，函数从生成系统初始状态的子空间开始。不同在于对于量子系统中定义的每个量子操作，根据参数k1和k2，使用contraction\_partition函数对其进行分区。在这一步中Ts中的量子操作将会按块划分，因此之后的Ts中的operators是一个列表，包含所有在该块的量子操作。
 这一步骤的目的是重新组织量子操作的结构，使得后续的计算过程更加高效。
-在经过优化的量子操作上执行状态转移计算时，该函数遍历所有初始状态。对于每一个量子操作，它从当前的量子状态开始，逐步应用经过收缩优化的量子操作的各个部分。这里的simulation函数用于计算经过每一步操作后的结果。每次操作后得到的新状态通过join函数并入到状态子空间中。其中的函数contraction\_partition如代码段5所示。
+在经过优化的量子操作上执行状态转移计算时，该函数遍历所有初始状态。对于每一个量子操作，它从当前的量子状态开始，逐步应用经过收缩优化的量子操作的各个部分。这里的simulation函数用于计算经过每一步操作后的结果。每次操作后得到的新状态通过join函数并入到状态子空间中。其中的函数contraction\_partition如代码段6所示。
 \begin{lstlisting}[language=Python, caption=对量子线路应用contraction优化方案计算一步迁移]
 def image_cont_par(tn,Ts,k1=0,k2=0):
     sp= generate_initial_space(Ts.initial_states)

@@ -60,6 +60,22 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \begin{example}
     \label{ex-image-sub}
     例子\ref{ex-image-grover}将Grover算法的线路建模为量子迁移系统。其中用到了子空间$S=span\{\ket{++-},\ket{11-}\}$。相应投影算子 $P$ 的矩阵和 TDD 表示如图 \ref{fig:P} 所示。
+    \begin{figure}[!htbp]
+        \begin{subfigure}[c]{0.45\textwidth}
+            \centering
+            \includegraphics[width=1.2\textwidth]{Img/matrix_of_tdd.pdf}
+            \caption{投影算子$P$的矩阵形式}
+            \label{fig:mat_P}
+        \end{subfigure}
+        \begin{subfigure}[c]{0.45\textwidth}
+            \centering
+            \includegraphics[height=6cm]{Img/tdd_ex.pdf}
+            \caption{投影算子$P$的TDD形式}
+            \label{fig:tdd_P}
+        \end{subfigure}
+        \caption{子空间$S=span\{\ket{++-},\ket{11-}\}$的矩阵和TDD表示}
+        \label{fig:P}
+    \end{figure}
     根据该TDD表示求解原子空间的基的过程如下：
     \begin{enumerate}
         \item 应用图算法，得到最左侧路径对应于 $(x_1,x_2,x_3,y_1,y_2,y_3)=(0,0,0,0,0,0)$，这意味着投影算子的第一列非零。
@@ -84,7 +100,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 这个过程展示了如何从一组生成向量开始，通过计算和正交化过程，构建出一个复合空间的正交归一化基。在量子计算和量子信息中，这种方法特别有用，因为它允许准确地描述和操控量子态的子空间。
 
 \begin{example}
-    例子\ref{ex-image-grover}中对Grover 3线路建模，例子\ref{ex-image-sub}对涉及的子空间进行了分解。考虑分解的逆过程，设 $P_1,P_2$ 为两个一维子空间 $S_1,S_2$ 的投影算子，分别由 $B_1=\{\ket{++-}\}$ 和 $B_2=\{\ket{11-}\}$ 生成。显然，$P_1=\ket{++-}\bra{++-}$。将 $B_1$ 完善为 $S=S_1\vee S_2$ 的一个基。计算得到$\ket{u}=\ket{11-}-P_1\ket{11-}=\ket{11-}-\frac{1}{4}\ket{++-}=[-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},\frac{3}{4},-\frac{3}{4}]^T$，可以被标准化为 $\ket{v}=-\frac{1}{2\sqrt{3}}(\ket{00}+\ket{01}+\ket{10}-3\ket{11})\ket{-}$。那么 $B=\{\ket{++-},\ket{v}\}$ 是一个正交归一化基，且 $P=P_1+\ket{v}\bra{v}$ 是相应的投影算子。
+    例子\ref{ex-image-grover}中对Grover\_3线路建模，例子\ref{ex-image-sub}对涉及的子空间进行了分解。考虑分解的逆过程，设 $P_1,P_2$ 为两个一维子空间 $S_1,S_2$ 的投影算子，分别由 $B_1=\{\ket{++-}\}$ 和 $B_2=\{\ket{11-}\}$ 生成。显然，$P_1=\ket{++-}\bra{++-}$。将 $B_1$ 完善为 $S=S_1\vee S_2$ 的一个基。计算得到$\ket{u}=\ket{11-}-P_1\ket{11-}=\ket{11-}-\frac{1}{4}\ket{++-}=[-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},-\frac{1}{4},\frac{1}{4},\frac{3}{4},-\frac{3}{4}]^T$，可以被标准化为 $\ket{v}=-\frac{1}{2\sqrt{3}}(\ket{00}+\ket{01}+\ket{10}-3\ket{11})\ket{-}$。那么 $B=\{\ket{++-},\ket{v}\}$ 是一个正交归一化基，且 $P=P_1+\ket{v}\bra{v}$ 是相应的投影算子。
 \end{example}
 \section{计算一步迁移}
 结合子空间的分解算法，可以给出对于量子系统的一步映射算法，具体如算法\ref{alg-image}所示。
@@ -222,16 +238,47 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{example}
 
 \section{软件系统实现}
-% //TODO: add example and figure
-为了实现软件的高效运行，模块化设计至关重要。每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。以下是本次毕业设计中软件必须包含的模块及其重要性的说明：
+% //TODO: add example
+为了实现软件的高效运行，模块化设计至关重要。每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。图\ref{fig-flow}包含了本次研究中必要的软件模块，展示了各个软件模块的调用关系。
+\begin{figure}[htbp]
+    \includegraphics[width=\textwidth]{Img/alg_flow.pdf}
+    \caption{软件模块之间的调用关系}
+    \label{fig-flow}
+\end{figure}
+具体模块的作用如下：
 \begin{itemize}
-    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将这些代码转换为TDD表示形式。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
-    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。当创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。这种方法不仅减少了内存占用，还提高了处理效率。
-    \item \textbf{TDD基础模块}：该模块主要执行TDD节点的压缩操作，或者导出TDD的树状结构图。节点收缩是TDD核心的运算过程，而树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。
-    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中，对TDD进行分割。
+    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将根据代码对应的量子操作，创建相应的TDD，并生成量子线路对应的张量索引图。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
+    \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。该模块还可以导出TDD的树状结构图。树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中，对TDD进行分割。
+    因此该模块的输入是量子线路的张量索引图，以及计算过程和计算结果的TDD。该模块的输出多种多样，可以是线路对应的TDD，也可能是某条属性是否满足。该模块是软件系统的核心，也是可拓展性最好的模块。
+    \item \textbf{TDD基础模块}：该模块主要执行TDD之间的操作，例如TDD节点的收缩或TDD的加法。该模块的输入一般是张量收缩的顺序，输出是满足某些条件或者全部张量收缩后的TDD。
+    \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。每当需要创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。因此该模块的输入主要是某个需要的TDD，输出则会返回该TDD的存储地址。该模块不仅减少了内存占用，还提高了软件系统的运行效率。
+
 \end{itemize}
-通过上述模块的协同工作，
-保证了最终的软件系统能够高效、灵活地处理本文工作中对量子模型检测的各种需求。
+
+\begin{example}
+    以例子\ref{ex-image-grover}中的Grover\_3量子线路的量子模型迁移系统为例。其对应的OpenQASM格式的量子编程代码如代码段1所示。
+\begin{lstlisting}[language=Python, caption={Grover\_3量子线路的qasm代码}]
+OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[3];
+ccx q[0],q[1],q[2];
+h q[0];
+h q[1];
+x q[0];
+x q[1];
+h q[1];
+cx q[0],q[1];
+h q[1];
+x q[0];
+x q[1];
+h q[0];
+h q[1];
+\end{lstlisting}
+输入处理模块首先遍历量子线路，得到如图\ref{fig:addition}的量子索引图。然后根据每个量子门对应的矩阵形式和分配到的索引创建TDD。
+之后输入处理模块将索引图输出给TDD算法模块。
+
+TDD算法模块根据张量索引图和实际验证的属性，对张量索引图进行优化，得到需要收缩的索引和对应的索引顺序。
+\end{example}
 \section{本章小结}
 本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单回顾了如何将量子系统建模为量子迁移系统。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition线路拆分、contraction 线路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
 
