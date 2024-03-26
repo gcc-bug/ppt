@@ -27,6 +27,7 @@
 2019 年，Google AI 和 NASA 宣布他们已经通过有54 量子比特的超导量子计算机上实现了量子霸权(Quantum Supermacy)，执行了任何经典计算机都无法完成的计算\citep{arute2019quantum}。尽管，这一说法的有效性需要更多研究\citep{pednault2019quantum}。但这样的说法极大增强了人们对量子计算机的热情，促进了各国政府与私人机构对该领域的投资。
 
 近几年，物理量子计算机已经开始尝试规模化拓展及容错计算。以2023年为例，接下来列举一些比较重要的硬件发展。在国际方面：
+% //TODO: add refer
 \begin{enumerate}
     \item IBM公司宣布成功开发出了名为“Condor”的超导量子处理器，该处理器拥有1121个量子比特的运算能力。
     \item IonQ公司在钡离子阱平台上，实现了29个算法量子比特的重大成就，展现了离子阱技术在量子计算中的应用潜力。
@@ -50,15 +51,15 @@
 为应对这一挑战，可以引入更高效的数据结构，以较少的资源表示量子状态和量子线路，并计算其最终结果。特别地，TDD为量子线路提供了一种紧凑的表示形式，它便于实现张量网络的各种操作，这对模拟量子物理系统至关重要。如图 \ref{fig:P} 所示，通过比较矩阵形式和TDD形式的表示，可以明显看出TDD在表示量子线路时，结构的紧凑性。其中TDD的实线代表高边，虚线代表低边。
  	 
 \begin{figure}[!htbp]
-    \begin{subfigure}[c]{0.4\textwidth}
+    \begin{subfigure}[c]{0.45\textwidth}
         \centering
         \includegraphics[width=1.2\textwidth]{Img/matrix_of_tdd.pdf}
         \caption{Grover\_3量子线路的矩阵形式}
         \label{fig:mat_P}
     \end{subfigure}
-    \begin{subfigure}[c]{0.4\textwidth}
+    \begin{subfigure}[c]{0.45\textwidth}
         \centering
-        \includegraphics[height=7cm]{Img/tdd_ex.pdf}
+        \includegraphics[height=6cm]{Img/tdd_ex.pdf}
         \caption{Grover\_3量子线路的TDD形式}
         \label{fig:tdd_P}
     \end{subfigure}

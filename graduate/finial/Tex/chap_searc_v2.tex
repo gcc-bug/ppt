@@ -17,8 +17,8 @@
 % 量子力学有两种主要的表述：波动力学和矩阵力学。其中波动力学由Erwin Schrödinger首创，矩阵力学由Werner Heisenberg首创。波动力学使用微分方程为数学基础，更接近于经典物理的波动理论，适用于处理时间演化问题和连续系统。
 % 而矩阵力学使用线性代数为数学基础，适用于具有离散能级的系统。由于在量子计算中，大量使用矩阵力学作为理论基础。
 % 因此本小节主要介绍矩阵力学。
-在量子计算中，大量使用矩阵力学作为理论基础。
-因此本小节主要介绍矩阵力学。
+在量子计算中，主要使用矩阵力学作为理论基础。
+本小节主要介绍矩阵力学。
 矩阵力学以线性代数为基础，根据实验物理中总结的假设，建立了完整描述量子系统的理论体系。
 \subsubsection*{线性代数}
 线性代数的基本研究对象是向量空间(vector space)，也称作线性空间(Linear Spaces)。这是一种抽象的数学结构，用于描述向量的集合。向量空间在向量加法(Vector Addition)和标量乘法(scalar multiplication)封闭\cite{greub2012linear}。
@@ -275,7 +275,7 @@
 \end{theorem}
 由于测量结果的概率和为1，因此测量算子${M_m}$满足完备性，即：
 \begin{align}
-    \sum_m M_m\dagger M_m = I
+    \sum_m M_m^\dagger M_m = I
 \end{align}
 假设测量前量子系统的状态为\(|\psi\rangle\)，那么测量后得到结果m的概率为
 \begin{align}
@@ -351,8 +351,8 @@
 受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。可以从矩阵形式看到当控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
 输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。
 
-在量子线路中，量子测量是量子计算的一个关键环节。它涉及到对量子比特的状态进行观测，从而获取信息。与传统的二进制比特不同，量子比特可以处于叠加态，同时代表0和1。当对一个量子比特进行测量时，它会从其叠加态“坍缩”到一个确定的状态，即0或1，这个过程是随机的，但概率可以通过量子态的波函数来预测，具体计算过程如假设\ref{th-measurement}所示。
-在量子电路中，测量通常是在计算过程的最后进行，用于读取和解释量子算法的结果。
+在量子线路中，量子测量是量子计算的一个关键环节。它涉及到对量子比特的状态进行观测，从而获取信息。与传统的二进制比特不同，量子比特可以处于叠加态，同时代表0和1。当对一个量子比特进行测量时，它会从其叠加态“坍缩”到一个确定的状态，即0或1，这个过程是随机的，但概率可以通过量子态的波函数来预测。概率的计算过程遵循假设\ref{th-measurement}。
+在量子电路中，测量通常是在计算过程的最后进行，用于读取和解释量子线路的结果。
 \begin{example}
     \label{ex-epr}
     图\ref{fig:example_cir} 所示的量子线路展示了一个具体的量子线路示例，可以用于制备EPR态。
@@ -521,10 +521,12 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
         & \text{off} \models \lnot\ \text{light} \\
         & \text{off} \models \lnot\ \text{light} \land \lnot\ \text{bright}
     \end{align}
-    由于该系统的初态是off。而状态\(\text{off}\)的下一步一定是\(\text{low}\)，同时存在off到达状态high的路径。因此该系统的路径满足下列路径命题公式：
+    由于该系统的初态是off。而状态\(\text{off}\)的下一步一定是\(\text{low}\)
+    % ，同时存在off到达状态high的路径
+    。因此该系统的路径满足下列路径命题公式：
     \begin{align}
-        & \pi \models O\ \text{light} \\
-        & \pi \models \lozenge\ \text{bright}
+        & \pi \models O\ \text{light} 
+        % & \pi \models \lozenge\ \text{bright}
     \end{align}
     
 \end{example}
@@ -835,7 +837,7 @@ QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供
     \qquad
     \begin{subfigure}[b]{.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Img/qmdd_dd.pdf}
+        \includegraphics[height=6cm]{Img/qmdd_dd.pdf}
         \caption{图\ref{fig:qmdd_mat}中矩阵的QMDD表示}
     \end{subfigure}
     \caption{从矩阵到QMDD的示例\citep{niemann2020advanced}}
