@@ -15,20 +15,20 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 
 一个向量表示为$[\alpha_0,\alpha_1]$的量子比特x可以描述为秩为1的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特x和输出比特y的单比特门可以表示为秩为2的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或线路时会规定关于其信息。
 \begin{example}
-    以单比特门Z门为例，其矩阵形式如式子\ref{eq-pauli}。当以x作为输入比特索引和y作为输出比特索引时，Z门的张量表示如式子\ref{eq-tensor-z}所示。
+    以单比特门Z门为例，其矩阵形式如式子(\ref{eq-pauli})。当以x作为输入比特索引和y作为输出比特索引时，Z门的张量表示如式子(\ref{eq-tensor-z})所示。
     \begin{align}
         \label{eq-tensor-z}
         \phi_{xy}\left(00\right)=1,\phi_{xy}\left(01\right)=0,\phi_{xy}\left(10\right)=0,\phi_{xy}\left(11\right)=-1
     \end{align}
 \end{example}
 
-张量之间最重要的运算之一是收缩(contraction)。收缩是通过对共享索引求和获得新的张量。具体来说，设 张量$\gamma_{\overrightarrow{x},\overrightarrow{z}}$ 和 $\xi_{\overrightarrow{y},\overrightarrow{z}}$ 的共享索引集 是$\overrightarrow{z}$。设收缩后的新张量为 $\phi_{\overrightarrow{x},\overrightarrow{y}}$，则其表达式如式子\ref{eq-contraction}所示。
+张量之间最重要的运算之一是收缩(contraction)。收缩是通过对共享索引求和获得新的张量。具体来说，设 张量$\gamma_{\overrightarrow{x},\overrightarrow{z}}$ 和 $\xi_{\overrightarrow{y},\overrightarrow{z}}$ 的共享索引集 是$\overrightarrow{z}$。设收缩后的新张量为 $\phi_{\overrightarrow{x},\overrightarrow{y}}$，则其表达式如式子(\ref{eq-contraction})所示。
 \begin{equation}
 \label{eq-contraction}
 \phi_{\overrightarrow{x},\overrightarrow{y}}(\overrightarrow{a},\overrightarrow{b}) = \sum_{\overrightarrow{c} \in \{0,1\}^{\overrightarrow{z}}} \gamma_{\overrightarrow{x},\overrightarrow{z}}(\overrightarrow{a}, \overrightarrow{c}) \cdot \xi_{\overrightarrow{y},\overrightarrow{z}}(\overrightarrow{b}, \overrightarrow{c}).
 \end{equation}
 
-另一个重要的张量操作是切片(slicing)，它对应于布尔函数的余因子运算。设 $\phi$ 是索引序列为 $I$ 上的张量。任取一个索引\(x\in I\)，对 $\phi$ 进行关于 $x = c$ 与 $c \in \{0, 1\}$ 的切片也是一个张量 $\phi|_{x=c}$，在索引集 $I' =I/\{x\}$ 上定义如式子\ref{eq-slicing}所示。
+另一个重要的张量操作是切片(slicing)，它对应于布尔函数的余因子运算。设 $\phi$ 是索引序列为 $I$ 上的张量。任取一个索引\(x\in I\)，对 $\phi$ 进行关于 $x = c$ 与 $c \in \{0, 1\}$ 的切片也是一个张量 $\phi|_{x=c}$，在索引集 $I' =I/\{x\}$ 上定义如式子(\ref{eq-slicing})所示。
 \begin{equation}
     \label{eq-slicing}
 \phi|_{x=c}(\overrightarrow{a}) := \phi(c, \overrightarrow{a})
@@ -48,7 +48,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 \begin{example}
     \label{ex-tensor}
     以图\ref{fig:example_cir_2}中的量子线路为例，线路中包含$T$和$H$两个不同的单比特门，以及一个两比特的受控非门$CX$。
-式子\ref{eq-hardmard}，\ref{eq-t}，\ref{eq-cx}分别给出了$H,T,CX$门的矩阵形式，可以看到$T$门是一个对角门，即$T$门不改变输入态，而是根据输入态作用一个相位。同时$CX$不改变控制比特。因此可以只用索引$x_0$表示第一个比特。
+式子(\ref{eq-hardmard})，\ref{eq-t}，\ref{eq-cx}分别给出了$H,T,CX$门的矩阵形式，可以看到$T$门是一个对角门，即$T$门不改变输入态，而是根据输入态作用一个相位。同时$CX$不改变控制比特。因此可以只用索引$x_0$表示第一个比特。
 图\ref{fig:example_cir_map}给出了图\ref{fig:example_cir_2}中量子线路中各个状态的索引值，从而可得的张量表示：
 \begin{align}
 \label{eq-tensor}
@@ -67,7 +67,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
     \label{fig:example_cir_map}
 \end{figure}
 假如需要知道图\ref{fig:example_cir_2}中，输入态为\(\ket{00}\)时，线路输出态的状态。
-可以利用张量表示，即式子\ref{eq-tensor}计算可能的输出态。当式子\ref{eq-tensor}取\(x_0 = 0, y_0 = 0, y_1 = 0\)时计算过程如下：
+可以利用张量表示，即式子(\ref{eq-tensor})计算可能的输出态。当式子(\ref{eq-tensor})取\(x_0 = 0, y_0 = 0, y_1 = 0\)时计算过程如下：
 \begin{equation}
     \begin{aligned}
 \phi_{x_0x_0y_0y_3}\left(0000\right)&=\sum_{b_1,b_2=0}^{1}T\left(00\right)H\left(0b_1\right)CX\left(00b_1b_2\right)T\left(00\right)H\left(b_20\right)\\ 
@@ -80,7 +80,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
     \end{aligned}
     \label{eq-ex_cal_1}
 \end{equation}
-类似地，当式子\ref{eq-tensor}取\(x_0 = 0, y_0 = 0, y_1 = 1\)时，结算结果为：
+类似地，当式子(\ref{eq-tensor})取\(x_0 = 0, y_0 = 0, y_1 = 1\)时，结算结果为：
 \begin{equation}
     \begin{aligned}
 \phi_{x_0x_0y_0y_3}\left(0001\right)&=0
@@ -109,7 +109,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
 \end{definition}
 
 
-对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= value (v)$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则根据定义，该节点表示的张量如式子\ref{eq-non-term}所示。
+对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= value (v)$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则根据定义，该节点表示的张量如式子(\ref{eq-non-term})所示。
 \begin{align}
     \label{eq-non-term}
     \phi(v):=w_{0} \cdot \overline{x_{v}} \cdot \phi(\operatorname{low}(v))+w_{1} \cdot x_{v} \cdot \phi(h i g h(v))
@@ -130,7 +130,7 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
     \label{fig:tdd_ex}
 \end{figure}
 当需要得到该TDD对应的张量网络中一个索引序列对应的值时，只需要知道图\ref{fig:tdd_ex}中索引对应的边所和连接的最后终端节点的值。将边的权重与最后的终端节点的值乘积起来，就可以知道该索引取值对应的值。
-比如式子\ref{eq-ex_cal_1}计算的\(x_0 = 0, y_0 = 0, y_1 = 0\)所对应的边是图\ref{fig:tdd_ex}中最左边的虚线，而对应的终端节点是最左边的终端节点，因此该张量网络中：
+比如式子(\ref{eq-ex_cal_1})计算的\(x_0 = 0, y_0 = 0, y_1 = 0\)所对应的边是图\ref{fig:tdd_ex}中最左边的虚线，而对应的终端节点是最左边的终端节点，因此该张量网络中：
 \begin{equation}
     \begin{aligned}
 \phi_{x_0x_0y_0y_3}\left(0000\right)
@@ -445,7 +445,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 
 借助新的数据结构TDD，可以更方便的表示量子状态以及量子线路，并计算最终的结果。同时TDD特别适用于实现可达性分析和模型检查算法。这是因为基于BDD的模型检查算法中使用的许多优化技术可以推广到收缩量子线路张量网络上\citep{Chaki_2018}。这些为应用TDD解决量子模型检测问题提供了可能的方案。
 
-在\ref{sec-transition}节中介绍了跃迁系统，其中式子\ref{eq:image}给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
+在\ref{sec-transition}节中介绍了跃迁系统，其中式子(\ref{eq:image})给出了量子跃迁系统的简单定义。这里简单回顾以一下。对于一个希尔伯特空间$\mathcal{H}$ 。基于 $\mathcal{H}$ 的量子转移系统 $\mathcal{M}$ 可以表述为四元组 $(\mathcal{H}, S, \Sigma, \mathcal{T})$，这里 $S$ 作为 $\mathcal{H}$ 的一个封闭子空间，被定义为初始空间。$\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是一系列符号集合，$\mathcal{T}=\mathcal{T}_\sigma, {\sigma \in \Sigma}$ 则代表对 $\mathcal{H}$ 执行的一组量子操作。
 
 
 \begin{example}
