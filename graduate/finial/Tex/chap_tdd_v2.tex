@@ -238,7 +238,6 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
 \end{example}
 
 \section{软件系统实现}
-% //TODO: add example
 为了实现软件的高效运行，模块化设计至关重要。每个模块在软件系统中扮演着关键角色，并且具有特定的功能和目的。图\ref{fig-flow}包含了本次研究中必要的软件模块，展示了各个软件模块的调用关系。
 \begin{figure}[htbp]
     \includegraphics[width=\textwidth]{Img/alg_flow.pdf}
@@ -278,6 +277,16 @@ h q[1];
 之后输入处理模块将索引图输出给TDD算法模块。
 
 TDD算法模块根据张量索引图和实际验证的属性，对张量索引图进行优化，得到需要收缩的索引和对应的索引顺序。
+在本例中，模型待验证的属性是\(\mathcal{T}_1(S)=S\)。其中\(S\)的TDD结构如图\ref{fig:tdd_P}所示。\(\mathcal{T}_1\)为整个量子线路。按照图\ref{fig:addition}中的索引图对量子线路的收缩不进行优化，直接收缩后，得到TDD结构如图\ref{fig-tdd-grover}。将图\ref{fig-tdd-grover}和图\ref{fig:tdd_P}的两个TDD收缩后，得到就是\(\mathcal{T}_1(S)\)。结果表明该量子迁移系统满足属性。
+
+在本例的验证过程中，存在大量的优化空间。例如转移关系的TDD生成，即量子线路的收缩，可以通过量子线路拆分技术优化。子空间的TDD表示也可以通过子空间近似表示进行优化，如例\ref{ex-image-sub}。而量子空间与转移的TDD都可以应用基于TDD结构的窗函数进行优化。
+这些灵活丰富的优化方案是提升量子模型检测效率的关键。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=10cm]{Img/reduced_tree.pdf}
+    \caption{图\ref{fig:grover}中Grover\_3量子线路的TDD形式}
+    \label{fig-tdd-grover}
+\end{figure}
 \end{example}
 \section{本章小结}
 本章主要介绍了在本文工作中采用的基于张量决策图(TDD)的量子模型检测方法。首先简单回顾了如何将量子系统建模为量子迁移系统。然后给出了计算子空间基、子空间并运算、以及系统一步迁移的算法。为加速模型检测，本章还介绍了一些针对性优化方法，包括索引顺序调整、addition线路拆分、contraction 线路拆分、基于TDD的划分，以及近似TDD表示等技术。最后，概述了软件系统的模块化设计，包括输入处理、内存管理、TDD基础运算和TDD算法等模块。
