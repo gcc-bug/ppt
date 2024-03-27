@@ -24,7 +24,7 @@
 的绝热量子计算机(Quantum Annealing)“Orion”。2011年，DWave官宣发布了全球第
 一款商用型量子计算机“D-Wave One”，其构建了128个量子比特，声称用来解
 决最优化问题。
-2019 年，Google AI 和 NASA 宣布他们已经通过有54 量子比特的超导量子计算机上实现了量子霸权(Quantum Supermacy)，执行了任何经典计算机都无法完成的计算\citep{arute2019quantum}。尽管，这一说法的有效性需要更多研究\citep{pednault2019quantum}。但这样的说法极大增强了人们对量子计算机的热情，促进了各国政府与私人机构对该领域的投资。
+2019 年，Google AI 和 NASA 宣布通过在有54 量子比特的超导量子计算机上，实现了量子霸权(Quantum Supermacy)，执行了任何经典计算机都无法完成的计算\citep{arute2019quantum}。尽管，这一说法的有效性需要更多研究\citep{pednault2019quantum}。但这样的说法极大增强了人们对量子计算机的热情，促进了各国政府与私人机构对该领域的投资。
 
 近几年，物理量子计算机已经开始尝试规模化拓展及容错计算。以2023年为例，接下来列举一些比较重要的硬件发展。在国际方面：
 \begin{enumerate}
@@ -45,7 +45,7 @@
 %   \item 模型检验的挑战
 % \end{itemize}
 随着量子计算硬件的发展，量子系统将越来越复杂。自动化程度低，需要大量人力参与的定理证明方法将难以应对。因此本次研究专注于更加自动化的量子模型检测。
-而在量子模型检测领域，存在一个关键挑战，即状态空间爆炸问题。量子计算的状态空间\(\mathcal{H}\)维度\(dim\left(\mathcal{H}\right)=2^n\)，其中n为比特数量。随着比特数量的增加，状态空间的维数会指数级地增长，这极大地增加了应用模型检测来验证量子系统属性的复杂度。
+而在量子模型检测领域，存在一个关键挑战，即状态空间爆炸问题。量子计算的状态空间\(\mathcal{H}\)维度\(dim\left(\mathcal{H}\right)=2^n\)，其中$n$为比特数量。随着比特数量的增加，状态空间的维数会指数级地增长，这极大地增加了应用模型检测来验证量子系统属性的复杂度。
 
 为应对这一挑战，能否通过引入更高效的数据结构，从而以较少的资源表示量子状态和量子线路，并计算量子模型检测的最终结果。
 同时，在新的数据结构下能否有更好的优化方案，进一步降低量子模型检测过程中的计算资源的消耗。
@@ -57,7 +57,9 @@
 \section{研究现状与相关工作}
 量子模型检测的早期工作集中在验证量子通信协议。随着量子计算的不断发展，逐渐出现了对量子程序的验证工具。
 如今量子模型检测又集中在了线路验证方面的工作。
-在整个量子模型检测的发展过程中，我国国内的研究者Mingsheng Ying， Yuan Feng 等人深入参与并深刻影响了该领域的研究。
+在整个量子模型检测的发展过程中，我国国内的研究者Mingsheng Ying
+% ， Yuan Feng 
+等人深入参与并深刻影响了该领域的研究。
 
 量子模型检测的早期工作旨在验证量子通信协议。由于量子叠加态的特殊性质，量子测量带有概率性。因此David Parker等人采用概率模型检测工具PRISM\citep{kwiatkowska2004probabilistic}来验证量子协议的正确性，如超密编码、量子传输和量子纠错等。
 之后在引入外源量子命题逻辑(Exogenous Quantum Propositional Logic，或EQPL)\citep{mateus2006weakly}的基础上，Pedro Baltazar等人研究了量子计算树逻辑(Quantum Computation Tree Logic，或QCTL)模型检测问题，并验证了量子密钥分发BB84协议\citep{bennett2014quantum}的正确性\citep{baltazar2008quantum,baltazar2007towards}。类似地，在在引入外源量子命题逻辑后，Paulo Mateus等人则研究了量子线性时序逻辑(Quantum Linear-time temporal Logic，或QLTL)的模型检测问题\citep{mateus2009temporal}。Timothy Davidson等人将量子通信协议在量子通信进程(Communicating Quantum Processes，或CQP)\citep{gay2005communicating}中建模，并检测了由QCTL指定的相关属性\citep{davidson2012formal,davidson2012model}。
@@ -65,12 +67,14 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具\cite
 
 此外，模型检测技术也被应用于一般量子系统的检测，包括物理系统和量子程序。Mingsheng Ying等人采用量子自动机(Quantum Automata，或QA)作为系统模型\citep{kondacs1997power}，在Birkhoff-von Neumann量子逻辑\citep{birkhoff1987logic}的基础上提出了一种检测某些线性时间属性的方法\citep{ying2014model}。Yangjia Li等人在此基础上研究了量子自动机的可达性问题\citep{li2014decidable}。Shenggang Ying等人还研究了量子马尔科夫链(Quantum Markov Chains)\citep{ying2013verification}和量子马尔科夫决策过程的模型检测问题，并提出了一种分解马尔科夫链的新量子图理论\citep{ying2013reachability,ying2018reachability}。Yuan Feng等人引入超算子值马尔科夫链概念，作为量子程序和通信协议的高级模型，并开发了检测一系列属性的算法\citep{feng2013model,feng2013reachability,feng2017model}。此外，Yuan Feng等人还开发了一个基于概率模型检测工具Iscas Mc\citep{hahn2014iscas}的量子程序和协议的模型检测工具QPMA\citep{feng2015qpmc}。
 
-随着量子计算硬件规模的快速增长，量子线路的验证成为一个重要问题。开始的研究主要集中在二元决策图(Binary Decision Diagrams， 或BDD)在量子计算下的推广算法，如量子信息决策图(Quantum Information Decision Diagram，或QuIDD)\citep{Viamontes_2003}，量子多值决策图(Quantum multiple-valued Decision Diagram，或QMDD)\citep{Seiter_2013}等，从而对组合式量子线路进行等效性检测。最近的研究结构为张量决策图(Tensor Decision Diagram，或TDD)\citep{Hong_2022}。
+随着量子计算硬件规模的快速增长，量子线路的验证成为一个重要问题。开始的研究主要集中在二元决策图(Binary Decision Diagrams， 或BDD)在量子计算下的推广算法，如量子信息决策图(Quantum Information Decision Diagram，或QuIDD)\citep{Viamontes_2003}，量子多值决策图(Quantum Multiple-valued Decision Diagram，或QMDD)\citep{Seiter_2013}等，从而对组合式量子线路进行等效性检测。最近的研究结构为张量决策图(Tensor Decision Diagram，或TDD)\citep{Hong_2022}。
 
 显然，随着越来越复杂的物理可实现化的硬件出现，将会出现更加复杂的，更加针对于的，新的验证问题。比如量子存储\citep{Kerckhoff_2010}，量子反馈网络\citep{Gough_2008}，重复至成功(Repeated Until Success，或RUS)的量子线路\citep{Bocharov_2015}。量子模型检测的高度自动化为量子线路的验证提供了更多便利。
 
 过去量子模型检测研究追求的是普遍性，即只针对检测量子系统的一般可达性和时间逻辑属性。未来量子模型检测的最重要目标是寻找一类更简单易于检测的属性。这是因为当前量子模型检测的执行效率非常低，且仅适用于非常小规模和深度较小的量子线路。因此，需要确定一类更简单易于检测的属性，以便当前的量子模型检测工具可以高效地进行检测\citep{ying2021model}。
-这需要更多在时序逻辑上的研究工作。但同时更实用的模型检测工具也能在研究相关属性起到一定帮助。
+这需要更多在时序逻辑上的研究工作。但同时更实用的模型检测工具也能在
+% 研究相关属性
+这一研究过程中起到一定帮助。
 
 % \subsection{国外研究进展}
 % \subsection{国内研究进展}
@@ -92,7 +96,7 @@ Simon J. Gay等人还开发了用于量子通信协议的模型检测工具\cite
 % 研究的主要目的是验证TDD在量子模型检测的实用性，即在保证自动化验证的前提下，验证利用TDD能否更快地验证量子系统的状态是否满足给定的属性。
 % 具体方法是基于
 % 模型检测将待检测的系统建模为一个跃迁系统(transition system)，在时序逻辑(temporal logic)中指定待验证的属性。给定模型\(M\) 和属性\(\varphi\)，模型检测将验证是否\(M\)满足\(\varphi\)。在不同的模型检测方法中，高级符号模型检查(Advanced Symbolic Model Checking)\citep{Grobelna_2015}使用简化的有序二叉决策图(Reduced Ordered Binary Decision Diagrams，ROBDDs 或 BDDs)\citep{Bryant_1986}来表示状态集合和转移关系。通过迭代调用图像计算算法来计算所有可达状态，判断一个模型是否满足时间属性，直到达到不动点为止。
-本次研究的主要挑战是计算资源的指数级增长。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。而目前对量子线路表达效率较好的是基于张量网络(tensor network)的张量决策图(tensor decision diagrams)。因此本文主要工作是使用TDD作为数据结构，构建量子模型检测，并通过具体实验验证方案的效率提升。
+本次研究的主要挑战是计算资源的指数级增长。由于量子线路运算空间随着量子比特的线性增加而指数级膨胀，传统的计算方法并不能很好应对。而目前对量子线路表达效率较好的是基于张量网络(Tensor Network)的张量决策图(Tensor Decision Diagrams)。因此本文主要工作是使用TDD作为数据结构，构建量子模型检测，并通过具体实验验证方案的效率提升。
 
 
 如今量子计算存在大量的验证需求，因此非常需要可靠的验证工具。
@@ -172,11 +176,11 @@ TDD相关概念的介绍，从张量网络表示量子线路出发。基于张�
 
 第四章为 \textbf{实验设计与评估}，该章节
 设计并评估了多种模型检测的优化方法，重点分析了线路拆分和TDD结构优化对降低资源消耗的效果。
-该章节是基于对第三章中的多种优化方法，以一步迁移算法为例，进行的数值实验。
+该章节的主要内容是基于对第三章中的多种优化方法，以一步迁移算法为例，进行的数值实验。
 首先以同样的量子线路Grover\_15为例，讨论了参数选取范围对线路拆分方法的影响，并给出了比较好的参数选取建议。
 然后选取了Grover, QFT, BV, GHZ, QRW
 五种不同的量子线路算法，根据参数对方案选择的影响，选择了合适的addition和contraction
 算法参数进行了实验，从而比较两种方法的适用性。最后以Grover\_40和QFT\_100为例，讨论了基于TDD结构的两种方法的适用性。
 
 第五章为 \textbf{总结与展望}，该章节主要
-是对全文内容进行总结，并对未来该研究内容的研究方向进行了展望。
+是对全文内容进行总结，并对本次研究内容的进一步发展进行了展望。
