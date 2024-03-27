@@ -1,13 +1,12 @@
 \chapter{背景介绍}
 本章中简要介绍本文工作中的一些重要的基础知识。本章将分为三节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。第三节介绍TDD相关背景，包含TDD的定义和与类似方法的比较。
 \section{量子计算简介}
-本节将简单介绍量子计算相关的背景内容，具体内容可以参考
+本节将分两个部分介绍量子计算相关背景，第一部分介绍量子力学，第二部分介绍量子线路模型，具体内容可以参考
 \citep{nielsen2010quantum}。
-本节将分两个部分介绍量子计算相关背景，第一部分介绍量子力学，第二部分介绍量子线路模型。
 
-量子计算机(quantum computer)是一种利用量子比特特性进行计算的一种设备。
-而量子力学就是描述量子比特特性的理论。
-量子比特的特殊性质在于其可以同时处于多种状态，这与经典比特的二进制状态不同。量子比特的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即可以进行内积运算(inner product)的复向量空间。因此比特状态可以用\(\mathcal{H}\)的向量表示，量子操作用\(\mathcal{H}\)上的线性算子(linear operator)表示。
+量子计算机(quantum computer)是一种利用量子比特特性进行计算的设备。
+而量子力学是描述量子比特特性的理论。
+量子比特的特殊性质在于其可以处于叠加态，这与经典比特的二进制状态不同。量子比特的状态空间可以用希尔伯特空间(Hilbert space)\(\mathcal{H}\)表示\citep{nielsen2010quantum}，即定义了内积运算(inner product)的复向量空间。因此量子比特状态可以用\(\mathcal{H}\)中的向量表示，量子操作用\(\mathcal{H}\)上的线性算子(linear operator)表示。
 
 而量子线路(quantum circuit)是一种描述量子计算的模型\citep{nielsen2010quantum}。在量子线路中，通过量子比特的初始化、应用量子门、测量以及其他可能的操作的序列来构建和执行量子计算任务。量子线路通常从左向右阅读，每个量子门的作用是将输入的量子比特状态转变为输出状态，该过程可以认为是量子门的酉矩阵与输入的量子状态的乘积。
 
@@ -36,7 +35,7 @@
 \end{enumerate}
 \end{definition}
 
-当$T$是\(T: V \rightarrow V\)的线性算子，则称$T$是定义在向量空间$V$上的线性算子。其中恒等算子(identity operator)是一类特殊的线性算子，其定义如定义\ref{def-id}所示。
+当$T$是\(V \rightarrow V\)的线性算子，则称$T$是定义在向量空间$V$上的线性算子。其中恒等算子(identity operator)是一类特殊的线性算子，其定义如定义\ref{def-id}所示。
 \begin{definition}\citep{greub2012linear}
     \label{def-id}
     设 \(V\) 是一个向量空间，$T$是向量空间$V$上的线性算子。$T$是恒等算子，当且仅当$T$满足以下条件：
@@ -74,7 +73,7 @@
 
 
 矩阵力学的数学基础建立在希尔伯特空间\(\mathcal{H}\)，即一个可以进行内积运算的复向量空间。
-希尔伯特空间中的向量由复数\(n\)元组\(\left(c_1,c_2,\cdots,c_n\right)\)构成，可以记作\(\mathbb{C}^n\)，其中\(c\)表示复数。因此复向量也可以有以下列矩阵形式：
+希尔伯特空间中的向量由复数\(n\)元组\(\left(c_1,c_2,\cdots,c_n\right)\)构成，可以记作\(\mathbb{C}^n\)，其中\(\mathbb{C}\)表示复数。因此复向量也可以有以下列矩阵形式：
 \begin{align}
     \left[\begin{matrix}
         c_1\\c_2\\\vdots\\c_n
@@ -202,15 +201,15 @@
     |\alpha|^2+|\beta|^2  = 1
     \label{eq-cal}
 \end{align}
-等式\ref{eq-cal}确保了$|\psi\rangle$的模长为1，即保证了$|\psi\rangle$是单位向量：
+等式(\ref{eq-cal})确保了$|\psi\rangle$的模长为1，即保证了$|\psi\rangle$是单位向量：
 \begin{align}
     \langle\psi|\psi\rangle = 1
     \label{eq-norm}
 \end{align}
-等式\ref{eq-norm}称为状态向量的归一化条件(normalization condition)。
+等式(\ref{eq-norm})称为状态向量的归一化条件(normalization condition)。
 而\(\alpha,\beta\)也被称为对应基状态向量的振幅(amplitude)。
 \begin{example}
-    式子\ref{eq-entag}中的叠加态，处在$|0\rangle$状态的振幅为$\frac{1}{\sqrt{2}}$，处在$|1\rangle$状态的振幅为$-\frac{1}{\sqrt{2}}$。
+    式子(\ref{eq-entag})中的叠加态，处在$|0\rangle$状态的振幅为$\frac{1}{\sqrt{2}}$，处在$|1\rangle$状态的振幅为$-\frac{1}{\sqrt{2}}$。
 \begin{align}
     \label{eq-entag}
     \frac{|0\rangle-|1\rangle}{\sqrt{2}}
@@ -277,7 +276,7 @@
 \begin{align}
     \sum_m M_m^\dagger M_m = I
 \end{align}
-假设测量前量子系统的状态为\(|\psi\rangle\)，那么测量后得到结果m的概率为
+假设测量前量子系统的状态为\(|\psi\rangle\)，那么测量后得到结果$m$的概率为
 \begin{align}
     p(m) = \langle\psi|M_m^\dagger M_m|\psi\rangle
 \end{align}
@@ -291,7 +290,7 @@
     \label{th-com}
 \end{theorem}
 假设\ref{th-com}中的复合系统，假设了子系统之间的相互作用，并没有改变复合系统状态空间的结构。
-此时的复合系统处于直积状态(product state)。例如两个处于\(|0\rangle\)状态的单量子组成的双量子比特的复合系统，可以有以下方式的表示：
+此时的复合系统处于乘积态(product state)。例如两个处于\(|0\rangle\)状态的单量子组成的双量子比特的复合系统，可以有以下方式的表示：
 \begin{align}
     |0\rangle\otimes|0\rangle=\left[\begin{matrix}
         1\\0
@@ -301,7 +300,7 @@
         1\\0\\0\\0
     \end{matrix}\right]
 \end{align}
-类似地，可以得到\(\ket{01},\ket{10},\ket{11}\)的矩阵形式。从而可以得到双量子复合系统的操作。式子\ref{eq-cx}为双量子复合系统中常见的受控非门操作的矩阵形式。
+类似地，可以得到\(\ket{01},\ket{10},\ket{11}\)的矩阵形式。从而可以得到双量子复合系统的操作。式子(\ref{eq-cx})为双量子复合系统中常见的受控非门操作的矩阵形式。
 \begin{align}
     \label{eq-cx}
     CX=\left[\begin{matrix}
@@ -340,7 +339,7 @@
 根据量子门作用的量子比特数，量子门可以被分为单量子比特门(single qubite gate)和多量子比特门(multiple qubit gate)。
 量子门对输入量子状态的作用，可以认为是量子门的酉矩阵与输入的量子状态的乘积。
 
-常见的单量子比特门有Pauli门和Hardmard门，矩阵形式如式子\ref{eq-pauli}和式子\ref{eq-hardmard}所示。
+常见的单量子比特门有Pauli门和Hardmard门，矩阵形式如式子(\ref{eq-pauli})和式子(\ref{eq-hardmard})所示。
 而多量子比特门中比较常见的是双量子比特门。
 以受控门(controlled gate)为例，其
 输入量子比特分别为控制量子比特(control qubit)和目标量子比特(target qubit)。
@@ -348,10 +347,10 @@
 受控$U$门根据控制量子比特的值，决定是否将量子操作$U$作用于目标量子比特。
 若控制量子比特的值为\(|0\rangle\)，则目标量子比特值\(|\psi\rangle\)不变，若控制量子比特的值为
 \(|1\rangle\)， 则目标量子比特值变为\(U|\psi\rangle\)。
-受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。可以从矩阵形式看到当控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
+受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子(\ref{eq-cx})。可以从矩阵形式看到当控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
 输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。
 
-在量子线路中，量子测量是量子计算的一个关键环节。它涉及到对量子比特的状态进行观测，从而获取信息。与传统的二进制比特不同，量子比特可以处于叠加态，同时代表0和1。当对一个量子比特进行测量时，它会从其叠加态“坍缩”到一个确定的状态，即0或1，这个过程是随机的，但概率可以通过量子态的波函数来预测。概率的计算过程遵循假设\ref{th-measurement}。
+在量子线路中，量子测量是量子计算的一个关键环节。它涉及到对量子比特的状态进行观测，从而获取信息。与传统的二进制比特不同，量子比特可以处于叠加态，同时代表0和1。当对一个量子比特进行测量时，它会从其叠加态“坍缩”到一个确定的状态，即0或1。这个过程是随机的，但概率可以通过量子态的波函数来预测。概率的计算过程遵循假设\ref{th-measurement}。
 在量子电路中，测量通常是在计算过程的最后进行，用于读取和解释量子线路的结果。
 \begin{example}
     \label{ex-epr}
@@ -362,7 +361,7 @@
         \caption{制备EPR态的量子线路图}
         \label{fig:example_cir}
     \end{figure}
-    其中有单比特门\(H\)，以及双比特门\(CX\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为$\frac{|00\rangle+|11\rangle}{\sqrt{2}}$。该状态是EPR态的一种，是量子计算中一类重要的纠缠态。对该状态的具体计算过程如式子\ref{eq-eqr-cal}所示。
+    其中有单比特门\(H\)，以及双比特门\(CX\)。假设该量子线路的初始状态为\(\left|\psi\right\rangle=\left|0\right\rangle\left|0\right\rangle\)，则输出状态为$\frac{|00\rangle+|11\rangle}{\sqrt{2}}$。该状态是EPR态的一种，是量子计算中一类重要的纠缠态。对该状态的具体计算过程如式子(\ref{eq-eqr-cal})所示。
 \begin{equation}
     \label{eq-eqr-cal}
     \begin{aligned}
@@ -378,7 +377,7 @@
 
 \end{example}
 % \begin{example}
-%     单量子比特门Hadamard门为例，其矩阵形式为式子\ref{eq-hardmard}。因此其将输入的\(|0\rangle\)状态变换为
+%     单量子比特门Hadamard门为例，其矩阵形式为式子(\ref{eq-hardmard})。因此其将输入的\(|0\rangle\)状态变换为
 % \(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\)状态，\(|1\rangle\)状态变换为\(\frac{|0\rangle-|1\rangle}{\sqrt{2}}\)状态。其量子线路符号表示如图\ref{fig-h}所示。
 % \begin{figure}[htbp]
 %     \centering
@@ -387,7 +386,7 @@
 %     \label{fig-h}
 % \end{figure}
 
-%     而受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子\ref{eq-cx}。若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
+%     而受控门中最常见的是受控非门(controlled not gate)，其矩阵形式为式子(\ref{eq-cx})。若控制量子比特为\(|0\rangle\)则不做变换；若为\(|1\rangle\)则对目标量子比特进行比特翻转，将
 % 输入的\(|0\rangle\)变换为\(|1\rangle\)，\(|1\rangle\)变换为\(|0\rangle\)。其量子线路符号如图\ref{fig-cx}。
 % \begin{figure}[htbp]
 %     \centering
@@ -396,11 +395,11 @@
 %     \label{fig-cx}
 % \end{figure}
 
-% 综上，例子\ref{ex-epr}中，包含一个Hadamard门和一个受控非门的制备EPR态的量子线路。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如式子\ref{eq-eqr-cal}所示。
+% 综上，例子\ref{ex-epr}中，包含一个Hadamard门和一个受控非门的制备EPR态的量子线路。当输入态为\(|00\rangle\)时，输出态为\(\frac{|00\rangle+|11\rangle}{\sqrt{2}}\)。具体计算过程如式子(\ref{eq-eqr-cal})所示。
 
 % \end{example}
 \section{模型检测简介}
-本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而量子模型检测利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，展示了量子逻辑中命题的表示和逻辑结构。这些都为本文工作的研究提供了重要的理论基础。
+本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而本次研究中，选择使用Birkhoff-von Neumann量子逻辑来描述量子系统的性质，命题的表示和逻辑结构。这些都为本文工作的研究提供了重要的理论基础。
 \subsection{跃迁系统}
 \label{sec-transition}
 跃迁系统广泛应用于模型检测中待检测系统的建模，具体定义如定义\ref{def-model}所示。
@@ -410,10 +409,10 @@
     \begin{equation}
         \mathcal{M}=(S, S_0, \Sigma, R)
     \end{equation}
-    其中\(S\)为系统状态集合；\(S_0\)为系统初态集合，因此满足\(S_0\subseteq S\)； $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 表示符号的集合； $R \subseteq S \times \Sigma \times S$ 则代表转移关系。
+    其中\(S\)为系统状态集合；\(S_0\)为系统初态集合，因此满足\(S_0\subseteq S\)； $\Sigma=\{\sigma_1,\ldots,\sigma_m\}$ 是转移关系符号的集合； $R \subseteq S \times \Sigma \times S$ 则代表转移关系。
 \end{definition}
 
-此外迁移系统还需要有\(AP\)描述系统原子命题。$L$是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为命题。对于某个状态集 $S' \subseteq S$，通过转移关系 $R$ 得到的系统状态可以表示为
+此外迁移系统还需要有\(AP\)描述系统原子命题。$L$是标记函数，将状态映射为状态满足的原子命题集合。需要验证的属性\(\varphi\)将表述为逻辑公式。对于某个状态集 $S' \subseteq S$，通过转移关系 $R$ 得到的系统状态可以表示为
 \begin{equation}\label{eq:image}
 R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \in \Sigma\}
 \end{equation}
@@ -424,7 +423,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。量子迁移系统的具体定义如定义\ref{def-model-q}所示。
 \begin{definition}\citep{2021}
     \label{def-model-q}
-    迁移系统为一个四元组，具体包含：
+    量子迁移系统为一个四元组，具体包含：
     \begin{align}
         \mathcal{M}=\{\mathcal{H},S,\Sigma,\mathcal{T}\}
     \end{align}
@@ -451,7 +450,21 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 \end{example}
 
 \subsection{时序逻辑中的可达性问题}
-本小节将简单介绍时序逻辑中的可达性问题，具体内容可以参考\citep{goranko_2023}。经典模型检测使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有两类。状态命题公式(State formulas)：\(\varphi ::=a\left|\exists\varphi\right|\forall \varphi\left|\lnot\varphi\right|\varphi\land\psi\)，其中\(a\in AP\)。以及路径命题公式(Path formulas)：\(\varphi\Colon=O\varphi|\varphi U\psi\)。给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
+本小节将简单介绍时序逻辑中的可达性问题，具体内容可以参考\citep{goranko_2023}。经典模型检测使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有以下两类。
+\begin{definition}
+    给定一个原子命题集合AP，则状态命题公式(State formulas)：
+    \begin{align}
+        \Phi::=a|\exists \varphi| \forall \varphi|\neg \Phi| \Phi_{1} \wedge \Phi_{2}
+    \end{align}
+    其中\(a\in AP\)，\(\varphi\)是路径命题公式。
+
+    路径命题公式(Path formulas)：
+    \begin{align}
+        \varphi:=O \Phi \mid \Phi_{1} U \Phi_{2}
+    \end{align}
+    其中\(\Phi,\Phi_{1},\Phi_{2}\)是状态命题公式。
+\end{definition}
+给定模型的一个状态为\(s\)，路径为\(\pi\)，则具体满足条件分别如下：
 \begin{itemize}
     \item \(s\models a,iff \L\left(s\right)\models a\)
     \item \(s\models\exists\varphi,iff\ \pi\models\varphi\)对一些\(\pi\in Path\left(s\right)\)
@@ -509,12 +522,12 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \item \(\pi\models\square\lozenge\varphi,iff\forall i\ge 0.\exists j\ge i,\pi[j)\models\varphi\)
 \end{itemize}
 
-基于此三种可达性问题定义分别如下：
-\begin{itemize}
-    \item 可达性：\( Pr^{\mathcal{M}}(s \models \lozenge G) = Pr^M(\pi \models \lozenge G : \pi \in \text{Paths}(s))\)
-    \item 持续可达性：\( Pr^{\mathcal{M}}(s \models \lozenge \square G) = Pr^M(\pi \models \lozenge \square G : \pi \in \text{Paths}(s))\)
-    \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
-\end{itemize}
+% 基于此三种可达性问题定义分别如下：
+% \begin{itemize}
+%     \item 可达性：\( Pr^{\mathcal{M}}(s \models \lozenge G) = Pr^M(\pi \models \lozenge G : \pi \in \text{Paths}(s))\)
+%     \item 持续可达性：\( Pr^{\mathcal{M}}(s \models \lozenge \square G) = Pr^M(\pi \models \lozenge \square G : \pi \in \text{Paths}(s))\)
+%     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
+% \end{itemize}
 \begin{example}
     在例子\ref{ex-transition}中介绍了一个简化版的可调节台灯的跃迁系统模型。状态\(\text{off}\)满足下列状态公式：
     \begin{align}
@@ -540,7 +553,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 
 \subsubsection*{量子命题}
 \label{sec-logic}
-在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
+在 Birkhoff-von Neumann 量子逻辑中，量子系统的状态空间可以由希尔伯特空间(Hilbert space)来描述，每个量子命题对应希尔伯特空间的一个闭子空间。对于系统的状态 \(|\psi\rangle\)，如果它属于某个特定的闭子空间 \( \mathcal{X} \)，可以说这个命题是真的。
 
 \begin{example}\citep{2021}
     考虑以下量子逻辑命题：
@@ -694,7 +707,7 @@ L(|\psi\rangle) = \{\mathcal{X} \in AP : |\psi\rangle \in \mathcal{X}\}
     
     而如果$AP$定义为包含基态$|1\rangle$的子空间，即$AP = \{\mathcal{X} \in \mathcal{S}(\mathcal{H}) : |1\rangle \in \mathcal{X}\}$，那么可以得到：
     \begin{equation}
-        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle, |2\rangle}\} = \operatorname{span}\{|0\rangle,\ |1\rangle,\ |3\rangle\}
+        {\bigcap_{\mathcal{Y} \in L(|\psi\rangle)} \mathcal{Y} = \operatorname{span}\{|\psi\rangle, |1\rangle}\} = \operatorname{span}\{|0\rangle,\ |1\rangle,\ |3\rangle\}
     \end{equation}
     此时$|\psi\rangle \models \mathcal{X}$成立当且仅当$|\psi\rangle,|1\rangle \in \mathcal{X}$。
 \end{example}
@@ -712,19 +725,20 @@ TDD是一种决策图样式的数据结构，用于使用张量网络表示量�
     \begin{align}
         \phi :{\{0,1\}}^I\rightarrow\mathbb{C}
     \end{align}
-    其中\(\mathbb{C}\)为复数。
+    其中\(\mathbb{C}\)为复数域。
 \end{definition}
 
 
-因此一个向量表示为$[\alpha_0,\alpha_1]$的量子比特$x$可以描述为秩为$1$的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特$x$和输出比特$y$的单比特门可以表示为秩为$2$的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。只有当将张量解释为门或线路时会规定关于其信息。
+因此一个向量表示为$[\alpha_0,\alpha_1]$的量子比特$x$可以描述为秩为$1$的张量$\phi_x$，其中$\phi_x\left(0\right)=\alpha_0, \phi_x\left(1\right)=\alpha_1$。具有输入比特$x$和输出比特$y$的单比特门可以表示为秩为$2$的张量$\phi_{xy}$。类似的$n$比特量子门可以表示成一个秩为$2n$的张量。在张量表示中，一般不区分输入和输出索引。
+% 只有当将张量解释为门或线路时会规定关于其信息。
 
-张量之间最重要的运算之一是收缩(contraction)。收缩是通过对共享索引求和获得新的张量。具体来说，设 张量$\gamma_{\overrightarrow{x},\overrightarrow{z}}$ 和 $\xi_{\overrightarrow{y},\overrightarrow{z}}$ 的共享索引集 是$\overrightarrow{z}$。设收缩后的新张量为 $\phi_{\overrightarrow{x},\overrightarrow{y}}$，则其表达式如式子\ref{eq-contraction}所示。
+张量之间最重要的运算之一是收缩(contraction)。收缩是通过对共享索引求和获得新的张量的操作。具体来说，设 张量$\gamma_{\overrightarrow{x},\overrightarrow{z}}$ 和 $\xi_{\overrightarrow{y},\overrightarrow{z}}$ 的共享索引集 是$\overrightarrow{z}$。设收缩后的新张量为 $\phi_{\overrightarrow{x},\overrightarrow{y}}$，则其表达式如式子(\ref{eq-contraction})所示。
 \begin{equation}
 \label{eq-contraction}
 \phi_{\overrightarrow{x},\overrightarrow{y}}(\overrightarrow{a},\overrightarrow{b}) = \sum_{\overrightarrow{c} \in \{0,1\}^{\overrightarrow{z}}} \gamma_{\overrightarrow{x},\overrightarrow{z}}(\overrightarrow{a}, \overrightarrow{c}) \cdot \xi_{\overrightarrow{y},\overrightarrow{z}}(\overrightarrow{b}, \overrightarrow{c}).
 \end{equation}
 
-另一个重要的张量操作是切片(slicing)，它对应于布尔函数的余因子运算。设 $\phi$ 是索引序列为 $I$ 上的张量。任取一个索引\(x\in I\)，对 $\phi$ 进行关于 $x = c$ 与 $c \in \{0, 1\}$ 的切片也是一个张量 $\phi|_{x=c}$，在索引集 $I' =I/\{x\}$ 上定义如式子\ref{eq-slicing}所示。
+另一个重要的张量操作是切片(slicing)，它对应于布尔函数的余因子运算。设 $\phi$ 是索引序列为 $I$ 上的张量。任取一个索引\(x\in I\)，对 $\phi$ 进行关于 $x = c$ 与 $c \in \{0, 1\}$ 的切片也是一个张量 $\phi|_{x=c}$，在索引集 $I' =I/\{x\}$ 上定义如式子(\ref{eq-slicing})所示。
 \begin{equation}
     \label{eq-slicing}
 \phi|_{x=c}(\overrightarrow{a}) := \phi(c, \overrightarrow{a})
@@ -753,7 +767,7 @@ TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}
     \end{align}
     其中:
     \begin{enumerate}
-        \item $V$是一个有限节点集，被划分为非终端节点$V_n$和终端节点$V_T$。用$r_{\mathcal{F}}$表示$\mathcal{F}$的唯一根节点。
+        \item $V$是一个有限节点集，被划分为非终端节点$V_N$和终端节点$V_T$。用$r_{\mathcal{F}}$表示$\mathcal{F}$的唯一根节点。
         \item $E=\left\{\left(v,low\left(v\right)\right),\left(v,high\left(v\right)\right):v\in V_N\right\}$是树中所有边集合，其中$\left(v,low\left(v\right)\right)$和$\left(v,high\left(v\right)\right)$分别称为v的低边和高边，分别指向该节点索引的负切片和正切片。根结点$r_{\mathcal{F}}$具有唯一的入射边$e_{\mathcal{F}}$，该入射边没有源结点。
         \item $index:V_r\rightarrow I$将每个非终端节点分配给I中的索引。
         \item $value:V_T\rightarrow\mathbb{C}$将每个终端节点赋予一个复数值。
@@ -763,7 +777,7 @@ TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}
 \end{definition}
 
 
-对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= value (v)$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则根据定义，该节点表示的张量如式子\ref{eq-non-term}所示。
+对于TDD中的一个节点$v$，如果$v$是终端节点，则$\phi\left(v\right):= value (v)$是一个秩为$0$的张量，即常数，也可以称为一个平凡TDD。如果$v$是非终端节点，则根据定义，该节点表示的张量如式子(\ref{eq-non-term})所示。
 \begin{align}
     \label{eq-non-term}
     \phi(v):=w_{0} \cdot \overline{x_{v}} \cdot \phi(\operatorname{low}(v))+w_{1} \cdot x_{v} \cdot \phi(h i g h(v))
@@ -776,11 +790,11 @@ TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}
 
 % \subsection*{TDD的规范与化简}
 \label{sec-reduce}
-根据定义得到的TDD在结构上显然比较冗余，可以进行进一步化简。具体过程是先进行规范化(normalized)，让后进行化简(reduced)\citep{Hong_2022}。
+根据定义得到的TDD在结构上显然比较冗余，可以进行进一步化简。具体过程是先进行规范化(normalized)，然后进行化简(reduced)\citep{Hong_2022}。
 其中规范化的目的是使得TDD的终端节点只包含0和1，同时将终端节点的张量值沿路径逐步上移。具体规范步骤如下：
 \begin{enumerate}
-    \item 如果$v$是一个非零值$value\left(v\right)\neq 1$的终端节点，则将其值设置为1，并将每个入边的权重w更改为$value\left(v\right)\cdot w$。\label{norm1}
-    \item 假设v是一个非终端节点，且$\phi\left(v\right)\neq 0$。首先规范化$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$。完成$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$的规范化后。如果$\phi\left.\left(low(v\right)\right)\neq 0$，并且此时$\phi\left.\left(high(v\right)\right)=0$或$\left|w_0\right|\geq\left|w_1\right|$，则将$w$设置为$w_0$。否则，将$w$设置为$w_1$。然后更新$w_0≔w_0/w,w_1≔w_1/w$。此时完成$v$的规范化。\label{norm2}
+    \item 如果$v$是一个非零值$value\left(v\right)\neq 1$的终端节点，则将其值设置为1，并将每个入边的权重$w$更改为$value\left(v\right)\cdot w$。\label{norm1}
+    \item 假设$v$是一个非终端节点，且$\phi\left(v\right)\neq 0$。首先规范化$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$。完成$\phi\left.\left(low(v\right)\right)$和$\phi\left.\left(high(v\right)\right)$的规范化后。如果$\phi\left.\left(low(v\right)\right)\neq 0$，并且此时$\phi\left.\left(high(v\right)\right)=0$或$\left|w_0\right|\geq\left|w_1\right|$，则将$w$设置为$w_0$。否则，将$w$设置为$w_1$。然后更新$w_0≔w_0/w,w_1≔w_1/w$。此时完成$v$的规范化。\label{norm2}
 \end{enumerate}
 
 
@@ -789,7 +803,7 @@ TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}
 \begin{enumerate}
     \item 	合并所有值为1的终端节点。删除所有终端$0$节点，并将它们的入边重定向到唯一的终端节点，并将它们的权重重置为$0$。\label{sympl1}
 	\item 将所有权重为$0$的边重定向到终端节点。如果根节点的入边权重为$0$，则终端节点成为新的根，该TDD为空。删除所有从根节点不可达的节点，以及涉及它们的所有边。\label{sympl2}
-	\item 如果一个节点v的低边和高边后继相同，并且其低边和高边具有相同的权重w，则删除该节点。如果入边权重$w=0$，则将其传入边重定向到终端节点。否则，将其传入边重定向到其后继节点。\label{sympl3}
+	\item 如果一个节点$v$的低边和高边后继相同，并且其低边和高边具有相同的权重$w$，则删除该节点。如果入边权重$w=0$，则将其传入边重定向到终端节点。否则，将其传入边重定向到其后继节点。\label{sympl3}
 	\item 合并两个具有相同索引、相同$0$和$1$后继以及对应边上相同权重的节点。\label{sympl4}
 \end{enumerate}
 
@@ -820,7 +834,10 @@ TDD是一种具有决策图和张量网络特征的数据结构\citep{Hong_2022}
 \label{sec-compare}
 TDD是一种相对较新的数据结构，用于表示和操作张量网络。与之类似的表示方法有张量网络TN和量子多值决策图QMDD。本节的最后将讨论定义\ref{df-tensor}中的张量网络TN，定义\ref{df-tdd}中的张量决策图TDD，以及QMDD\citep{1623982}三种表示的效率。
 
-张量网络TN提供了量子线路更紧凑的表现形式。但在张量之间的收缩过程中，如式子\ref{eq-contraction}所示，张量网络需要对要收缩的索引进行大量的加法操作。而TDD基于决策数的结构可以借助树算法，减少加法运算，从而快速得到收缩结果。
+张量网络TN提供了量子线路更紧凑的表现形式。
+基于张量网络的收缩，如式子(\ref{eq-contraction})所示。
+% ，张量网络需要对要收缩的索引进行大量的加法操作。
+而随着收缩过程，直接用张量网络的张量会逐渐变大，最终整个电路会被表示为秩为$2n$的张量，空间复杂度相当于矩阵表示。而TDD基于决策数的结构可以在收缩过程中始终保持较好的表示。
 因此TDD表示量子线路，一般会比TN节省更多资源。
 
 QMDD(Quantum Multiple-Valued Decision Diagrams)，即量子多值决策图提供了一种紧凑而系统的方法来描述量子过程。目前QMDD已有效地用于量子线路的合成\citep{niemann2020advanced}和和验证任务
@@ -865,7 +882,8 @@ QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四
 但是TDD非常灵活，可以轻松与张量网络中的一些优化技术结合以进一步提高其表现。
 
 综上，TDD的效率一般比TN的表示效率高，与QMDD类似。但TDD的高度灵活性，使得TDD的发展可能比QMDD更好。特别地，\cite{Hong_2022}中进行了三者的数值对比实验，验证了TDD的表示优势。
-这是本次研究中选择TDD作为表示线路的最重要原因。
+而在最新关于TDD的工作\citep{zhang2024quantum}中实现了的TDD工具，在redundancy-rich量子线路的实验基准上相比Google的张量网络库快$37$倍，相比QMDD快$25$倍。
+这表明TDD在表示量子电路方面有着显著优势。这也是本次研究中选择TDD作为表示线路的最重要原因。
 % 图\ref{fig:tdd-compare}是\cite{Hong_2022}中展示的目前各种比较成熟的表示方法下模拟量子线路的时间对比。其中TDD No Part指的是不对线路进行拆分优化的方法。TDD part I 和TDD part II是两种的张量网络中的优化技术。
 % QMDD指的是Quantum Multiple-valued Decision Diagrams。
 % TN表示方法使用了google的tensor network\citep{roberts2019tensornetwork}。
