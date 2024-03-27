@@ -78,7 +78,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
     \end{figure}
     根据该TDD表示求解原子空间的基的过程如下：
     \begin{enumerate}
-        \item 应用图算法，得到最左侧路径对应于 $(x_1,x_2,x_3,y_1,y_2,y_3)=(0,0,0,0,0,0)$，这意味着投影算子的第一列非零。
+        \item 应用图算法，得到最左侧路径对应于 $(x_0,x_1,x_2,y_0,y_1,y_2)=(0,0,0,0,0,0)$，这意味着投影算子的第一列非零。
         \item 遍历所有 $(x_0,x_1,x_2)=(0,0,0)$ 的路径，得到向量 $\ket{v_1}=\frac{1}{6}[1,-1,1,-1,1,-1,0,0]$。
         \item $\ket{v_1}$标准化为 $\ket{v_1}=\frac{1}{\sqrt{3}}(\ket{00}+\ket{01}+\ket{10})\ket{-}$。
         \item 设 $P'=P-\ket{v_1}\bra{v_1}$。那么 $P'$ 等于 $\ket{11-}\bra{11-}$。
@@ -168,7 +168,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
  
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[height=6cm]{Img/cir_index_graph.pdf}
+	\includegraphics[width=.8\textwidth]{Img/cir_index_graph.pdf}
 	\caption{Grover\_3的索引连接图}
 	\label{fig:addition}
 \end{figure} 
@@ -180,7 +180,7 @@ TDD针对于量子计算，可以有很好的空间优势，同时也可以很�
     图\ref{fig:contraction}展示了对Bit flip线路进行k1=3,k2=2的拆分结果。
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[height=7cm]{Img/cir_contraction.pdf}
+	\includegraphics[width=.8\textwidth]{Img/cir_contraction.pdf}
 	\caption{对Bit flip线路进行contraction的拆分}
 	\label{fig:contraction}
 \end{figure} 
@@ -278,7 +278,7 @@ h q[1];
 之后输入处理模块将索引图输出给TDD算法模块。
 
 TDD算法模块根据张量索引图和实际验证的属性，得到需要收缩的索引和对应的索引顺序。
-在本例中，模型待验证的属性是\(\mathcal{T}_1(S)=S\)。其中\(S\)的TDD结构如图\ref{fig:tdd_P}所示。\(\mathcal{T}_1\)为整个量子线路，因此需要收缩整个量子线路。按照图\ref{fig:addition}中的索引图对量子线路的收缩不进行优化，直接收缩后，得到TDD结构如图\ref{fig-tdd-grover}。将图\ref{fig-tdd-grover}和图\ref{fig:tdd_P}的两个TDD收缩后，得到的TDD就是\(\mathcal{T}_1(S)\)的TDD表示。而两个TDD收缩的结果与图\ref{fig:tdd_P}的表示相同。因此结果表明该量子迁移系统满足属性。
+在本例中，模型待验证的属性是\(\mathcal{T}_1(S)=S\)。其中子空间\(S\)的投影算子TDD结构如图\ref{fig:tdd_P}所示。\(\mathcal{T}_1\)为整个量子线路，因此需要收缩整个量子线路。按照图\ref{fig:addition}中的索引图对量子线路的收缩不进行优化，直接收缩后，得到TDD结构如图\ref{fig-tdd-grover}。将图\ref{fig-tdd-grover}和图\ref{fig:tdd_P}的两个TDD收缩后，得到的新的TDD就是子空间\(\mathcal{T}_1(S)\)投影算子的TDD表示。验证新的TDD表示是否在子空间\(S\)就可以验证属性。结果表明该量子迁移系统满足属性。
 
 在本例的验证过程中，存在大量的优化空间。例如转移关系的TDD生成，即量子线路的收缩，可以通过量子线路拆分技术优化。子空间的TDD表示也可以通过子空间近似表示进行优化。如例\ref{ex-approx}中对\(S\)的空间表示进行了近似。而量子空间与转移的TDD都可以应用基于TDD结构的窗函数进行优化。如例\ref{ex-image-sub}中对\(S\)的TDD结构进行了窗函数的优化。
 TDD算法模型中的优化方案是提升量子模型检测效率的关键。
