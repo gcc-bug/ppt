@@ -5,12 +5,12 @@
 %-> 生成封面
 %-
 % //TODO: bind
-% \maketitle% 生成中文封面
-% \MAKETITLE% 生成英文封面
+\maketitle% 生成中文封面
+\MAKETITLE% 生成英文封面
 %-
 %-> 作者声明
 %-
-% \makedeclaration% 生成声明页
+\makedeclaration% 生成声明页
 %-
 %-> 中文摘要
 %-
@@ -27,11 +27,11 @@
 % 本研究的最终目标是通过详细的分析和实验，撰写一篇硕士学位论文。该论文将总结本研究的主要成果，为量子系统的设计、验证和优化提供有力的理论和实践支持。通过这项工作，希望为量子计算技术的进一步发展奠定坚实的理论和应用基础。
 随着近年来量子计算机在规模和可靠性方面的快速发展，针对量子系统进行自动化验证已成为亟待解决的重要问题。传统的模型检测技术在面对量子系统时往往遇到资源消耗过多的瓶颈。为此，本文提出了一种基于张量决策图(TDD)的量子模型检测新方法，旨在降低资源需求，扩展量子模型检测的适用范围。
 
-本文首先，对量子计算、模型检测及其相关数学基础进行了概述，为读者了解研究内容做好铺垫。然后介绍了TDD数据结构，它本质上是一种带权重的决策树，用于紧凑高效地表示张量网络。接着阐述了如何将量子线路转化为TDD表示，并介绍了TDD的规范化、化简和基本运算等操作。
+本文首先，对量子计算、模型检测及其相关数学基础进行了概述，为读者了解研究内容做好铺垫。然后介绍了TDD数据结构，它本质上是一种带权重的决策树，用于紧凑高效地表示张量网络。接着阐述了如何将量子线路转化为TDD表示，并介绍了TDD的规范化、化简等操作。
 
 在此基础上，提出了基于TDD的量子模型检测算法流程。首先将量子系统建模为量子迁移系统，然后给出了计算TDD表示的子空间的基、子空间并运算以及系统一步迁移的具体算法。为加速计算，设计了多种优化策略，包括线路拆分、基于TDD的划分，以及近似TDD表示等。
 
-通过在多种量子算法实例上的实验对比，结果表明这些优化方法能够有效降低模型检测中一步迁移过程的时间和空间资源消耗，从而提高算法的可扩展性。其中，基于收缩(contraction)的线路拆分技术优化效果最为显著，能显著提升处理线路层数较深的量子算法的能力。
+通过在多种量子算法实例上的实验对比，结果表明这些优化方法能够有效降低模型检测中一步迁移过程的时间和空间资源消耗，从而提高算法的可扩展性。其中，基于线路拆分的contraction技术优化效果最为显著，能显著提升处理线路层数较深的量子算法的能力。
 
 最后，总结了该研究工作对量子模型检测的贡献，并讨论了未来的工作方向，如结合更复杂量子系统建模、改进TDD的表示能力等。本文的研究为量子计算机软硬件可靠性验证提供了有价值的新工具支持。
 
@@ -49,15 +49,15 @@
 % By the mid-term report, this research had developed different versions of TDD in both Python and C++ programming environments and successfully implemented the system's one-step state computation, i.e., image computation. In addition, a series of experimental tests were conducted to verify their effectiveness and performance.
 
 % The ultimate goal of this research is to write a master's thesis through detailed analysis and experiments. This thesis will summarize the main findings of the research, providing strong theoretical and practical support for the design, verification, and optimization of quantum systems. Through this work, it aims to lay a solid theoretical and application foundation for the further development of quantum computing technology.
-With the rapid development of quantum computers in terms of scale and reliability in recent years, automated verification for quantum systems has become an important issue to be addressed urgently. Traditional model checking techniques often encounter the bottleneck of excessive resource consumption when facing quantum systems. For this reason, this paper proposes a new quantum model checking method based on Tensor Decision Diagrams (TDD), aiming to reduce resource requirements and expand the application scope of quantum model checking.
+With the rapid development of quantum computers in terms of scale and reliability in recent years, automated verification for quantum systems has become an important issue that needs urgent resolution. Traditional model checking techniques often encounter the bottleneck of excessive resource consumption when facing quantum systems. To this end, this paper proposes a new quantum model checking method based on Tensor Decision Diagrams (TDD), aimed at reducing resource requirements and expanding the applicability of quantum model checking.
 
-First, this paper provides an overview of quantum computing, model checking, and its related mathematical foundations, preparing readers for the research content. Then, it introduces the TDD data structure, which is essentially a weighted decision tree used to compactly and efficiently represent tensor networks. It then describes how to transform quantum circuits into TDD representation and introduces operations such as TDD normalization, simplification, and basic operations.
+First, this paper provides an overview of quantum computing, model checking, and their related mathematical foundations, laying the groundwork for readers to understand the research content. Then, it introduces the TDD data structure, which is essentially a weighted decision tree used for compact and efficient representation of tensor networks. Following this, it explains how to convert quantum circuits into TDD representations and introduces operations such as normalization and simplification of TDDs.
 
-On this basis, a quantum model checking algorithm process based on TDD is proposed. The quantum system is modeled as a quantum transition system, and then the algorithm for calculating the basis of TDD representation of subspaces, subspace union operations, and specific algorithms for one-step transitions of the system are given. To accelerate computation, various optimization strategies are designed, including circuit partitioning, TDD-based partitioning, and approximate TDD representation, among others.
+Based on this foundation, a quantum model checking algorithm process based on TDD is proposed. It models quantum systems as quantum transition systems, and then presents specific algorithms for computing the basis of the subspaces represented by TDD, subspace union operations, and one-step transitions of the system. To accelerate computation, various optimization strategies are designed, including circuit splitting, partitioning based on TDD, and approximate TDD representation.
 
-Experimental comparisons on various quantum algorithm examples show that these optimization methods can effectively reduce the time and space resource consumption in the one-step transition process of model checking, thereby improving the scalability of the algorithm. Among them, the circuit partitioning technology based on contraction optimization has the most significant effect, significantly enhancing the ability to process quantum algorithms with deeper circuit layers.
+Experimental comparisons on various quantum algorithm instances show that these optimization methods can effectively reduce the time and space resource consumption in the model checking one-step transition process, thereby improving the scalability of the algorithm. Among them, the contraction technique optimization based on circuit splitting shows the most significant effect, significantly enhancing the ability to handle quantum algorithms with deeper circuit layers.
 
-Finally, the contributions of this research work to quantum model checking are summarized, and future work directions are discussed, such as incorporating more complex quantum system modeling and improving the representational capability of TDD. This study provides valuable new tool support for the reliability verification of quantum computer software and hardware.
+Finally, the paper summarizes the contributions of this research work to quantum model checking and discusses future work directions, such as integrating more complex quantum system modeling and improving the representational capability of TDD. The research in this paper provides valuable new tool support for the reliability verification of quantum computer hardware and software.
 
 \KEYWORDS{Model Checking, Quantum Computation, Tensor Decision Diagrams}% 英文关键词
 
