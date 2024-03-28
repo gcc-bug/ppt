@@ -451,7 +451,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 
 \subsection{时序逻辑中的可达性问题}
 本小节将简单介绍时序逻辑中的可达性问题，具体内容可以参考\citep{goranko_2023}。经典模型检测使用时序逻辑指定待验证的属性\(\varphi\)。时序逻辑命题的运算符有以下两类。
-\begin{definition}
+\begin{definition}\citep{goranko_2023}
     给定一个原子命题集合AP，则状态命题公式(State formulas)：
     \begin{align}
         \Phi::=a|\exists \varphi| \forall \varphi|\neg \Phi| \Phi_{1} \wedge \Phi_{2}
@@ -469,10 +469,10 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \item \(s\models a,iff \L\left(s\right)\models a\)
     \item \(s\models\exists\varphi,iff\ \pi\models\varphi\)对一些\(\pi\in Path\left(s\right)\)
     \item \(s\models\forall\varphi,iff\ \pi\models\varphi\)对所有\(π\in Path(s)\)
-    \item \(s\models\lnot\varphi,iff\ s\nvDash\varphi\)
+    \item \(s\models\lnot\Phi,iff\ s\nvDash\Phi\)
     \item \(s\models\varphi\land\psi,iff\ s\models\varphi\ and\ s\models\psi\)
-    \item \(\pi\models O\varphi,iff\ \pi\left[1\right]\models\varphi\)
-    \item \(\pi\models\varphi U\psi,iff\ \exists j\geq0\).\(\pi\left[j\right)\models\psi\) 同时对所有\(0\le i<j\)有\(\pi\left[i\right)\models\varphi\)
+    \item \(\pi\models O\Phi,iff\ \pi\left[1\right)\models\Phi\)
+    \item \(\pi\models\Phi_1 U\Phi_2,iff\ \exists j\geq0\).\(\pi\left[j\right)\models\Phi_2\) 同时对所有\(0\le i<j\)有\(\pi\left[i\right]\models\Phi_1\)
 \end{itemize}
 
 
@@ -529,17 +529,19 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 %     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 % \end{itemize}
 \begin{example}
-    在例子\ref{ex-transition}中介绍了一个简化版的可调节台灯的跃迁系统模型。状态\(\text{off}\)满足下列状态公式：
+    在例子\ref{ex-transition}中介绍了一个简化版的可调节台灯的跃迁系统模型。状态\(\text{off}\)下一步一定是\(\text{low}\)
+    ，同时存在off到达状态high的路径，因此满足下列状态公式：
     \begin{align}
         & \text{off} \models \lnot\ \text{light} \\
-        & \text{off} \models \lnot\ \text{light} \land \lnot\ \text{bright}
+        & \text{off} \models \lnot\ \text{light} \land \lnot\ \text{bright}\\
+        & \text{off} \models \exists O \text{bright}\\
+        & \text{off} \models \forall O \text{light}
     \end{align}
-    由于该系统的初态是off。而状态\(\text{off}\)的下一步一定是\(\text{low}\)
-    % ，同时存在off到达状态high的路径
+    由于该系统的初态是off
     。因此该系统的路径满足下列路径命题公式：
     \begin{align}
-        & \pi \models O\ \text{light} 
-        % & \pi \models \lozenge\ \text{bright}
+        & \pi \models O\ \text{light} \\
+        & \pi \models \lozenge\ \text{light}
     \end{align}
     
 \end{example}
