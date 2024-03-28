@@ -6,8 +6,8 @@
   \item 模型检验的挑战
 \end{itemize}
 % //TODO: add key problem here
-\subsection{跃迁系统}
-跃迁系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
+\subsection{迁移系统}
+迁移系统广泛应用于模型检测中待检测系统的建模，其定义为\citep{baier2008principles}：
 \begin{equation}
 \mathcal{M}=\{S,Act,\rightarrow,I\}
 \end{equation}
@@ -19,13 +19,13 @@
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.6\textwidth]{Img/map.pdf}
-    \caption{一种简化版的售货机跃迁系统}
+    \caption{一种简化版的售货机迁移系统}
     \label{fig:transition-system}
 \end{figure}
 
-图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(I=pay\)。
+图\ref{fig:transition-system} 所示的迁移系统展示了一个简化版的售货机模型。在该模型中，用户投入硬币，进行选择后就可以得到苏打水或者啤酒。在该例子中，系统状态\(S=\{pay,select,soda,beer\}\)，系统初态\(I=pay\)。
 系统行为\(Act=\{insert\_coin,\tau,get\_soda,get\_beer\}\)，其中\(\tau\)表示立即行动符号。转移关系图中已经展示。原子命题可取\(AP=\{paid,drink\}\)。因此\(L\left( pay \right)=\{\varnothing\}\)，\(L\left(soda\right)=L\left(beer\right)=\{paid,drink\}\)，\(L\left(select\right)=\{paid\}\)。系统的一个路径是\(\pi=pay\ select\ soda\ pay\ selsect\ \ldots\)。此时\(\pi\left[1\right]=slect,\pi\left[1\right)=select\quad soda\quad pay\quad selsect\ldots\)。同时该路径满足\(\pi\in Path\left(pay\right)\)。
-量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系用酉矩阵。一个量子自动机定义如下：
+量子模型检测的迁移系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系用酉矩阵。一个量子自动机定义如下：
 \begin{align}
     \mathcal{M}=\{\mathcal{H},Act,\{U_\alpha,\alpha\in Act\},\mathcal{H}_0\}
 \end{align}

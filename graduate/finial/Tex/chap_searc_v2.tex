@@ -1,5 +1,5 @@
 \chapter{背景介绍}
-本章中简要介绍本文工作中的一些重要的基础知识。本章将分为三节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括跃迁系统，时序逻辑和量子模型检测。第三节介绍TDD相关背景，包含TDD的定义和与类似方法的比较。
+本章中简要介绍本文工作中的一些重要的基础知识。本章将分为三节。第一节介绍量子计算相关背景，包括量子力学和量子线路。第二节介绍模型检测相关背景，包括迁移系统，时序逻辑和量子模型检测。第三节介绍TDD相关背景，包含TDD的定义和与类似方法的比较。
 \section{量子计算简介}
 本节将分两个部分介绍量子计算相关背景，第一部分介绍量子力学，第二部分介绍量子线路模型，具体内容可以参考
 \citep{nielsen2010quantum}。
@@ -399,10 +399,10 @@
 
 % \end{example}
 \section{模型检测简介}
-本节将简要介绍了模型检测中的跃迁系统、时序逻辑的验证以及量子模型检测。跃迁系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而本次研究中，选择使用Birkhoff-von Neumann量子逻辑来描述量子系统的性质，命题的表示和逻辑结构。这些都为本文工作的研究提供了重要的理论基础。
-\subsection{跃迁系统}
+本节将简要介绍了模型检测中的迁移系统、时序逻辑的验证以及量子模型检测。迁移系统是模型检测的基础，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，包括状态命题和路径命题。而本次研究中，选择使用Birkhoff-von Neumann量子逻辑来描述量子系统的性质，命题的表示和逻辑结构。这些都为本文工作的研究提供了重要的理论基础。
+\subsection{迁移系统}
 \label{sec-transition}
-跃迁系统广泛应用于模型检测中待检测系统的建模，具体定义如定义\ref{def-model}所示。
+迁移系统广泛应用于模型检测中待检测系统的建模，具体定义如定义\ref{def-model}所示。
 \begin{definition}\citep{baier2008principles}
     \label{def-model}
     迁移系统为一个四元组，具体包含：
@@ -420,7 +420,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 
 系统的有限路径片段\(\pi\)是一个有限状态序列\(s_0,s_1\ldots s_n\)，其中\(s_0\in S_0\)。\(s_i\)满足\(s_{i-1}\overset{\sigma_i}{\rightarrow}s_i,\sigma_i\in \Sigma\)，对于所有\(0<i\leq n\)，其中\(n\geq 0 \)。无限路径片段\(\pi\)是一个无限状态序列\(s_0,s_1\ldots\)，使得对于所有\(i>0\)，\(s_{i-1} \overset{\sigma_i}{\rightarrow}  s_i,\sigma_i\in \Sigma\)。在路径中\(\pi\left[i\right]=s_i,\pi\left[i\right)=s_i\ldots\)。所有以\(S_0\)中元素为开始的路径，构成了路径集合\(Path\left(S_0\right)\)。
 
-量子模型检测的跃迁系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。量子迁移系统的具体定义如定义\ref{def-model-q}所示。
+量子模型检测的迁移系统类似。区别在于状态空间用\(\mathcal{H}\)，转移关系为量子操作。量子迁移系统的具体定义如定义\ref{def-model-q}所示。
 \begin{definition}\citep{2021}
     \label{def-model-q}
     量子迁移系统为一个四元组，具体包含：
@@ -431,7 +431,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 \end{definition}
 \begin{example}
     \label{ex-transition}
-    图\ref{fig:transition-system} 所示的跃迁系统展示了一个简化版的可调节台灯系统。
+    图\ref{fig:transition-system} 所示的迁移系统展示了一个简化版的可调节台灯系统。
     在该例子中，系统状态\(S=\{\text{off},\ \text{low},\ \text{high}\}\)，分别代表熄灭，低亮度，高亮度状态。系统初态是\(S_0 = \{\text{off}\}\)。
     系统行为\(\Sigma=\{\text{p1},\ \text{p2}\}\)，分别表示电源开关和亮度调节开关。转移关系图中已经展示。
     在台灯系统中，考虑到台灯的亮度，可以定义以下原子命题：
@@ -444,7 +444,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
     \begin{figure}[!htbp]
         \centering
         \includegraphics[width=.6\textwidth]{Img/transition.pdf}
-        \caption{简化版的可调节台灯跃迁系统}
+        \caption{简化版的可调节台灯迁移系统}
         \label{fig:transition-system}
     \end{figure}
 \end{example}
@@ -529,7 +529,7 @@ R(S') := \{ t\in S \mid (s, \sigma, t) \in R\ \text{并且}\ s \in S', \sigma \i
 %     \item 重复可达性：\( Pr^{\mathcal{M}}(s \models\square \lozenge G) = Pr^M(\pi \models \square\lozenge G : \pi \in \text{Paths}(s))\)
 % \end{itemize}
 \begin{example}
-    在例子\ref{ex-transition}中介绍了一个简化版的可调节台灯的跃迁系统模型。状态\(\text{off}\)下一步一定是\(\text{low}\)
+    在例子\ref{ex-transition}中介绍了一个简化版的可调节台灯的迁移系统模型。状态\(\text{off}\)下一步一定是\(\text{low}\)
     ，同时存在off到达状态high的路径，因此满足下列状态公式：
     \begin{align}
         & \text{off} \models \lnot\ \text{light} \\
@@ -904,7 +904,7 @@ QMDD和TDD主要不同的在于QMDD结构中，每个非终端节点连接有四
 
 第一部分介绍了量子计算的相关知识，包括量子力学基本原理、量子线路模型等。量子力学建立在希尔伯特空间、算符等数学基础之上，描述了量子系统的状态、演化和测量。量子线路则是一种描述量子计算的模型，通过对量子比特进行初始化、施加量子门操作和测量等来执行量子计算任务。
 
-第二部分介绍了模型检测的基础知识，包括跃迁系统、时序逻辑和量子模型检测。跃迁系统用于对待检测系统建模，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，讨论了状态命题和路径命题等。量子模型检测则利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，阐述了量子逻辑中命题的表示、逻辑结构及满足关系等。
+第二部分介绍了模型检测的基础知识，包括迁移系统、时序逻辑和量子模型检测。迁移系统用于对待检测系统建模，定义了系统状态、行为及状态转移关系。时序逻辑用于指定待验证的属性，讨论了状态命题和路径命题等。量子模型检测则利用Birkhoff-von Neumann量子逻辑描述量子系统的性质，阐述了量子逻辑中命题的表示、逻辑结构及满足关系等。
 
 第三部分从张量网络出发，介绍了TDD的相关定义。TDD是基于量子张量网络的表示方法。因此这部分从张量网络表示量子线路的方法开始。然后，对TDD数据结构进行了简单定义。
 随后，本章详细介绍了如何将张量网络转换为TDD表示，包括TDD的规范化和化简策略。
