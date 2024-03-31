@@ -1,0 +1,29 @@
+\documentclass[tikz,border = 10 pt]{standalone}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{yquant}
+\begin{document}
+\begin{tikzpicture}
+% \DeclareRobustCommand\rvdots{%
+%  \vbox{%
+%  \baselineskip 4\p@\lineskiplimit\z@%
+%  \kern-\p@%
+%  \hbox{.}\hbox{.}\hbox{.}%
+%  }%
+% }
+  \begin{yquant}[every nobit output/.style={},
+  register/separation=3mm]
+  qubit {$x_1$} x;
+  qubit {$\vdots$} x[+1];
+  discard x[1];
+  qubit {$x_n$} x[+1];
+  
+  qubit {control qubit} y;
+  
+  box {Oracle} (x[0-2],y);
+  h x[0];
+  text {$\vdots$} h[1];
+  h x[2];
+  \end{yquant}
+\end{tikzpicture}
+\end{document}

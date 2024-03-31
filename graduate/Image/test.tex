@@ -1,0 +1,32 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{yquant}
+\usetikzlibrary{calc}
+\useyquantlanguage{qasm}
+\useyquantlanguage{groups}
+
+\begin{document}
+% \useyquantlanguage{groups}
+\begin{tikzpicture}
+    \begin{yquantgroup}
+       \registers{
+          qubit {} q[3];
+       }
+       \circuit{
+          box {$O_1$} q[0];
+          box {$O_2$} q[1];
+          box {$O_3$} q[2];
+          box {$U$} (q[0,1,2]);
+          box {$O_4$} q[0];
+          box {$O_5$} q[1];
+          box {$O_6$} q[2];
+       }
+       \equals[$\cong $]
+       \circuit{
+        box {$U$} (q[0,1,2]);
+       }
+    \end{yquantgroup}
+ \end{tikzpicture}
+    
+\end{document}
