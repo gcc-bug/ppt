@@ -11,7 +11,7 @@
 % \setbeamerfont{framesubtitle}{size=\large}
 % \setbeamerfont{normal text}{size=\huge}
 \usepackage{enumitem}
-\setlist[enumerate]{label=\indent\indent, leftmargin=*,itemsep=30pt}
+\setlist[enumerate]{label=\arabic*)., leftmargin=*,itemsep=30pt}
 \setbeamerfont{enumerate item}{size=\LARGE}
 \input{styles.tex}
 \AtBeginSection[]{
@@ -35,6 +35,12 @@
 \begin{frame}[plain]
   \titlepage
 \end{frame}
+\begin{frame}{main reference}
+  \begin{enumerate}
+    \item Henriet, Loic, Lucas Beguin, Adrien Signoles, Thierry Lahaye, Antoine Browaeys, Georges-Olivier Reymond, and Christophe Jurczak. \textbf{Quantum Computing with Neutral Atoms}. Quantum 4 (21 September 2020): 327. \url{https://doi.org/10.22331/q-2020-09-21-327}.
+    \item Bluvstein, Dolev, Harry Levine, Giulia Semeghini, Tout T. Wang, Sepehr Ebadi, Marcin Kalinowski, Alexander Keesling, et al. \textbf{A Quantum Processor Based on Coherent Transport of Entangled Atom Arrays}. Nature 604, no. 7906 (21 April 2022): 451–56. \url{https://doi.org/10.1038/s41586-022-04592-6}.
+  \end{enumerate}
+\end{frame}
 \section{principle}
 % \begin{frame}
 %   \frametitle{important principle}
@@ -46,14 +52,67 @@
 % \end{frame}
 % some basic
 % atom 
-\subsection{before computation}
+\subsection{control}
+\begin{frame}{optical tweezers}
+  \begin{columns} % The "T" option aligns the columns' content at the top
+
+    \begin{column}{.5\textwidth} % Left column, 50% of the text width
+    \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=30pt] % Customize enumerate
+        \item First item
+        \item Second item
+        \item Third item
+    \end{enumerate}
+    \end{column}
+    
+    \begin{column}{.5\textwidth} % Right column, 50% of the text width
+    \begin{figure}
+      \centering
+    \includegraphics[width=\textwidth]{Optical_trap_prinple} % Adjust the path and image name
+    \caption{Figure Caption}
+    \end{figure}
+    \end{column}
+    
+  \end{columns}
+\end{frame}
+\begin{frame}{histroy}
+  
+\end{frame}
+\begin{frame}{optical lattice}
+  
+\end{frame}
+\begin{frame}{work flow}
 % rearrange
 % AOD
 % LCSLM
+\end{frame}
+
 % Hamilition
-\subsection{gate}
+\subsection{operation}
+\begin{frame}{readout}
+  % a example figure here
+\end{frame}
+\begin{frame}{single-qubit gate}
+  
+\end{frame}
+\begin{frame}{multi-qubit gate}
+\end{frame}
+\begin{frame}{Hamilition operation}
+\end{frame}
+\begin{frame}{summarize}
+  % befit of atom
+  % scale difficult
+  % error source
+\end{frame}
 \section{device}
-
-\section{compiltion}
-
+\begin{frame}{breakthrough}
+  % three different
+\end{frame}
+\section{computation}
+\subsection{compilition}
+\begin{frame}{set up}
+\end{frame}
+\subsection{eror correction}
+\section*{end}
+\begin{frame}{discussion}
+\end{frame}
 \end{document}
