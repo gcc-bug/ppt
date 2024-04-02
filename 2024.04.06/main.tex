@@ -53,37 +53,68 @@
 % some basic
 % atom 
 \subsection{control}
-\begin{frame}{optical tweezers}
+\begin{frame}{optical tweezers\footnote{\url{https://en.wikipedia.org/wiki/Optical_tweezers}}}
   \begin{columns} % The "T" option aligns the columns' content at the top
 
     \begin{column}{.5\textwidth} % Left column, 50% of the text width
     \begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=30pt] % Customize enumerate
-        \item First item
-        \item Second item
-        \item Third item
+        \item the diameter of a trapped particle $\gg $ the wavelength of light
+        \item the diameter of a trapped particle $\ll$ the wavelength of light
     \end{enumerate}
     \end{column}
     
     \begin{column}{.5\textwidth} % Right column, 50% of the text width
     \begin{figure}
       \centering
-    \includegraphics[width=\textwidth]{Optical_trap_prinple} % Adjust the path and image name
-    \caption{Figure Caption}
+    \includegraphics[width=\textwidth]{IMG/Optical_trap_prinple} % Adjust the path and image name
+    \caption{Dielectric objects are attracted to the center of the beam, slightly above the beam waist}
     \end{figure}
     \end{column}
     
   \end{columns}
 \end{frame}
-\begin{frame}{histroy}
-  
+\begin{frame}{Electric dipole approximation}
+  \begin{enumerate}
+    \item Induction by light (assume the dielectric particle is linear):
+    \[p = \alpha \cdot E_{light}\]
+    $p$ is the induced dipole moment, $E_{light}$ is the electric field of the light, and \(\alpha\) is the polarizability of the atom
+    \item Gradient Force:
+    \[F_{gradient} = \nabla (p \cdot E_{light})\]
+  \end{enumerate}
 \end{frame}
-\begin{frame}{optical lattice}
-  
+\begin{frame}{optical lattice\footnote{\url{https://en.wikipedia.org/wiki/Optical_lattice}}}
+  \begin{figure}
+    \includegraphics[width=.5\textwidth]{IMG/AtomsInLattice.png}
+    \caption{Atoms (represented as blue spheres) pictured in a 2D-optical lattice potential (represented as the yellow surface)}
+  \end{figure}
+\end{frame}
+\begin{frame}{histroy}
+  \begin{enumerate}
+    \item top-down VS. bottom-up
+    \item \small{Endres, Manuel, Hannes Bernien, Alexander Keesling, Harry Levine, Eric R. Anschuetz, Alexandre Krajenbrink, Crystal Senko, Vladan Vuletic, Markus Greiner, and Mikhail D. Lukin. "Atom-by-atom assembly of defect-free one-dimensional cold atom arrays." Science 354, no. 6315 (2016): 1024-1027. \url{https://www.science.org/doi/abs/10.1126/science.aah3752}.}
+    \item \small{Barredo, Daniel, Sylvain de Léséleuc, Vincent Lienhard, Thierry Lahaye, and Antoine Browaeys. "An atom-by-atom assembler of defect-free arbitrary two-dimensional atomic arrays." Science 354, no. 6315 (2016): 1021-1023. \url{https://www.science.org/doi/abs/10.1126/science.aah3778}.}
+  \end{enumerate}
 \end{frame}
 \begin{frame}{work flow}
-% rearrange
-% AOD
-% LCSLM
+\begin{columns}
+  \begin{column}{.3\textwidth}
+    \begin{enumerate}[itemsep = 10pt]
+      \item metal
+      \item atomic beam
+      \item zeeman slower
+      \item 2D MOT
+      \item 3D MOT
+      \item optical lattice
+      \item rearrange
+    \end{enumerate}
+  \end{column}
+  \begin{column}{.7\textwidth}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{IMG/image.png}
+      \caption{Overview of the main hardware components constituting a quantum processor}
+    \end{figure}
+  \end{column}
+\end{columns}
 \end{frame}
 
 % Hamilition
