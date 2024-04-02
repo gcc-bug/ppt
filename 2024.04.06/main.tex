@@ -14,7 +14,7 @@
 \setlist[enumerate]{label=\arabic*)., leftmargin=*,itemsep=30pt}
 \setbeamerfont{enumerate item}{size=\LARGE}
 \input{styles.tex}
-\AtBeginSection[]{
+\AtBeginSubsection[]{
   \begin{frame}
   \frametitle{Outline}
   \tableofcontents[currentsection]
@@ -88,9 +88,9 @@
     \caption{Atoms (represented as blue spheres) pictured in a 2D-optical lattice potential (represented as the yellow surface)}
   \end{figure}
 \end{frame}
-\begin{frame}{histroy}
+\begin{frame}{develop histroy}
   \begin{enumerate}
-    \item top-down VS. bottom-up
+    \item Bose-Einstein condensate
     \item \small{Endres, Manuel, Hannes Bernien, Alexander Keesling, Harry Levine, Eric R. Anschuetz, Alexandre Krajenbrink, Crystal Senko, Vladan Vuletic, Markus Greiner, and Mikhail D. Lukin. "Atom-by-atom assembly of defect-free one-dimensional cold atom arrays." Science 354, no. 6315 (2016): 1024-1027. \url{https://www.science.org/doi/abs/10.1126/science.aah3752}.}
     \item \small{Barredo, Daniel, Sylvain de Léséleuc, Vincent Lienhard, Thierry Lahaye, and Antoine Browaeys. "An atom-by-atom assembler of defect-free arbitrary two-dimensional atomic arrays." Science 354, no. 6315 (2016): 1021-1023. \url{https://www.science.org/doi/abs/10.1126/science.aah3778}.}
   \end{enumerate}
@@ -101,20 +101,51 @@
     \begin{enumerate}[itemsep = 10pt]
       \item metal
       \item atomic beam
-      \item zeeman slower
-      \item 2D MOT
-      \item 3D MOT
+      \item cooling
+      \begin{enumerate}[itemsep = 5pt]
+        \item zeeman slower
+        \item 2D MOT
+        \item 3D MOT
+      \end{enumerate}
       \item optical lattice
       \item rearrange
     \end{enumerate}
   \end{column}
   \begin{column}{.7\textwidth}
     \begin{figure}
-      \includegraphics[width=\textwidth]{IMG/image.png}
+      \includegraphics[width=.9\textwidth]{IMG/image.png}
       \caption{Overview of the main hardware components constituting a quantum processor}
     \end{figure}
   \end{column}
 \end{columns}
+\end{frame}
+\begin{frame}{rearrange}
+  \begin{figure}
+    \includegraphics[width=.5\textwidth]{IMG/rearrange.png}
+    \caption{Moving a single atom from one site to another (both in red) in the register}
+  \end{figure}
+\end{frame}
+\begin{frame}{AOD VS. SLM}
+  \begin{enumerate}[itemsep=10pt]
+    % \item Operating piciples
+    % \begin{itemize}[itemsep=5pt]
+    %   \item Amplitude Object Design utilize acoustic waves to diffract and control the amplitude of light waves.
+    %   \item Spatial Light Modulators are devices equipped with an array of pixels, each of which can be individually controlled to alter the properties of the light. 
+    % \end{itemize}
+    \item \textbf{Amplitude Object Design (AOD):}
+    \begin{itemize}[itemsep=5pt]
+      \small
+      \item \textit{Operating Principle:} Uses acoustic waves to diffract and control light's amplitude.
+      \item \textit{Advantages:} Features high-speed modulation and scanning capabilities, low power consumption, and robustness for long-term use.
+      \item \textit{Limitations:} Restricted to amplitude modulation without phase control, possible noise from acoustic wave generation, and efficiency dependent on material properties.
+    \end{itemize}
+    \item \textbf{Spatial Light Modulator (SLM):}
+    \begin{itemize}[itemsep=5pt]
+        \item \small \textit{Operating Principle:} Modulates light's amplitude, phase, or polarization through an array of individually adjustable pixels, enabling complex light pattern generation.
+        \item \textit{Advantages:} Capable of intricate wavefront shaping and modulation across amplitude, phase, and polarization.
+        \item \textit{Limitations:} Higher complexity and cost, potential diffraction artifacts due to its pixelated nature, and limited refresh rate for dynamic applications.
+    \end{itemize}
+  \end{enumerate}
 \end{frame}
 
 % Hamilition
