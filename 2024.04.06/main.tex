@@ -14,10 +14,16 @@
 \setlist[enumerate]{label=\arabic*)., leftmargin=*,itemsep=30pt}
 \setbeamerfont{enumerate item}{size=\LARGE}
 \input{styles.tex}
-\AtBeginSubsection[]{
+\AtBeginSection[]{
   \begin{frame}
   \frametitle{Outline}
   \tableofcontents[currentsection]
+  \end{frame}
+}
+\AtBeginSubsection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsubsection]
   \end{frame}
 }
 \setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
@@ -38,7 +44,8 @@
 \begin{frame}{main reference}
   \begin{enumerate}
     \item Henriet, Loic, Lucas Beguin, Adrien Signoles, Thierry Lahaye, Antoine Browaeys, Georges-Olivier Reymond, and Christophe Jurczak. \textbf{Quantum Computing with Neutral Atoms}. Quantum 4 (21 September 2020): 327. \url{https://doi.org/10.22331/q-2020-09-21-327}.
-    \item Bluvstein, Dolev, Harry Levine, Giulia Semeghini, Tout T. Wang, Sepehr Ebadi, Marcin Kalinowski, Alexander Keesling, et al. \textbf{A Quantum Processor Based on Coherent Transport of Entangled Atom Arrays}. Nature 604, no. 7906 (21 April 2022): 451–56. \url{https://doi.org/10.1038/s41586-022-04592-6}.
+    % \item Bluvstein, Dolev, Harry Levine, Giulia Semeghini, Tout T. Wang, Sepehr Ebadi, Marcin Kalinowski, Alexander Keesling, et al. \textbf{A Quantum Processor Based on Coherent Transport of Entangled Atom Arrays}. Nature 604, no. 7906 (21 April 2022): 451–56. \url{https://doi.org/10.1038/s41586-022-04592-6}.
+    \item Bluvstein, Dolev, Simon J. Evered, Alexandra A. Geim, Sophie H. Li, Hengyun Zhou, Tom Manovitz, Sepehr Ebadi, et al. \textbf{Logical Quantum Processor Based on Reconfigurable Atom Arrays}. Nature 626, no. 7997 (1 February 2024): 58–65. \url{https://doi.org/10.1038/s41586-023-06927-3}.
   \end{enumerate}
 \end{frame}
 \section{principle}
