@@ -182,14 +182,14 @@
     \item induces rotations around the \((x,y,z)\) axes with angles \((\Omega\tau\cos{\varphi},\Omega\tau\sin{\varphi},\delta\tau)\)
   \end{enumerate}
 \end{frame}
-\begin{frame}{multi-qubit gate}
+\begin{frame}{Rydberg blockade\footnote{\url{https://en.wikipedia.org/wiki/Rydberg_atom}}}
   \begin{enumerate}
-    \item Van der Waals force (\(\propto R^{-6}\))
-    \item A Rydberg atom is an excited atom with one or more electrons that have a very high principal quantum number, $n$
+    \item Van der Waals force, \(\propto R^{-6}\)
+    \item dipole-dipole interaction, \(\propto R^{-3} \left( \vec{p}_1 \cdot \vec{p}_2 - 3(\vec{p}_1 \cdot \hat{R})(\vec{p}_2 \cdot \hat{R}) \right)
+    \), while \(\vec{p} = q\cdot \vec{d}\)
+    \item $r=\frac{n^{2}\hbar ^{2}}{ke^{2}m}$, while rydberg atoms in experiment $50\le n \le 70$
+    \item two closed atoms can't be $|rr\rangle$
   \end{enumerate}
-\end{frame}
-\begin{frame}{Rydberg blockade}
-  
 \end{frame}
 \begin{frame}{how to choose atomic?}
   \begin{figure}
@@ -198,6 +198,27 @@
     \caption{Periodic table\footnote{\url{https://en.wikipedia.org/wiki/Periodic_table}}}
   \end{figure}
 \end{frame}
+\begin{frame}{multi-qubit gate}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      realize: \(2|gg\rangle-\mathbb{I} \)
+      \vspace{20pt}
+      \begin{enumerate}
+        \item \(|gg\rangle\to |gg\rangle \to |gg\rangle\)
+        \item \(|eg\rangle\to |rg\rangle \to -|eg\rangle \)
+        \item \(|ge\rangle\to |gr\rangle \to -|ge\rangle \)
+        \item \(|ee\rangle\to |re\rangle \to -|ee\rangle \)
+      \end{enumerate}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \includegraphics[width=\textwidth]{IMG/cz.png}
+        \caption{Principle of the controlled-Z gate based on dipolar Rydberg interaction. First a $\pi$ pulse is applied on the control atom, then a 2$\pi$ pulse on the target atom, and finally another $\pi$ pulse on the control one.}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}{summarize}
   \begin{figure}
     \centering
@@ -231,7 +252,7 @@
     \item \textbf{Qubit Manipulation and Error Reduction}
       \begin{itemize}[itemsep=5pt]
         \item Reducing decoherence through environmental control.
-        \item High-bandwidth electronics for precise operation control.
+        \item High-bandwidth electronics for precise operation control, in special rydberg state loss.
       \end{itemize}
   \end{enumerate}
 \end{frame}
