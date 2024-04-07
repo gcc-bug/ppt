@@ -13,6 +13,7 @@
 \usepackage{enumitem}
 \setlist[enumerate]{label=\arabic*)., leftmargin=*,itemsep=30pt}
 \setbeamerfont{enumerate item}{size=\LARGE}
+\setlist[itemize]{label=\textbullet, leftmargin=*, itemsep=5pt}
 \input{styles.tex}
 \AtBeginSection[]{
   \begin{frame}
@@ -169,16 +170,70 @@
   % a example figure here
 \end{frame}
 \begin{frame}{single-qubit gate}
-  
+  \begin{enumerate}[itemsep=10pt]
+    \item \textit{principle:} an optical laser field driving Raman transitions through an intermediate atomic state.
+    \item The atom-laser interaction is characterized by:
+    \begin{itemize}[itemsep = 5pt]
+      \item the Rabi frequency \(\Omega\)(its strength, proportional to the amplitude of the laser field)
+      \item the detuning \(\delta\) (the difference between the qubit resonance and the field frequencies) 
+      \item the relative phase \(\varphi\)
+      \item the duration \(\tau \)
+    \end{itemize}
+    \item induces rotations around the \((x,y,z)\) axes with angles \((\Omega\tau\cos{\varphi},\Omega\tau\sin{\varphi},\delta\tau)\)
+  \end{enumerate}
 \end{frame}
 \begin{frame}{multi-qubit gate}
+  \begin{enumerate}
+    \item Van der Waals force (\(\propto R^{-6}\))
+    \item A Rydberg atom is an excited atom with one or more electrons that have a very high principal quantum number, $n$
+  \end{enumerate}
 \end{frame}
-\begin{frame}{Hamilition operation}
+\begin{frame}{Rydberg blockade}
+  
+\end{frame}
+\begin{frame}{how to choose atomic?}
+  \begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{IMG/Colour_18-col_PT_with_labels}
+    \caption{Periodic table\footnote{\url{https://en.wikipedia.org/wiki/Periodic_table}}}
+  \end{figure}
 \end{frame}
 \begin{frame}{summarize}
-  % befit of atom
-  % scale difficult
-  % error source
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{IMG/improve.png}
+    \caption{The three main axes of hardware developments to improve the performances of the QPUs}
+  \end{figure}
+\end{frame}
+\begin{frame}{Limitations and Solutions}
+  \begin{enumerate}
+    \item \textbf{Qubit Scaling and Laser Systems}
+      \begin{itemize}[itemsep=5pt]
+        \item Higher optical power lasers for more optical tweezers.
+        \item Advanced imaging systems for larger qubit registers.
+        \item Tackling atom lifetime limitations in vacuum chambers.
+      \end{itemize}
+    \item \textbf{Overcoming Residual Pressure Limitations}
+      \begin{itemize}[itemsep=5pt]
+        \item Compact cryogenic QPUs for extended atom lifetimes.
+        \item Faster operation cycles to outpace decoherence.
+      \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Technological Enhancements}
+  \begin{enumerate}
+    \item \textbf{Hardware and Atomic Source Flux}
+      \begin{itemize}[itemsep=5pt]
+        \item Enhanced atomic sources for quicker register loading.
+        \item Improved repetition rate for high-frequency experiments.
+      \end{itemize}
+    \item \textbf{Qubit Manipulation and Error Reduction}
+      \begin{itemize}[itemsep=5pt]
+        \item Reducing decoherence through environmental control.
+        \item High-bandwidth electronics for precise operation control.
+      \end{itemize}
+  \end{enumerate}
 \end{frame}
 \section{device}
 \subsection{scalability}
