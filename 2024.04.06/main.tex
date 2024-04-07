@@ -17,7 +17,7 @@
 \AtBeginSection[]{
   \begin{frame}
   \frametitle{Outline}
-  \tableofcontents[currentsection]
+  \tableofcontents[currentsection,hideallsubsections]
   \end{frame}
 }
 \AtBeginSubsection[]{
@@ -89,12 +89,35 @@
     \[F_{gradient} = \nabla (p \cdot E_{light})\]
   \end{enumerate}
 \end{frame}
-\begin{frame}{optical lattice\footnote{\url{https://en.wikipedia.org/wiki/Optical_lattice}}}
+\begin{frame}{optical lattice / optical tweezers array\footnote{\url{https://en.wikipedia.org/wiki/Optical_lattice}}}
   \begin{figure}
     \includegraphics[width=.5\textwidth]{IMG/AtomsInLattice.png}
     \caption{Atoms (represented as blue spheres) pictured in a 2D-optical lattice potential (represented as the yellow surface)}
   \end{figure}
 \end{frame}
+\begin{frame}{AOD VS. SLM}
+  \begin{enumerate}[itemsep=10pt]
+    % \item Operating piciples
+    % \begin{itemize}[itemsep=5pt]
+    %   \item Amplitude Object Design utilize acoustic waves to diffract and control the amplitude of light waves.
+    %   \item Spatial Light Modulators are devices equipped with an array of pixels, each of which can be individually controlled to alter the properties of the light. 
+    % \end{itemize}
+    \item \textbf{Amplitude Object Design (AOD):}
+    \begin{itemize}[itemsep=5pt]
+      \small
+      \item \textit{Operating Principle:} Uses acoustic waves to diffract and control light's amplitude.
+      \item \textit{Advantages:} Features high-speed modulation and scanning capabilities, low power consumption, and robustness for long-term use.
+      \item \textit{Limitations:} Restricted to amplitude modulation without phase control, possible noise from acoustic wave generation, and efficiency dependent on material properties.
+    \end{itemize}
+    \item \textbf{Spatial Light Modulator (SLM):}
+    \begin{itemize}[itemsep=5pt]
+        \item \small \textit{Operating Principle:} Modulates light's amplitude, phase, or polarization through an array of individually adjustable pixels, enabling complex light pattern generation.
+        \item \textit{Advantages:} Capable of intricate wavefront shaping and modulation across amplitude, phase, and polarization.
+        \item \textit{Limitations:} Higher complexity and cost, potential diffraction artifacts due to its pixelated nature, and limited refresh rate for dynamic applications.
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
 \begin{frame}{develop histroy}
   \begin{enumerate}
     \item Bose-Einstein condensate
@@ -132,26 +155,11 @@
     \caption{Moving a single atom from one site to another (both in red) in the register}
   \end{figure}
 \end{frame}
-\begin{frame}{AOD VS. SLM}
-  \begin{enumerate}[itemsep=10pt]
-    % \item Operating piciples
-    % \begin{itemize}[itemsep=5pt]
-    %   \item Amplitude Object Design utilize acoustic waves to diffract and control the amplitude of light waves.
-    %   \item Spatial Light Modulators are devices equipped with an array of pixels, each of which can be individually controlled to alter the properties of the light. 
-    % \end{itemize}
-    \item \textbf{Amplitude Object Design (AOD):}
-    \begin{itemize}[itemsep=5pt]
-      \small
-      \item \textit{Operating Principle:} Uses acoustic waves to diffract and control light's amplitude.
-      \item \textit{Advantages:} Features high-speed modulation and scanning capabilities, low power consumption, and robustness for long-term use.
-      \item \textit{Limitations:} Restricted to amplitude modulation without phase control, possible noise from acoustic wave generation, and efficiency dependent on material properties.
-    \end{itemize}
-    \item \textbf{Spatial Light Modulator (SLM):}
-    \begin{itemize}[itemsep=5pt]
-        \item \small \textit{Operating Principle:} Modulates light's amplitude, phase, or polarization through an array of individually adjustable pixels, enabling complex light pattern generation.
-        \item \textit{Advantages:} Capable of intricate wavefront shaping and modulation across amplitude, phase, and polarization.
-        \item \textit{Limitations:} Higher complexity and cost, potential diffraction artifacts due to its pixelated nature, and limited refresh rate for dynamic applications.
-    \end{itemize}
+\begin{frame}{some confused words}
+  \begin{enumerate}
+    \item qubit sites
+    \item a mean number of loading individual atoms
+    \item defect-free atomic qubit clusters
   \end{enumerate}
 \end{frame}
 
@@ -173,15 +181,27 @@
   % error source
 \end{frame}
 \section{device}
+\subsection{scalability}
 \begin{frame}{breakthrough}
-  % three different
+  \begin{enumerate}[itemsep=10pt]
+    \item Pause, Lars, Lukas Sturm, Marcel Mittenbühler, Stephan Amann, Tilman Preuschoff, Dominik Schäffner, Malte Schlosser, and Gerhard Birkl. \textbf{Supercharged Two-Dimensional Tweezer Array with More than 1000 Atomic Qubits}. Optica 11, no. 2 (7 February 2024): 222. \url{https://doi.org/10.1364/OPTICA.513551}.
+    \item Norcia, M. A., H. Kim, W. B. Cairncross, M. Stone, A. Ryou, M. Jaffe, M. O. Brown, et al. \textbf{Iterative Assembly of $^{171}$Yb Atom Arrays in Cavity-Enhanced Optical Lattices}. arXiv, 9 February 2024. \url{http://arxiv.org/abs/2401.16177}.
+    \item Gyger, Flavien, Maximilian Ammenwerth, Renhao Tao, Hendrik Timme, Stepan Snigirev, Immanuel Bloch, and Johannes Zeiher. \textbf{Continuous Operation of Large-Scale Atom Arrays in Optical Lattices}. arXiv, 10 February 2024. \url{http://arxiv.org/abs/2402.04994}.
+  \end{enumerate}
 \end{frame}
-\section{computation}
-\subsection{compilition}
+\begin{frame}{Technische Universität}
+  
+\end{frame}
+\begin{frame}{Atom Computing}
+\end{frame}
+\begin{frame}{Max-Planck-Institut}
+\end{frame}
+\begin{frame}{summarize}
+\end{frame}
+\subsection{error correction}
 \begin{frame}{set up}
 \end{frame}
-\subsection{eror correction}
-\section*{end}
+\section{synthess}
 \begin{frame}{discussion}
 \end{frame}
 \end{document}
