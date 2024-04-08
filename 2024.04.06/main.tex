@@ -15,18 +15,19 @@
 \setbeamerfont{enumerate item}{size=\LARGE}
 \setlist[itemize]{label=\textbullet, leftmargin=*, itemsep=5pt}
 \input{styles.tex}
-\AtBeginSection[]{
-  \begin{frame}
-  \frametitle{Outline}
-  \tableofcontents[currentsection,hideallsubsections]
-  \end{frame}
-}
-\AtBeginSubsection[]{
-  \begin{frame}
-  \frametitle{Outline}
-  \tableofcontents[currentsubsection]
-  \end{frame}
-}
+% //TODO: add
+% \AtBeginSection[]{
+%   \begin{frame}
+%   \frametitle{Outline}
+%   \tableofcontents[currentsection,hideallsubsections]
+%   \end{frame}
+% }
+% \AtBeginSubsection[]{
+%   \begin{frame}
+%   \frametitle{Outline}
+%   \tableofcontents[currentsubsection]
+%   \end{frame}
+% }
 \setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
 \setbeamertemplate{subsection in toc}[ball unnumbered]
 \setbeamertemplate{subsubsection in toc}[square unnumbered]
@@ -219,41 +220,36 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{summarize}
+\begin{frame}{potential developments}
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{IMG/improve.png}
     \caption{The three main axes of hardware developments to improve the performances of the QPUs}
   \end{figure}
 \end{frame}
-\begin{frame}{Limitations and Solutions}
-  \begin{enumerate}
-    \item \textbf{Qubit Scaling and Laser Systems}
-      \begin{itemize}[itemsep=5pt]
-        \item Higher optical power lasers for more optical tweezers.
-        \item Advanced imaging systems for larger qubit registers.
-        \item Tackling atom lifetime limitations in vacuum chambers.
-      \end{itemize}
-    \item \textbf{Overcoming Residual Pressure Limitations}
-      \begin{itemize}[itemsep=5pt]
-        \item Compact cryogenic QPUs for extended atom lifetimes.
-        \item Faster operation cycles to outpace decoherence.
-      \end{itemize}
-  \end{enumerate}
-\end{frame}
+% \begin{frame}{Limitations and Solutions}
+%   \begin{enumerate}
+%     \item \textbf{Qubit Scaling and Laser Systems}
+%       \begin{itemize}[itemsep=5pt]
+%         \item Higher optical power lasers for more optical tweezers.
+%         \item Advanced imaging systems for larger qubit registers.
+%         \item Tackling atom lifetime limitations in vacuum chambers.
+%       \end{itemize}
+%     \item \textbf{Overcoming Residual Pressure Limitations}
+%       \begin{itemize}[itemsep=5pt]
+%         \item Compact cryogenic QPUs for extended atom lifetimes.
+%         \item Faster operation cycles to outpace decoherence.
+%       \end{itemize}
+%   \end{enumerate}
+% \end{frame}
 
-\begin{frame}{Technological Enhancements}
-  \begin{enumerate}
-    \item \textbf{Hardware and Atomic Source Flux}
-      \begin{itemize}[itemsep=5pt]
-        \item Enhanced atomic sources for quicker register loading.
-        \item Improved repetition rate for high-frequency experiments.
-      \end{itemize}
-    \item \textbf{Qubit Manipulation and Error Reduction}
-      \begin{itemize}[itemsep=5pt]
-        \item Reducing decoherence through environmental control.
-        \item High-bandwidth electronics for precise operation control, in special rydberg state loss.
-      \end{itemize}
+\begin{frame}{technological enhancements}
+  \begin{enumerate}[itemsep=15pt]
+    \item Higher optical power lasers for more optical tweezers.
+    \item Advanced imaging systems for larger qubit registers.
+    \item Overcoming Residual Pressure Limitations
+    \item Enhanced atomic sources for quicker register loading.
+    \item High-bandwidth electronics for precise operation control.
   \end{enumerate}
 \end{frame}
 \section{device}
