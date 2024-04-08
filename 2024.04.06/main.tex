@@ -202,19 +202,21 @@
 \begin{frame}{multi-qubit gate}
   \begin{columns}
     \begin{column}{.5\textwidth}
-      realize: \(2|gg\rangle-\mathbb{I} \)
+      realize: \(2|gg\rangle\langle gg|-\mathbb{I} \)
       \vspace{20pt}
       \begin{enumerate}
-        \item \(|gg\rangle\to |gg\rangle \to |gg\rangle\)
-        \item \(|eg\rangle\to |rg\rangle \to -|eg\rangle \)
-        \item \(|ge\rangle\to |gr\rangle \to -|ge\rangle \)
-        \item \(|ee\rangle\to |re\rangle \to -|ee\rangle \)
+        \item \(|gg\rangle\to |gg\rangle \to |gg\rangle \to |gg\rangle\)
+        \item \(|eg\rangle\to |rg\rangle \to |rg\rangle \to -|eg\rangle \)
+        \item \(|ge\rangle\to |ge\rangle \to -|ge\rangle \to -|ge\rangle \)
+        \item \(|ee\rangle\to |re\rangle \to |re\rangle  \to -|ee\rangle \)
       \end{enumerate}
+      \vspace{20pt}
+      similiar: \(2|gg\cdots\rangle\langle gg\cdots|-\mathbb{I} \)
     \end{column}
     \begin{column}{.5\textwidth}
       \begin{figure}
         \includegraphics[width=\textwidth]{IMG/cz.png}
-        \caption{Principle of the controlled-Z gate based on dipolar Rydberg interaction. First a $\pi$ pulse is applied on the control atom, then a 2$\pi$ pulse on the target atom, and finally another $\pi$ pulse on the control one.}
+        \caption{Principle of the controlled-Z gate based on dipolar Rydberg interaction. First a $\pi$ pulse is applied on the control atom, then a 2$\pi$ pulse on the target atom, and finally another $\pi$ pulse on the control one.As a result, those pluses apply a gate $e^{i\pi} Z$.}
       \end{figure}
     \end{column}
   \end{columns}
@@ -261,10 +263,14 @@
     \item Gyger, Flavien, Maximilian Ammenwerth, Renhao Tao, Hendrik Timme, Stepan Snigirev, Immanuel Bloch, and Johannes Zeiher. \textbf{Continuous Operation of Large-Scale Atom Arrays in Optical Lattices}. arXiv, 10 February 2024. \url{http://arxiv.org/abs/2402.04994}.
   \end{enumerate}
 \end{frame}
-\begin{frame}{Technische Universität}
-  
+\begin{frame}{supercharged}
+\begin{figure}
+  \includegraphics[width=.5\textwidth]{IMG/supercharhed.png}
+  \caption{In the experimental setup described in the paper titled \textit{Supercharged}, the implementation encompasses 3000 qubit sites, including 441 qubits, utilizing Rubidium (Rb) as the core element.}
+\end{figure}  
 \end{frame}
 \begin{frame}{Atom Computing}
+
 \end{frame}
 \begin{frame}{Max-Planck-Institut}
 \end{frame}
