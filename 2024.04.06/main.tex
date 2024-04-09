@@ -44,17 +44,20 @@
   \titlepage
 \end{frame}
 \begin{frame}{why Netural Atom?}
-  \begin{enumerate}
-    \item 
-  \end{enumerate}
+  \begin{columns}
+    \begin{column}{.8\textwidth}
+      \begin{enumerate}
+        \item Naturally identical and stable
+        \item Large qubit count
+        \item Wireless gates and position control
+        \item Strong interactions available for multi-qubit gates
+      \end{enumerate}
+    \end{column}
+    \begin{column}{.2\textwidth}
+    \end{column}
+  \end{columns}
 \end{frame}
-\begin{frame}{main reference}
-  \begin{enumerate}
-    \item Henriet, Loic, Lucas Beguin, Adrien Signoles, Thierry Lahaye, Antoine Browaeys, Georges-Olivier Reymond, and Christophe Jurczak. \textbf{Quantum Computing with Neutral Atoms}. Quantum 4 (21 September 2020): 327. \url{https://doi.org/10.22331/q-2020-09-21-327}.
-    % \item Bluvstein, Dolev, Harry Levine, Giulia Semeghini, Tout T. Wang, Sepehr Ebadi, Marcin Kalinowski, Alexander Keesling, et al. \textbf{A Quantum Processor Based on Coherent Transport of Entangled Atom Arrays}. Nature 604, no. 7906 (21 April 2022): 451–56. \url{https://doi.org/10.1038/s41586-022-04592-6}.
-    \item Bluvstein, Dolev, Simon J. Evered, Alexandra A. Geim, Sophie H. Li, Hengyun Zhou, Tom Manovitz, Sepehr Ebadi, et al. \textbf{Logical Quantum Processor Based on Reconfigurable Atom Arrays}. Nature 626, no. 7997 (1 February 2024): 58–65. \url{https://doi.org/10.1038/s41586-023-06927-3}.
-  \end{enumerate}
-\end{frame}
+
 \section{principle}
 % \begin{frame}
 %   \frametitle{important principle}
@@ -66,6 +69,13 @@
 % \end{frame}
 % some basic
 % atom 
+\begin{frame}{main reference}
+  \begin{enumerate}
+    \item Henriet, Loic, Lucas Beguin, Adrien Signoles, Thierry Lahaye, Antoine Browaeys, Georges-Olivier Reymond, and Christophe Jurczak. \textbf{Quantum Computing with Neutral Atoms}. Quantum 4 (21 September 2020): 327. \url{https://doi.org/10.22331/q-2020-09-21-327}.
+    % \item Bluvstein, Dolev, Harry Levine, Giulia Semeghini, Tout T. Wang, Sepehr Ebadi, Marcin Kalinowski, Alexander Keesling, et al. \textbf{A Quantum Processor Based on Coherent Transport of Entangled Atom Arrays}. Nature 604, no. 7906 (21 April 2022): 451–56. \url{https://doi.org/10.1038/s41586-022-04592-6}.
+    
+  \end{enumerate}
+\end{frame}
 \subsection{control}
 \begin{frame}{optical tweezers\footnote{\url{https://en.wikipedia.org/wiki/Optical_tweezers}}}
   \begin{columns} % The "T" option aligns the columns' content at the top
@@ -127,7 +137,7 @@
 
 \begin{frame}{develop histroy}
   \begin{enumerate}
-    \item Bose-Einstein condensate
+    % \item Bose-Einstein condensate
     \item \small{Endres, Manuel, Hannes Bernien, Alexander Keesling, Harry Levine, Eric R. Anschuetz, Alexandre Krajenbrink, Crystal Senko, Vladan Vuletic, Markus Greiner, and Mikhail D. Lukin. "Atom-by-atom assembly of defect-free one-dimensional cold atom arrays." Science 354, no. 6315 (2016): 1024-1027. \url{https://www.science.org/doi/abs/10.1126/science.aah3752}.}
     \item \small{Barredo, Daniel, Sylvain de Léséleuc, Vincent Lienhard, Thierry Lahaye, and Antoine Browaeys. "An atom-by-atom assembler of defect-free arbitrary two-dimensional atomic arrays." Science 354, no. 6315 (2016): 1021-1023. \url{https://www.science.org/doi/abs/10.1126/science.aah3778}.}
   \end{enumerate}
@@ -141,8 +151,9 @@
       \item cooling
       \begin{enumerate}[itemsep = 5pt]
         \item zeeman slower
-        \item 2D MOT
-        \item 3D MOT
+        % \item 2D MOT
+        % \item 3D MOT
+        \item MOT cooling
       \end{enumerate}
       \item optical lattice
       \item rearrange
@@ -172,9 +183,9 @@
 
 % Hamilition
 \subsection{operation}
-\begin{frame}{readout}
-  % a example figure here
-\end{frame}
+% \begin{frame}{readout}
+%   % a example figure here
+% \end{frame}
 \begin{frame}{single-qubit gate}
   \begin{enumerate}[itemsep=10pt]
     \item \textit{principle:} an optical laser field driving Raman transitions through an intermediate atomic state.
@@ -201,7 +212,7 @@
   \begin{figure}
     \centering
     \includegraphics[width=.8\textwidth]{IMG/Colour_18-col_PT_with_labels}
-    \caption{Periodic table\footnote{\url{https://en.wikipedia.org/wiki/Periodic_table}}}
+    \caption{A periodic table from \footnote{\url{https://en.wikipedia.org/wiki/Periodic_table}}. Usually, people use alkaline erath elements for naturely stable qubits, like Rubidium (Rb).}
   \end{figure}
 \end{frame}
 \begin{frame}{multi-qubit gate}
@@ -301,7 +312,10 @@
   \end{enumerate}
 \end{frame}
 \subsection{error correction}
-\begin{frame}{set up}
+\begin{frame}{main reference}
+\begin{enumerate}
+ \item Bluvstein, Dolev, Simon J. Evered, Alexandra A. Geim, Sophie H. Li, Hengyun Zhou, Tom Manovitz, Sepehr Ebadi, et al. \textbf{Logical Quantum Processor Based on Reconfigurable Atom Arrays}. Nature 626, no. 7997 (1 February 2024): 58–65. \url{https://doi.org/10.1038/s41586-023-06927-3}.
+\end{enumerate}
 \end{frame}
 \section{synthess}
 \begin{frame}{Benefits of Atomic Computation}
