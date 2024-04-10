@@ -16,18 +16,18 @@
 \setlist[itemize]{label=\textbullet, leftmargin=*, itemsep=5pt}
 \input{styles.tex}
 % //TODO: add
-% \AtBeginSection[]{
-%   \begin{frame}
-%   \frametitle{Outline}
-%   \tableofcontents[currentsection,hideallsubsections]
-%   \end{frame}
-% }
-% \AtBeginSubsection[]{
-%   \begin{frame}
-%   \frametitle{Outline}
-%   \tableofcontents[currentsubsection]
-%   \end{frame}
-% }
+\AtBeginSection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection,hideallsubsections]
+  \end{frame}
+}
+\AtBeginSubsection[]{
+  \begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsubsection]
+  \end{frame}
+}
 \setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
 \setbeamertemplate{subsection in toc}[ball unnumbered]
 \setbeamertemplate{subsubsection in toc}[square unnumbered]
@@ -106,6 +106,13 @@
     \[F_{gradient} = \nabla (p \cdot E_{light})\]
   \end{enumerate}
 \end{frame}
+\begin{frame}{develop histroy}
+  \begin{enumerate}
+    % \item Bose-Einstein condensate
+    \item \small{Endres, Manuel, Hannes Bernien, Alexander Keesling, Harry Levine, Eric R. Anschuetz, Alexandre Krajenbrink, Crystal Senko, Vladan Vuletic, Markus Greiner, and Mikhail D. Lukin. "Atom-by-atom assembly of defect-free one-dimensional cold atom arrays." Science 354, no. 6315 (2016): 1024-1027. \url{https://www.science.org/doi/abs/10.1126/science.aah3752}.}
+    \item \small{Barredo, Daniel, Sylvain de Léséleuc, Vincent Lienhard, Thierry Lahaye, and Antoine Browaeys. "An atom-by-atom assembler of defect-free arbitrary two-dimensional atomic arrays." Science 354, no. 6315 (2016): 1021-1023. \url{https://www.science.org/doi/abs/10.1126/science.aah3778}.}
+  \end{enumerate}
+\end{frame}
 \begin{frame}{optical lattice / optical tweezers array\footnote{\url{https://en.wikipedia.org/wiki/Optical_lattice}}}
   \begin{figure}
     \includegraphics[width=.5\textwidth]{IMG/AtomsInLattice.png}
@@ -119,7 +126,7 @@
     %   \item Amplitude Object Design utilize acoustic waves to diffract and control the amplitude of light waves.
     %   \item Spatial Light Modulators are devices equipped with an array of pixels, each of which can be individually controlled to alter the properties of the light. 
     % \end{itemize}
-    \item \textbf{Amplitude Object Design (AOD):}
+    \item \textbf{Acousto-optic deflector (AOD):}
     \begin{itemize}[itemsep=5pt]
       \small
       \item \textit{Operating Principle:} Uses acoustic waves to diffract and control light's amplitude.
@@ -135,13 +142,7 @@
   \end{enumerate}
 \end{frame}
 
-\begin{frame}{develop histroy}
-  \begin{enumerate}
-    % \item Bose-Einstein condensate
-    \item \small{Endres, Manuel, Hannes Bernien, Alexander Keesling, Harry Levine, Eric R. Anschuetz, Alexandre Krajenbrink, Crystal Senko, Vladan Vuletic, Markus Greiner, and Mikhail D. Lukin. "Atom-by-atom assembly of defect-free one-dimensional cold atom arrays." Science 354, no. 6315 (2016): 1024-1027. \url{https://www.science.org/doi/abs/10.1126/science.aah3752}.}
-    \item \small{Barredo, Daniel, Sylvain de Léséleuc, Vincent Lienhard, Thierry Lahaye, and Antoine Browaeys. "An atom-by-atom assembler of defect-free arbitrary two-dimensional atomic arrays." Science 354, no. 6315 (2016): 1021-1023. \url{https://www.science.org/doi/abs/10.1126/science.aah3778}.}
-  \end{enumerate}
-\end{frame}
+
 \begin{frame}{work flow}
 \begin{columns}
   \begin{column}{.3\textwidth}
@@ -317,17 +318,52 @@
  \item Bluvstein, Dolev, Simon J. Evered, Alexandra A. Geim, Sophie H. Li, Hengyun Zhou, Tom Manovitz, Sepehr Ebadi, et al. \textbf{Logical Quantum Processor Based on Reconfigurable Atom Arrays}. Nature 626, no. 7997 (1 February 2024): 58–65. \url{https://doi.org/10.1038/s41586-023-06927-3}.
 \end{enumerate}
 \end{frame}
-\section{synthess}
+\begin{frame}{experiment set up}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      D-dimensional color code:
+      \vspace{20pt}
+      \begin{enumerate}
+        \item the graph is a homogeneous simplicial D-complex obtained as a triangulation of the interior of a D-simplex.
+        % 图是一个均匀的单纯形D-复合体，作为D-单纯形内部的三角剖分获得
+        \item the graph is D+1-colorable.
+      \end{enumerate}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \includegraphics[width=.8\textwidth]{IMG/qec.png}
+        \caption{Schematic of the logical processor, segmented into three zones: storage, entangling, and readout.}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+\begin{frame}{reconfigurable atom arrays}
+  \begin{figure}
+    \includegraphics[width=.5\textwidth]{IMG/reconfigure.png}
+    \caption{Illustration of two qubit gate on parallel atom transport.}
+  \end{figure}
+\end{frame}
+\begin{frame}{GHZ experiment}
+\begin{figure}
+  \includegraphics[width=.8\textwidth]{IMG/ghz.png}
+  \caption{Circuit for preparation of logical GHZ state. Ten color codes are encoded non-fault-tolerantly (nFT), and then parallel transversal CNOTs between computation and ancilla logical qubits perform FT initialization.}
+\end{figure}
+\end{frame}
+\begin{frame}{}
+\end{frame}
+\section{discussion}
 \begin{frame}{Benefits of Atomic Computation}
   \begin{enumerate}
   \item Naturally enables a broader range of gate operations, including non-Clifford CCZ and non-linear CZ gates.
   \item Facilitates parallel processing and non-local operations seamlessly.
   \end{enumerate}
 \end{frame}
-\begin{frame}{multi-qubit gate}
+\begin{frame}{now resarch}
+  \begin{enumerate}
+    \item some paper is resarch about multi-gate: \url{https://doi.org/10.1145/3470496.3527428}
+    \item also some paper about Dynamically field-programmable qubit arrays.\url{https://dl.acm.org/doi/abs/10.1145/3508352.3549331}
+  \end{enumerate}
 \end{frame}
-\begin{frame}{non-local operation}
-\end{frame}
-\begin{frame}{discussion}
-\end{frame}
+% \begin{frame}{}
+% \end{frame}
 \end{document}
