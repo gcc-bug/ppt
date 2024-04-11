@@ -295,7 +295,7 @@
 \begin{frame}{continuous}
   \begin{figure}
     \includegraphics[width=.8\textwidth]{IMG/continus.png}
-    \caption{}
+    \caption{The paper titled \textit{Continuous} introduces a novel approach for the uninterrupted operation of extensive atom arrays within optical lattices. This method involves subdividing the accessible area to support the assembly and maintenance of the array, realizing a continuously refilled system with a net 2.5 seconds cycle time for over 1000 Strontium atoms.}
   \end{figure}
 \end{frame}
 \begin{frame}{summarize}
@@ -328,6 +328,8 @@
         % 图是一个均匀的单纯形D-复合体，作为D-单纯形内部的三角剖分获得
         \item the graph is D+1-colorable.
       \end{enumerate}
+      \vspace{20pt}
+      transversal gates: inherently fault-tolerant.
     \end{column}
     \begin{column}{.5\textwidth}
       \begin{figure}
@@ -341,29 +343,36 @@
   \begin{figure}
     \includegraphics[width=.5\textwidth]{IMG/reconfigure.png}
     \caption{Illustration of two qubit gate on parallel atom transport.}
+    % gate time scale 200 ns
+    % movement  100 to 200 ms
+    % 300 ms for rearrange
   \end{figure}
 \end{frame}
 \begin{frame}{GHZ experiment}
 \begin{figure}
   \includegraphics[width=.8\textwidth]{IMG/ghz.png}
-  \caption{Circuit for preparation of logical GHZ state. Ten color codes are encoded non-fault-tolerantly (nFT), and then parallel transversal CNOTs between computation and ancilla logical qubits perform FT initialization.}
+  \caption{Circuit for preparation of logical GHZ state. Ten color codes are encoded non-fault-tolerantly (nFT), and then parallel transversal CNOTs between computation and ancilla logical qubits perform FT initialization. In this experiment, pyhsocal qubit initialization is $99.32\%$, physical two-qubit gate fidelity is $99.5\%$. Using the fault-tolerant, the $|0\rangle_{L}$ initialization fidelity is $99.91\%$. The GHZ state fidelity is $72\%$. Using postselect, the fidelity increase $99.85\%$.}
 \end{figure}
 \end{frame}
-\begin{frame}{}
-\end{frame}
+% \begin{frame}{}
+% \end{frame}
 \section{discussion}
-\begin{frame}{Benefits of Atomic Computation}
-  \begin{enumerate}
-  \item Naturally enables a broader range of gate operations, including non-Clifford CCZ and non-linear CZ gates.
-  \item Facilitates parallel processing and non-local operations seamlessly.
-  \end{enumerate}
+\begin{frame}{discussion}
+  \begin{itemize}[itemsep=15pt]
+    \item Entering the initial phase of fault-tolerant quantum computing, the strategy of carefully selecting both the algorithm and the qubit encoding to match the hardware's capabilities offers significant potential. This approach can efficiently address new types of problems.
+    \item Benefits of Atomic Computation:
+        \begin{enumerate}[itemsep=10pt]
+          \item Expands the spectrum of gate operations to include advanced options like non-Clifford CCZ and nonlinear CZ gates.
+          \item Streamlines the integration of parallel processing and the execution of non-local operations.
+        \end{enumerate}  
+  \end{itemize}
 \end{frame}
-\begin{frame}{now resarch}
-  \begin{enumerate}
-    \item some paper is resarch about multi-gate: \url{https://doi.org/10.1145/3470496.3527428}
-    \item also some paper about Dynamically field-programmable qubit arrays.\url{https://dl.acm.org/doi/abs/10.1145/3508352.3549331}
-  \end{enumerate}
-\end{frame}
+% \begin{frame}{now resarch}
+%   \begin{enumerate}
+%     \item some paper is resarch about multi-gate: \url{https://doi.org/10.1145/3470496.3527428}
+%     \item also some paper about Dynamically field-programmable qubit arrays.\url{https://dl.acm.org/doi/abs/10.1145/3508352.3549331}
+%   \end{enumerate}
+% \end{frame}
 % \begin{frame}{}
 % \end{frame}
 \end{document}
