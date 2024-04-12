@@ -205,7 +205,7 @@
     \item Van der Waals force, \(\propto R^{-6}\)
     \item dipole-dipole interaction, \(\propto R^{-3} \left( \vec{p}_1 \cdot \vec{p}_2 - 3(\vec{p}_1 \cdot \hat{R})(\vec{p}_2 \cdot \hat{R}) \right)
     \), while \(\vec{p} = q\cdot \vec{d}\)
-    \item $r=\frac{n^{2}\hbar ^{2}}{ke^{2}m}$, while rydberg atoms in experiment $50\le n \le 70$
+    \item $d\propto n^{2}$, while rydberg atoms in experiment $50\le n \le 70$
     \item two closed atoms can't be $|rr\rangle$
   \end{enumerate}
 \end{frame}
@@ -221,14 +221,14 @@
     \begin{column}{.5\textwidth}
       realize: \(2|gg\rangle\langle gg|-\mathbb{I} \)
       \vspace{20pt}
-      \begin{enumerate}
-        \item \(|gg\rangle\to |gg\rangle \to |gg\rangle \to |gg\rangle\)
-        \item \(|eg\rangle\to |rg\rangle \to |rg\rangle \to -|eg\rangle \)
-        \item \(|ge\rangle\to |ge\rangle \to -|ge\rangle \to -|ge\rangle \)
-        \item \(|ee\rangle\to |re\rangle \to |re\rangle  \to -|ee\rangle \)
+      \begin{enumerate}[itemsep=15pt]
+        \item \(|gg\rangle\xrightarrow{\pi_1} |gg\rangle \xrightarrow{2\pi_2} |gg\rangle \xrightarrow{\pi_1} |gg\rangle\)
+        \item \(|eg\rangle\xrightarrow{\pi_1} |rg\rangle \xrightarrow{2\pi_2} |rg\rangle \xrightarrow{\pi_1} -|eg\rangle \)
+        \item \(|ge\rangle\xrightarrow{\pi_1} |ge\rangle \xrightarrow{2\pi_2} -|ge\rangle \xrightarrow{\pi_1} -|ge\rangle \)
+        \item \(|ee\rangle\xrightarrow{\pi_1} |re\rangle \xrightarrow{2\pi_2} |re\rangle  \xrightarrow{\pi_1} -|ee\rangle \)
       \end{enumerate}
       \vspace{20pt}
-      similiar: \(2|gg\cdots\rangle\langle gg\cdots|-\mathbb{I} \)
+      Or: \(|ee\rangle \xrightarrow{\pi_{1,2}} \frac{|er\rangle+|re\rangle}{\sqrt{2}} \xrightarrow{\pi_{1,2}} -|ee\rangle\)
     \end{column}
     \begin{column}{.5\textwidth}
       \begin{figure}
@@ -237,6 +237,24 @@
       \end{figure}
     \end{column}
   \end{columns}
+\end{frame}
+\begin{frame}
+\frametitle{noise sources}
+% \begin{enumerate}
+%   \item \textbf{Thermal Noise:} Random thermal fluctuations affecting the system.
+%   \item \textbf{Quantum Decoherence:} Loss of quantum information due to interaction with the environment.
+%   \item \textbf{Control Errors:} Imperfections in the implementation of quantum gates.
+%   \item \textbf{Measurement Errors:} Inaccuracies when measuring qubits.
+% \end{enumerate}
+\begin{enumerate}
+  \item Thermal Noise, Quantum Decoherence, Imperfections in the implementation of quantum gates, Measurement Errors
+  \item Atom loss
+  \begin{itemize}
+    \item Residual Pressure
+    \item The conservation of photon momentum during detection
+  \end{itemize}
+  \item Transient non-zero population of Rydberg states
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{potential developments}
@@ -372,14 +390,21 @@
 \end{frame}
 \section{discussion}
 \begin{frame}{discussion}
-  \begin{itemize}[itemsep=15pt]
+  \begin{itemize}[itemsep=10pt]
     \item Entering the initial phase of fault-tolerant quantum computing, the strategy of carefully selecting both the algorithm and the qubit encoding to match the hardware's capabilities offers significant potential. This approach can efficiently address new types of problems.
     \item Benefits of Atomic Computation:
-        \begin{enumerate}[itemsep=10pt]
+        \begin{enumerate}[itemsep=5pt]
           \item Expands the spectrum of gate operations to include advanced options like non-Clifford CCZ and nonlinear CZ gates.
           \item Streamlines the integration of parallel processing and the execution of non-local operations.
         \end{enumerate}  
+    \item Future choice:
+        \begin{itemize}
+          \item multi-element atom array
+          \item trad off between stationery with dynamic
+          % \item 
+        \end{itemize}
   \end{itemize}
+  
 \end{frame}
 % \begin{frame}{now resarch}
 %   \begin{enumerate}
