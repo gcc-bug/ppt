@@ -5,13 +5,14 @@
 \usepackage{graphicx}
 \usepackage{booktabs} % for better table formatting
 \usepackage{geometry} % for adjusting page layout
-\usepackage{enumitem} % for customizing lists
+% \usepackage{enumitem} % for customizing lists
 \usepackage{hyperref} % for clickable links and references
 \usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{amsmath}
 \usetikzlibrary{quantikz}
-
+\setbeamertemplate{itemize item}[ball] % Can be circle, square, etc.
+\setbeamertemplate{itemize subitem}[default] % Can be ball, triangle, etc.
 \title[学位论文答辩]{基于TDD的量子模型检测中的可达性分析}
 \subtitle{硕士学位论文答辩}
 \author[Gc]{高丁超\\ 导师：应圣钢}
@@ -53,7 +54,8 @@
     \begin{itemize}
         \item \textbf{标题:} 基于TDD的量子模型检测中的可达性分析
         \item \textbf{总结:}
-        \begin{itemize}[itemsep=10pt]
+        \begin{itemize}
+            \setlength\itemsep{1em} % Set item separation here, for subitems
             \item \textit{问题:} 如何在量子系统中验证命题。
             \item \textit{解决方案:} 采用量子模型检测。
             \item \textit{挑战:} 原有的方法随着量子比特数量的增加，资源需求指数级增长。
@@ -63,7 +65,7 @@
 \end{frame}
 
 \begin{frame}{量子计算的关键概念}
-    \begin{itemize}[itemsep=18pt]
+    \begin{itemize}
         % //TODO: add figure 
         \item \textbf{量子比特（Qubits）：} the quantum version of the classic binary
         \item \textbf{叠加态（Superposition）：} $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle=\left[\begin{array}{r}\alpha \\\beta\end{array}\right]$
@@ -100,7 +102,26 @@
       \caption{Grover\_3算法的电路。}
     \end{figure}
 \end{frame}
-
+\begin{frame}{研究背景}
+    \begin{itemize}
+        \item<1-> 量子计算的快速发展
+        \begin{itemize}
+            \item 规模化拓展
+            \begin{itemize}
+                \item IBM: Condor \textbf{1121}; 中科大: 九章三号 \textbf{255}
+            \end{itemize}
+            \item 容错计算
+            \begin{itemize}
+                \item IonQ: \textbf{29}; QuEra:  \textbf{48}
+            \end{itemize}
+        \end{itemize}
+        \item<2-> 现有验证方法
+        \begin{itemize}
+            \item 模型检测自动化程度高，但存在资源爆炸的问题
+            \item 定理证明处理复杂问题有明显优势，但自动化程度低
+        \end{itemize}
+    \end{itemize}
+\end{frame}
 \begin{frame}{量子迁移系统}
     \begin{columns}[T] % The "T" option aligns the columns content at the top
 
@@ -174,6 +195,7 @@
         \item \textbf{property:} $\mathcal{T}_1(S)=S$
     \end{itemize}
 \end{frame}
+
 % \begin{frame}{量子模型检测例子}
 %     \begin{figure}
 %       \includegraphics[height=3.5cm]{Img/cir_coum.pdf}
@@ -194,10 +216,10 @@
 %     \end{figure}
 % \end{frame}
 \begin{frame}{张量决策图（TDD）}
-    \begin{itemize}[itemsep=10pt]
+    \begin{itemize}
         \item \textbf{TDD 定义：} 由节点集 $V$、边集 $E$、索引函数 $index$、值函数 $value$、低高边映射 $low/high$ 和权重 $w$ 组成。
         \item
-        \begin{itemize}[itemsep=8pt,label=$\bullet$]
+        \begin{itemize}
             \item 节点集$V$分为非终端节点 $V_N$ 和终端节点 $V_T$，且有唯一根节点 $r_{\mathcal{F}}$。
             \item 边集$E$包含所有低边 $\left(v,low(v)\right)$ 和高边 $\left(v,high(v)\right)$。
             \item 索引函数$index$ 分配索引，值函数$value$ 赋予终端节点复数值，$w$ 为边赋权重，特别是根边权重 $w_{\mathcal{F}}$。
@@ -238,36 +260,37 @@
         \end{itemize}
     \end{center}
 \end{frame}
-\begin{frame}{相关工作-QMDD}
-    \begin{columns}[T] % The "T" option aligns the columns content at the top
+% \begin{frame}{相关工作-QMDD}
+%     \begin{columns}[T] % The "T" option aligns the columns content at the top
 
-        % Column for itemized list
-        \begin{column}{.6\textwidth}
-            \begin{figure}
-                \includegraphics[height=4cm]{Img/QMDD_b.png}
-                \caption{一个QMDD的示例。}
-            \end{figure}
-        \end{column}
-        \begin{column}{.4\textwidth}
-            \hspace{80pt}
-            \begin{itemize}
-                \item TDD只有高边和低边，表示更简洁。
-            \end{itemize}
-        \end{column}
+%         % Column for itemized list
+%         \begin{column}{.6\textwidth}
+%             \begin{figure}
+%                 \includegraphics[height=4cm]{Img/QMDD_b.png}
+%                 \caption{一个QMDD的示例。}
+%             \end{figure}
+%         \end{column}
+%         \begin{column}{.4\textwidth}
+%             \hspace{80pt}
+%             \begin{itemize}
+%                 \item TDD只有高边和低边，表示更简洁。
+%             \end{itemize}
+%         \end{column}
         
-    \end{columns}
-  \end{frame}
+%     \end{columns}
+%   \end{frame}
 \section{研究内容}
 \begin{frame}{解决方案简介：}
-    \begin{itemize}[itemsep=10pt]
+    \begin{itemize}
+        \item \textbf{研究问题：}
         \item \textbf{基本方法：}将转移关系和初态转化为TDD表示，然后计算系统的状态转移。
         \item \textbf{改进算法：}
-        \begin{itemize}[label=$\bullet$]
+        \begin{itemize}
             \item \textbf{addition partition:} 寻找依赖最多的索引项，从而分割线路。
             \item \textbf{contraction partition:}通过预设的参数进行线路分割。
         \end{itemize}
         \item \textbf{创新点：}
-        \begin{itemize}[label=$\bullet$]
+        \begin{itemize}
             \item 通过TDD，可以自动化的验证更大规模的量子算法。
             \item 通过C++重构，实现了比过去TDD更好的运行效率。
         \end{itemize}
@@ -275,7 +298,7 @@
 \end{frame}
 
 \begin{frame}{adddition partition}
-    \begin{itemize}[label=$\bullet$]
+    \begin{itemize}
         \item 将量子电路转换为索引依赖图G。
         \item 通过图G的连通度选择索引进行电路分割。
     \end{itemize}
@@ -286,7 +309,7 @@
     \end{figure}
 \end{frame}
 \begin{frame}{Contraction partition}
-    \begin{itemize}[label=$\bullet$]
+    \begin{itemize}
         \item 确定预设参数 k1 和 k2。
         \item 分割电路，每部分包括最多 k1 个量子比特，连接最多 k2 个多比特门。
     \end{itemize}
@@ -311,13 +334,13 @@
         }
         \caption{对不同量子算法计算一步迁移的时间消耗}
     \end{table}
-    \begin{itemize}[label=$\bullet$]
+    \begin{itemize}
         \item 对于有特殊结构的算法，如GHZ算法，addition partiton有更好的执行效率。
         \item 对于一般的电路，contraction partition的执行效率更好。
     \end{itemize}
 \end{frame}
 \begin{frame}{工作成果}
-    \begin{itemize}[label=$\bullet$]
+    \begin{itemize}
         \item 通过C++重构TDD，改进了内存管理，从而加快了计算效率。
     \end{itemize}
     \begin{figure}
@@ -326,7 +349,7 @@
     \end{figure}
 \end{frame}
 \begin{frame}{未来计划}
-    \begin{itemize}[label=$\bullet$]
+    \begin{itemize}
         \item 应用等价性，可以化简数据结构。
         \item 结合优化算法与C++的优势，进一步提高执行效率。
     \end{itemize}
