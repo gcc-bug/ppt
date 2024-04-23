@@ -135,23 +135,23 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
 \label{sec-optimize}
 本文工作的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本文工作的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割线路和优化TDD结构。下面简单介绍一下具体改进方法。
 \subsection*{索引顺序的调整}
-\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x1,x2,x3,x4)=x1x2+x3x4$。但图\ref{fig:bdd-good}的结构更简单，图中边和节点的数目更少。其中图\ref{fig:bdd-bad}的索引顺序为\{x1,x3,x2,x4\}，图\ref{fig:bdd-good}的索引顺序为\{x1,x2,x3,x4\}。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模线路上寻求规律，然后在更大规模线路中应用较优顺序。
+\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x_1,x_2,x_3,x_4)=x_1x_2+x_3x_4$。但图\ref{fig:bdd-good}的结构更简单，图中边和节点的数目更少。其中图\ref{fig:bdd-bad}的索引顺序为$\{x_1,x_3,x_2,x_4\}$，图\ref{fig:bdd-good}的索引顺序为$\{x_1,x_2,x_3,x_4\}$。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模线路上寻求规律，然后在更大规模线路中应用较优顺序。
 % \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
 \begin{figure}[!htbp]
 	\centering
 	\begin{subfigure}[b]{.4\textwidth}
         \centering
         \includegraphics[height=8cm]{Img/bdd_bad.pdf}
-		\caption{索引顺序为\{x1,x3,x2,x4\}}
+		\caption{索引顺序为$\{x_1,x_3,x_2,x_4\}$}
 		\label{fig:bdd-bad}
 	\end{subfigure}
 	\begin{subfigure}[b]{.4\textwidth}
         \centering
         \includegraphics[height=8cm]{Img/bdd_good.pdf}
-		\caption{索引顺序为\{x1,x2,x3,x4\}}
+		\caption{索引顺序为$\{x_1,x_2,x_3,x_4\}$}
 		\label{fig:bdd-good}
 	\end{subfigure}
-	\caption{布尔函数$f (x1,x2,x3,x4)=x1x2+x3x4$在不同索引顺序下的BDD}
+	\caption{布尔函数$f (x_1,x_2,x_3,x_4)=x_1x_2+x_3x_4$在不同索引顺序下的BDD}
 	\label{fig:bdd-compare}
 \end{figure}
 
