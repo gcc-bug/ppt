@@ -1,7 +1,7 @@
 \chapter{绪论}
 近年来，量子计算因其在特定问题上相比经典计算提供的指数级加速能力而成为科技领域的焦点。随着量子计算技术的迅猛发展，确保量子系统和算法的正确性与可靠性成为了迫切需要解决的问题。此外，物理量子计算机中量子比特数量的快速增长，也对验证方法提出了更为自动化的需求。
 
-模型检测（Model Checking）作为一种自动化的形式化方法，专门用于验证有限状态系统是否满足特定性质。这种方法最初由 Edmund Melson Clarke 和Ernest Allen Emerson 提出
+模型检测（Model Checking）作为一种自动化的形式化方法，专门用于验证有限状态系统是否满足特定性质。这种方法最初由 Edmund Clarke 和Ernest Emerson 提出
 \citep{Emerson_1980,Clarke,Clarke_1986}，并已在经典计算机的软件和硬件设计中得到广泛应用。例如，嵌入式系统设计中常用 UML (Unified Modeling Language) 活动图来确保硬件设计符合预定规范\citep{Grobelna_2015}。
 在量子计算领域，量子模型检测同样展现出其验证量子系统行为的潜力，特别是在可达性分析方面。
 然而随着量子系统中量子比特的增加，量子模型检测的资源消耗会呈现指数级增长。
@@ -17,7 +17,7 @@
 随着物理学家将量子力学模型应用于计算问题并将经典比特替换为量子比特，量子力学和计算机科学领域开始融合。 1980年，Paul Benioff基于量子理论提出了量子图灵机的概念，为量子计算奠定了理论基础\citep{benioff1980computer}。随着经典计算机在模拟量子动力学过程中遇到的计算限制，Yuri Manin和Richard Feynman分别提出，利用量子现象的计算模型可能更为高效\citep{Feynman,manin1980vychislimoe}。此外， Charles Bennett 和 Gilles Brassard在1984年提出量子密钥分发，进一步展示了量子理论在加强信息安全性方面的潜力\citep{bennett2014quantum}。
 
 
-进入90年代，量子计算的发展迎来了新的突破。Peter Shor的算法证明了量子计算机在破解传统加密方面的潜力\citep{Shor} 。该算法是量子算法发展史上重要的里程碑之一，向人们证明了量子计算对实际问题的加速能力。之后Grover的算法为解决非结构化搜索问题提供了量子加速的可能\citep{Grover_1996} 。同时，Seth Lloyd 证明量子计算机可以模拟量子系统，而无需经典模拟中存在的指数开销\citep{lloyd1996universal}， 验证了Feynman 在1982 年的猜想\citep{cao2019quantum}。
+进入90年代，量子计算的发展迎来了新的突破。Peter Shor的算法证明了量子计算机在破解传统加密方面的潜力\citep{Shor} 。该算法是量子算法发展史上重要的里程碑之一，向人们证明了量子计算对实际问题的加速能力。之后Lov Grover的算法为解决非结构化搜索问题提供了量子加速的可能\citep{Grover_1996} 。同时，Seth Lloyd 证明量子计算机可以模拟量子系统，而无需经典模拟中存在的指数开销\citep{lloyd1996universal}， 验证了Feynman 在1982 年的猜想\citep{cao2019quantum}。
 
 多年来，实验学家利用各种可能的技术路线构建小型量子计算机。 1998年，两个量子比特的量子计算机证明了该技术的可行性\citep{chuang1998experimental}。2007
 年，加拿大DWave公司展示了一台具有16个量子比特位处理器原型
