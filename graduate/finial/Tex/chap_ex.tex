@@ -13,7 +13,7 @@
 
 Grover算法，是一种量子搜索算法\citep{Grover_1996}。它能够在未排序的数据库中查找特定元素，其搜索效率远超经典算法。Grover算法展示了量子计算在搜索问题上的指数级别的加速能力，是一类非常重要的量子算法。
 Grover算法的量子电路包括初始化、Oracle和反射（也称为Grover演算）几个关键部分。初始化过程将所有量子位置于叠加状态，以确保搜索空间的均匀覆盖。Oracle是根据搜索目标设计的，它能够标记出目标态。最后，反射操作增强了目标态的概率幅度，而减少了非目标态的概率幅度。重复Oracle和反射操作可以显著提高找到目标项的概率。
-本次实验中选取了搜索$11\cdots 1$的Oracle。图\ref{fig:grover}是本次实验中Grover\_3的量子线路图。其余的Grover算法的量子线路图设计类似。
+本次实验中选取了搜索$11\cdots 1$的Oracle。图\ref{fig:grover}是本次实验中量子算法Grover\_3的量子线路图。其余的Grover算法的量子线路图设计类似。
 
 
 QFT算法(Quantum Frourier transform)，即量子傅里叶变换是量子算法中的核心组成部分，特别是在量子计算中的素数分解和周期性问题求解中占有重要地位\citep{nielsen2010quantum}。QFT能够高效地将量子态从时域转换到频域，是许多量子算法，包括著名的Shor算法的基础。
@@ -22,7 +22,7 @@ QFT的电路设计利用了量子位之间的相位关系来执行变换。核�
 \begin{figure}[!htbp]
     \centering
     \includegraphics[height=4cm]{Img/cir_qft.pdf}
-    \caption{QFT\_3的量子线路图}
+    \caption{量子算法QFT\_3的量子线路图}
     \label{fig:qft}
 \end{figure} 
 
@@ -32,7 +32,7 @@ BV算法的量子电路相对简单，核心是一次量子查询。电路首先
 \begin{figure}[!htbp]
     \centering
     \includegraphics[height=4cm]{Img/cir_bv.pdf}
-    \caption{BV\_3的量子线路图}
+    \caption{量子算法BV\_3的量子线路图}
     \label{fig:bv}
 \end{figure} 
 
@@ -42,7 +42,7 @@ GHZ态，即Greenberger-Horne-Zeilinger态是一种特殊的量子纠缠态，�
 \begin{figure}[!htbp]
     \centering
     \includegraphics[height=4cm]{Img/cir_ghz.pdf}
-    \caption{GHZ\_3的量子线路图}
+    \caption{量子算法GHZ\_3的量子线路图}
     \label{fig:ghz}
 \end{figure} 
 
@@ -52,7 +52,7 @@ QRW的量子电路设计依赖于叠加和纠缠的特性，以及量子干涉�
 \begin{figure}[!htbp]
     \centering
     \includegraphics[height=4cm]{Img/cir_qrw.pdf}
-    \caption{QRW\_3的量子线路图}
+    \caption{量子算法QRW\_3的量子线路图}
     \label{fig:qrw}
 \end{figure}
 

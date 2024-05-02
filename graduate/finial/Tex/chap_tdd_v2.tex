@@ -21,7 +21,7 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
     \begin{figure}[!htbp]
         \centering
         \includegraphics[height=4cm]{Img/cir_grover.pdf}
-        \caption{Grover\_3的量子线路图}
+        \caption{量子算法Grover\_3的量子线路图}
         \label{fig:grover}
     \end{figure} 
 \end{example}
@@ -56,6 +56,11 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
     \State \Return \(B\)
 \end{algorithmic}
 \end{algorithm}
+算法\ref{alg-basis_dec}的正确性证明如\ref{pf-alg-basis}所示。算法\ref{alg-basis_dec}的递归次数不超过投影算子$P$的维度。因此对于$n$比特的投影算子$P$，算法\ref{alg-basis_dec}的时间复杂度为$O(n)$。
+\begin{proof}
+    \label{pf-alg-basis}
+    首先对于TDD形式投影算子$P$中的非零路径所表示的状态\(\ket{u_i}\)，均有
+\end{proof}
 
 \begin{example}
     \label{ex-image-sub}
@@ -97,6 +102,50 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
     \item 重复上述过程直到遍历完 $B_2$ 中的所有元素。此时$B$ 将成为 $S$ 的一个基，$P$ 将成为到 $S$ 的投影算子。
 \end{enumerate}
 
+% \begin{algorithm}
+%     \caption{两个TDD表示的子空间的并算法}
+%     \label{alg-join} % Algorithm name
+%     \begin{algorithmic}[1] % Numbered lines
+%         \Require 两个子空间对应投影算子$S_1 , S_2$的TDD表示$P_{S_1},P_{S_2}$
+%         \Ensure 子空间的并$S$对应投影算子的TDD表示$P$
+%         \State 调用算法\ref{alg-basis_dec}，得到 $B_1=\{\ket{\psi_{11}},\cdots,\ket{\psi_{1k}}\}$为$P_{S_1}$的正交基集合
+%         \State 调用算法\ref{alg-basis_dec}，得到 $B_2=\{\ket{\psi_{21}},\cdots,\ket{\psi_{2k}}\}$为$P_{S_2}$的正交基集合
+%         \State 初始化$B \gets B_1$
+%         \State 初始化$P \gets P_{S_1}$
+%         \For{每个基向量$\ket{\psi_{2j}}$ 在 $B_2$}
+%             \State $\ket{u_j} \gets \ket{\psi_{2j}} - P\ket{\psi_{2j}}$
+%             \If{$\ket{u_j} = 0$}
+%                 \State 考虑下一个向量
+%             \Else
+%                 \State 标准化$\ket{u_j}$为$\ket{v_j} \gets \frac{\ket{u_j}}{|\ket{u_j}|}$
+%                 \State 更新$B\gets B\cup \{\ket{v_j}\}$
+%                 \State 更新$P\gets P + \ket{v_j}\bra{v_j}$
+%             \EndIf
+%         \EndFor
+%         \State \Return $P$
+%     \end{algorithmic}
+% \end{algorithm}
+\begin{algorithm}
+    \caption{两个TDD表示的子空间的并算法}
+    \label{alg-join} % Algorithm name
+    \begin{algorithmic}[1] % Numbered lines
+        \Require 两个子空间对应投影算子$S_1 , S_2$的TDD表示$P_{S_1},P_{S_2}$
+        \Ensure 子空间的并$S$对应投影算子的TDD表示$P$
+        \State 初始化$P \gets P_{S_1}$
+        \State 调用算法\ref{alg-basis_dec}，得到 $B\gets \{\ket{\psi_{21}},\cdots,\ket{\psi_{2k}}\}$为$P_{S_2}$的正交基集合
+        \For{每个基向量$\ket{\psi_{2j}}$ 在 $B$}
+            \State $\ket{u_j} \gets \ket{\psi_{2j}} - P\ket{\psi_{2j}}$
+            \If{$\ket{u_j} = 0$}
+                \State 考虑下一个向量
+            \Else
+                \State 标准化$\ket{u_j}$为$\ket{v_j} \gets \frac{\ket{u_j}}{|\ket{u_j}|}$
+                \State 更新$P\gets P + \ket{v_j}\bra{v_j}$
+            \EndIf
+        \EndFor
+        \State \Return $P$
+    \end{algorithmic}
+\end{algorithm}
+
 这个过程展示了如何从一组生成向量开始，通过计算和正交化过程，构建出一个复合空间的正交归一化基。在量子计算和量子信息中，这种方法特别有用，因为它允许准确地描述和操控量子态的子空间。
 
 \begin{example}
@@ -120,6 +169,11 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
 \State \Return $P$ 
 \end{algorithmic}
 \end{algorithm}
+算法\ref{alg-image}的正确性证明如\ref{pf-alg-image}所示。算法\ref{alg-image}的递归次数不超过投影算子$P$的维度。因此对于$n$比特的投影算子$P$，算法\ref{alg-image}的时间复杂度为$O(n)$。
+\begin{proof}
+    \label{pf-alg-image}
+    首先对于TDD形式投影算子$P$中的非零路径所表示的状态\(\ket{u_i}\)，均有
+\end{proof}
 
 在此基础上，可以计算该量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间。具体方法如下：
 \begin{enumerate}
@@ -130,13 +184,44 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
     \item \label{it-end}当$\ket{v_j}$为0时，考虑下一个向量；否则，此时$\ket{v_j}$与P正交，将该向量张开的空间并到子空间$S''$中，即$S''=S''\vee span\{\ket{v_j}\}$。同时更新可达空间$R=R\vee span\{\ket{v_j}\}$，即将 $P$ 更新为 $P+\ket{v_j}\bra{v_j}$。
     \item 遍历结束后，如果$S''$为空，说明该量子系统的可达空间已经收敛，即此时的$R$就是系统的可达空间。否则用$S''$作为量子系统的初态子空间，计算迁移系统$(\mathcal{H},S'',\Sigma,\mathcal{T})$的下一步状态，并重复上述\ref{it-be}到\ref{it-end}的过程。
 \end{enumerate}
+\begin{algorithm}
+\caption{量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间算法}
+\label{alg-reachable}
+\begin{algorithmic}[1] % Numbered lines
+    \Require 一个量子迁移系统 $(\mathcal{H},S,\Sigma,\mathcal{T})$, 其中转移关系$\mathcal{T}=\{\mathcal{T}_\sigma\mid \sigma\in \Sigma\}$，  $\mathcal{T}_\sigma=\{E_{\sigma,j_\sigma}\}$
+    \Ensure 系统的可达空间$R$
+    \State 初始化$R \gets S$
+    \State 初始化投影算子$P_{R}$
+    \State 初始化一个空的状态空间$S'' \gets \{\}$
+    \State 调用算法\ref{alg-image}，计算系统$(\mathcal{H},S,\Sigma,\mathcal{T})$下一步状态$S'=\mathcal{T}(S)$。
+    \State 调用算法\ref{alg-basis_dec}，分解子空间$S'$，得到$S'$的一组基$B\gets \{\ket{\psi_{1}}, \cdots, \ket{\psi_{n}}\}$
+    \For{$\ket{\psi_{i}}$ 在 $B$}
+        \State $\ket{u_i} \gets P_R \ket{\psi_{i}}$
+        \State 标准化$\ket{v_j} \gets \frac{\ket{u_j}}{|\ket{u_j}|}$。
+        \If{$\ket{v_j} = 0$}
+            \State 考虑下一个向量
+        \Else
+            \State $\ket{v_j}$与$P_R$正交，将该向量张开的空间并入子空间$S''$中，即$S'' = S'' \vee \text{span}\{\ket{v_j}\}$。
+            \State 更新可达空间$R \gets R \vee \text{span}\{\ket{v_j}\}$
+            \State 更新投影算子 $P_R \gets P_R + \ket{v_j}\bra{v_j}$。
+        \EndIf
+    \EndFor
+    \If{$S''$为空}
+    \State \Return $R$
+    \Else
+        \State 用$S''$作为量子系统的初态子空间，调用本算法计算迁移系统$(\mathcal{H},S'',\Sigma,\mathcal{T})$的可达空间
+    \EndIf
+\end{algorithmic}
+\end{algorithm}
 
 \section{针对模型检测的改进}
 \label{sec-optimize}
 本文工作的主要目的是借助TDD数据结构，构建能快速计算量子模型检测中可达问题的方案。本文工作的主要挑战在于尽可能减少程序的运行时间以及空间资源。为此，需要采用一系列方法来开发更有效的算法，以优化TDD操作和收缩张量网络。其中包括开发新技术来分割线路和优化TDD结构。下面简单介绍一下具体改进方法。
 \subsection*{索引顺序的调整}
-\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x_1,x_2,x_3,x_4)=x_1x_2+x_3x_4$。但图\ref{fig:bdd-good}的结构更简单，图中边和节点的数目更少。其中图\ref{fig:bdd-bad}的索引顺序为$\{x_1,x_3,x_2,x_4\}$，图\ref{fig:bdd-good}的索引顺序为$\{x_1,x_2,x_3,x_4\}$。找到一个好的索引顺序是一个NP问题。在工程实现中，目前只能通过小规模线路上寻求规律，然后在更大规模线路中应用较优顺序。
-% \textcolor{red}{目前也有一些研究借助xxx机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}}
+\label{contraction}在BDD中，索引的顺序很重要。因为索引顺序会直接影响BDD的大小。一个良好的变量顺序可以使得BDD比一个糟糕的变量顺序小得多。图\ref{fig:bdd-compare}的了两张图都表示了布尔函数$f (x_1,x_2,x_3,x_4)=x_1x_2+x_3x_4$。但图\ref{fig:bdd-good}的结构更简单，图中边和节点的数目更少。其中图\ref{fig:bdd-bad}的索引顺序为$\{x_1,x_3,x_2,x_4\}$，图\ref{fig:bdd-good}的索引顺序为$\{x_1,x_2,x_3,x_4\}$。找到一个好的索引顺序是一个NP问题。
+在本次研究的工程实现中，是通过现在小规模线路上寻求规律，然后在更大规模线路中应用较优顺序。
+% 目前也有一些研究借助Cotengra机器学习算法，寻找收缩的最佳序列\citep{zhang2024quantum}
+% \textcolor{red}{}
 \begin{figure}[!htbp]
 	\centering
 	\begin{subfigure}[b]{.4\textwidth}
@@ -169,7 +254,7 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=.8\textwidth]{Img/cir_index_graph.pdf}
-	\caption{Grover\_3的索引连接图}
+	\caption{量子算法Grover\_3的索引连接图}
 	\label{fig:addition}
 \end{figure} 
 \end{example}
@@ -247,9 +332,11 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
 \end{figure}
 具体模块的作用如下：
 \begin{itemize}
-    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM格式编写的量子算法代码。其核心功能是将根据代码对应的量子操作，创建相应的TDD，并生成量子线路对应的张量索引图。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
+    \item \textbf{输入处理模块}：该模块的主要职责是处理输入数据，例如接收用OpenQASM\citep{cross2017open}格式编写的量子算法代码。其核心功能是将根据代码对应的量子操作，创建相应的TDD，并生成量子线路对应的张量索引图。鉴于当前存在多种量子编程语言，此模块的模块化处理能够显著提升系统的灵活性和兼容性。
     \item \textbf{TDD算法模块}：此模块为TDD提供更复杂的算法支持。例如，它能够调整节点收缩的顺序，以优化系统运行效率。该模块还可以导出TDD的树状结构图。树状结构图的导出功能则有助于用户更好地理解和分析TDD的结构。此外，它还能执行其他高级功能，如检验TDD是否存在于特定子空间中，对TDD进行分割。
-    因此该模块的输入是量子线路的张量索引图，以及计算过程和计算结果的TDD。该模块的输出多种多样，可以是线路对应的TDD，也可能是某条属性是否满足。该模块是软件系统的核心，也是可拓展性最好的模块。
+    因此该模块的输入是量子线路的张量索引图，以及计算过程和计算结果的TDD。该模块的输出多种多样，可以是线路对应的TDD，也可能是某条属性是否满足。
+    为了保留不同优化方案在不同量子线路的优点，目前在该模块中实现了\ref{sec-optimize}节中所有的优化方案。
+    该模块是软件系统的核心，也是可拓展性最好的模块。
     \item \textbf{TDD基础模块}：该模块主要执行TDD之间的操作，例如TDD之间的收缩或加法。该模块的输入一般是张量收缩的顺序，输出是满足某些条件或者全部张量收缩后的TDD。
     \item \textbf{内存管理模块}：本模块负责管理TDD节点的存储和维护。每当需要创建新的TDD节点时，它会运用哈希算法与现有节点进行对比，以避免重复创建相同节点。因此该模块的输入主要是某个需要的TDD，输出则会返回该TDD的存储地址。该模块不仅减少了内存占用，还提高了软件系统的运行效率。
 
@@ -257,7 +344,7 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
 
 \begin{example}
     以例子\ref{ex-image-grover}中的Grover\_3量子线路的量子模型迁移系统为例。其对应的OpenQASM格式的量子编程代码如代码段1所示。
-\begin{lstlisting}[language=Python, caption={Grover\_3量子线路的qasm代码}]
+\begin{lstlisting}[language=Python, caption={Grover\_3量子线路的QASM代码}]
 OPENQASM 2.0;
 include "qelib1.inc";
 qreg q[3];
