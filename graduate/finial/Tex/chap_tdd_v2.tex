@@ -175,7 +175,6 @@ TDD针对于量子计算，可以有很好的空间优势。同时TDD非常灵�
 \State \Return $P$ 
 \end{algorithmic}
 \end{algorithm}
-
 算法\ref{alg-image}的正确性有定理\ref{theorem-model}保证。对于初态空间$S$的维度为$n$， 量子操作集合$\cup_{\sigma,j_\sigma}\{E_{\sigma,j_\sigma}\}$元素个数为$m$，算法\ref{alg-image}的循环次数为$O(mn)$。
 \begin{theorem}\citep{2021}
     \label{theorem-model}
@@ -197,6 +196,16 @@ $$\mathcal{T}(S)=span\Big(\bigcup_{\sigma,j_\sigma}{\{E_{\sigma j_\sigma}\ket{\p
     \item \label{it-end}当$\ket{v_j}$为0时，考虑下一个向量；否则，此时$\ket{v_j}$与P正交，将该向量张开的空间并到子空间$S''$中，即$S''=S''\vee span\{\ket{v_j}\}$。同时更新可达空间$R=R\vee span\{\ket{v_j}\}$，即将 $P$ 更新为 $P+\ket{v_j}\bra{v_j}$。
     \item 遍历结束后，如果$S''$为空，说明该量子系统的可达空间已经收敛，即此时的$R$就是系统的可达空间。否则用$S''$作为量子系统的初态子空间，计算迁移系统$(\mathcal{H},S'',\Sigma,\mathcal{T})$的下一步状态，并重复上述\ref{it-be}到\ref{it-end}的过程。
 \end{enumerate}
+% 在此基础上，可以计算该量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间。具体方法如算法\ref{alg-reachable}所示。算法\ref{alg-reachable}的正确性有定理\ref{th-markov}保证。
+% \begin{theorem}\citep{2021}
+%     \label{th-markov}
+%     设 $d = \dim{\mathcal{H}}$。对于任何状态 $\rho$ 在 $\mathcal{H}$ 中，有：
+%     \begin{align}
+%     R_c(\rho) = \bigvee_{i=0}^{d-1} \text{supp} (E^i(\rho)) = \text{supp} \left(\sum_{i=0}^{d-1} E^i (\rho)\right)
+%     \end{align}
+%     其中 $E^i$ 是 $E$ 的第 $i$ 次幂，即 $E^0 = I$ （$\mathcal{H}$ 中的恒等操作）且 $E^{i+1} = E \circ E^i$ 对于所有 $i \geq 0$。
+% \end{theorem}
+
 % \begin{algorithm}
 % \caption{量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间算法}
 % \label{alg-reachable}
