@@ -52,7 +52,7 @@
 
 \begin{frame}
     \begin{itemize}
-        \item \textbf{标题:} 基于TDD的量子模型检测中的可达性分析
+        \item \textbf{标题:} 基于张量网络的量子模型检测中的可达性分析
         \item \textbf{总结:}
         \begin{itemize}
             \setlength\itemsep{1em} % Set item separation here, for subitems
@@ -246,20 +246,20 @@
         \caption{可以用10个TDD节点表示一个$8*8$的矩阵。其中TDD虚线表示低点，实线表示高边。}
     \end{figure}
 \end{frame}
-\begin{frame}{相关工作效率比较}
-    \begin{figure}
-        \includegraphics[height=4cm]{Img/tdd-compare.pdf}
-        \caption{应用不同技术对QFT算法进行模拟的时间对比}
-    \end{figure}
-    \begin{center}
-        \begin{itemize}
+% \begin{frame}{相关工作效率比较}
+%     \begin{figure}
+%         \includegraphics[height=4cm]{Img/tdd-compare.pdf}
+%         \caption{应用不同技术对QFT算法进行模拟的时间对比}
+%     \end{figure}
+%     \begin{center}
+%         \begin{itemize}
         
-            \item TDD No part,TDD part I, TDD part II为不同的TDD收缩算法。 
-            \item QMDD为量子多值决策图，是一种常用的模型检测方法。
-            \item TN为Google的tensro network，是一种常用的张量方法。
-        \end{itemize}
-    \end{center}
-\end{frame}
+%             \item TDD No part,TDD part I, TDD part II为不同的TDD收缩算法。 
+%             \item QMDD为量子多值决策图，是一种常用的模型检测方法。
+%             \item TN为Google的tensro network，是一种常用的张量方法。
+%         \end{itemize}
+%     \end{center}
+% \end{frame}
 % \begin{frame}{相关工作-QMDD}
 %     \begin{columns}[T] % The "T" option aligns the columns content at the top
 
@@ -286,6 +286,7 @@
         \item \textbf{基本方法：}将转移关系和初态转化为TDD表示，然后计算系统的状态转移。
         \item \textbf{改进算法：}
         \begin{itemize}
+            % \item //TODO: add DD based
             \item \textbf{addition partition:} 寻找依赖最多的索引项，从而分割线路。
             \item \textbf{contraction partition:}通过预设的参数进行线路分割。
         \end{itemize}
@@ -319,6 +320,8 @@
         \caption{对bit flip电路进行划分，其中k1=3,k2=2。}
     \end{figure}
 \end{frame}
+\section{研究结果}
+
 \begin{frame}{工作成果}
     \begin{table}[]
         \scalebox{0.9}{
@@ -371,8 +374,15 @@
 \end{figure}
 
 \end{frame}
-\section{研究结果}
-\section{学位论文情况}
+
+\section{学位论文修改情况}
+\begin{frame}{盲审结果与修改情况}
+    \begin{itemize}
+        \item \textbf{审稿人意见}：优秀，良好，良好
+        \item \textbf{表达规范性}：专有名词，引用学者称呼规范化
+        \item \textbf{工作完整性}：算法的正确性保证
+    \end{itemize}
+\end{frame}
 \section*{}
 \begin{frame}
     \centering
