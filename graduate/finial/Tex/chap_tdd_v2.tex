@@ -187,24 +187,27 @@ $$\mathcal{T}(S)=span\Big(\bigcup_{\sigma,j_\sigma}{\{E_{\sigma j_\sigma}\ket{\p
 \end{enumerate}
 \end{theorem}
 
-在此基础上，可以计算该量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间。具体方法如下：
-\begin{enumerate}
-    \item 初始化可达空间为\(R = S\)，并计算可达空间的投影算子\(P_{R}\)。
-    \item 调用算法\ref{alg-image}，计算系统$(\mathcal{H},S,\Sigma,\mathcal{T})$下一步状态\(S'=\mathcal{T}(S)\)。
-    \item \label{it-be}调用算法\ref{alg-basis_dec}，分解子空间得到\(S'\)的一组基\(B = \{\ket{\psi_{1}},\cdots,\ket{\psi_{n}}\}\)。同时初始化一个空的状态空间$S''$。
-    \item 遍历\(B\)中的基，假设当前向量为\(\ket{\psi_{i}}\)，计算得到\(\ket{u_i}=P\ket{\psi_{i}}\)，并标准化为$\ket{v_j}=\frac{\ket{u_j}}{|\ket{u_j}|}$。
-    \item \label{it-end}当$\ket{v_j}$为0时，考虑下一个向量；否则，此时$\ket{v_j}$与P正交，将该向量张开的空间并到子空间$S''$中，即$S''=S''\vee span\{\ket{v_j}\}$。同时更新可达空间$R=R\vee span\{\ket{v_j}\}$，即将 $P$ 更新为 $P+\ket{v_j}\bra{v_j}$。
-    \item 遍历结束后，如果$S''$为空，说明该量子系统的可达空间已经收敛，即此时的$R$就是系统的可达空间。否则用$S''$作为量子系统的初态子空间，计算迁移系统$(\mathcal{H},S'',\Sigma,\mathcal{T})$的下一步状态，并重复上述\ref{it-be}到\ref{it-end}的过程。
-\end{enumerate}
-% 在此基础上，可以计算该量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间。具体方法如算法\ref{alg-reachable}所示。算法\ref{alg-reachable}的正确性有定理\ref{th-markov}保证。
-% \begin{theorem}\citep{2021}
-%     \label{th-markov}
-%     设 $d = \dim{\mathcal{H}}$。对于任何状态 $\rho$ 在 $\mathcal{H}$ 中，有：
-%     \begin{align}
-%     R_c(\rho) = \bigvee_{i=0}^{d-1} \text{supp} (E^i(\rho)) = \text{supp} \left(\sum_{i=0}^{d-1} E^i (\rho)\right)
-%     \end{align}
-%     其中 $E^i$ 是 $E$ 的第 $i$ 次幂，即 $E^0 = I$ （$\mathcal{H}$ 中的恒等操作）且 $E^{i+1} = E \circ E^i$ 对于所有 $i \geq 0$。
-% \end{theorem}
+% 在此基础上，可以计算该量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间。具体方法如下：
+% \begin{enumerate}
+%     \item 初始化可达空间为\(R = S\)，并计算可达空间的投影算子\(P_{R}\)。
+%     \item 调用算法\ref{alg-image}，计算系统$(\mathcal{H},S,\Sigma,\mathcal{T})$下一步状态\(S'=\mathcal{T}(S)\)。
+%     \item \label{it-be}调用算法\ref{alg-basis_dec}，分解子空间得到\(S'\)的一组基\(B = \{\ket{\psi_{1}},\cdots,\ket{\psi_{n}}\}\)。同时初始化一个空的状态空间$S''$。
+%     \item 遍历\(B\)中的基，假设当前向量为\(\ket{\psi_{i}}\)，计算得到\(\ket{u_i}=P\ket{\psi_{i}}\)，并标准化为$\ket{v_j}=\frac{\ket{u_j}}{|\ket{u_j}|}$。
+%     \item \label{it-end}当$\ket{v_j}$为0时，考虑下一个向量；否则，此时$\ket{v_j}$与P正交，将该向量张开的空间并到子空间$S''$中，即$S''=S''\vee span\{\ket{v_j}\}$。同时更新可达空间$R=R\vee span\{\ket{v_j}\}$，即将 $P$ 更新为 $P+\ket{v_j}\bra{v_j}$。
+%     \item 遍历结束后，如果$S''$为空，说明该量子系统的可达空间已经收敛，即此时的$R$就是系统的可达空间。否则用$S''$作为量子系统的初态子空间，计算迁移系统$(\mathcal{H},S'',\Sigma,\mathcal{T})$的下一步状态，并重复上述\ref{it-be}到\ref{it-end}的过程。
+% \end{enumerate}
+一步迁移是计算量子系统可达空间的重要一步。重复使用该算法，可以计算出量子系统的可达空间，方便后续的验证工作。
+其中量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的一个特例是量子马尔科夫链$(\mathcal{H},\mathcal{E})$，
+即此时的转移关系唯一。对于量子马尔可夫链，有定理\ref{th-markov}。因此可以直接在算法\ref{alg-image}的基础上设计算法\ref{alg-reachable}计算量子系统的可达空间。
+根据定理定理\ref{th-markov}，算法\ref{alg-reachable}最多递归$d-1$次，算法可以终止。
+\begin{theorem}\citep{2021}
+    \label{th-markov}
+    设 $d = \dim{\mathcal{H}}$。对于任何状态 $\rho$ 在 $\mathcal{H}$ 中，有：
+    \begin{align}
+    R_c(\rho) = \bigvee_{i=0}^{d-1} \text{supp} (\mathcal{E}^i(\rho)) = \text{supp} \left(\sum_{i=0}^{d-1} \mathcal{E}^i (\rho)\right)
+    \end{align}
+    其中 $\mathcal{E}^i$ 是 $\mathcal{E}$ 的第 $i$ 次幂，即 $\mathcal{E}^0 = I$ （$\mathcal{H}$ 中的恒等操作）且 $\mathcal{E}^{i+1} = \mathcal{E} \circ \mathcal{E}^i$ 对于所有 $i \geq 0$。
+\end{theorem}
 
 % \begin{algorithm}
 % \caption{量子迁移系统$(\mathcal{H},S,\Sigma,\mathcal{T})$的可达空间算法}
@@ -235,6 +238,36 @@ $$\mathcal{T}(S)=span\Big(\bigcup_{\sigma,j_\sigma}{\{E_{\sigma j_\sigma}\ket{\p
 %     \EndIf
 % \end{algorithmic}
 % \end{algorithm}
+
+\begin{algorithm}
+\caption{量子马尔可夫链系统$(\mathcal{H},\mathcal{E})$的可达空间算法}
+\label{alg-reachable}
+\begin{algorithmic}[1] % Numbered lines
+    \Require 一个量子马尔可夫链系统 $(\mathcal{H},\mathcal{E})$和初态空间$S$
+    \Ensure 系统的可达空间$R$
+    \State 初始化$R \gets S$
+    \State 初始化投影算子$P_{R}$
+    \State 初始化一个空的状态空间$S'' \gets \{\}$
+    \State 调用算法\ref{alg-image}，计算系统下一步状态$S'=\mathcal{E}(S)$。
+    \State 调用算法\ref{alg-basis_dec}，分解子空间$S'$，得到$S'$的一组基$B\gets \{\ket{\psi_{1}}, \cdots, \ket{\psi_{n}}\}$
+    \For{$\ket{\psi_{i}}$ \textbf{在} $B$}
+        \State $\ket{u_i} \gets P_R \ket{\psi_{i}}$
+        \State 标准化$\ket{v_j} \gets \frac{\ket{u_j}}{|\ket{u_j}|}$。
+        \If{$\ket{v_j} = 0$}
+            \State 考虑下一个向量
+        \Else
+            \State $\ket{v_j}$与$P_R$正交，应用算法\ref{alg-join}将该向量张开的空间并入子空间$S''$中，即$S'' = S'' \vee \text{span}\{\ket{v_j}\}$。
+            \State 更新可达空间$R \gets R \vee \text{span}\{\ket{v_j}\}$
+            \State 更新投影算子 $P_R \gets P_R + \ket{v_j}\bra{v_j}$。
+        \EndIf
+    \EndFor
+    \If{$S''$为空}
+    \State \Return $R$
+    \Else
+        \State 用$S''$作为量子系统的初态子空间，调用本算法计算系统$(\mathcal{H},\mathcal{E})$，在\(S''\)为初态空间时的可达空间
+    \EndIf
+\end{algorithmic}
+\end{algorithm}
 
 \section{针对模型检测的改进}
 \label{sec-optimize}
