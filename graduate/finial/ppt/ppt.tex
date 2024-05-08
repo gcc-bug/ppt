@@ -151,7 +151,6 @@
         \end{column}
     
       \end{columns}
-    % //TODO： add figure
 \end{frame}
 \begin{frame}{可达性问题}
     \begin{figure}
@@ -286,18 +285,20 @@
         \item \textbf{基本方法：}将转移关系和初态转化为TDD表示，然后计算系统的状态转移。
         \item \textbf{改进算法：}
         \begin{itemize}
-            % \item //TODO: add DD based
             \item \textbf{addition partition:} 寻找依赖最多的索引项，从而分割线路。
             \item \textbf{contraction partition:}通过预设的参数进行线路分割。
+            % \item //TODO: add DD based
+            \item \textbf{DD based:}
         \end{itemize}
         \item \textbf{创新点：}
+        % \item //TODO: add new
         \begin{itemize}
             \item 通过TDD，可以自动化的验证更大规模的量子算法。
-            \item 通过C++重构，实现了比过去TDD更好的运行效率。
+            % \item 通过C++重构，实现了比过去TDD更好的运行效率。
         \end{itemize}
     \end{itemize}
 \end{frame}
-
+% //TODO: add some alg
 \begin{frame}{adddition partition}
     \begin{itemize}
         \item 将量子电路转换为索引依赖图G。
@@ -319,6 +320,10 @@
         \includegraphics[height=4cm]{Img/cir_contraction.pdf}
         \caption{对bit flip电路进行划分，其中k1=3,k2=2。}
     \end{figure}
+\end{frame}
+% //TODO: add here some dd
+\begin{frame}
+    
 \end{frame}
 \section{研究结果}
 
@@ -342,38 +347,39 @@
         \item 对于一般的电路，contraction partition的执行效率更好。
     \end{itemize}
 \end{frame}
-\begin{frame}{工作成果}
-    \begin{itemize}
-        \item 通过C++重构TDD，改进了内存管理，从而加快了计算效率。
-    \end{itemize}
-    \begin{figure}
-        \includegraphics[height=5cm]{Img/python_c.pdf}
-        \caption{用python 和 c++ 不同版本的TDD运行Bernstein-Vazirani算法的时间效率比较}
-    \end{figure}
-\end{frame}
-\begin{frame}{未来计划}
-    \begin{itemize}
-        \item 应用等价性，可以化简数据结构。
-        \item 结合优化算法与C++的优势，进一步提高执行效率。
-    \end{itemize}
-    \begin{figure}
-    \centering
-    \begin{subfigure}{0.4\textwidth}
-        \centering
-        \includegraphics[height=5cm]{Img/limdd.pdf}
-    \end{subfigure}
-    % Add an equal sign in the middle
-    \hspace{1em} % Adjust space as needed
-    \Large$=$
-    \hspace{1em} % Adjust space as needed
-    \begin{subfigure}{0.4\textwidth}
-        \centering
-        \includegraphics[height=5cm]{Img/limdd_reduce.pdf}
-    \end{subfigure}
-    \caption{Local Invertible Map-DD}
-\end{figure}
+% //TODO: add dd based
+% \begin{frame}{工作成果}
+%     \begin{itemize}
+%         \item 通过C++重构TDD，改进了内存管理，从而加快了计算效率。
+%     \end{itemize}
+%     \begin{figure}
+%         \includegraphics[height=5cm]{Img/python_c.pdf}
+%         \caption{用python 和 c++ 不同版本的TDD运行Bernstein-Vazirani算法的时间效率比较}
+%     \end{figure}
+% \end{frame}
+% \begin{frame}{未来计划}
+%     \begin{itemize}
+%         \item 应用等价性，可以化简数据结构。
+%         \item 结合优化算法与C++的优势，进一步提高执行效率。
+%     \end{itemize}
+%     \begin{figure}
+%     \centering
+%     \begin{subfigure}{0.4\textwidth}
+%         \centering
+%         \includegraphics[height=5cm]{Img/limdd.pdf}
+%     \end{subfigure}
+%     % Add an equal sign in the middle
+%     \hspace{1em} % Adjust space as needed
+%     \Large$=$
+%     \hspace{1em} % Adjust space as needed
+%     \begin{subfigure}{0.4\textwidth}
+%         \centering
+%         \includegraphics[height=5cm]{Img/limdd_reduce.pdf}
+%     \end{subfigure}
+%     \caption{Local Invertible Map-DD}
+% \end{figure}
 
-\end{frame}
+% \end{frame}
 
 \section{学位论文修改情况}
 \begin{frame}{盲审结果与修改情况}
