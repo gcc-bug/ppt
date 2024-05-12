@@ -10,6 +10,16 @@
 \usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{amsmath}
+\usepackage{colortbl}
+\newcommand\DiagonalCell[2]{%
+  \begin{tikzpicture}[baseline=(current bounding box.center),anchor=center]
+    \node[minimum width=0.8cm,minimum height=2em] (box) {};
+    \draw (box.north west) -- (box.south east);
+    \node[anchor=south west,inner sep=1pt,outer sep=0pt] at (box.south west) {#1};
+    \node[anchor=north east,inner sep=1pt,outer sep=0pt] at (box.north east) {#2};
+  \end{tikzpicture}%
+}
+\usepackage{xcolor}
 \usetikzlibrary{quantikz}
 \setbeamertemplate{itemize item}[ball] % Can be circle, square, etc.
 \setbeamertemplate{itemize subitem}[default] % Can be ball, triangle, etc.
@@ -66,7 +76,6 @@
 
 \begin{frame}{量子计算的关键概念}
     \begin{itemize}
-        % //TODO: add figure 
         \item \textbf{量子比特（Qubits）：} the quantum version of the classic binary
         \item \textbf{叠加态（Superposition）：} $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle=\left[\begin{array}{r}\alpha \\\beta\end{array}\right]$
         \item \textbf{纠缠（Entanglement）:}$|\Psi\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
@@ -138,7 +147,7 @@
                   \end{cases}
                   \notag
                 \end{equation}
-                \item \textbf{量子迁移系统：} $(\mathcal{H}, \mathcal{H}_0, Act, \{U_\alpha,\alpha\in Act\})$
+                \item \textbf{量子迁移系统：} $(\mathcal{H},S,\Sigma,\mathcal{T})$
             \end{itemize}
         \end{column}
     
@@ -185,8 +194,8 @@
         \end{quantikz}};
         \end{tikzpicture}
         }
-        \label{fig:cir}
         \caption{Grover\_3算法的电路。}
+        \label{fig:cir}
     \end{figure}
     \begin{itemize}
         \item oracle为ccx，即$O|x\rangle|y\rangle = |x\rangle|f(x)\oplus y\rangle $,$f(x)=x_1\wedge x_2$。
@@ -227,7 +236,6 @@
 \end{frame}
 
 \begin{frame}{TDD例子}
-    % //TODO: add 
     \begin{figure}
         \begin{subfigure}{0.4\textwidth}
             \includegraphics[height=3.5 cm]{Img/matrix_of_tdd.pdf}
@@ -242,7 +250,7 @@
             \label{fig:tdd_P}
         \end{subfigure}
         \label{fig:P}
-        \caption{可以用10个TDD节点表示一个$8*8$的矩阵。其中TDD虚线表示低点，实线表示高边。}
+        \caption{可以用10个TDD节点或者一个$8*8$的矩阵表示子空间$S=span\{\ket{++-},\ket{11-}\}$投影算子。其中TDD虚线表示低点，实线表示高边。}
     \end{figure}
 \end{frame}
 % \begin{frame}{相关工作效率比较}
@@ -281,24 +289,120 @@
 \section{研究内容}
 \begin{frame}{解决方案简介：}
     \begin{itemize}
-        \item \textbf{研究问题：}
-        \item \textbf{基本方法：}将转移关系和初态转化为TDD表示，然后计算系统的状态转移。
+        \item \textbf{研究问题：}减缓量子模型检测中的资源消耗
+        \item \textbf{基本方法：}将转移关系和状态空间转化为TDD表示，然后计算系统的状态转移。
         \item \textbf{改进算法：}
         \begin{itemize}
             \item \textbf{addition partition:} 寻找依赖最多的索引项，从而分割线路。
             \item \textbf{contraction partition:}通过预设的参数进行线路分割。
-            % \item //TODO: add DD based
-            \item \textbf{DD based:}
         \end{itemize}
-        \item \textbf{创新点：}
-        % \item //TODO: add new
         \begin{itemize}
-            \item 通过TDD，可以自动化的验证更大规模的量子算法。
-            % \item 通过C++重构，实现了比过去TDD更好的运行效率。
+            \item \textbf{基于窗函数对TDD分割:}
+            \item \textbf{用子空间近似TDD表示$\ket{\psi}$}
         \end{itemize}
+        % \item \textbf{创新点：}
+        % % \item //TODO: add new
+        % \begin{itemize}
+        %     \item 通过TDD，可以自动化的验证更大规模的量子算法。
+        %     \item 
+        %     % \item 通过C++重构，实现了比过去TDD更好的运行效率。
+        % \end{itemize}
     \end{itemize}
 \end{frame}
 % //TODO: add some alg
+\begin{frame}{理论支撑}
+    对于$(\mathcal{H},S,\Sigma,\mathcal{T})$有：
+    \begin{theorem}
+        \label{theorem-model}
+        设 $\mathcal{T}$ 是一个量子操作。则
+    \begin{enumerate}
+        \item $\mathcal{T}(\bigvee_{i}{S_i})=\bigvee_{i}{\mathcal{T}(S_i)}$。
+        \item 若 $\mathcal{T}=(\mathcal{T}_\sigma)_{\sigma \in \Sigma}$ 且每个 $\mathcal{T}_{\sigma}$ 有Kraus算符和表示 $\mathcal{T}_{\sigma}= \{ E_{\sigma j_\sigma} \}$
+    则
+    $\mathcal{T}(S)=span\Big(\bigcup_{\sigma,j_\sigma}{\{E_{\sigma j_\sigma}\ket{\psi}:\ket{\psi}\in S\}}\Big)$。
+    \end{enumerate}
+    \end{theorem}
+\end{frame}
+\begin{frame}{子空间}
+    \begin{columns} % The "T" option aligns the columns content at the top
+        \begin{column}{.6\textwidth}
+            \begin{itemize}
+                \item 通过投影算子$P$最左侧非零路径所对应的归一化状态\(\ket{v_i}\)，求解空间的基分解
+                \item 通过施密特正交化方法，向$S_1$中添加$S_2$正交基中不在$S_1$子空间的基，得到$S_1\bigvee S_2$的正交基
+            \end{itemize}
+        \end{column}
+        \begin{column}{.4\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[height=5cm]{Img/tdd_ex.pdf}
+                \caption{子空间$S=span\{\ket{++-},\ket{11-}\}$投影算子的TDD表示}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{子空间}
+    \begin{columns} % The "T" option aligns the columns content at the top
+        \begin{column}{.6\textwidth}
+            \begin{itemize}
+                \item 通过投影算子$P$最左侧非零路径所对应的归一化状态\(\ket{v_i}\)，求解空间的基分解
+                \item 通过施密特正交化方法，向$S_1$中添加$S_2$正交基中不在$S_1$子空间的基，得到$S_1\bigvee S_2$的正交基
+            \end{itemize}
+        \end{column}
+        \begin{column}{.4\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[height=5cm]{Img/tdd_proj.pdf}
+                \caption{子空间$\ket{v_1}=\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}+\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-}$投影算子的TDD表示}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{窗函数分割}
+    函数对于同一输入，始终满足以下条件： 
+\begin{itemize}
+    \item $w_1+\cdots +w_k=1$
+    \item 对任意 $i \neq j$，$w_i \cdot w_j = 0$
+\end{itemize} 
+\end{frame}
+\begin{frame}{窗函数分割}
+    \begin{figure}
+        \centering
+        \begin{subfigure}[b]{.3\textwidth}
+            \centering
+            \includegraphics[height=6cm]{Img/tdd_proj.pdf}
+            \caption{$\ket{v_1}$的TDD表示}
+            \label{fig:tdd-split-a}
+        \end{subfigure}
+        \begin{subfigure}[b]{.3\textwidth}
+            \centering
+            \includegraphics[height=6cm]{Img/tdd_proj_a0.pdf}
+            \caption{$\ket{v_1}$在$w_1=\bar{q_0}$下的TDD表示}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.3\textwidth}
+            \centering
+            \includegraphics[height=6cm]{Img/tdd_proj_a1.pdf}
+            \caption{$\ket{v_1}$在$w_2=q_0$下的TDD表示}
+        \end{subfigure}
+    \end{figure}
+\end{frame}
+\begin{frame}{用子空间近似TDD表示$\ket{\psi}$}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \begin{itemize}
+                \item 特定量子态 $\ket{\psi}$，能够通过包含它的适当子空间来近似 $\ket{\psi}$。
+                \item 例如通过$\{\ket{00-},\ket{01-},\ket{10-}\}$近似表示$\ket{v_1}$
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[height=5cm]{Img/tdd_proj.pdf}
+                \caption{$\ket{v_1}=\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}+\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-}$的TDD表示}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
 \begin{frame}{adddition partition}
     \begin{itemize}
         \item 将量子电路转换为索引依赖图G。
@@ -321,13 +425,88 @@
         \caption{对bit flip电路进行划分，其中k1=3,k2=2。}
     \end{figure}
 \end{frame}
-% //TODO: add here some dd
-\begin{frame}
-    
-\end{frame}
 \section{研究结果}
-
-\begin{frame}{工作成果}
+\begin{frame}{对TDD结构的优化}
+    \begin{table}[]
+    
+        \caption{TDD拆分与近似的优化方案}
+    
+        \label{table:tdd-based}
+        \centering
+        \scalebox{0.8}{
+        \begin{tabular}{c|c|ccccc}
+                            线路  & 优化方法 & & $k=0$ & $k=1$ & $k=2$ & $k=3$ \\\hline
+        % \multirow{2}{*}{Grover\_20} & 时间   & 3.10 &3.36 &3.39 &3.37   \\
+        %                         &max\_node &1178  &793  &780  &513   \\\hline
+        \multirow{2}{*}{Grover\_40} & \multirow{2}{*}{TDD分割}    &时间       & 1,510.42   &1,519.24 & 1,459.02 & 1,495.20  \\
+                               & &最大节点个数     &589,865     & 393,423 & 393,239 & 245,814  \\\hline
+        % \multirow{2}{*}{QFT}    &时间       & 0.45   &0.30 &0.37 & 0.40  \\
+        %                         &approx     &515     & 259 & 259 & 132  \\\hline
+        \multirow{2}{*}{QFT\_100}  & \multirow{2}{*}{子空间近似}    &时间       &121.28    & 118.78 & 116.69 & 128.31\\
+                                  &   & 最大节点个数     &524,369     & 262,226 & 262,226 & 131,155\\
+        % \multirow{2}{*}{GHZ\_500}    &时间       & 1.72   & & &  \\
+        %                         &approx     &1000     & 501 & 501 & 251  \\\hline
+        
+        \end{tabular}
+        }
+    \end{table}
+\end{frame}
+\begin{frame}{线路划分技术的参数选择}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.6\textwidth]{Img/addition_para.pdf}
+        \caption{不同参数$k$对Grover\_15线路的additon划分方案的时间影响， $k$不应选择过大}
+        \label{fig:addition-ex}
+    \end{figure}
+\end{frame}
+\begin{frame}{线路划分技术的参数选择}
+    \begin{table}[!htbp]
+        \centering
+        % \caption{对grover\_15应用不同的contration参数的时间对比。蓝色越深，时间越长；紫色越深，时间越短。}%calculating the 
+        \caption{对grover\_15应用不同的contration参数的时间对比， $k1,k2$均不应选择过大}%calculating the 
+        \label{table-contraction}
+        \scalebox{0.6}{
+            \begin{tabular}{c|ccccccccccccccc}
+                \rowcolor[HTML]{FFFFFF} 
+                \DiagonalCell{k1}{k2}                         & 1                           & 2                           & 3                           & 4                           & 5                           & 6                           & 7                          & 8                           & 9                           & 10                          & 11                          & 12                          & 13                          & 14                          & 15                          \\\hline
+                    \rowcolor[HTML]{FFFFFF} 
+            1                          & 2.8                                              & 2.2                         & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}2.0                      & 2.1                        & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                         & 2.2                         & 2.1                         & 2.1                         \\ \cline{3-7}
+            \rowcolor[HTML]{CCC0DA} 
+            
+            \rowcolor[HTML]{FFFFFF}
+            2                          & \multicolumn{1}{l|}{2.6} & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & \cellcolor[HTML]{CCC0DA}2.0 & 2.1                       & \cellcolor[HTML]{CCC0DA}2.0                         & 2.3                         & \cellcolor[HTML]{CCC0DA}2.0                        & 2.3                         & 2.3                         & 2.4                         \\
+    \rowcolor[HTML]{FFFFFF}  
+            3                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.1                        & 2.1                         & 2.5                         & 2.3                         & 2.7                         & 2.3                         & 3.1                         & 2.8                         & 3.3                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            4                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.3} & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}2.0 & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & 2.2                        & 2.1                         & 2.6                         & 2.3                         & 2.8                         & 2.7                         & 3.3                         & 3.0                         & 3.3                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            5                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.2} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & \cellcolor[HTML]{CCC0DA}1.9 & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.3                        & \cellcolor[HTML]{CCC0DA}1.9 & 2.5                         & 2.3                         & 2.8                         & 2.7                         & 3.4                         & 3.0                         & 3.6                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            6                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.9                         & 2.8                         & 3.1                         & 2.9                         & 3.7                         & 3.7                         & 4.2                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            7                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{CCC0DA}1.5 & \cellcolor[HTML]{CCC0DA}1.9 & \cellcolor[HTML]{CCC0DA}1.6 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}1.9} & 2.5                        & 2.2                         & 2.8                         & 3.0                         & 3.6                         & 3.3                       & 4.2                         & 5.7                         & 5.0                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            8                          & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & \cellcolor[HTML]{CCC0DA}1.7 & \cellcolor[HTML]{CCC0DA}1.8 & \cellcolor[HTML]{CCC0DA}1.7 & 2.1                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.4                        & 2.2                         & 2.8                         & 2.8                         & 3.7                         & 3.4                         & 4.3                         & 4.8                         & 5.2                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            9                          & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}2.1} & \cellcolor[HTML]{B1A0C7}1.5 & \cellcolor[HTML]{CCC0DA}2.0 & \cellcolor[HTML]{B1A0C7}1.4 & 2.2                         & \multicolumn{1}{l|}{\cellcolor[HTML]{CCC0DA}2.0} & 2.5                        & \cellcolor[HTML]{CCC0DA}2.0 & 3.3                         & 2.9                         & 3.7                         & 3.5                         & 4.9                         & 4.7                         & 5.8                         \\ \cline{3-7}
+            \rowcolor[HTML]{FFFFFF} 
+            10                         & 2.3                                              & \cellcolor[HTML]{CCC0DA}1.9 & 2.3                         & \cellcolor[HTML]{CCC0DA}1.6 & 2.6                         & 2.7                                              & 3.1                        & 2.2                         & 4.0                         & 3.6                         & 4.6                         & 3.9                         & 5.6                         & 5.2                         & 7.5                         \\
+            \rowcolor[HTML]{FFFFFF} 
+            11                         & 3.2                                              & 3.2                         & 3.5                         & 3.1                         & 4.7                         & 4.2                                              & 5.6                        & 4.2                         & 6.8                         & 7.2                         & 7.6                         & 6.3                         & 9.0                         & 8.1                         & \cellcolor[HTML]{8DB4E2}11  \\
+            \rowcolor[HTML]{FFFFFF} 
+            12                         & 5.6                                              & 6.0                         & 7.2                         & 6.0                         & 8.3                         & 9.0                                              & 8.9                        & 7.8                         & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}11  & \cellcolor[HTML]{8DB4E2}12  & \cellcolor[HTML]{8DB4E2}15  & \cellcolor[HTML]{8DB4E2}16  \\
+            \rowcolor[HTML]{8DB4E2} 
+            \cellcolor[HTML]{FFFFFF}13 & 11                                               & 12                          & 14                          & 12                          & 15                          & 18                                               & 18                         & 15                          & 18                          & 20                          & 18                          & 32                          & 32                          & 30                          & 25                          \\
+            \rowcolor[HTML]{8DB4E2} 
+            \cellcolor[HTML]{FFFFFF}14 & 20                                               & 21                          & 24                          & 32                          & 31                          & 44                                               & 77                         & 50                          & 86                          & \cellcolor[HTML]{538DD5}109 & 68                          & \cellcolor[HTML]{538DD5}133 & 70                          & \cellcolor[HTML]{538DD5}119 & \cellcolor[HTML]{538DD5}142 \\
+            \rowcolor[HTML]{538DD5} 
+            \cellcolor[HTML]{FFFFFF}15 & \cellcolor[HTML]{8DB4E2}28                       & \cellcolor[HTML]{8DB4E2}30  & \cellcolor[HTML]{8DB4E2}31  & \cellcolor[HTML]{8DB4E2}53  & \cellcolor[HTML]{8DB4E2}69  & 111                                              & \cellcolor[HTML]{8DB4E2}85 & \cellcolor[HTML]{8DB4E2}81  & 102                         & 153                         & 114                         & 130                         & 166                         & 162                         & 235                        
+                             
+            \end{tabular}
+        }
+    \end{table}   
+\end{frame}
+\begin{frame}{线路划分技术}
     \begin{table}[]
         \scalebox{0.9}{
         \rule{0pt}{30pt}
