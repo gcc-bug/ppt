@@ -351,8 +351,15 @@
         \begin{column}{.4\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[height=5cm]{Img/tdd_proj.pdf}
-                \caption{子空间$\ket{v_1}=\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}+\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-}$投影算子的TDD表示}
+                \begin{subfigure}{0.4\textwidth}
+                    \centering
+                    \includegraphics[height=5cm]{Img/tdd_proj.pdf}
+                \end{subfigure}
+                \begin{subfigure}{0.4\textwidth}
+                    \centering
+                    \includegraphics[height=5cm]{Img/tdd_proj_.pdf}
+                \end{subfigure}
+                \caption{$\ket{v_1}=\frac{\sqrt{2}}{\sqrt{3}}\ket{0}\ket{+}\ket{-}+\frac{1}{\sqrt{3}}\ket{1}\ket{0}\ket{-},\ket{v_2}=\ket{11-}$的TDD表示}
             \end{figure}
         \end{column}
     \end{columns}
@@ -559,7 +566,13 @@
 % \end{figure}
 
 % \end{frame}
-
+\begin{frame}{总结}
+    \begin{itemize}
+        \item 设计了并实现了有效识别给定子空间基的算法，并针对子空间及量子线路，提出了多种优化策略。
+        \item 以量子迁移系统中一步迁移算法为例，本次研究设计了数值实验，验证了工具可行性。
+        \item 数值实验验证了采用基于contraction的线路分割算法能大幅提升量子迁移系统中一步迁移算法的效率。
+    \end{itemize}
+\end{frame}
 \section{学位论文修改情况}
 \begin{frame}{盲审结果与修改情况}
     \begin{itemize}
