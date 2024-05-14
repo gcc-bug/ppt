@@ -23,7 +23,7 @@
 \usetikzlibrary{quantikz}
 \setbeamertemplate{itemize item}[ball] % Can be circle, square, etc.
 \setbeamertemplate{itemize subitem}[default] % Can be ball, triangle, etc.
-\title[学位论文答辩]{基于TDD的量子模型检测中的可达性分析}
+\title[学位论文答辩]{基于张量决策图的量子模型检测中的可达性分析}
 \subtitle{硕士学位论文答辩}
 \author[Gc]{高丁超\\ 导师：应圣钢}
 \institute[ISCAS]{中国科学院软件研究所}
@@ -60,68 +60,56 @@
 
 \section{背景介绍}
 
-\begin{frame}
-    \begin{itemize}
-        \item \textbf{标题:} 基于张量网络的量子模型检测中的可达性分析
-        \item \textbf{总结:}
-        \begin{itemize}
-            \setlength\itemsep{1em} % Set item separation here, for subitems
-            \item \textit{问题:} 如何在量子系统中验证命题。
-            \item \textit{解决方案:} 采用量子模型检测。
-            \item \textit{挑战:} 原有的方法随着量子比特数量的增加，资源需求指数级增长。
-            \item \textit{方法:} 引入新的数据结构TDD对量子算法进行表示，同时实现了优化算法进一步减少了时间消耗。
-        \end{itemize}
-    \end{itemize}
-\end{frame}
 
-\begin{frame}{量子计算的关键概念}
-    \begin{itemize}
-        \item \textbf{量子比特（Qubits）：} the quantum version of the classic binary
-        \item \textbf{叠加态（Superposition）：} $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle=\left[\begin{array}{r}\alpha \\\beta\end{array}\right]$
-        \item \textbf{纠缠（Entanglement）:}$|\Psi\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
-        \item \textbf{量子门（Quantum Gates）} 
-    \end{itemize}
-\end{frame}
-\begin{frame}{量子门操作例子}
-    \begin{itemize}
-        \item \textbf{单量子门例子：}$X=\left[\begin{array}{rr}0 & 1 \\1 & 0 \end{array}\right],Y=\left[\begin{array}{rr}0 & -i \\i & 0 \end{array}\right],Z=\left[\begin{array}{rr}1 & 0 \\0 & -1 \end{array}\right],H=\frac{1}{\sqrt{2}}\left[\begin{array}{rr}1 & 1 \\1 & -1 \end{array}\right]$ 
-        \item \textbf{多量子门例子：} $\text { CNOT }=\left[\begin{array}{llll}
-            1 & 0 & 0 & 0 \\
-            0 & 1 & 0 & 0 \\
-            0 & 0 & 0 & 1 \\
-            0 & 0 & 1 & 0
-            \end{array}\right]$
-        \item \textbf{测量，比如$Z$基测量：}状态为$|0\rangle$输出$1$，状态为$|1\rangle$输出$-1$。
-    \end{itemize}
-\end{frame}
-\begin{frame}{量子计算例子}
-    \begin{figure}[h]
-      \centering
-      \scalebox{1.1}{
-      \begin{tikzpicture}
-      \node at (0,0) [anchor=north]{
-      \begin{quantikz}[column sep=0.28cm,row sep=0.6cm]
-      &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\qw&\qw     &\ctrl{1}&\qw&\qw&\qw     &\gate{X}&\qw&\gate{H}&\qw \\
-      &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw \\
-      &\gate{X}&\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw&\qw&\qw&\qw&\qw&\qw&\qw&\qw 
-      \end{quantikz}};
-      \end{tikzpicture}
-      }
-      \label{fig:cir}
-      \caption{Grover\_3算法的电路。}
-    \end{figure}
-\end{frame}
+
+% \begin{frame}{量子计算的关键概念}
+%     \begin{itemize}
+%         \item \textbf{量子比特（Qubits）：} the quantum version of the classic binary
+%         \item \textbf{叠加态（Superposition）：} $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle=\left[\begin{array}{r}\alpha \\\beta\end{array}\right]$
+%         \item \textbf{纠缠（Entanglement）:}$|\Psi\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
+%         \item \textbf{量子门（Quantum Gates）} 
+%     \end{itemize}
+% \end{frame}
+% \begin{frame}{量子门操作例子}
+%     \begin{itemize}
+%         \item \textbf{单量子门例子：}$X=\left[\begin{array}{rr}0 & 1 \\1 & 0 \end{array}\right],Y=\left[\begin{array}{rr}0 & -i \\i & 0 \end{array}\right],Z=\left[\begin{array}{rr}1 & 0 \\0 & -1 \end{array}\right],H=\frac{1}{\sqrt{2}}\left[\begin{array}{rr}1 & 1 \\1 & -1 \end{array}\right]$ 
+%         \item \textbf{多量子门例子：} $\text { CNOT }=\left[\begin{array}{llll}
+%             1 & 0 & 0 & 0 \\
+%             0 & 1 & 0 & 0 \\
+%             0 & 0 & 0 & 1 \\
+%             0 & 0 & 1 & 0
+%             \end{array}\right]$
+%         \item \textbf{测量，比如$Z$基测量：}状态为$|0\rangle$输出$1$，状态为$|1\rangle$输出$-1$。
+%     \end{itemize}
+% \end{frame}
+% \begin{frame}{量子计算例子}
+%     \begin{figure}[h]
+%       \centering
+%       \scalebox{1.1}{
+%       \begin{tikzpicture}
+%       \node at (0,0) [anchor=north]{
+%       \begin{quantikz}[column sep=0.28cm,row sep=0.6cm]
+%       &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\qw&\qw     &\ctrl{1}&\qw&\qw&\qw     &\gate{X}&\qw&\gate{H}&\qw \\
+%       &\ctrl{1}&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw&\gate{X}&\qw&\gate{H}&\qw \\
+%       &\gate{X}&\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw     &\qw&\qw&\qw&\qw&\qw&\qw&\qw&\qw 
+%       \end{quantikz}};
+%       \end{tikzpicture}
+%       }
+%       \label{fig:cir}
+%       \caption{Grover\_3算法的电路。}
+%     \end{figure}
+% \end{frame}
 \begin{frame}{研究背景}
     \begin{itemize}
-        \item<1-> 量子计算的快速发展
+        \item<1-> 量子计算机硬件的快速发展
         \begin{itemize}
-            \item 规模化拓展
+            \item 规模化拓展方面：
             \begin{itemize}
-                \item IBM: Condor \textbf{1121}; 中科大: 九章三号 \textbf{255}
+                \item IBM: Condor \textbf{1121} 超导量子比特; 中科大: 九章三号 \textbf{255} 光量子比特。
             \end{itemize}
-            \item 容错计算
+            \item 容错计算方面：
             \begin{itemize}
-                \item IonQ: \textbf{29}; QuEra:  \textbf{48}
+                \item IonQ: \textbf{29} 离子阱算法比特 ; QuEra:  \textbf{48} 中性原子量子比特。
             \end{itemize}
         \end{itemize}
         \item<2-> 现有验证方法
@@ -129,6 +117,19 @@
             \item 模型检测自动化程度高，但存在资源爆炸的问题
             \item 定理证明处理复杂问题有明显优势，但自动化程度低
         \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}{基于张量决策图的量子模型检测中的可达性分析}
+    \begin{itemize}
+        % \item \textbf{标题:} 基于张量决策图的量子模型检测中的可达性分析
+        % \item \textbf{总结:}
+        % \begin{itemize}
+            \setlength\itemsep{1em} % Set item separation here, for subitems
+            \item \textit{问题:} 如何在量子系统中验证命题。
+            \item \textit{解决方案:} 采用量子模型检测。
+            \item \textit{挑战:} 原有的方法随着量子比特数量的增加，资源需求指数级增长。
+            \item \textit{方法:} 引入新的数据结构TDD对量子算法进行表示，同时实现了优化算法进一步减少了时间消耗。
+        % \end{itemize}
     \end{itemize}
 \end{frame}
 \begin{frame}{量子迁移系统}
@@ -286,7 +287,7 @@
         
 %     \end{columns}
 %   \end{frame}
-\section{研究内容}
+\section{基于张量决策图的量子模型检测}
 \begin{frame}{解决方案简介：}
     \begin{itemize}
         \item \textbf{研究问题：}减缓量子模型检测中的资源消耗
@@ -432,7 +433,7 @@
         \caption{对bit flip电路进行划分，其中k1=3,k2=2。}
     \end{figure}
 \end{frame}
-\section{研究结果}
+\section{实验结果}
 \begin{frame}{对TDD结构的优化}
     \begin{table}[]
     
