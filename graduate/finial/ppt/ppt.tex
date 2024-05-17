@@ -128,17 +128,17 @@
             \item \textit{问题:} 如何在量子系统中验证命题。
             \item \textit{解决方案:} 采用量子模型检测。
             \item \textit{挑战:} 原有的方法随着量子比特数量的增加，资源需求指数级增长。
-            \item \textit{方法:} 引入新的数据结构TDD对量子算法进行表示，同时实现了优化算法进一步减少了时间消耗。
+            \item \textit{方法:} 引入新的数据结构TDD对量子线路进行表示，同时实现了优化算法进一步减少了时间消耗。
         % \end{itemize}
     \end{itemize}
 \end{frame}
 \begin{frame}{量子迁移系统}
-    \begin{columns}[T] % The "T" option aligns the columns content at the top
+    \begin{columns} % The "T" option aligns the columns content at the top
 
         % Column for itemized list
-        \begin{column}{.6\textwidth}
+        \begin{column}{.5\textwidth}
             \begin{itemize}
-                \item  \textbf{迁移系统(transition system)：} $(S, I, \Sigma, T)$
+                \item<1->  \textbf{经典迁移系统：} $(S, I, \Sigma, T)$
                 \begin{equation}
                   where
                   \begin{cases}
@@ -148,16 +148,15 @@
                   \end{cases}
                   \notag
                 \end{equation}
-                \item \textbf{量子迁移系统：} $(\mathcal{H},S,\Sigma,\mathcal{T})$
+                \item<2-> \textbf{量子迁移系统：} $(\mathcal{H},S,\Sigma,\mathcal{T})$
             \end{itemize}
         \end{column}
-    
-        % Column for figure
-        \begin{column}{.3\textwidth}
+        \begin{column}{.5\textwidth}
           \begin{figure}
             \centering
-            \includegraphics[width=\textwidth]{Img/transition.png}
-          \end{figure}
+            \includegraphics[height=4.5cm]{Img/transition.pdf}
+        \caption{简化版的可调节台灯迁移系统}
+        \end{figure}
         \end{column}
     
       \end{columns}
@@ -251,7 +250,7 @@
             \label{fig:tdd_P}
         \end{subfigure}
         \label{fig:P}
-        \caption{可以用10个TDD节点或者一个$8*8$的矩阵表示子空间$S=span\{\ket{++-},\ket{11-}\}$投影算子。其中TDD虚线表示低点，实线表示高边。}
+        \caption{可以用一个$8*8$的矩阵或者10个TDD节点表示子空间$S=span\{\ket{++-},\ket{11-}\}$投影算子。其中TDD虚线表示低点，实线表示高边。}
     \end{figure}
 \end{frame}
 % \begin{frame}{相关工作效率比较}
@@ -294,12 +293,15 @@
         \item \textbf{基本方法：}将转移关系和状态空间转化为TDD表示，然后计算系统的状态转移。
         \item \textbf{改进算法：}
         \begin{itemize}
-            \item \textbf{addition partition:} 寻找依赖最多的索引项，从而分割线路。
-            \item \textbf{contraction partition:}通过预设的参数进行线路分割。
-        \end{itemize}
-        \begin{itemize}
-            \item \textbf{基于窗函数对TDD分割:}
-            \item \textbf{用子空间近似TDD表示$\ket{\psi}$}
+            \item \begin{itemize}
+                \item \textbf{基于窗函数对TDD分割}
+                \item \textbf{用子空间近似TDD表示$\ket{\psi}$}
+            \end{itemize}
+            \item
+            \begin{itemize}
+                \item \textbf{addition partition:} 寻找依赖最多的索引项，从而分割线路。
+                \item \textbf{contraction partition:}通过预设的参数进行线路分割。
+            \end{itemize}
         \end{itemize}
         % \item \textbf{创新点：}
         % % \item //TODO: add new
@@ -424,13 +426,13 @@
 \end{frame}
 \begin{frame}{Contraction partition}
     \begin{itemize}
-        \item 确定预设参数 k1 和 k2。
-        \item 分割电路，每部分包括最多 k1 个量子比特，连接最多 k2 个多比特门。
+        \item 确定预设参数 $k1$ 和 $k2$。
+        \item 分割电路，每部分包括最多 $k1$ 个量子比特，连接最多 $k2$ 个多比特门。
     \end{itemize}
     \begin{figure}
         \centering
         \includegraphics[height=4cm]{Img/cir_contraction.pdf}
-        \caption{对bit flip电路进行划分，其中k1=3,k2=2。}
+        \caption{对bit flip电路进行划分，其中$k1=3,k2=2$。}
     \end{figure}
 \end{frame}
 \section{实验结果}
