@@ -52,64 +52,282 @@
 % \end{frame}
 
 \begin{frame}
-    \frametitle{Quick Review}
+    \frametitle{Quick Review of Atom Computation}
     \begin{itemize}
-        \item Neutral atom controlled by laser lattice (stationary) and laser tweezers (move)
-        \item Single qubit gate $U3: (\Omega\tau\cos{\varphi},\Omega\tau\sin{\varphi},\delta\tau)$
-        \item Multi-qubit gate $C\mathcal{Z}: 2|gg\rangle\langle gg| - I$
+        \item \textbf{Control Mechanisms:} 
+            \begin{itemize}
+                \item Neutral atoms controlled by laser lattice (stationary) 
+                \item Laser tweezers (for movement)
+            \end{itemize}
+        \item \textbf{Single Qubit Gate:} 
+            \begin{itemize}
+                \item $U3: (\Omega\tau\cos{\varphi}, \Omega\tau\sin{\varphi}, \delta\tau)$
+            \end{itemize}
+        \item \textbf{Multi-Qubit Gate:} 
+            \begin{itemize}
+                \item $C\mathcal{Z}: 2|gg\rangle\langle gg| - I$
+            \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Paper Call Back}
-    \begin{itemize}
-        \item Setup (the constraints it considered)
-        \item Optimize goal (the cost it wants to reduce)
-        \item Methods (how it finishes)
-    \end{itemize}
-\end{frame}
+% \begin{frame}
+%     \frametitle{Introducing the Paper}
+%     \begin{itemize}
+%         \item \textbf{Setup:} Key constraints and considerations
+%         \item \textbf{Objective:} Cost reduction goals
+%         \item \textbf{Methods:} Approach and techniques used
+%     \end{itemize}
+% \end{frame}
+
 \section{Decomposing and Routing Quantum Circuits Under Constraints for Neutral Atom Architectures}
 
+% \begin{frame}
+%     \frametitle{Setup}
+%     \begin{itemize}
+%         \item \textit{StandardGateSet}: $\{U_3,CZ\}$
+%         \item Existing hardware does not support local addressing for all qubit rotations:
+%         \begin{itemize}
+%             \item Local $CZ$
+%             \item Local $R_Z(\lambda), (0,0,\frac{\lambda}{2})$
+%             \item Global $GR(\theta,\phi), (\frac{\theta}{2}\cos{\phi},\frac{\theta}{2}\sin{\phi},0)$
+%         \end{itemize}
+%         \item Atom movement
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%     \frametitle{Optimization Goal}
+%     The primary optimization goal is to minimize:
+%     \begin{itemize}
+%         \item Circuit duration 
+%         % increase overall fidelity using atom movement for better routing efficiency %
+%     \end{itemize}
+% \end{frame}
+\subsection{Decomposition Strategy}
 \begin{frame}
-    \frametitle{Setup}
+    \frametitle{Decomposition Strategy}
     \begin{itemize}
-        \item \textit{StandardGateSet}: $\{U_3,CZ\}$
-        \item Existing hardware does not support local addressing for all qubit rotations:
+        \item \textbf{Native Gate Set}
         \begin{itemize}
-            \item Local $CZ$
-            \item Local $R_Z(\lambda), (0,0,\frac{\lambda}{2})$
-            \item Global $GR(\theta,\phi), (\frac{\theta}{2}\cos{\phi},\frac{\theta}{2}\sin{\phi},0)$
+            \item Local CZ gates.
+            \item Local $R_z(\lambda)$ gates.
+            \item Global $GR(\theta, \phi)$ gates.
         \end{itemize}
-        \item Atom movement
+        \item \textbf{Euler-Angle Decomposition}
+        \begin{itemize}
+            \item Decompose any single-qubit gate $U3(\theta, \phi, \lambda)$ into Euler angles:
+            \[
+            U3(\theta, \phi, \lambda) = R_z(\phi) R_y(\theta) R_z(\lambda)
+            \]
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Optimization Goal}
-    The primary optimization goal is to minimize:
+    \frametitle{Axial Decomposition}
     \begin{itemize}
-        \item Circuit duration 
-        % increase overall fidelity using atom movement for better routing efficiency %
+        \item \textbf{Decomposition of $R_y$ Gate}
+        \begin{itemize}
+            \item Decompose $R_y(\theta)$ gate into global and local gates:
+            \[
+            \prod_j R_{y_j}(\theta_j) = GR\left(-\frac{\pi}{2}, 0\right) \left[\prod_j R_{z_j}(\theta_j)\right] GR\left(\frac{\pi}{2}, 0\right)
+            \]
+            \item This involves a net global rotation of $\pi$.
+        \end{itemize}
+    \end{itemize}
+    % \begin{center}
+    %     \includegraphics[width=0.6\textwidth]{axial_decomposition.png}
+    % \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Transverse Decomposition}
+    \begin{itemize}
+        \item \textbf{Optimized Decomposition of $R_y$ Gate}
+        \begin{itemize}
+            \item Decompose $R_y(\theta)$ gate using minimal global rotation angle:
+            \[
+            R_y(\theta) = R_v\left(\pi, \frac{\theta}{2}\right) R_z(-\pi)
+            \]
+            \item Further decompose $R_v$ gate into global and local gates:
+            \[
+            R_v(\xi, \omega) = GR(\omega, \frac{\pi}{2}) R_z(\xi) GR(-\omega, \frac{\pi}{2})
+            \]
+        \end{itemize}
+    \end{itemize}
+    % \begin{center}
+    %     \includegraphics[width=0.6\textwidth]{transverse_decomposition.png}
+    % \end{center}
+\end{frame}
+\begin{frame}
+    \frametitle{Addition step: Post-Processing and Optimizations}
+    \begin{itemize}
+        \item \textbf{Axis of Rotation Adjustment}
+        \begin{itemize}
+            \item Change the axis of rotation of global gates to eliminate redundant $R_z$ gates.
+        \end{itemize}
+        \item \textbf{Gate Merging}
+        \begin{itemize}
+            \item Merge consecutive $R_z$ gates to further reduce the gate count.
+        \end{itemize}
+    \end{itemize}
+    % \begin{center}
+    %     \includegraphics[width=0.6\textwidth]{post_processing.png}
+    % \end{center}
+\end{frame}
+\begin{frame}
+    \frametitle{Comparison of Decomposition Methods}
+    \begin{itemize}
+        \item \textbf{Axial vs. Transverse Decomposition}
+        \begin{itemize}
+            \item Axial decomposition results in a net global rotation of $\pi$.
+            \item Transverse decomposition minimizes global rotation angle to $|\theta|$.
+        \end{itemize}
+        \item \textbf{Advantages of Transverse Decomposition}
+        \begin{itemize}
+            \item Up to 3.5x reduction in global gate pulse duration.
+            \item Up to 2.9x reduction in single-qubit gate execution time.
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Methods, \textbf{Decomposition Techniques}}
-    $U3(\theta,\phi,\lambda)= RZ(\phi)RY(\theta)RZ(\lambda)$:
+    \frametitle{Summary}
     \begin{itemize}
-        \item $RY(\theta)= GR(\frac{-\pi}{2},0)RZ(\theta)GR(\frac{\pi}{2},0)$
-        \item $RY(\theta) = Rv(\pi,\frac{\theta}{2})RZ(-\pi)$
-        \item $Rv(\xi,\omega)=GR(\omega,\frac{\pi}{2})RZ(\xi)GR(-\omega,\frac{\pi}{2})$
+        \item Efficient decomposition of quantum circuits into native gate sets for neutral atom hardware.
+        \item Transverse decomposition minimizes global rotation angles, leading to significant speedup.
+        \item Post-processing optimizations further reduce gate count and improve execution time.
+    \end{itemize}
+\end{frame}
+% \begin{frame}
+%     \frametitle{Methods, \textbf{Decomposition Techniques}}
+%     $U3(\theta,\phi,\lambda)= RZ(\phi)RY(\theta)RZ(\lambda)$:
+%     \begin{itemize}
+%         \item $RY(\theta)= GR(\frac{-\pi}{2},0)RZ(\theta)GR(\frac{\pi}{2},0)$
+%         \item $RY(\theta) = Rv(\pi,\frac{\theta}{2})RZ(-\pi)$
+%         \item $Rv(\xi,\omega)=GR(\omega,\frac{\pi}{2})RZ(\xi)GR(-\omega,\frac{\pi}{2})$
+%     \end{itemize}
+% \end{frame}
+\subsection{Atom Movement Strategy}
+\begin{frame}
+    \frametitle{Introduction to Atom Movement}
+    \begin{itemize}
+        \item \textbf{Goal}
+        \begin{itemize}
+            \item Utilize physical atom movement to optimize routing in quantum circuits.
+            \item Reduce overhead costs associated with traditional SWAP gate decompositions.
+        \end{itemize}
+        \item \textbf{Challenges}
+        \begin{itemize}
+            \item Maintain atom fidelity and avoid interference.
+            \item Optimize the movement paths to minimize execution time.
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Methods, \textbf{Routing Algorithms}}
+    \frametitle{Atom Movement Constraints}
     \begin{itemize}
-        \item Map
+        \item \textbf{Threshold Distance}
+        \begin{itemize}
+            \item When moving, an atom must stay at least $d_{\text{thr}}$ away from any other atom to avoid interference.
+        \end{itemize}
+        \item \textbf{Parallel Movement Constraints}
+        \begin{itemize}
+            \item Atoms with the same initial $x$-coordinate can move horizontally together only if they end up with the same final $x$-coordinate.
+            \item Atoms with the same initial $y$-coordinate can move vertically together only if they end up with the same final $y$-coordinate.
+        \end{itemize}
+        \item \textbf{Movement Speed}
+        \begin{itemize}
+            \item Atoms must be moved at speeds not exceeding 0.55 µm/µs to maintain qubit fidelity and entanglement.
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Atom Array Configuration}
+    \begin{itemize}
+        \item \textbf{Initial Mapping}
+        \begin{itemize}
+            \item Each program qubit is assigned to a unique hardware qubit to minimize routing operations.
+        \end{itemize}
+        \item \textbf{Displacement}
+        \begin{itemize}
+            \item Atoms can be displaced from grid points by $d_{\text{thr}}$ to facilitate SWAP operations without violating distance constraints.
+        \end{itemize}
+    \end{itemize}
+    % \begin{center}
+    %     \includegraphics[width=0.6\textwidth]{atom_array_configuration.png}
+    % \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Movement Graph}
+    \begin{itemize}
+        \item \textbf{Graph Definition}
+        \begin{itemize}
+            \item Nodes represent atom sites.
+            \item Edges indicate direct movement paths between sites without violating $d_{\text{thr}}$.
+            \item Edge weights represent the distance between atom sites.
+        \end{itemize}
+    \end{itemize}
+    % \begin{center}
+    %     \includegraphics[width=0.6\textwidth]{movement_graph.png}
+    % \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Movement Costs and Optimization}
+    \begin{itemize}
+        \item \textbf{Movement Costs}
+        \begin{itemize}
+            \item \textbf{Duration}
+            \begin{itemize}
+                \item Movement duration is the distance traveled divided by movement speed.
+            \end{itemize}
+            \item \textbf{Errors}
+            \begin{itemize}
+                \item Atom movements incur idle errors but not gate errors.
+            \end{itemize}
+            \item \textbf{Parallelism}
+            \begin{itemize}
+                \item Maximize parallel movements while adhering to constraints to optimize circuit duration.
+            \end{itemize}
+        \end{itemize}
+        \item \textbf{Optimization Strategy}
+        \begin{itemize}
+            \item Use movement graph to determine the best paths for atom movement.
+            \item Adjust initial displacements to facilitate efficient SWAP operations.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Comparing SWAP-based and Movement-based Routing}
+    \begin{itemize}
+        \item \textbf{SWAP-based Routing}
+        \begin{itemize}
+            \item SWAP gate decomposition results in high gate count and execution time.
+        \end{itemize}
+        \item \textbf{Movement-based Routing}
+        \begin{itemize}
+            \item Atom movement reduces routing overhead and improves fidelity.
+            \item Achieves up to 10x speedup and 2x improvement in fidelity.
+        \end{itemize}
+    \end{itemize}
+    % \begin{center}
+    %     \includegraphics[width=0.6\textwidth]{routing_comparison.png}
+    % \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Summary}
+    \begin{itemize}
+        \item Utilize physical atom movement to optimize routing in neutral atom quantum computers.
+        \item Maintain fidelity and avoid interference with strategic movement constraints and optimizations.
+        \item Significant improvements in execution speed and circuit fidelity compared to traditional SWAP-based routing.
+    \end{itemize}
+\end{frame}
 % \begin{frame}
 %     \frametitle{Compiling Quantum Circuits for Dynamically Field-Programmable Neutral Atoms Array Processors}
 % \end{frame}
