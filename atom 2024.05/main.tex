@@ -17,6 +17,9 @@
 
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=green}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{yquant}
 \input{styles.tex}
 \AtBeginSection[]{
   \begin{frame}
@@ -277,32 +280,51 @@
         \includegraphics[width=0.6\textwidth]{move.png}
     \end{center}
 \end{frame}
-
 \begin{frame}
-    \frametitle{Movement Costs and Optimization}
+    \frametitle{CZ Gate Execution Work Flow}
     \begin{itemize}
-        \item \textbf{Movement Costs}
+        % \item \textbf{:}
+        \item Use movement graph to determine qubit permutation when a CZ gate $(qa, qb)$ can not be executed with current mapping.
+        \item Consider all program qubit pairs $(u, v)$ that:
         \begin{itemize}
-            \item \textbf{Duration}
-            \begin{itemize}
-                \item Movement duration is the distance traveled divided by movement speed.
-            \end{itemize}
-            \item \textbf{Errors}
-            \begin{itemize}
-                \item Atom movements incur idle errors but not gate errors.
-            \end{itemize}
-            \item \textbf{Parallelism}
-            \begin{itemize}
-                \item Maximize parallel movements while adhering to constraints to optimize circuit duration.
-            \end{itemize}
+            \item $u\in\{qa,ab\}$ or $v\in\{qa,ab\}$.
+            \item Have an edge \((m_{t-1}(u), m_{t-1}(v))\) in the movement graph.
+            \item Bring $qa$ and $qb$ closer after moving $u$ to $m_{t-1}(v)$ or move $v$ to $m_{t-1}(u)$.
         \end{itemize}
-        \item \textbf{Optimization Strategy}
-        \begin{itemize}
-            \item Use movement graph to determine the best paths for atom movement.
-            \item Adjust initial displacements to facilitate efficient SWAP operations.
-        \end{itemize}
+        \item Choose pair $(u', v')$ minimizing distance between $qa$ and $qb$ after permutation.
+    % \item \textbf{Execution Logic:}
+    % \begin{itemize}
+    %     \item Connectivity graph still determines CZ gate execution feasibility.
+    %     \item Aim to reduce total operations and movement distance.
+    %     \item Minimize disruptions to other qubit mappings.
+    % \end{itemize}
     \end{itemize}
 \end{frame}
+% \begin{frame}
+%     \frametitle{Movement Costs and Optimization}
+%     \begin{itemize}
+%         \item \textbf{Movement Costs}
+%         \begin{itemize}
+%             \item \textbf{Duration}
+%             \begin{itemize}
+%                 \item Movement duration is the distance traveled divided by movement speed.
+%             \end{itemize}
+%             \item \textbf{Errors}
+%             \begin{itemize}
+%                 \item Atom movements incur idle errors but not gate errors.
+%             \end{itemize}
+%             \item \textbf{Parallelism}
+%             \begin{itemize}
+%                 \item Maximize parallel movements while adhering to constraints to optimize circuit duration.
+%             \end{itemize}
+%         \end{itemize}
+%         \item \textbf{Optimization Strategy}
+%         \begin{itemize}
+%             \item Use movement graph to determine the best paths for atom movement.
+%             \item Adjust initial displacements to facilitate efficient SWAP operations.
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}
     \frametitle{Comparing SWAP-based and Movement-based Routing}
@@ -679,20 +701,20 @@
 \begin{frame}
     \frametitle{Qubit-Array Mapping Method}
     \begin{itemize}
-        \item \textbf{Gate Frequency Graph}
-        \begin{itemize}
-            \item Vertices represent qubits, edges represent gates.
-            \item Edge weights determined by gate frequency.
-        \end{itemize}
         \item \textbf{MAX k-Cut}
         \begin{itemize}
             \item Finds mapping that maximizes inter-array 2Q gates.
             \item Greedy algorithm used for approximation.
         \end{itemize}
+        \item \textbf{Gate Frequency Graph}
+        \begin{itemize}
+            \item Vertices represent qubits, edges represent gates.
+            \item Edge weights determined by gate frequency.
+        \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{max_k_cut.png}
-    % \end{center}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{max_cut.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}
@@ -709,9 +731,9 @@
             \item Enhances parallelism by aligning high-frequency gates.
         \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{alignment_mapping.png}
-    % \end{center}
+    \begin{center}
+        \includegraphics[width=0.3\textwidth]{load.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}
@@ -732,20 +754,20 @@
     % \end{center}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Experimental Setup}
-    \begin{itemize}
-        \item \textbf{Benchmarks}
-        \begin{itemize}
-            \item Diverse set of benchmarks including QASMBench, SupermarQ, Quantum Simulation, and QAOA circuits.
-        \end{itemize}
-        \item \textbf{Metrics}
-        \begin{itemize}
-            \item 2Q gate count, circuit depth, and fidelity.
-            \item Comparisons with IBM superconducting, FAA with long-range gates, and other topologies.
-        \end{itemize}
-    \end{itemize}
-\end{frame}
+% \begin{frame}
+%     \frametitle{Experimental Setup}
+%     \begin{itemize}
+%         \item \textbf{Benchmarks}
+%         \begin{itemize}
+%             \item Diverse set of benchmarks including QASMBench, SupermarQ, Quantum Simulation, and QAOA circuits.
+%         \end{itemize}
+%         \item \textbf{Metrics}
+%         \begin{itemize}
+%             \item 2Q gate count, circuit depth, and fidelity.
+%             \item Comparisons with IBM superconducting, FAA with long-range gates, and other topologies.
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}
     \frametitle{Unique Experimental Approach}
@@ -773,6 +795,13 @@
 \end{frame}
 \section{Discussion}
 \begin{frame}
+    \frametitle{map}
+    \begin{figure}
+        \includegraphics[height = 7cm]{map.png}
+        \caption{3D map from \href{https://arxiv.org/abs/1712.02727}{DB17}. Q1: Differences between 2D and 3D mapping.}
+    \end{figure}
+\end{frame}
+\begin{frame}
     \frametitle{CZ ? C$\mathcal{Z}$}
     \begin{columns}
         \begin{column}{.5\textwidth}
@@ -799,16 +828,33 @@
     \frametitle{How to use mcz}
     \begin{figure}
         \includegraphics[width=\textwidth]{gyser.png}
-        \caption{main idea in \href{https://dl.acm.org/doi/10.1145/3470496.3527428}{Gyser paper}}
+        \caption{Main idea in \href{https://dl.acm.org/doi/10.1145/3470496.3527428}{Gyser paper}. Q2: Applying some rules to gap the CZ gate circuit and MCZ gate circuits.
+        }
     \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{How to use mcz}
     \begin{itemize}
-        \item 
-        \item More flexible U3 gate decomposition
-        \item Oracle design using z group gate
+        \item Q3: How to use mcz to construct circuit directly.
     \end{itemize}
+    \begin{figure}
+        \begin{tikzpicture}
+            \begin{yquant*}
+                qubit {$\ket{x_\idx}$} q[3];
+                qubit {$\ket{t}$} q[+1];
+                qubit {$\ket{a}$} q[+1];
+                zz (q[2-4]);
+                H q[4];
+                zz (q[0,1,4]);
+                H q[4];
+                zz (q[2-4]);
+                H q[4];
+                zz (q[0,1,4]);
+                H q[4];
+            \end{yquant*}
+        \end{tikzpicture}
+            \caption{use ccz and Hadmard gate to construct cccz gate.}
+        \end{figure}
 \end{frame}
 
 \end{document}
