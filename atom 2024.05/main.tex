@@ -112,8 +112,8 @@
         \item \textbf{Native Gate Set}
         \begin{itemize}
             \item Local CZ gates.
-            \item Local $R_z(\lambda)$ gates.
-            \item Global $GR(\theta, \phi)$ gates.
+            \item Local $R_z(\lambda): (0,0,\frac{\lambda}{2})$ gates.
+            \item Global $GR(\theta, \phi):(\frac{\theta}{2}\cos{\phi},\frac{\theta}{2}\sin{\phi},0)$ gates.
         \end{itemize}
         \item \textbf{Euler-Angle Decomposition}
         \begin{itemize}
@@ -137,9 +137,9 @@
             \item This involves a net global rotation of $\pi$.
         \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{axial_decomposition.png}
-    % \end{center}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{axial_.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}
@@ -157,9 +157,9 @@
             \]
         \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{transverse_decomposition.png}
-    % \end{center}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{transverse_.png}
+    \end{center}
 \end{frame}
 \begin{frame}
     \frametitle{Addition step: Post-Processing and Optimizations}
@@ -173,9 +173,9 @@
             \item Merge consecutive $R_z$ gates to further reduce the gate count.
         \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{post_processing.png}
-    % \end{center}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{axis.png}
+    \end{center}
 \end{frame}
 \begin{frame}
     \frametitle{Comparison of Decomposition Methods}
@@ -241,7 +241,7 @@
         \end{itemize}
         \item \textbf{Movement Speed}
         \begin{itemize}
-            \item Atoms must be moved at speeds not exceeding 0.55 µm/µs to maintain qubit fidelity and entanglement.
+            \item Atoms must be moved at speeds not exceeding \textbf{0.55 µm/µs} to maintain qubit fidelity and entanglement.
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -273,9 +273,9 @@
             \item Edge weights represent the distance between atom sites.
         \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{movement_graph.png}
-    % \end{center}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{move.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}
@@ -390,64 +390,150 @@
 \end{frame}
 % //TODO: add more constraints, aslso complex analyse
 \begin{frame}
+    \frametitle{SMT Model Variables}
+    \begin{itemize}
+        \item \textbf{stage \( s \)}: Represents the stage or step in the quantum circuit execution process.
+        \item \textbf{qubit \( q_i \)}: Denotes the \( i \)-th qubit in the quantum circuit.
+        \item \textbf{gate \( g_j \)}: Represents the \( j \)-th gate in the quantum circuit.
+        \item \textbf{site indices \( x_{i,s}, y_{i,s} \)}: Coordinates \( (x, y) \) of the \( i \)-th qubit at stage \( s \).
+        \item \textbf{array index \( a_{i,s} \)}: Indicates whether the \( i \)-th qubit at stage \( s \) is in a stationary SLM trap (\( a_{i,s} = 0 \)) or in a mobile AOD trap (\( a_{i,s} = 1 \)).
+        \item \textbf{AOD indices \( c_{i,s}, r_{i,s} \)}: Column \( c \) and row \( r \) indices for the \( i \)-th qubit at stage \( s \) in the AOD grid.
+        \item \textbf{time coordinate \( t_j \)}: The time coordinate when the \( j \)-th gate is applied.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{SMT Model Constraints}
     \begin{itemize}
         \item \textbf{Spatial Constraints}
         \begin{itemize}
             \item Qubits must be within the defined grid bounds:
             \[
-            0 \leq x_{i,s} < X, \quad 0 \leq y_{i,s} < Y \quad \forall i, s
+            0 \leq x_{i,s} < X, \quad 0 \leq y_{i,s} < Y \quad \forall i\in \left[0,N \right), s \in \left[0,S\right)
             \]
-            \item AOD rows/columns cannot cross each other.
+            \item AOD moves:
+            \[(a_{i,s}=1)\implies (c_{i,s+1}=c_{i,s}\land r_{i,s+1}=r_{i,s})\]
+            \item Site order implying row/column order enforing:
+            \[(x_{i,s}<x_{i',s})\implies (c_{i,s}<c_{i',s}),\quad (y_{i,s}<y_{i',s})\implies (r_{i,s}<r_{i',s})
+            \] 
+            \item AOD rows/columns cannot cross each other:
+            \begin{small}
+                \begin{align*}
+                &((a_{i,s} = 1) \land (a_{i',s} = 1) \land (c_{i,s} < c_{i',s})) \implies (x_{i,s+1} \leq x_{i',s+1}), \\
+                &((a_{i,s} = 1) \land (a_{i',s} = 1) \land (r_{i,s} < r_{i',s})) \implies (y_{i,s+1} \leq y_{i',s+1}).
+                \end{align*}
+            \end{small}
         \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{SMT Model Constraints}
+    \begin{itemize}
         \item \textbf{Interaction Constraints}
         \begin{itemize}
             \item Qubits must be within \( r_b \) for entangling gates:
-            \[
-            \text{dist}(q_i, q_j) \leq r_b
-            \]
-            \item No other qubit can be within \( 2.5 r_b \) of a pair during a gate.
+            \begin{small}
+                \begin{align*}
+                    &((a_{i,s-1} = 1) \land (a_{i',s-1} = 1) \land (c_{i,s-1} - c_{i',s-1} \geq C_{\text{STK}})) \implies (x_{i,s} > x_{i',s}), \\
+                    &((a_{i,s-1} = 1) \land (a_{i',s-1} = 1) \land (r_{i,s-1} - r_{i',s-1} \geq R_{\text{STK}})) \implies (y_{i,s} > y_{i',s}).
+                \end{align*}
+            \end{small}
         \end{itemize}
-        \item \textbf{Temporal Constraints}
+        \item \textbf{Circuit-Dependent Constraints}
         \begin{itemize}
-            \item Qubits in SLM traps remain stationary:
+            \item Connectivity ensures:
             \[
-            (a_{i,s} = 0) \Rightarrow (x_{i,s+1} = x_{i,s}) \land (y_{i,s+1} = y_{i,s})
+                (t_j=s)\implies (x_{i,s}=x_{i',s}\land y_{i,s}=y_{i',s})
             \]
         \end{itemize}
     \end{itemize}
+    \begin{center}
+        \includegraphics[width=.6\textwidth]{stack.png}
+    \end{center}
 \end{frame}
-
+\begin{frame}
+    \frametitle{Scalability of the Model}
+    \begin{itemize}
+        \item \textbf{Variables:} \(5NS + G\)
+        \item \textbf{Constraints:} \(O(G^2 + GS + N^2S)\)
+        \item \textbf{Bits to Represent Variables:} \(NS \log(2XY RC) + G \log(S)\)
+        \item \textbf{Worst-Case Runtime:} \(O((N_{SLM}N_{AOD})^{NS }\cdot S ^G)\)
+        \item \textbf{Shallow Circuit Regime and sparse graphs (\(G=O(n)\)):}
+        \begin{itemize}
+            \item Bits required: \(O(N \log(N_{SLM}N_{AOD}))\)
+            \item Constraints: \(O(N^2)\)
+        \end{itemize}
+        % \item \textbf{Hybrid Compiler 'Peeling':} \(S = 2\)
+    \end{itemize}
+\end{frame}
 \begin{frame}
     \frametitle{Example of Compiled Quantum Circuit}
+    \begin{center}
+        \includegraphics[width=\textwidth]{compile.png}
+    \end{center}
+\end{frame}
+\begin{frame}
+    \frametitle{Greedy Heuristic Method}
     \begin{itemize}
-        \item \textbf{Stages of Compilation}
+        % \item \textbf{Purpose:} Accelerates the compilation for large quantum circuits.
+        % \item \textbf{Approach:}
+        % \begin{itemize}
+        %     \item At each stage, find AOD movements to maximize the number of gates executed in the next stage.
+        %     \item Repeat until a small number of gates remain.
+        %     \item Switch to the optimal approach for the final stages.
+        % \end{itemize}
+        % \item \textbf{Inspiration:} Iterative peeling in classical integrated circuit routing.
+        \item \textbf{Steps:}
         \begin{itemize}
-            \item Load qubits into traps.
-            \item Apply entangling gates at interaction sites.
-            \item Move AOD rows/columns for next stage.
+            \item Construct a "single-step" SMT model with two stages.
+            \item Optimize the number of gates executed in the second stage.
+            \item Append the solution to the full solution and remove executed gates.
+            \item Repeat until fewer than 5\% of gates remain.
         \end{itemize}
+        \item \textbf{Benefit:} Significantly faster than the optimal compiler with some sacrifice in optimality.
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.8\textwidth]{compiled_circuit.png}
-    % \end{center}
 \end{frame}
 
+% \begin{frame}
+%     \frametitle{Hybrid Compilation Approach}
+%     \begin{itemize}
+%         \item \textbf{Greedy Heuristic}
+%         \begin{itemize}
+%             \item Iteratively maximize the number of gates executed per stage.
+%         \end{itemize}
+%         \item \textbf{Optimal Approach}
+%         \begin{itemize}
+%             \item Use SMT solver to find optimal solutions when problem size is small.
+%         \end{itemize}
+%     \end{itemize}
+%     % \begin{center}
+%     %     \includegraphics[width=0.8\textwidth]{hybrid_approach.png}
+%     % \end{center}
+% \end{frame}
 \begin{frame}
-    \frametitle{Hybrid Compilation Approach}
+    \frametitle{Experimental Results}
     \begin{itemize}
-        \item \textbf{Greedy Heuristic}
+        \item \textbf{Benchmarks:}
         \begin{itemize}
-            \item Iteratively maximize the number of gates executed per stage.
+            \item Evaluated on random graphs.
+            \item Circuits with 10 to 90 qubits.
         \end{itemize}
-        \item \textbf{Optimal Approach}
+        \item \textbf{Main Findings:}
         \begin{itemize}
-            \item Use SMT solver to find optimal solutions when problem size is small.
+            % \item DPQA with OLSQ-DPQA compiler reduces two-qubit gates significantly.
+            \item For 90-qubit circuits: 5.1x fewer two-qubit gates compared to fixed planar architecture.
+        \end{itemize}
+        \item \textbf{Error Sources:}
+        \begin{itemize}
+            % \item Main source: Rydberg laser for two-qubit gates.
+            \item AOD movements cause 27x less infidelity.
+        \end{itemize}
+        \item \textbf{Compiler Performance:}
+        \begin{itemize}
+            \item Hybrid approach faster than optimal compiler.
+            \item Compiles up to 90-qubit circuits within a day.
         \end{itemize}
     \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.8\textwidth]{hybrid_approach.png}
-    % \end{center}
 \end{frame}
 
 \begin{frame}
