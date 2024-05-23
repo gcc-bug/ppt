@@ -14,6 +14,9 @@
 \setlist[enumerate]{label=\arabic*)., leftmargin=*,itemsep=30pt}
 \setbeamerfont{enumerate item}{size=\LARGE}
 \setlist[itemize]{label=\textbullet, leftmargin=*, itemsep=5pt}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=green}
 \input{styles.tex}
 \AtBeginSection[]{
   \begin{frame}
@@ -684,12 +687,39 @@
 \end{frame}
 \section{Discussion}
 \begin{frame}
-    \frametitle{}
+    \frametitle{CZ ? C$\mathcal{Z}$}
+    \begin{columns}
+        \begin{column}{.5\textwidth}
+            \begin{itemize}
+                \item $C\mathcal{Z}: 2|gg\rangle\langle gg| - I$, while $CZ: I - 2|11\rangle\langle 11|$
+                \item in gererally:
+                \begin{align*}
+                    |gg\rangle & \rightarrow |gg\rangle \\
+                    |ge\rangle & \rightarrow |ge\rangle e^{i\phi_1} \\
+                    |eg\rangle & \rightarrow |eg\rangle e^{i\phi_1} \\
+                    |ee\rangle & \rightarrow |ee\rangle e^{i(2\phi_1 + \pi)}
+                \end{align*}
+            \end{itemize}
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=.5\textwidth]{level.png}
+                \caption{Level structure for $^{87}Rb$ atoms, with the relevant atomic transitions employed in \href{http://arxiv.org/abs/2312.03982}{\textit{Quera paper}}.}
+            \end{figure}
+        \end{column}
+    \end{columns}
 \end{frame}
 \begin{frame}
-    \frametitle{Discussion}
+    \frametitle{How to use mcz}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{gyser.png}
+        \caption{main idea in \href{https://dl.acm.org/doi/10.1145/3470496.3527428}{Gyser paper}}
+    \end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{How to use mcz}
     \begin{itemize}
-        \item \includegraphics[width=\textwidth]{level.png}
+        \item 
         \item More flexible U3 gate decomposition
         \item Oracle design using z group gate
     \end{itemize}
