@@ -1,4 +1,3 @@
-
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{amssymb}
@@ -9,25 +8,21 @@
 \usepackage{xcolor}
 \usepackage{float}
 \lstset{
-  language=Python,  %代码语言使用的是matlab
-  % frame=shadowbox, %把代码用带有阴影的框圈起来
-  rulesepcolor=\color{red!20!green!20!blue!20},%代码块边框为淡青色
-  keywordstyle=\color{blue!90}\bfseries, %代码关键字的颜色为蓝色，粗体
-  commentstyle=\color{red!10!green!70}\textit,    % 设置代码注释的颜色
+  language=Python,
+  rulesepcolor=\color{red!20!green!20!blue!20},
+  keywordstyle=\color{blue!90}\bfseries,
+  commentstyle=\color{red!10!green!70}\textit,
   basicstyle=\footnotesize,
-  showstringspaces=true,%不显示代码字符串中间的空格标记
-  % numbers=left, % 显示行号
-  % numberstyle=8pt,    % 行号字体
-  % numberstyle=\color{green},
-  stringstyle=\rmfamily\slshape\color[RGB]{128,0,0}, % 代码字符串的特殊格式
-  breaklines=true, %对过长的代码自动换行
-  extendedchars=false,  %解决代码跨页时，章节标题，页眉等汉字不显示的问题
-  escapeinside=``,%代码中出现中文必须加上，否则报错
-  texcl=true}
+  showstringspaces=true,
+  stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},
+  breaklines=true,
+  extendedchars=false,
+  escapeinside=``,
+  texcl=true
+}
 
-\lstset{breaklines}%自动将长的代码行换行排版
-
-\lstset{extendedchars=false}%解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{breaklines}
+\lstset{extendedchars=false}
 
 \usepackage{textcomp}
 \usepackage{pythonhighlight}
