@@ -394,22 +394,22 @@
         \end{itemize}
     \end{itemize}
 \end{frame}
-\begin{frame}
-    \frametitle{Discretization of State Space}
-    \begin{itemize}
-        \item \textbf{Space Domain}
-        \begin{itemize}
-            \item Discretized into interaction sites to ensure qubits are either paired for gates or idle and well-separated.
-        \end{itemize}
-        \item \textbf{Time Domain}
-        \begin{itemize}
-            \item Discretized into stages where qubit positions are adjusted and gates are executed.
-        \end{itemize}
-    \end{itemize}
-    % \begin{center}
-    %     \includegraphics[width=0.6\textwidth]{discretization.png}
-    % \end{center}
-\end{frame}
+% \begin{frame}
+%     \frametitle{Discretization of State Space}
+%     \begin{itemize}
+%         \item \textbf{Space Domain}
+%         \begin{itemize}
+%             \item Discretized into interaction sites to ensure qubits are either paired for gates or idle and well-separated.
+%         \end{itemize}
+%         \item \textbf{Time Domain}
+%         \begin{itemize}
+%             \item Discretized into stages where qubit positions are adjusted and gates are executed.
+%         \end{itemize}
+%     \end{itemize}
+%     % \begin{center}
+%     %     \includegraphics[width=0.6\textwidth]{discretization.png}
+%     % \end{center}
+% \end{frame}
 % //TODO: add more constraints, aslso complex analyse
 \begin{frame}
     \frametitle{SMT Model Variables}
@@ -425,9 +425,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{SMT Model Constraints}
-    \begin{itemize}
-        \item \textbf{Spatial Constraints}
+    \frametitle{Spatial Constraints}
         \begin{itemize}
             \item Qubits must be within the defined grid bounds:
             \[
@@ -446,7 +444,6 @@
                 \end{align*}
             \end{small}
         \end{itemize}
-    \end{itemize}
 \end{frame}
 \begin{frame}
     \frametitle{SMT Model Constraints}
