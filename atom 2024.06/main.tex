@@ -3,6 +3,7 @@
 % \usefonttheme{professionalfonts}
 \usefonttheme{structurebold}
 \usecolortheme{rose}
+\usepackage{tcolorbox}
 \setbeamerfont{title}{size=\LARGE, series=\bfseries}
 \title{Synthesis on Atom Computation}
 
@@ -34,27 +35,56 @@
         % \item Challenges in fully leveraging hardware flexibility while respecting constraints.
         \item The compilation process is broken down into three tasks: scheduling, placement, and routing.
     \end{itemize}
+    \begin{table}[h!]
+        \centering
+        \tiny
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Qubit Num} & \textbf{Gate Num} & \textbf{Scheduling} & \textbf{Placement} & \textbf{Routing} & \textbf{Codegen} & \textbf{Total} \\
+        \hline
+        30 & 45 & 0.0008 & 137.32 & 0.0057 & 0.0184 & 137.35 \\
+        \hline
+        60 & 60 & 0.0017 & 141.23 & 0.0124 & 0.0379 & 141.28 \\
+        \hline
+        90 & 135 & 0.0023 & 144.43 & 0.0304 & 0.0630 & 144.52 \\
+        \hline
+        \end{tabular}
+        \caption{Timing Results for Different Qubit and Gate Numbers}
+        \label{table:timing_results}
+    \end{table}
 \end{frame}
 
 \begin{frame}
     \frametitle{Scheduling}
     \begin{itemize}
-        \item Scheduling is crucial for determining the sequence of operations.
-        \item The approach uses graph edge coloring for optimal scheduling.
-        \item Ensures near-optimal stage count for two-qubit gates.
-        \item Proven to be at most one stage more than the optimal solution.
-        \item This reduces the fidelity bottleneck in this platform.
+        \item Scheduling is crucial for determining the sequence of operations. Graph edge coloring is used to model the scheduling problem.
+        \item Each edge represents a two-qubit gate.
+        \item Colors represent different stages.
+        % \item Ensures near-optimal stage count for two-qubit gates.
+        % \item Proven to be at most one stage more than the optimal solution.
+        % \item This reduces the fidelity bottleneck in this platform.
+        \item The goal is to minimize the number of stages while ensuring no two adjacent edges share the same color.
     \end{itemize}
+    \begin{figure}
+        \includegraphics[height=4.5cm]{color.png}
+    \end{figure}
+    
 \end{frame}
 
 \begin{frame}
     \frametitle{Scheduling: Graph Edge Coloring}
+    \begin{theorem}
+        \textbf{Vizing's Theorem:} For any simple graph \( G \) with maximum degree \( \Delta \), the chromatic index \(\chi'(G)\) satisfies:
+\[
+\Delta \leq \chi'(G) \leq \Delta + 1
+\]
+where \(\chi'(G)\) is the minimum number of colors needed to color the edges of \( G \).
+
+    \end{theorem}
     \begin{itemize}
-        \item Graph edge coloring is used to model the scheduling problem.
-        \item Each edge represents a two-qubit gate.
-        \item Colors represent different stages.
-        \item The goal is to minimize the number of stages while ensuring no two adjacent edges share the same color.
-    \end{itemize}
+        \item There exists an algorithm with runtime \( O(|V| \cdot |E|) \) that provides an edge coloring \(\phi: E \to \{0, 1, 2, \dots, \Delta(G)\}\).
+        \item The maximum gate count is \( \binom{n}{2} \). Thus, the time complexity of scheduling is \( O(n^3) \).
+    \end{itemize}    
 \end{frame}
 
 \begin{frame}
@@ -63,35 +93,81 @@
         \item Placement refers to assigning qubits to physical locations.
         \item Optimal placement minimizes the distance between interacting qubits.
         \item This reduces the need for long-distance routing, which can lower fidelity.
-        \item Placement strategies must handle large qubit arrays efficiently.
     \end{itemize}
+    \begin{block}{Formula}
+        \[
+        \sum_{g(q,q') \in G} w_g \cdot \text{dist}(m(q), m(q'))
+        \]
+        
+        where \( w_g \) is the weight for gate \( g \), \( m \) is the placement function from qubits to interaction sites, and \(\text{dist}\) is the \textbf{Euclidean distance}.
+    \end{block}
 \end{frame}
 
 \begin{frame}
     \frametitle{Placement Strategies}
     \begin{itemize}
-        \item Use of heuristic algorithms to find near-optimal solutions.
-        \item Consideration of hardware constraints and qubit connectivity.
+        \item Use of simulated annealing algorithms to find near-optimal solutions with a constant runtime.
         \item Balancing between computational efficiency and placement quality.
+        \[
+x \in \left[0, \max\left(\lfloor \sqrt{n} \rfloor + 4, x_{\max}\right)\right],
+y \in \left[0, \max\left(\lfloor \sqrt{n} \rfloor + 4, y_{\max}\right)\right]
+\]
+        % \item Consideration of hardware constraints and qubit connectivity.
     \end{itemize}
+    \begin{block}{Formula}
+        \begin{align*}
+            w_g & = \begin{cases}
+            1, &\text{static placement}
+             \\ 
+            \max\left(0.1,1-0.1s_g\right), &\text{dynamic placement}
+            \end{cases}
+        \end{align*}
+    \end{block}
+\end{frame}
+\begin{frame}
+    \frametitle{Placement example}
+    \begin{figure}
+        \includegraphics[height = 8cm]{placement.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
     \frametitle{Routing}
     \begin{itemize}
-        \item Routing involves determining paths for qubits to move during computation.
-        \item Efficient routing algorithms are essential to maintain high fidelity.
-        \item Routing must handle constraints such as limited movement and interaction range.
-        \item Ensuring minimal delay and avoiding congestion are key goals.
+        \item Routing involves determining paths for qubits to move during computation. Ensuring minimal delay and avoiding congestion are key goals.
+        \item A conflict graph represents the conflicts during the routing process.
+        \item Nodes represent qubits movements, and edges represent conflicts.
+        \item The problem is The Maximum Independent Set (MIS) problem, where one seeks to find the largest set of vertices in a graph such that no two vertices in the set are adjacent.
     \end{itemize}
+    \begin{figure}
+        \includegraphics[height=3.5cm]{conflict.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Routing Algorithms}
+    \frametitle{Greedy Algorithm for Bounded Degree Graphs}
+    \begin{enumerate}
+        \item putting all vertices in a list (sorted by distance).
+        \item adding the first vertex to the IS.
+        \item removing all its neighbors from the list, and continuing 2-3.
+    \end{enumerate}
+   \begin{Theorem}
+    In bounded degree graphs, there are effective approximation algorithms with constant ratios. For example, a greedy algorithm that forms a maximal independent set by repeatedly choosing the vertex with the minimum degree and removing its neighbors achieves an approximation ratio of $(\Delta + 2)/3$ for graphs with maximum degree $\Delta$. Approximation hardness bounds for these cases were shown by Berman and Karpinski (1999).
+   \end{Theorem}
+\end{frame}
+\begin{frame}
+    \frametitle{Routing Complexity}
+    For the number of qubits $n$, the maximum number of gates is $n/2$, so the number of vertices is at most $n$ ($|V| \leq n$):
     \begin{itemize}
-        \item Use of shortest path algorithms to determine efficient routes.
-        \item Dynamic adaptation to changing qubit positions and interactions.
-        \item Balancing the trade-off between routing efficiency and computational overhead.
+        \item Checking conflicts for all pairs of vertices requires $O(|V|^2)$ time.
+        \item Sorting the vertices requires $O(|V|\log |V|)$ time.
+        \item The greedy algorithm requires $O(|V|^2)$ time. In the worst case, the greedy algorithm needs to be run $O(|V|)$ times.
+        \item \textbf{In total, there can be $O(n)$ Rydberg stages, resulting in a routing time of $O(n^4)$.}
+    \end{itemize}
+    \vspace{10pt}
+    Only construct a graph on the first $K$ vertices in the lists ($|V| = K$):
+    \begin{itemize}
+        \item \textbf{The windowed routing takse $O(n^2\log n + n^2K^2)$.}
     \end{itemize}
 \end{frame}
 
@@ -107,22 +183,21 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Performance Metrics}
-    \begin{itemize}
-        \item Stage count reduction: Enola vs. OLSQ-DPQA.
-        \item Fidelity improvement: Quantitative comparisons.
-        \item Scalability: Handling large-scale quantum circuits efficiently.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
     \frametitle{Conclusion}
     \begin{itemize}
         \item The compilation process for dynamically field-programmable qubit arrays involves scheduling, placement, and routing.
-        \item The method provide near-optimal solutions for scheduling and efficient strategies for placement and routing.
+        \item The method provide near-optimal solutions for scheduling ($S_{opt} +1$) and efficient strategies for placement and routing.
         \item Enola compiler achieves significant improvements in stage reduction and fidelity.
         \item Future work includes further optimization and exploring additional constraints.
         \item Open source availability: \url{https://github.com/UCLA-VAST/Enola}
     \end{itemize}
+\end{frame}
+
+\section{Computational capabilities and compiler development for neutral atom quantum processors—connecting tool developers and hardware experts}
+\begin{frame}
+    \frametitle{<title>}
+
+    
+
 \end{frame}
 \end{document}
