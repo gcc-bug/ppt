@@ -31,39 +31,39 @@
     \begin{itemize}
         \item Background: Quantum computing with neutral atoms has advanced rapidly.
         \item Fidelity: \(f=\left(f_{1}\right)^{g_{1}} \cdot \overbrace{\left(f_{2}\right)^{g_{2}} \cdot\left(f_{\text {exc }}\right)^{|Q| S-2 g_{2}}}^{\text {two-qubit gate }} \cdot \overbrace{\left(f_{\text {trans }}\right)^{N_{\text {trans }}}}^{\text {atom transfer }}\cdot \overbrace{\prod_{q\in Q} (1-T_q/T_2)}^{decoherence}\).
-        \item Significant scalability: experiments with up to 6,100 qubits.
+        \item Significant scalability: experiments with up to 10,000 qubits.
         % \item Challenges in fully leveraging hardware flexibility while respecting constraints.
         \item The compilation process is broken down into three tasks: scheduling, placement, and routing.
     \end{itemize}
     \begin{table}[h!]
         \centering
         \scriptsize
-        \begin{tabular}{|c|c|c|c|c|c|c|}
+        \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        \textbf{Qubit Num} & \textbf{Gate Num} & \textbf{Scheduling} & \textbf{Placement} & \textbf{Routing} & \textbf{Codegen} & \textbf{Total} \\
+        \textbf{Qubit Num} & \textbf{Gate Num} & \textbf{Scheduling} & \textbf{Placement} & \textbf{Routing}  & \textbf{Total} \\
         \hline
-        30 & 45 & 0.0008 & 137.32 & 0.0057 & 0.0184 & 137.35 \\
+        30 & 45 & 0.0008 & 137.32 & 0.0057 & 137.35 \\
         \hline
-        60 & 60 & 0.0017 & 141.23 & 0.0124 & 0.0379 & 141.28 \\
+        60 & 60 & 0.0017 & 141.23 & 0.0124 & 141.28 \\
         \hline
-        90 & 135 & 0.0023 & 144.43 & 0.0304 & 0.0630 & 144.52 \\
+        90 & 135 & 0.0023 & 144.43 & 0.0304 & 144.52 \\
         \hline
         \end{tabular}
         \caption{Timing Results for Different Qubit and Gate Numbers}
         \label{table:timing_results}
     \end{table}
 \end{frame}
-
+\subsection{Scheduling}
 \begin{frame}
     \frametitle{Scheduling}
     \begin{itemize}
-        \item Scheduling is crucial for determining the sequence of operations. Graph edge coloring is used to model the scheduling problem.
+        \item Scheduling is crucial for determining the sequence of operations. The goal is to minimize the number of stages.
         \item Each edge represents a two-qubit gate.
         \item Colors represent different stages.
         % \item Ensures near-optimal stage count for two-qubit gates.
         % \item Proven to be at most one stage more than the optimal solution.
         % \item This reduces the fidelity bottleneck in this platform.
-        \item The goal is to minimize the number of stages while ensuring no two adjacent edges share the same color.
+        \item  Graph edge coloring is used to model the scheduling problem, while ensuring no two adjacent edges share the same color.
     \end{itemize}
     \begin{figure}
         \includegraphics[height=4.5cm]{color.png}
@@ -74,9 +74,9 @@
 \begin{frame}
     \frametitle{Scheduling: Graph Edge Coloring}
     \begin{theorem}[Vizing's Theorem]
-    For any simple graph \( G \) with maximum degree \( \Delta \), the chromatic index \(\chi'(G)\) satisfies:
+    For any simple graph \( G \) with maximum degree \( \Delta(G) \), the chromatic index \(\chi'(G)\) satisfies:
 \[
-\Delta \leq \chi'(G) \leq \Delta + 1
+\Delta(G) \leq \chi'(G) \leq \Delta(G) + 1
 \]
 where \(\chi'(G)\) is the minimum number of colors needed to color the edges of \( G \).
 
@@ -86,7 +86,7 @@ where \(\chi'(G)\) is the minimum number of colors needed to color the edges of 
         \item The maximum gate count is \( \binom{n}{2} \). Thus, the time complexity of scheduling is \( O(n^3) \).
     \end{itemize}    
 \end{frame}
-
+\subsection{Placement}
 \begin{frame}
     \frametitle{Placement}
     \begin{itemize}
@@ -130,7 +130,7 @@ y \in \left[0, \max\left(\lfloor \sqrt{n} \rfloor + 4, y_{\max}\right)\right]
         \includegraphics[height = 8cm]{placement.png}
     \end{figure}
 \end{frame}
-
+\subsection{Routing}
 \begin{frame}
     \frametitle{Routing}
     \begin{itemize}
@@ -146,14 +146,14 @@ y \in \left[0, \max\left(\lfloor \sqrt{n} \rfloor + 4, y_{\max}\right)\right]
 
 \begin{frame}
     \frametitle{Greedy Algorithm for Bounded Degree Graphs}
+    \begin{Theorem}
+        In bounded degree graphs, there are effective approximation algorithms with constant ratios. For example, a greedy algorithm that forms a maximal independent set by repeatedly choosing the vertex with the minimum degree and removing its neighbors achieves an approximation ratio of $(\Delta + 2)/3$ for graphs with maximum degree $\Delta$. Approximation hardness bounds for these cases were shown by Berman and Karpinski (1999).
+    \end{Theorem}
     \begin{enumerate}
         \item putting all vertices in a list (sorted by distance).
         \item adding the first vertex to the IS.
         \item removing all its neighbors from the list, and continuing 2-3.
     \end{enumerate}
-   \begin{Theorem}
-    In bounded degree graphs, there are effective approximation algorithms with constant ratios. For example, a greedy algorithm that forms a maximal independent set by repeatedly choosing the vertex with the minimum degree and removing its neighbors achieves an approximation ratio of $(\Delta + 2)/3$ for graphs with maximum degree $\Delta$. Approximation hardness bounds for these cases were shown by Berman and Karpinski (1999).
-   \end{Theorem}
 \end{frame}
 \begin{frame}
     \frametitle{Routing Complexity}
@@ -170,7 +170,7 @@ y \in \left[0, \max\left(\lfloor \sqrt{n} \rfloor + 4, y_{\max}\right)\right]
         \item \textbf{The windowed routing takse $O(n^2\log n + n^2K^2)$.}
     \end{itemize}
 \end{frame}
-
+\subsection{Results}
 \begin{frame}
     \frametitle{Results and Comparison}
     \begin{itemize}
