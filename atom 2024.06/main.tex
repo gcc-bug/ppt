@@ -37,7 +37,7 @@
     \end{itemize}
     \begin{table}[h!]
         \centering
-        \tiny
+        \scriptsize
         \begin{tabular}{|c|c|c|c|c|c|c|}
         \hline
         \textbf{Qubit Num} & \textbf{Gate Num} & \textbf{Scheduling} & \textbf{Placement} & \textbf{Routing} & \textbf{Codegen} & \textbf{Total} \\
@@ -195,9 +195,44 @@ y \in \left[0, \max\left(\lfloor \sqrt{n} \rfloor + 4, y_{\max}\right)\right]
 
 \section{Computational capabilities and compiler development for neutral atom quantum processors—connecting tool developers and hardware experts}
 \begin{frame}
-    \frametitle{<title>}
-
+    \frametitle{Compilation subroutines}
+    \begin{definition}[Synthesis]
+        \scriptsize
+        Given a quantum computation \(U \in \mathbb{C}^{2^n \times 2^n}\) and the native platform gate set \(\Sigma^{\text{native}}\), \textit{synthesis} is the task to find a gate sequence
+        \[
+        \tilde{U} = g_{N-1} \circ \cdots \circ g_{0}
+        \]
+        with all \(g_0, \ldots, g_N \in \Sigma^{\text{native}}\) and \(U = \tilde{U}\) up to some small error.
+    \end{definition}
     
-
+    \begin{definition}[Mapping]
+        \scriptsize
+        Given a quantum circuit \(U = g_{N-1} \circ \cdots \circ g_{0}\) on circuit qubits \(\mathbf{Q}\) and a hardware configuration with physical qubits \(\mathbf{P}\) and coupling map \(G(\mathbf{P}, \mathbf{E})\). The task of \textit{mapping} is to find a bijective function \(f: \mathbf{Q} \rightarrow \mathbf{P}\) and an insertion of MOVE and SWAP operations such as
+        \[
+        U = \cdots \circ \text{MOVE}(q_i) \circ \text{SWAP}(q_j, q_k) \circ g(q_i, q_j) \circ \cdots
+        \]
+    \end{definition}
+    
+    \begin{definition}[Scheduling]
+        \scriptsize
+        Given a quantum circuit \(U\) and its corresponding DAG representation \(D\), the objective of \textit{scheduling} is to determine the optimal timing for the gates to be executed while preserving the integrity of the DAG up to commutation rules.
+    \end{definition}
+\end{frame}
+\begin{frame}
+    \frametitle{Figures of merit}
+    \begin{itemize}
+        \item Gate count
+        \item Operations count
+        \item Fidelity and runtime
+        \begin{equation*}
+            P(U) = \exp \left( -\frac{t_{\text{idle}}}{T_{\text{eff}}} \right) \prod_{i=0}^{\tilde{N}} \mathcal{F}_{O_i}, \quad U= O_{N-1} \circ \cdots \circ O_{0}
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Atom computation capabilities}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{ca.png}
+    \end{figure}
 \end{frame}
 \end{document}
