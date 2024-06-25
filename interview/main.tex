@@ -1,5 +1,5 @@
 \documentclass[aspectratio=1610]{beamer}
-\usetheme{Madrid}
+\usetheme{metropolis} % Use the Metropolis theme
 % \usepackage{xeCJK}
 % \setCJKmainfont{SimSun}
 \usepackage{multirow}
@@ -12,7 +12,6 @@
 \usepackage{fontspec}
 \usepackage{xcolor}
 \usepackage{amsmath}
-\newtheorem{known}{招聘条件}
 % Set fonts with specific shapes and sizes
 \setmainfont{SimSun}[
     Scale=1.1
@@ -28,13 +27,6 @@
 \setmonofont{FangSong}[
     Scale=1.2
 ] % Monospaced font
-
-% Customize Beamer theme to use these fonts
-\setbeamerfont{title}{family=\sffamily,series=\bfseries,size=\huge} % Title font to sans-serif, bold, and large
-\setbeamerfont{frametitle}{family=\sffamily,series=\bfseries,size=\Large} % Frame title font to sans-serif, bold, and large
-\setbeamerfont{normal text}{family=\rmfamily,series=\mdseries,size=\normalsize} % Normal text font to serif
-\setbeamerfont{author}{family=\rmfamily,series=\itshape,size=\large}
-
 \title{量子软件工程师\\面试}
 \author{高丁超}
 \date{\today}
@@ -42,25 +34,59 @@
 \begin{document}
 
 \frame{\titlepage}
+\begin{frame}
+    \frametitle{主要内容}
+    \begin{columns}
+        \begin{column}{.5\textwidth}
+            \begin{itemize}
+                \item \textbf{应聘岗位：}量子软件工程师
+                \item \textbf{岗位要求：}
+                \begin{enumerate}
+                    \item 具有国内外知名高校计算机相关领域硕士或博士学位，具有良好的数学基础；
+                    \item 具有国内外知名高校数学或物理相关领域硕士或博士学位，具有良好的代码能力。
+                \end{enumerate}
+            \end{itemize}
+        \end{column}
+        \begin{column}{.4\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{20pt}
+                \item 个人简介
+                \item 项目经历
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \section{个人简介}
 \begin{frame}
-\frametitle{个人信息}
-\begin{itemize}
-    \item 出生年份：2000.01
-    \item 教育经历: 
-    \begin{itemize}
-        \item \textbf{2017-2021},西安电子科技大学，学士
-        \item \textbf{2021-2024},中科院软件研究所，硕士
-    \end{itemize}
-    \item 邮件地址：by.gdc@outlook.com
-    \item Github: https://github.com/gcc-bug
-\end{itemize}
-\end{frame}
+    \frametitle{个人信息}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \begin{itemize}
+                \setlength{\itemsep}{10pt}
+                \item 出生年份：2000.01
+                \item 教育经历: 
+                \begin{itemize}
+                    \item \textbf{2017-2021}, 西安电子科技大学，学士
+                    \item \textbf{2021-2024}, 中科院软件研究所，硕士
+                \end{itemize}
+                \item 邮件地址：by.gdc@outlook.com
+                \item Github: \href{https://github.com/gcc-bug}{https://github.com/gcc-bug}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{figure}
+                \includegraphics[width=.8\textwidth]{gdc}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \end{frame}
 
 \section{项目经历}
 \begin{frame}
 \frametitle{项目简介}
 \begin{enumerate}
+    \setlength{\itemsep}{10pt}
     \item \textbf{张量决策图项目} 
     \begin{itemize}
         \item 使用python完善基于张量决策图的工具
@@ -92,6 +118,7 @@
 \begin{frame}
 \frametitle{编程技能}
 \begin{itemize}
+    \setlength{\itemsep}{20pt}
     \item python, c++, c-python 混合编程
     \item xtensor, qiskit, numpy等软件包
     \item cmake, pybind11 架构
@@ -102,16 +129,22 @@
     \frametitle{电路综合项目}
     \begin{figure}[ht]
         \centering
-        \begin{subfigure}{0.45\textwidth}
-            \includegraphics[width=1.2\linewidth]{cnot.png}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=8cm]{cnot.png}
         \end{subfigure}
         \hfill
-        \begin{subfigure}{0.45\textwidth}
-            \includegraphics[width=.5\linewidth]{cnot_circuit.png}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=3cm]{cnot_circuit.png}
         \end{subfigure}
         \caption{线性可逆电路可以用矩阵的行列变换表示}
-        \label{fig:figures}
     \end{figure}
+    \begin{figure}
+        \centering
+        \includegraphics[width=4cm]{graph.png}
+        \caption{如何在物理比特的连接性受限的约束下，减少cnot的数量是项目的重点}
+    \end{figure}    
 \end{frame}
 \begin{frame}
     \frametitle{电路综合项目}
@@ -124,14 +157,14 @@
     \frametitle{电路综合项目}
     \begin{figure}[htbp]
         \includegraphics[width=.8\textwidth]{dep.pdf}
-        \caption{项目内容}
+        \caption{项目文件依赖图。其中绿色为测试文件，红色为外部库，黑色为项目文件。该项目中所有常数以及自定义类型在Config.hpp，项目中算法涉及的自定义类在typedef.hpp。}
     \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{密码项目-simon}
     \begin{figure}[htbp]
         \includegraphics[width=.8\textwidth]{simon.png}
-        \caption{项目内容}
+        \caption{simon算法对于一个黑盒函数(black box)或oracle $f:\{0,1\}^n\to \{0,1\}^n$，已知存在一个比特串 $s, s\in \{0,1\}^n$ 使得对任意 $x,y\in\{0,1\}^n$，当且仅当 $x\oplus y\in \{0^n,s\}$时 $f(x) = f(y)$。问题的目标是使用尽可能少的查询或者调用函数，得到 $s$ 的值。}
     \end{figure}
 \end{frame}
 
@@ -139,7 +172,14 @@
     \frametitle{密码项目-量子随机游走}
     \begin{figure}[htbp]
         \includegraphics[width=.8\textwidth]{qw.png}
-        \caption{项目内容}
+        \caption{量子随机行走是经典随机行走的量子版，它在多边形上的应用包括图论、搜索算法和物理模拟等。量子游走可以分为离散时间量子游走和连续时间量子游走。离散时间量子游走（Discrete-Time Quantum Walk）的演化空间可记为：
+        \(
+        H = H_p \otimes H_c
+        \)
+        其中，\( H_p \) 是粒子游走的位置所张成的空间，\( H_c \) 是硬币态所张成的空间。对于一维量子游走，位置空间和硬币空间分别为：
+        \(
+        H_p = \text{span}\{ |x\rangle : x \in \mathbb{Z} \}, \quad H_c = \text{span}\{ |0\rangle, |1\rangle \}
+        \)}
     \end{figure}
 \end{frame}
 
@@ -154,6 +194,7 @@
 \begin{frame}
 \frametitle{其他项目与技能}
 \begin{itemize}
+    \setlength{\itemsep}{20pt}
     \item \textbf{VQE项目}，用isq-python实现氢分子基态能量的计算
     \item \textbf{VHDL}，实现过STM32架构下蓝牙模块与传感器的通信
     \item \textbf{COQ}，完成过Softwarefoundation中卷一的逻辑命题的证明
@@ -161,9 +202,9 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Q\&A}
 \begin{center}
-    Any Questions?
+    \huge
+    谢谢各位！
 \end{center}
 \end{frame}
 
