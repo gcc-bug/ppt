@@ -1,5 +1,7 @@
 \documentclass{beamer}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, positioning, fit, arrows.meta}
 
 \title{Introduction to the Munich Quantum Toolkit (MQT)}
 \input{styles.tex}
@@ -15,16 +17,17 @@
             \item provides advanced design automation methods and software tools for quantum computing
             \item their objective is to provide solutions for design tasks across the entire quantum software stack
         \end{itemize}
-        \item \textbf{Include}
-        \begin{itemize}
-            \item Origin and development of MQT.
-            \item Institutions or teams involved in its creation and maintenance.
-        \end{itemize}
     \end{itemize}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{flow}
+        \caption{MQT includes high-level support for end users in realizing their applications, efficient methods for the classical simulation, compilation, and verification of quantum circuits, tools for quantum error correction, support for physical design, and more.}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Key Features}
     \begin{itemize}
+        \item  In all these tools, It try to utilize data structures (such as decision diagrams or the ZX-calculus) and core methods (such as reasoning engines) to
+        facilitate the efficient handling of quantum computations
         \item Highlight major features of MQT.
         \begin{itemize}
             \item Quantum Circuit Simulation

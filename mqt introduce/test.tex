@@ -1,0 +1,28 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, positioning, shadows}
+
+\begin{document}
+\begin{tikzpicture}[node distance=2.5cm, 
+    line width=1pt,
+    arrownodestyle/.style={single arrow, draw=blue!70, fill=blue!30, 
+                           text=white, font=\bfseries\large, text width=3cm, 
+                           align=center, minimum height=2cm, minimum width=2cm, 
+                           drop shadow},
+    >=triangle 45] % Standard arrow tip
+
+    \node (application) [arrownodestyle] {Application};
+    \node (simulation) [arrownodestyle, right=of application] {Simulation};
+    \node (compilation) [arrownodestyle, right=of simulation] {Compilation};
+    \node (verification) [arrownodestyle, right=of compilation] {Verification};
+    \node (errorcorrection) [arrownodestyle, right=of verification] {Error Correction};
+    \node (hardware) [arrownodestyle, right=of errorcorrection] {Hardware};
+
+    \draw[->] (application) -- (simulation);
+    \draw[->] (simulation) -- (compilation);
+    \draw[->] (compilation) -- (verification);
+    \draw[->] (verification) -- (errorcorrection);
+    \draw[->] (errorcorrection) -- (hardware);
+
+\end{tikzpicture}
+\end{document}
