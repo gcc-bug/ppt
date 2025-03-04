@@ -53,7 +53,7 @@
 			\item \textbf{Preemptive Gate Scheduling:} Executes independent gates earlier to minimize inter-zone transitions.
 			\item \textbf{1Q-Gateless ZZ Interaction:} Replaces CZ-based decompositions with direct Rydberg-mediated ZZ rotations
 		\end{itemize}
-		\textbf{Key Idea:} Reduces inter-zone movements and improves overall execution efficiency.
+		\textbf{Key Idea:} Reduces inter-zone movements and improves overall execution efficiency by \textbf{rewriting quantum programs} to mitigate frequent transitions between single-qubit and two-qubit gate execution.
 	\end{frame}
 	
 	% Slide 4: Fountain-Shaped CZ Chain
@@ -249,10 +249,9 @@
 	\begin{frame}{Conclusion}
 		\begin{itemize}
 			\item Zoned neutral atom architectures have high gate fidelities but suffer from slow qubit movement.
-			\item Mantra optimizes execution by restructuring gate sequences and minimizing zone transfers.
+			\item Mantra optimizes qubit movement but depends on CZ-chain flexibility. Fixed-structure circuits cannot benefit from it.
 			\item Results demonstrate significant reductions in execution time and improved fidelity.
 %			\item These optimizations bridge the gap between algorithm design and hardware execution.
 		\end{itemize}
 	\end{frame}
-	
 \end{document}
