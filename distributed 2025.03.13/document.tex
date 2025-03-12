@@ -4,7 +4,7 @@
 %\title{Quadratic Unconstrained Binary Optimization (QUBO)}
 \date{\today}
 \institute{Nantong University}
-
+\usepackage{subcaption}
 % Packages
 \usepackage{tcolorbox}
 \tcbuselibrary{listingsutf8}
@@ -42,10 +42,10 @@
 %		\end{itemize}
 %	\end{frame}
 
-	\begin{frame}{Background}
+	\begin{frame}{Background: state transmission}
 		\begin{figure}
 			\includegraphics[width=.8\textheight]{figure/back.png}
-			\caption[]{An example of a distributed quantum architecture which consists of two IBMQ quito architectures.}
+			\caption[]{An example of a distributed quantum architecture which consists of two IBMQ quito architectures. This work focuses on direct quantum state transmission as the technology for transferring quantum states in the distributed quantum circuits.}
 		\end{figure}
 	\end{frame}
 	
@@ -54,13 +54,34 @@
 			\item Circuit Partitioning as a Graph Cut Problem
 			\item Dynamic Lookahead Transmission Optimization
 		\end{itemize}
+		\begin{figure}
+			\includegraphics[width=.6\textwidth]{figure/cost.png}
+			\caption{Example of the impact of transmission qubits on transmission cost. The final transmission cost of using q0 as the transmission qubit is 6, while the final transmission cost of using q3 is 4.}
+		\end{figure}
 	\end{frame}
 	\begin{frame}{Circuit Partitioning as a Graph Cut Problem}
 		\begin{itemize}
 			\item Quantum circuits are represented as a qubit-weighted graph.
 			\item Partitioning aims to minimize inter-QPU quantum gates.
-			\item The problem is formulated as a minimum cut optimization task.
+%			\item The problem is formulated as a minimum cut optimization task.
 		\end{itemize}
+		\begin{figure}
+			\begin{minipage}{.3\textwidth}
+				\includegraphics[width=.8\textwidth]{figure/edge.png}
+%					\caption{Qubit-weighted graph with nodes as qubits, edges as quantum gates acting between qubits, and weights as the number of quantum gates.}
+				
+				\subcaption{}
+				\label{fig:edge}
+			\end{minipage}
+			\begin{minipage}{.65\textwidth}
+				\includegraphics[width=.8\textwidth]{figure/cut.png}
+%					\caption{Global gate dispersion relation graph.}
+				
+				\subcaption{}
+				\label{fig:cut}
+			\end{minipage}
+			\caption[]{(\subref{fig:edge}): Qubit-weighted graph with nodes as qubits, edges as quantum gates acting between qubits, and weights as the number of quantum gates. (\subref{fig:cut}): Global gate dispersion relation graph.}
+		\end{figure}
 	\end{frame}
 	
 	% Slide: Introduction to QUBO
@@ -122,35 +143,44 @@
 			\item The Max Cut Problem: In a triangle graph with vertices \( \{A, B, C\} \) and edges \( \{(A, B), (B, C), (C, A)\} \), one maximum cut is \( S = \{A\} \) and \( \bar{S} = \{B, C\} \), resulting in two edges crossing the cut.
 		\end{itemize}
 		\begin{itemize}
-			\item Various algorithms can solve QUBO problems, including \textbf{Quantum annealing methods using quantum computers}. (Ref. \href{https://arxiv.org/pdf/1811.11538}{[1811.11538]}\href{https://www.nature.com/articles/s41598-019-53585-5}{[s41598-019-53585-5]})
-		\end{itemize}
-	\end{frame}
-	
-	\begin{frame}{Dynamic Lookahead Transmission Optimization}
-		\begin{itemize}
-			\item Transmission qubit selection is crucial for reducing communication.
-			\item Looks ahead dynamically to evaluate impact of transmission choices.
-			\item Prioritizes merging quantum gate executions to minimize state transfers.
-		\end{itemize}
-	\end{frame}
-	
-	\section{Results}
-	\begin{frame}{Performance Gains}
-		\begin{itemize}
-			\item Reduces transmission cost by up to 73.85\% compared to prior methods.
-			\item Achieves significant speedup in circuit partitioning using QUBO.
-			\item Demonstrates scalability for large circuits (up to 10,000 qubits).
+			\item Various algorithms can solve QUBO problems, including \textbf{Quantum annealing methods using quantum computers}. (Ref. [\href{https://arxiv.org/pdf/1811.11538}{1811.11538},\href{https://www.nature.com/articles/s41598-019-53585-5}{s41598-019-53585-5}])
 		\end{itemize}
 	\end{frame}
 	
 	\begin{frame}{Comparison with Existing Methods}
 		\begin{figure}
 			\includegraphics[width=0.8\textwidth]{figure/time.png}  % Replace with actual data visualization
-			\caption{Transmission cost reduction across different methods.}
+			\caption{Comparison of runtime performance between the QUBO model-based and other circuit partitioning methods under different numbers of qubits and partition counts k.}
 		\end{figure}
 	\end{frame}
 	
-	\begin{frame}{Conclusion and Future Work}
+	\begin{frame}{Dynamic Lookahead Transmission Optimization}
+		\begin{itemize}
+%			\item Transmission qubit selection is crucial for reducing communication.
+			\item Looks ahead dynamically to evaluate impact of transmission choices. Prioritizes merging quantum gate executions to minimize state transfers.
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[width=.9\textwidth]{figure/transfer.png}
+			\caption{The different impacts of transferring qubit $q_{i1}$ on subsequent gates.}
+		\end{figure}
+	\end{frame}
+	
+	\section{Results}
+	\begin{frame}{Performance Gains}
+
+		\begin{itemize}
+			%		RevLib used 
+			\item Achieving an average optimization rate of 18.12\% and a peak rate of 73.85\% in transmission cost compare with meta-heuristic methods.
+			\item Achieving an average optimization rate of 32.27\% and a peak rate of 55.56\% with greedy strategies.
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[width=.6\textwidth]{figure/TC.png}
+			\caption[]{Bar chart comparing the transmission cost results in QFT circuits.}
+		\end{figure}
+	\end{frame}
+	
+	
+	\begin{frame}{Conclusion}
 		\begin{itemize}
 			\item Proposed QUBO-based partitioning reduces inter-QPU gates.
 			\item Dynamic lookahead scheduling significantly lowers transmission cost.
@@ -158,13 +188,13 @@
 		\end{itemize}
 	\end{frame}
 	
-	\begin{frame}{Future Directions}
-		\begin{itemize}
-			\item Extend QUBO approach for more than 100 partitions.
-			\item Incorporate error rates and latency in transmission models.
-			\item Test method in real quantum hardware environments.
-		\end{itemize}
-	\end{frame}
+%	\begin{frame}{Future Directions}
+%		\begin{itemize}
+%			\item Extend QUBO approach for more than 100 partitions.
+%			\item Incorporate error rates and latency in transmission models.
+%			\item Test method in real quantum hardware environments.
+%		\end{itemize}
+%	\end{frame}
 	
 	
 %	 Slide: Solving the QUBO Problem
