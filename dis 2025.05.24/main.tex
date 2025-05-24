@@ -22,6 +22,11 @@
 \institute{Reading Seminar}
 \date{\today}
 
+\AtBeginSection{
+	\begin{frame}{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
 %---------- Document ----------
 \begin{document}
 	
@@ -32,20 +37,20 @@
 	
 	\begin{frame}{References}
 		\footnotesize
-		\href{https://pabloandrescq.github.io/}{Pablo Andres-Martinez from TKET team}
 		\begin{thebibliography}{9}
+			\bibitem{link} \href{https://pabloandrescq.github.io/}{Pablo Andres-Martinez, Senior R\&D Scientist at Quantinuum}
 			\bibitem{wu2023}
 			J‑Y. Wu \textit{et al.}, \emph{Entanglement‑efficient bipartite‑distributed quantum computing},\ Quantum \textbf{7} (2023).
-			\bibitem{ejpp}
-			J. Eisert \textit{et al.}, Phys. Rev.~A \textbf{62}, 052317 (2000).
+%			\bibitem{ejpp}
+%			J. Eisert \textit{et al.}, Phys. Rev.~A \textbf{62}, 052317 (2000).
 		\end{thebibliography}
 	\end{frame}
 	
 	% Outline slide --------------------------------------------------------
-	\begin{frame}{Outline}
-		\tableofcontents
-	\end{frame}
-	
+%	\begin{frame}{Outline}
+%		\tableofcontents
+%	\end{frame}
+%	
 	%---------------------------------------------------------------------
 	\section{Background}
 	
@@ -185,7 +190,7 @@
 			\bottomrule
 		\end{tabular}
 	\end{frame}
-	\section{Problem \& Solution}
+	\section{Problem in Telegate}
 	
 	\begin{frame}{The DQC Problem: Formal Definition}
 		\textbf{Input:} Circuit $C$ on qubits $Q$, architecture graph $G=(V,E)$.
@@ -255,11 +260,11 @@
 			\item Edges: between $q_1$, $q_2$ if a two-qubit gate in $C$ involves them.
 		\end{itemize}
 		
-		\textbf{Objective:} Partition $Q$ into $k$ disjoint sets
+		\textbf{Objective:} Partition $Q$ into $|V|$ disjoint sets
 		\begin{itemize}
 			\item Each set has size at most $\omega(A)$,
 			\item Minimise the number of cut edges (gates across different sets).
-			\item (Opinion) load-balance: size of each set $\le (1+\delta)\frac{|V|}{k}$
+%			\item (Opinion) load-balance: size of each set $\le (1+\delta)\frac{|V|}{k}$
 		\end{itemize}
 		This is a \textbf{capacity-constrained graph partitioning} problem.
 	\end{frame}
@@ -278,15 +283,16 @@
 				\item Avoid arbitrary initialisation.
 				\item Examples: Spectral Partitioning, Multilevel Partitioning.
 			\end{itemize}
+			\item \textbf{Simulated Annealing, ...}
 		\end{itemize}
 	\end{frame}
 	
 	
 	\begin{frame}{Considerations in Practice}
 		\begin{itemize}
+			\item Partitioning quality affects EPR cost and circuit depth.
 			\item Hardware-specific capacity limits must be respected.
 			\item Gate commutativity can allow gate packet fusion before partitioning.
-			\item Partitioning quality affects EPR cost and circuit depth.
 		\end{itemize}
 	\end{frame}
 	
@@ -400,7 +406,7 @@
 	\end{frame}
 	
 	%------------------------------------------------------
-	\begin{frame}{Workflow Summary}
+	\begin{frame}{Qubit Allocation Workflow Summary}
 		\begin{enumerate}
 			\item Rebase circuit to \{H, RZ, CRZ\}
 			\item Construct hypergraph (qubit/gate vertices, one edge per packet)
@@ -412,8 +418,8 @@
 	\end{frame}
 	
 	\subsection{Gate Distribution}
-%	need hypergraph
-	\begin{frame}{EJPP protocol}
+	%	need hypergraph
+	\begin{frame}{Recall protocol}
 		\begin{columns}[T]
 			\column{0.58\textwidth}
 			Controlled‑unitary \(CU\) can be implemented non‑locally with \textbf{one ebit} using:
@@ -422,16 +428,42 @@
 				\item \emph{Kernel}: local $C_{e,U}$.
 				\item \emph{Ending process}: cat‑disentangler.
 			\end{itemize}
-			\column{0.38\textwidth}
+			\column{0.4\textwidth}
 			\centering
 			% Fig. 1 of the paper
 			\begin{figure}
 				\includegraphics[width=\linewidth]{figures/EJPP_protocol.pdf}
-				\caption{EJPP scheme.}
+				\caption{Telgate protocol}
 			\end{figure}
 		\end{columns}
 	\end{frame}
-	\begin{frame}{Distributing vs.~Embedding Processes}
+	%------------------------------------------------------
+	\begin{frame}{Setting the Stage}
+%		After hypergraph partitioning we know \emph{where} each logical qubit resides.  Any CRZ acting on qubits in different modules becomes a \textbf{non‑local gate} that must be executed over the network.
+		
+%		\vspace{1em}
+		Goal of gate distribution: realise every non‑local gate while \emph{minimising entanglement (ebit) cost}.  
+		\begin{figure}
+			\includegraphics[width=.8\textwidth]{figures/emb.png}
+			\caption[]{Examples of EJPP Protocol}
+		\end{figure}
+	\end{frame}
+	
+	
+	%------------------------------------------------------
+%	\begin{frame}{Why Extend the Original Protocol?}
+%		Original simultaneous‑teleportation realises \emph{one} gate per ebit.
+%		
+%		\vspace{0.5em}
+%		\textbf{EJPP advantages}
+%		\begin{itemize}
+%			\item \textbf{Cost leverage}: $m$ gates \(\Rightarrow\) 1 ebit instead of $m$ ebits.
+%			\item \textbf{Local corrections}: Pauli corrections confined to the two modules.
+%			\item \textbf{Entanglement reuse}: required for Steiner‑tree optimisation.
+%		\end{itemize}
+%	\end{frame}
+	
+	\begin{frame}{Distributing and Embedding Processes}
 		\begin{block}{Definition: Distributing Process}
 			A unitary $U$ is \emph{q‑rooted distributable} if it is diagonal/antidiagonal in $q$ and decomposes as
 			$U = \sum_{ij} \Delta_{ij}\,|i\rangle\!\langle j|_q\,\otimes V_j\otimes W_j$.
@@ -448,8 +480,9 @@
 			\end{itemize}
 		\end{block}
 	\end{frame}
+
 	
-	\begin{frame}{Theorem 3 (Merging Packing Processes)}
+	\begin{frame}{Merging Packing Processes}
 		\textbf{Statement:}
 		If $P_{q,e}[K_1]$ and $P_{q,e}[K_2]$ are packing processes implementing $U_1$ and $U_2$ respectively, then
 		\[
@@ -463,15 +496,15 @@
 	
 	%\subsection{Graph Representation}
 	
-	\begin{frame}{Packing Graph}
-		\begin{itemize}
-			\item \textbf{Vertices:} distributable nodes $(q,t)$.
-			\item \textbf{Edges:} exist if intervening gates are embeddable \(\Rightarrow\) \emph{packable}.
-			\item Connected vertices form a \textbf{distributable packet} implemented with one packing process.
-		\end{itemize}
-		%\includegraphics[width=0.8\linewidth]{fig_packet_graph.png}
-		%\captionof{figure}{Schematic packing graph.}
-	\end{frame}
+%	\begin{frame}{Packing Graph}
+%		\begin{itemize}
+%			\item \textbf{Vertices:} distributable nodes $(q,t)$.
+%			\item \textbf{Edges:} exist if intervening gates are embeddable \(\Rightarrow\) \emph{packable}.
+%			\item Connected vertices form a \textbf{distributable packet} implemented with one packing process.
+%		\end{itemize}
+%		%\includegraphics[width=0.8\linewidth]{fig_packet_graph.png}
+%		%\captionof{figure}{Schematic packing graph.}
+%	\end{frame}
 	
 	\begin{frame}{Conflict Graph and Edge Types}
 		\begin{itemize}
@@ -489,39 +522,37 @@
 		\end{figure}
 	\end{frame}
 	
-	%---------------------------------------------------------------------
 	
-	
-	\begin{frame}{Application to UCC Circuits}
-		\begin{columns}
-			\column{.5\textwidth}
-			\begin{itemize}
-				\item Tested on Unitary Coupled‑Cluster ansatz.
-				\item Packing heuristic finds \textbf{significant entanglement reduction}.
-				\item Achieved constructive upper bound close to theoretical lower bound.
-			\end{itemize}
-			\column{.45\textwidth}
-%			\begin{figure}
-%				\includegraphics[width=\linewidth]{figures/algo_comparison_UCC_6to20.pdf}
-%				\caption{Entanglement cost vs~qubits.}
-%			\end{figure}
-			
-		\end{columns}
+	%------------------------------------------------------
+	\begin{frame}{Steiner‑Tree Entanglement Routing}
+		\begin{itemize}
+%			\item In sparse or heterogeneous topologies two modules may lack a direct link.
+			\item Prepare Bell pairs only along the edges of the \textit{minimum Steiner tree} connecting the two modules.
+			\item Keep the tree\,'s entanglement \emph{alive} for the whole packet \(\Rightarrow\) edges are created once, then reused.
+		\end{itemize}
+		\begin{center}
+			\includegraphics[width=0.9\textwidth]{figures/tree.png}
+			\captionof{figure}{Steiner tree Example}
+		\end{center}	
+	\end{frame}
+	%------------------------------------------------------
+	\begin{frame}{End‑to‑End Workflow}
+		\begin{enumerate}
+			\item \textbf{Allocate qubits} via hypergraph partitioning.
+			\item \textbf{Group non‑local CRZs} on each root into packets.
+			\item For each packet:
+			\begin{enumerate}
+				\item Find Steiner tree between the two modules.
+				\item Execute packet using \textbf{EJPP} over that tree.
+			\end{enumerate}
+			\item Apply \textbf{embedding} and \textbf{detached} rewrites when profitable.
+		\end{enumerate}
+		\vspace{1em}
+		\alert{Result}: full distributed circuit with (near‑)minimal ebit count.
 	\end{frame}
 	
-	%---------------------------------------------------------------------
-	
-	
-%	\begin{frame}{Take‑aways}
-%		\begin{itemize}
-%			\item Introduced \textbf{packing/embedding} framework for bipartite DQC.
-%			\item \textbf{Graph representation} gives algorithmic way to minimise ebits.
-%			\item Demonstrated large savings on realistic UCC circuits.
-%			\item Framework extendable to multi‑party networks \& modular architectures.
-%		\end{itemize}
-%	\end{frame}
 	\section{WIP}
-	\begin{frame}{QFT circuit}
+	\begin{frame}{Quantum Fourier Transform (4‑Qubit Example)}
 		\begin{figure}
 			\begin{tikzpicture}
 				\begin{yquant*}
@@ -537,11 +568,11 @@
 					box {$P$} q[3] | q[2];
 				\end{yquant*}
 			\end{tikzpicture}
-			\caption[]{A example circuit of QFT}
+			\caption[]{Example 4‑qubit QFT circuit. Controlled‑phase gates $P_{\theta}$ apply $|1\rangle\!\langle 1|\otimes e^{i\theta Z}$.}
 		\end{figure}
 	\end{frame}
 	
-	\begin{frame}{Challenges}
+	\begin{frame}{Static $k$‑Partition Scheme}
 		\begin{figure}
 			\begin{tikzpicture}
 				\begin{yquant*}
@@ -556,15 +587,46 @@
 					setstyle {dashed,thin} s0;
 					setstyle {dashed,thin} s1;
 					box {intra-QFT} a;
-					box {inter-QFT} b|a;
-					box {inter-QFT} c|a;
+					box {inter-QFT} (b,a);
+					box {inter-QFT} (c,a);
 					box {intra-QFT} b;
-					box {inter-QFT} c|b;
+					box {inter-QFT} (c,b);
 					box {intra-QFT} c;
 					
 				\end{yquant*}
 			\end{tikzpicture}
-			\caption[]{}
+			\caption[]{Illustration of a 3‑partition mapping of the 4‑qubit QFT.}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}{With Mid‑Circuit Measurements}
+		\begin{figure}
+			\resizebox{.9\textwidth}{!}{
+				\begin{tikzpicture}
+					\begin{yquant*}
+						qubit {A} a;
+						qubit {} s0;
+						qubit {B} b;
+						qubit {} s1;
+						qubit {C} c;
+						slash a;
+						slash b;
+						slash c;
+						setstyle {dashed,thin} s0;
+						setstyle {dashed,thin} s1;
+						box {intra-QFT} a;
+						measure a ;
+						box {inter-QFT} (b,a);
+						box {inter-QFT} (c,a);
+						box {intra-QFT} b;
+						measure b;
+						box {inter-QFT} (c,b);
+						box {intra-QFT} c;
+						
+					\end{yquant*}
+				\end{tikzpicture}
+			}
+			\caption[]{Dynamic variant: measurement outcomes on partitions A and B classically steer subsequent inter‑partition operations.}
 		\end{figure}
 	\end{frame}
 
