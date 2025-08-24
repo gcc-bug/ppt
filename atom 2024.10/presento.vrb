@@ -1,0 +1,6 @@
+\frametitle{Key Compilation Subroutines during Compilation}
+\begin{itemize}
+    \item \textbf{Platform-independent Compilation:}General optimizations, e.g., loop unrolling and gate commutation.
+    \item \textbf{Platform-dependent Compilation:}Adapts quantum circuits to specific hardware constraints and capabilities.
+    \item \textbf{Hardware-dependent Compilation:}Translates abstract operations into hardware-executable instructions.
+\end{itemize}

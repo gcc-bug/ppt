@@ -1,0 +1,100 @@
+% TikZ code for QFT Benchmark
+\begin{tikzpicture}
+\begin{axis}[rint_axis,
+ytick={0,0.005,0.011},
+yticklabel style={
+    /pgf/number format/fixed,
+    /pgf/number format/precision=3
+    },
+scaled y ticks=false
+]
+\addplot [DasAtomStyle]
+table {
+1	0.00694589
+2	0.007900367
+3	0.008728971
+4	0.009499564
+5	0.009876617
+6	0.010152719
+7	0.010152719
+8	0.010152719
+};
+\addlegendentry{DasAtom}
+
+\addplot [TetrisStyle]
+table {
+1	2.34747E-06
+2	7.34644E-05
+3	0.00052667
+4	0.001919292
+5	0.006685212
+6	0.00916674
+7	0.010031532
+8	0.010182688
+};
+\addlegendentry{Tetris}
+
+% \addplot[only marks, mark=o, color=blue] 
+%     coordinates {
+%         (1,0.00694589) (1,2.34747E-06) (5,0.009876617) (5,0.006685212) (8,0.010152719)
+%         (8,0.010182688) 
+%     };
+\addplot[only marks, mark=o,line width=1pt, color=black] 
+    coordinates {
+        (1,0.00694589) (5,0.009876617) 
+        % (8,0.010152719) 
+    };
+\addplot[only marks, mark=|,  mark size=5pt,line width=0.75pt, color=orange] 
+    coordinates {
+    (1,2.34747E-06) (5,0.006685212)
+    % (8,0.010182688) 
+    };
+
+% Adding annotations to points (1, 5, 8) with higher precision
+\node at (axis cs:1,0.00694589) [anchor=north, font=\small] {0.006946};
+\node at (axis cs:1,2.34747E-06) [anchor=north west, font=\small] {2.347e-6};
+\node at (axis cs:5,0.009876617) [anchor=south east, font=\small] {0.009877};
+\node at (axis cs:5,0.006685212) [anchor=north east, font=\small] {0.006685};
+% \node at (axis cs:8,0.010152719) [anchor=north east, font=\small] {0.010153};
+% \node at (axis cs:8,0.010182688) [anchor=south east, font=\small] {0.010183};
+
+
+
+\end{axis}
+
+% Overlay subplot for zoom effect
+    \begin{axis}[
+        at={(5cm, 2.4cm)}, % Position of the subplot over the original plot
+        anchor=north west, % Anchoring point to position the overlay precisely
+        width=3cm, % Width of the zoom-in subplot
+        height=2.5cm, % Height of the zoom-in subplot
+        xtick={7,8},
+        xticklabel style={
+                font=\footnotesize,
+                /pgf/number format/fixed,
+                /pgf/number format/precision=4,
+                rotate=45,
+                anchor=east
+            },
+        yticklabel style={
+        /pgf/number format/fixed,
+        /pgf/number format/precision=5
+    },
+    ytick={0.01005,0.01015},
+    grid = both,
+        scaled y ticks=false,
+        axis background/.style={fill=white}, % Make sure it covers original plot clearly
+    ]
+\addplot [DasAtomStyle]
+table {
+7	0.010152719
+8	0.010152719
+};
+
+\addplot [TetrisStyle]
+table {
+7	0.010031532
+8	0.010182688
+};
+\end{axis}
+\end{tikzpicture}

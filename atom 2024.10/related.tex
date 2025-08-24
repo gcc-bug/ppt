@@ -1,0 +1,196 @@
+\section{Related Work}
+
+\subsection{Compilation Frameworks for Neutral Atom Quantum Computing}
+
+\begin{frame}{Compilation Steps in NAQC}
+    \frametitle{Compilation Process in Neutral Atom Quantum Computing}
+    \begin{itemize}
+        \item \textbf{Platform-independent Compilation}
+            \begin{itemize}
+                \item Applies general optimizations (e.g., loop unrolling, gate commutation)
+            \end{itemize}
+        \item \textbf{Platform-dependent Compilation}
+            \begin{itemize}
+                \item Adapts quantum circuits to specific hardware constraints and capabilities
+            \end{itemize}
+        \item \textbf{Hardware-dependent Compilation}
+            \begin{itemize}
+                \item Translates abstract operations into hardware-executable instructions
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Primary Goals of Platform-dependent Compilation}
+    \begin{itemize}
+        \item \textbf{Synthesis}
+            \begin{itemize}
+                \item Decompose complex gates into native hardware-compatible operations
+            \end{itemize}
+        \item \textbf{Mapping}
+            \begin{itemize}
+                \item Assign logical qubits to physical qubits, introducing SWAP or MOVE operations as needed
+            \end{itemize}
+        \item \textbf{Scheduling}
+            \begin{itemize}
+                \item Optimize gate execution timing to maximize parallelism and minimize errors
+            \end{itemize}
+    \end{itemize}
+    \vspace{0.5em}
+    \textbf{Considerations:}
+    \begin{itemize}
+        \item NAQC-specific features like atom shuttling and Rydberg interactions influence all compilation steps
+        \item Compilation steps are often optimized collectively to accommodate hardware constraints
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Challenges in NAQC Compilation}
+    \frametitle{Compilation Challenges for Neutral Atom Quantum Computing}
+    \begin{itemize}
+        \item \textbf{Synthesis}
+            \begin{itemize}
+                \item Superconducting (SC) platforms support only one- and two-qubit gates, complicating multi-qubit operations in NAQC
+            \end{itemize}
+        \item \textbf{Mapping}
+            \begin{itemize}
+                \item SC relies on virtual swaps for qubit connectivity
+                \item NAQC utilizes interaction radius (\( r_{\text{int}} \)) to define qubit coupling
+            \end{itemize}
+        \item \textbf{Scheduling}
+            \begin{itemize}
+                \item NAQC constraints from interaction radius require tailored scheduling strategies
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{Existing Compilation Approaches}
+
+\begin{frame}{Compilation Strategies in NAQC}
+    \frametitle{Overview of Compilation Strategies}
+    \begin{itemize}
+        \item NAQC introduces unique challenges and capabilities
+        \item Existing works address these through various approaches:
+            \begin{itemize}
+                \item \textbf{Long-range Interaction Management}
+                \item \textbf{Multi-qubit Gate Optimization}
+                \item \textbf{Atom Shuttling Operations}
+                % \item \textbf{Adaptation of SC Compilers}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Long-range Interaction Compilers}
+    \frametitle{Long-range Interaction Compilation Approaches}
+    \href{https://arxiv.org/pdf/2111.06469}{Baker et al.\tiny{Exploiting Long-Distance Interactionsand Tolerating Atom Loss in Neutral Atom Quantum Architectures}}
+    \begin{itemize}
+        \item \textbf{Focus:} Qubit mapping and atom loss mitigation
+        \item \textbf{Features:}
+            \begin{itemize}
+                \item Parallel SWAP execution
+                \item Look-ahead optimization schemes
+            \end{itemize}
+    \end{itemize}
+    
+    \vspace{0.5em}
+    \href{https://ieeexplore.ieee.org/abstract/document/10082942/}{Q-Tetris \tiny{Timing-Aware Qubit Mapping and Gate Scheduling Adapted to Neutral Atom Quantum Computing}}
+    \begin{itemize}
+        \item \textbf{Approach:} Greedy heuristic algorithm combined with Monte Carlo tree search
+        \item \textbf{Advantages:}
+            \begin{itemize}
+                \item Time-efficient optimization
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Multi-qubit Gate Compilation}
+    % \frametitle{Geyser: Multi-qubit Compilation Approach}
+    % \textbf{Geyser \cite{Geyser29, Geyser115}}
+    \href{https://dl.acm.org/doi/10.1145/3470496.3527428}{Geyser: a compilation framework for quantum computing with neutral atoms}
+    \begin{itemize}
+        \item \textbf{Approach:} Novel method for multi-qubit operations
+        \item \textbf{Key Features:}
+            \begin{itemize}
+                \item Decomposes Toffoli gates into two-qubit gates
+                \item Utilizes Qiskit for qubit mapping
+                \item Optimizes laser pulse count
+            \end{itemize}
+        % \item \textbf{Evaluation Metrics:}
+        %     \begin{itemize}
+        %         \item Comparison of laser pulse count versus gate count
+        %     \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Shuttling-based Compilation Approaches}
+    \textbf{DPQA}
+    \begin{itemize}
+        \item \textbf{SMT based:}\href{http://arxiv.org/abs/2401.13807}{OLSQ-DPQA}
+        \begin{itemize}
+            \item \href{http://arxiv.org/abs/2405.15095}{Enola}
+            \item \href{http://arxiv.org/abs/2311.15123}{Atomique}
+            \item \href{https://arxiv.org/abs/2311.16190}{Q-pilot}
+        \end{itemize}
+    \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Shuttling-based Compilation Approaches (2/2)}
+%     \frametitle{Shuttling Compilation: Advanced Schemes}
+    % \textbf{Schmid et al.}
+    \href{http://arxiv.org/abs/2311.14164}{Schmid et al. \tiny{Hybrid Circuit Mapping: Leveraging the Full Spectrum of Computational Capabilities of Neutral Atom Quantum }}
+    \begin{itemize}
+        \item \textbf{Approach:} Hybrid compilation scheme
+        \item \textbf{Features:}
+            \begin{itemize}
+                \item Employs SABRE-based heuristic
+                \item Comprehensive support for various NAQC capabilities
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{Future Directions and Challenges}
+% \begin{frame}{Comparison of Compilation Approaches}
+%     \frametitle{Comparative Analysis of NAQC Compilation Strategies}
+%     \tiny
+%     \begin{tabular}{|l|l|l|l|}
+%         \hline
+%         \textbf{Approach} & \textbf{Focus} & \textbf{Key Features} & \textbf{Limitations} \\
+%         \hline
+%         Baker et al.& Qubit Mapping & Parallel SWAPs, Look-ahead & Limited to 1D \\
+%         \hline
+%         Q-Tetris & Optimization & Greedy Heuristics,MCTS & May miss global optima \\
+%         \hline
+%         Geyser& Multi-qubit Gates & Toffoli decomposition, Qiskit & Complexity increases with gates \\
+%         \hline
+%         Tan et al. & DPQA & 2D Shuttling & May require specific hardware \\
+%         \hline
+%         Schmid et al.& Hybrid & SABRE Heuristic, Comprehensive & Potentially higher computational cost \\
+%         \hline
+%     \end{tabular}
+% \end{frame}
+\begin{frame}{Future Challenges in NAQC Compilation}
+    \frametitle{Future Challenges and Research Directions}
+    \begin{itemize}
+        \item \textbf{Synthesis Improvements}
+            \begin{itemize}
+                \item Enhance support for general quantum algorithms
+                \item Integrate multi-qubit gate operations more effectively
+            \end{itemize}
+        \item \textbf{Capability Integration}
+            \begin{itemize}
+                \item Combine multiple NAQC-specific features seamlessly
+            \end{itemize}
+        \item \textbf{Error Analysis}
+            \begin{itemize}
+                \item Develop hardware-dependent error models
+                \item Implement robust error mitigation techniques
+            \end{itemize}
+        \item \textbf{Platform Accessibility}
+            \begin{itemize}
+                \item Improve compiler usability and integration with diverse NAQC platforms
+            \end{itemize}
+    \end{itemize}
+    \vspace{0.5em}
+    \centering
+    \textbf{Goal: Fully leverage the potential of the NAQC platform}
+\end{frame}
+

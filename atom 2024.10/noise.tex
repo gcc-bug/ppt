@@ -1,0 +1,151 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsfonts}
+
+\title{Neutral Atom Quantum Computing Devices}
+\author{Your Name}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Slide: Introduction
+\begin{frame}{Neutral Atom Quantum Computing Devices}
+    \begin{itemize}
+        \item \textbf{Qubits:} Individual neutral atoms (e.g., rubidium, cesium)
+        \item \textbf{Trapping Methods:} Optical tweezers, optical lattices
+        \item \textbf{Encoding:} Internal atomic states (hyperfine ground states)
+        \item \textbf{Interactions:} Mediated via Rydberg state excitation
+    \end{itemize}
+\end{frame}
+
+% Slide: Key Features
+\begin{frame}{Key Features}
+    \begin{itemize}
+        \item \textbf{Scalability:} Potential for large qubit arrays
+        \item \textbf{Long Coherence Times:} Use of clock states reduces sensitivity to magnetic fields
+        \item \textbf{Controlled Interactions:} Tunable via Rydberg excitations
+    \end{itemize}
+\end{frame}
+
+% Slide: Comparison with Other Platforms
+\begin{frame}{Differences in Noise Sources Compared to Other Platforms}
+    \begin{block}{Superconducting Qubits}
+        \begin{itemize}
+            \item Sensitive to electromagnetic noise and material defects
+            \item Decoherence due to charge and flux noise
+        \end{itemize}
+    \end{block}
+    \begin{block}{Trapped Ion Qubits}
+        \begin{itemize}
+            \item Susceptible to electric field fluctuations
+            \item Motional heating and laser noise
+        \end{itemize}
+    \end{block}
+    \begin{block}{Photonic Qubits}
+        \begin{itemize}
+            \item Affected by photon loss and detector inefficiencies
+            \item Immune to thermal noise affecting matter-based qubits
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Slide: Common Noise Sources in Neutral Atom QC
+\begin{frame}{Common Noise Sources in Neutral Atom Quantum Computing}
+    \begin{enumerate}
+        \item \textbf{Laser Noise}
+        \begin{itemize}
+            \item Intensity fluctuations affect trap depth
+            \item Frequency and phase noise cause dephasing
+        \end{itemize}
+        \item \textbf{Atom Loss}
+        \begin{itemize}
+            \item Collisions with background gas
+            \item Photon scattering leading to heating
+        \end{itemize}
+        \item \textbf{Decoherence Mechanisms}
+        \begin{itemize}
+            \item Spontaneous emission
+            \item Interactions with blackbody radiation
+        \end{itemize}
+        \item \textbf{Motional Decoherence}
+        \begin{itemize}
+            \item Residual thermal motion
+            \item Fluctuations in trapping potential
+        \end{itemize}
+        \item \textbf{Control Field Errors}
+        \begin{itemize}
+            \item Laser beam imperfections
+            \item Timing jitter in control pulses
+        \end{itemize}
+        \item \textbf{Rydberg State Decay}
+        \begin{itemize}
+            \item Finite lifetimes due to spontaneous emission
+            \item State mixing from external fields
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+% Slide: Mitigation Strategies
+\begin{frame}{Mitigation Strategies}
+    \begin{itemize}
+        \item \textbf{Laser Stabilization}
+        \begin{itemize}
+            \item High-quality lasers with active stabilization
+        \end{itemize}
+        \item \textbf{Vacuum Improvements}
+        \begin{itemize}
+            \item Enhanced vacuum conditions to reduce collisions
+        \end{itemize}
+        \item \textbf{Cooling Techniques}
+        \begin{itemize}
+            \item Raman sideband cooling to reduce atomic motion
+        \end{itemize}
+        \item \textbf{Error Correction Codes}
+        \begin{itemize}
+            \item Implement quantum error correction protocols
+        \end{itemize}
+        \item \textbf{Optimal Control}
+        \begin{itemize}
+            \item Design robust control pulses against imperfections
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% Slide: Conclusion
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item Neutral atom quantum computing is promising for scalability and coherence
+        \item Unique noise sources require specialized mitigation strategies
+        \item Advances depend on understanding and reducing these noise sources
+    \end{itemize}
+\end{frame}
+
+% Slide: References
+\begin{frame}{References}
+    \begin{thebibliography}{10}
+        \beamertemplatetextbibitems
+        \bibitem{Henriet2020}
+        L.~Henriet \emph{et al.}
+        \newblock Quantum computing with neutral atoms.
+        \newblock \emph{Quantum}, 4:327, 2020.
+        
+        \beamertemplatetextbibitems
+        \bibitem{Saffman2010}
+        M.~Saffman, T.~G. Walker, and K.~Mølmer.
+        \newblock Quantum information with rydberg atoms.
+        \newblock \emph{Reviews of Modern Physics}, 82(3):2313, 2010.
+        
+        \beamertemplatetextbibitems
+        \bibitem{Levine2019}
+        H.~Levine \emph{et al.}
+        \newblock Parallel implementation of high-fidelity multiqubit gates with neutral atoms.
+        \newblock \emph{Physical Review Letters}, 123(17):170503, 2019.
+    \end{thebibliography}
+\end{frame}
+
+\end{document}

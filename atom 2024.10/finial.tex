@@ -1,0 +1,63 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\author{Dingchao Gao}
+\title{Quantum Circuit Transformation For Neutral atom computation}
+% \subtitle{QCT for NA}
+\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{\includegraphics[scale=.7]{LogoCentralDataShow}} 
+\institute{ISCAS} 
+\date{\today} 
+%\subject{} 
+\usepackage{xcolor}
+\usepackage{bm}
+\definecolor{darkorange}{rgb}{1.0, 0.55, 0.0} 
+
+\tikzset{
+    DasAtomStyle/.style={color=black, ultra thick},
+    TetrisStyle/.style={color=darkorange,ultra thick, dashed},
+    EnolaStyle/.style={color=green!50!black,ultra thick, dotted},
+    AtomiqueStyle/.style={color=red!70!black, ultra thick, loosely dash dot}
+}
+\usetikzlibrary{calc,patterns}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{max space between ticks=50pt}
+\usepackage{yquant}
+ \usepackage{booktabs} 
+\AtBeginSection[]
+{
+\begin{frame}{contents}
+\transfade
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/shaded/hide]
+\addtocounter{framenumber}{-1} 
+\end{frame}
+}
+
+\begin{document}
+% Title page
+
+\begin{frame}
+    \titlepage
+\end{frame}
+\begin{frame}{Main reference}
+    \begin{itemize}
+        \item \href{https://arxiv.org/abs/2409.03185}{DasAtom: A Divide-and-Shuttle Atom Approach to Quantum Circuit Transformation,Yunqi Huang and Dingchao Gao and Shenggang Ying and Sanjiang Li}
+        \item \href{https://arxiv.org/abs/2309.08656}{Computational Capabilities and Compiler Development for Neutral Atom Quantum Processors: Connecting Tool Developers and Hardware Experts}
+        
+    \end{itemize}
+\end{frame}
+\input{background}
+\input{related}
+\input{work}
+\end{document}

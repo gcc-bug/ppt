@@ -1,0 +1,106 @@
+% \documentclass{standalone}
+% \usepackage{pgfplots}
+% \usepackage{amsmath}
+% \pgfplotsset{compat=newest}
+% \usetikzlibrary{patterns}
+% \begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        xlabel={$f_{\text{cz}}$},
+        ylabel={$f_{\text{trans}}$},
+        yticklabel style={
+            /pgf/number format/fixed,
+            /pgf/number format/precision=3,
+        },
+        xticklabel style={
+            /pgf/number format/fixed,
+            /pgf/number format/precision=3,
+        },
+        xticklabels={0.95,,0.96,,0.97,,0.98,,0.99,,1},
+        yticklabels={0.96,,0.97,,0.98,,0.99,,1},
+        scaled x ticks=false,
+        scaled y ticks=false,
+        xmin=0.95, xmax=1,
+        ymin=0.96, ymax=1,
+        xtick={0.950,0.955,0.960,0.965,0.970,0.975,0.980,0.985,0.990,0.995,1},
+        ytick={0.960,0.965,0.970,0.975,0.980,0.985,0.990,0.995,1},
+        grid=major,
+        width=10cm,
+        height=8cm,
+        legend style={at={(0.5,1.05)}, anchor=south, legend columns=2, nodes={scale=1.2, transform shape}},
+        xlabel style = {font =\huge},
+        ylabel style = {font =\huge},
+    ]
+    
+    % Define the fixed parameter T_2 values
+    \def\TtwoShort{150000} % Corresponds to T_2 = 1.5s
+    \def\TtwoLong{1500000} % Corresponds to T_2 = 15s
+    
+    % Plot for QFT20 with T_2 = 1.5s
+    % \path [fill opacity=0.8,pattern=north east lines, pattern color=red, thick, draw=red]
+    \path[fill opacity=0.4,pattern=crosshatch, pattern color=teal, thick, draw=teal]
+    (0.95, 0.96) --
+    plot[domain=0.95:1, samples=200, smooth]
+    ({\x}, {exp((ln(\x)*336 + (125850.85/\TtwoShort))/472)}) --
+    (1, 0.96) -- cycle;
+    \addlegendimage{area legend,fill=teal, pattern=crosshatch, pattern color=teal, thick, draw=teal}
+    \addlegendentry{QFT20}
+    
+    % % Plot for QFT20 with T_2 = 15s
+    % \path [fill opacity=0.5,pattern=grid, pattern color=blue, thick, draw=blue]
+    % (0.95, 0.96) --
+    % plot[domain=0.95:1, samples=200, smooth]
+    % ({\x}, {exp((ln(\x)*336 + (125850.85/\TtwoLong))/472)}) --
+    % (1, 0.96) -- cycle;
+    % \addlegendimage{area legend, fill=blue, pattern=grid, pattern color=blue, thick, draw=blue}
+    % \addlegendentry{QFT20, $T_2 = 15$ s}
+
+    % Plot for QFT50 with T_2 = 1.5s
+    \path [fill opacity=0.4,pattern=horizontal lines, pattern color=orange, thick, draw=orange]
+    (0.95, 0.96) --
+    plot[domain=0.95:1, samples=200, smooth]
+    ({\x}, {exp((ln(\x)*1998 + (1524863.41/\TtwoShort))/3160)}) --
+    (1, 0.96) -- cycle;
+    \addlegendimage{area legend, fill=orange, pattern=horizontal lines, pattern color=orange, thick, draw=orange}
+    \addlegendentry{QFT50}
+
+    % % Plot for QFT50 with T_2 = 15s
+    % \path [fill opacity=0.4,pattern=crosshatch, pattern color=teal, thick, draw=teal]
+    % (0.95, 0.96) --
+    % plot[domain=0.95:1, samples=200, smooth]
+    % ({\x}, {exp((ln(\x)*1998 + (1524863.41/\TtwoLong))/3160)}) --
+    % (1, 0.96) -- cycle;
+    % \addlegendimage{area legend, fill=teal, pattern=crosshatch, pattern color=teal, thick, draw=teal}
+    % \addlegendentry{QFT50, $T_2 = 15$ s}
+
+    % \addplot[red, ultra thick, dashed, smooth] table [x expr=\thisrowno{0}, y expr=exp((ln(\thisrowno{0})*336 + (125850.85/\TtwoShort))/472)] {
+    %     0.95 0
+    %     1 0
+    % };
+    % \addlegendentry{QFT20, $T_2 = 1.5$ s}
+    
+    % % Line plot for QFT20 with T_2 = 15s
+    % \addplot[blue, ultra thick, densely dotted, smooth] table [x expr=\thisrowno{0}, y expr=exp((ln(\thisrowno{0})*336 + (125850.85/\TtwoLong))/472)] {
+    %     0.95 0
+    %     1 0
+    % };
+    % \addlegendentry{QFT20, $T_2 = 15$ s}
+
+    % % Line plot for QFT50 with T_2 = 1.5s
+    % \addplot[orange, ultra thick, solid, smooth] table [x expr=\thisrowno{0}, y expr=exp((ln(\thisrowno{0})*1998 + (1524863.41/\TtwoShort))/3160)] {
+    %     0.95 0
+    %     1 0
+    % };
+    % \addlegendentry{QFT50, $T_2 = 1.5$ s}
+
+    % % Line plot for QFT50 with T_2 = 15s
+    % \addplot[teal, ultra thick, dashdotted, smooth] table [x expr=\thisrowno{0}, y expr=exp((ln(\thisrowno{0})*1998 + (1524863.41/\TtwoLong))/3160)] {
+    %     0.95 0
+    %     1 0
+    % };
+    % \addlegendentry{QFT50, $T_2 = 15$ s}
+    \end{axis}
+\end{tikzpicture}
+
+% \end{document}

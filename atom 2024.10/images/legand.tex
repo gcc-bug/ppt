@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+% Define the block size
+\draw[gray!40,fill=gray!10] (-1.4em, 0.2em) rectangle (7em, 5.2em);
+
+% Legend entry for DasAtom with line and marker
+\node at (0, 4em) {
+    \tikz \draw[DasAtomStyle] (0, 0.5em) -- (2em, 0.5em);
+};
+\node[anchor=west] at (2.5em, 4em) {DasAtom};
+
+% Legend entry for Tetris with line and marker
+\node at (0, 3em) {
+    \tikz \draw[TetrisStyle] (0, 0.5em) -- (2em, 0.5em);
+};
+\node[anchor=west] at (2.5em, 3em) {Tetris};
+
+% Legend entry for Enola with line and marker
+\node at (0, 2em) {
+    \tikz \draw[EnolaStyle] (0, 0.5em) -- (2em, 0.5em);
+};
+\node[anchor=west] at (2.5em, 2em) {Enola};
+
+% Legend entry for Atomique with line and marker
+\node at (0, 1em) {
+    \tikz \draw[AtomiqueStyle] (0, 0.5em) -- (2em, 0.5em);
+};
+\node[anchor=west] at (2.5em, 1em) {Atomique};
+
+\end{tikzpicture}
